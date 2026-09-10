@@ -1,6 +1,6 @@
 # Protocolo de entregas e revisão
 
-Origem: PEDIDO-001, D-002, D-004, D-013. Relacionados: [[STATUS]], [[AGENTS]], [[GLOSSARIO]].
+Origem: PEDIDO-001, D-002, D-004, D-013. Relacionados: [[STATUS]], [AGENTS](../AGENTS.md), [[GLOSSARIO]].
 
 ## Ciclo
 

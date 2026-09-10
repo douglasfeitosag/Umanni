@@ -32,18 +32,18 @@ Target delivery: September 11, 2026, end of day in America/Sao_Paulo. No paid cl
 | Delivery | Multi-stage Dockerfile and local Docker Compose |
 | Quality | TDD/BDD, parallel tests, at least 90% coverage; lint, Brakeman, ESLint |
 
-Exact versions and the coverage policy will be pinned in the implementation plan. The architecture is a Rails MVC monolith organized by feature, with application services for multi-step operations; see [ADR-001](08-ARQUITETURA-PROPOSTA.md).
+Exact versions and the coverage policy will be pinned in the implementation plan. The architecture is a Rails MVC monolith organized by feature, with application services for multi-step operations; see [ADR-001](umanni-vault/08-ARQUITETURA-PROPOSTA.md).
 
 ## Documentation and workflow
 
-Open this repository folder as an Obsidian vault and start at [HOME](HOME.md). Markdown is also readable directly on GitHub. Internal planning is in Portuguese; the interface, code identifiers, test names and commit messages will be in English.
+Open the `umanni-vault` subfolder as an Obsidian vault and start at [HOME](umanni-vault/HOME.md). Markdown is also readable directly on GitHub. Internal planning is in Portuguese; the interface, code identifiers, test names and commit messages will be in English.
 
-- [Current state and blockers](STATUS.md)
-- [Project constitution](.specify/memory/constitution.md)
-- [Agent instructions](AGENTS.md) and [execution protocol](PROTOCOL.md)
-- [Requirements analysis](05-LEITURA-DO-TESTE.md) and [technology decisions](07-DECISOES-TECNOLOGICAS.md)
-- [Glossary](GLOSSARIO.md) and [system map](MAPA.md)
-- [Spec Kit installation and version](TOOLING.md)
-- [Initial documentation specification](specs/000-documentation/spec.md)
+- [Current state and blockers](umanni-vault/STATUS.md)
+- [Project constitution](umanni-vault/CONSTITUICAO.md)
+- [Agent instructions](AGENTS.md) and [execution protocol](umanni-vault/PROTOCOL.md)
+- [Requirements analysis](umanni-vault/05-LEITURA-DO-TESTE.md) and [technology decisions](umanni-vault/07-DECISOES-TECNOLOGICAS.md)
+- [Glossary](umanni-vault/GLOSSARIO.md) and [system map](umanni-vault/MAPA.md)
+- [Spec Kit installation and version](umanni-vault/TOOLING.md)
+- [Initial documentation specification](umanni-vault/specs/000-documentation/spec.md)
 
 Every implementation needs a specification, plan, tasks, acceptance criteria and stop conditions first. Executors return an `EXEC-*` report. Douglas opens sessions manually and retains exclusive control over PR merging and closure unless he explicitly delegates that action.

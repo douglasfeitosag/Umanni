@@ -16,6 +16,8 @@ O `--force` permite regenerar o suporte na pasta não vazia. Nesta versão, a fu
 
 As skills locais aparecem em `.agents/skills/speckit-*`. O fluxo é constituição → specify → clarify quando necessário → plan → tasks → analyze → execução delegada. O comando de implementação não deve executar tarefas fora do prompt ou fazer merge.
 
-Para specs existentes e branches com prefixo `codex/`, configure `SPECIFY_FEATURE_DIRECTORY` com o caminho absoluto (por exemplo, `/Users/douglas/Projects/Umanni/specs/000-documentation`) e `SPECIFY_FEATURE` com o identificador `000-documentation`, ao chamar scripts que dependam da feature atual. A integração Spec Kit é uma ferramenta local; seleção de outras skills/plugins do projeto ainda será feita depois do branding, conforme a ordem solicitada.
+Para specs existentes e branches com prefixo `codex/`, configure `SPECIFY_FEATURE_DIRECTORY` com o caminho absoluto (por exemplo, `/Users/douglas/Projects/Umanni/umanni-vault/specs/000-documentation`) e `SPECIFY_FEATURE` com o identificador `000-documentation`, ao chamar scripts que dependam da feature atual. A integração Spec Kit é uma ferramenta local; seleção de outras skills/plugins do projeto ainda será feita depois do branding, conforme a ordem solicitada.
 
-Relacionados: [[AGENTS]], [[HOME]], [[STATUS]].
+Relacionados: [AGENTS](../AGENTS.md), [[HOME]], [[STATUS]].
+
+Execute a instalação na raiz Git, nunca dentro do vault. O arquivo `.specify/memory/constitution.md` é um link simbólico para `umanni-vault/CONSTITUICAO.md`; preserve esse vínculo. Em worktrees, use o caminho absoluto do próprio checkout para SPECIFY_FEATURE_DIRECTORY. As specs ficam em `umanni-vault/specs/`.

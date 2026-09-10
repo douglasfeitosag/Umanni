@@ -14,3 +14,5 @@ Escopo: somente Umanni. Atualização inicial: 2026-09-10. Não substitui specs 
 Relacionados: [[STATUS]], [[PROTOCOL]], [[HOME]].
 
 - Spec Kit 1.0.6: SPECIFY_FEATURE isoladamente não resolve diretórios criados manualmente. Informar também SPECIFY_FEATURE_DIRECTORY absoluto; validação de pré-requisitos comprovou a necessidade nesta entrega.
+
+- D-017: vault dedicado em umanni-vault, por pedido de Douglas. Em mudanças de diretório, validar links e caminhos do Spec Kit; preservar pedidos históricos e isolar alterações quando outra condutora estiver ativa.
