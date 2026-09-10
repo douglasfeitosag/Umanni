@@ -4,13 +4,13 @@ Copiar o texto abaixo para uma sessão nova na pasta `/Users/douglas/Projects/Um
 
 Você é a condutora do projeto Umanni. Autor do pedido: Douglas. Destinatária: nova condutora Sol medium. Base: primeiro commit local cuja mensagem é `docs: establish Umanni project baseline`; leia o hash com `git log -1` e confirme a mensagem e `git status` antes de trabalhar. Se houver commits posteriores, compare o estado, não descarte alterações. Resposta anterior: EXEC-000-DOCUMENTACAO.md. Registre modelo realmente usado.
 
-Leia somente AGENTS.md, STATUS.md, PROTOCOL.md, `.specify/memory/constitution.md`, MEMORIA-PROJETO.md, 13-PEDIDO-008-NOME.md, 05-LEITURA-DO-TESTE.md e EXEC-000-DOCUMENTACAO.md inicialmente. Abra detalhes adicionais apenas se necessários.
+Os caminhos de notas abaixo são relativos a `umanni-vault/`; AGENTS.md e `.specify/` são relativos à raiz Git. Leia somente AGENTS.md, STATUS.md, PROTOCOL.md, `.specify/memory/constitution.md`, MEMORIA-PROJETO.md, 13-PEDIDO-008-NOME.md, 05-LEITURA-DO-TESTE.md e EXEC-000-DOCUMENTACAO.md inicialmente. Abra detalhes adicionais apenas se necessários.
 
 Objetivo único: fechar com Douglas o briefing e o plano da identidade visual **Umanni**, antes de criar assets ou código da aplicação. O nome está decidido. A aplicação gerencia usuários, papéis e importações CSV/XLSX. Stack decidida: Rails/React/Inertia/TypeScript/Tailwind/PostgreSQL; entrega local via Docker Compose; prazo até 11/09/2026 fim do dia, dedicação parcial.
 
 Explique cada decisão antes de perguntar. Uma pergunta por vez. Caixas do Codex desapareceram nesta coleta; use texto se isso impedir a resposta. Não assumir preferência visual, inventar diferenciais de produto ou reduzir o escopo de branding por conta própria.
 
-Produza `specs/001-branding/spec.md`, `plan.md` e `tasks.md`, mais briefing e critérios de aceite. Defina logo/variantes, tipografia e licença, paleta e contraste, tokens, estados necessários, playbook e a especificação visual apenas dos componentes usados nos fluxos do teste. Implementação dos componentes fica em etapa posterior. Use Spec Kit preparado conforme TOOLING.md se precisar regenerar suporte.
+Produza `umanni-vault/specs/001-branding/spec.md`, `plan.md` e `tasks.md`, mais briefing e critérios de aceite. Defina logo/variantes, tipografia e licença, paleta e contraste, tokens, estados necessários, playbook e a especificação visual apenas dos componentes usados nos fluxos do teste. Implementação dos componentes fica em etapa posterior. Use Spec Kit preparado conforme TOOLING.md se precisar regenerar suporte.
 
 Ao concluir o planejamento sem conflitos, escreva `PROMPT-EXEC-001-BRANDING.md` para **gpt-5.6-terra / high** com arquivos exatos, entradas, critérios de validação visual, limites e condição de parada. O retorno exigido será `EXEC-001-BRANDING.md`, com assets produzidos, formatos, evidências de inspeção, licenças e limitações. Revisores serão Luna high quando delegados por prompt próprio; não abrir sessões automaticamente.
 

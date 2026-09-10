@@ -3,8 +3,8 @@
 Este repositório é também o vault Obsidian do projeto. Abra a pasta `/Users/douglas/Projects/Umanni` como vault. Comece pelo estado vigente; os registros numerados preservam a discussão e podem conter propostas já substituídas.
 
 - [[STATUS|Estado e próxima tarefa]]
-- [[README|Apresentação da entrega]]
-- [[AGENTS|Regras dos agentes]]
+- [Apresentação da entrega](../README.md)
+- [Regras dos agentes](../AGENTS.md)
 - [[PROTOCOL|Como as entregas se comunicam]]
 - [[GLOSSARIO|Conceitos explicados]]
 - [[MAPA|Mapa do sistema]]
@@ -15,6 +15,12 @@ Este repositório é também o vault Obsidian do projeto. Abra a pasta `/Users/d
 - [[TOOLING|Ferramentas de planejamento]]
 - [[PROMPT-COND-001-BRANDING|Prompt para a próxima condutora]]
 
-Especificação da entrega atual: [spec](specs/000-documentation/spec.md), [plano](specs/000-documentation/plan.md), [tarefas](specs/000-documentation/tasks.md). Constituição: [regras vigentes](.specify/memory/constitution.md).
+Especificação do bootstrap: [spec](specs/000-documentation/spec.md), [plano](specs/000-documentation/plan.md), [tarefas](specs/000-documentation/tasks.md). Constituição: [regras vigentes](CONSTITUICAO.md).
 
 Fonte original: [[00-PEDIDO-001]]. Enunciado: [[04-PEDIDO-004-ENUNCIADO]]. Histórico de decisões: [[01-ALINHAMENTO-PENDENTE]].
+
+## Organização do vault
+
+Abra esta pasta `umanni-vault` no Obsidian. [[CONSTITUICAO]] é a fonte canônica dos princípios. README e AGENTS na raiz são entradas operacionais para GitHub e agentes, fora do vault. [[EXEC-002-ORGANIZE-VAULT]] registra a reorganização; [[PROMPT-COND-002-RETOMADA]] orienta a sessão já aberta.
+
+Entrega de reorganização: [especificação](specs/002-organize-vault/spec.md), [plano](specs/002-organize-vault/plan.md) e [tarefas](specs/002-organize-vault/tasks.md).

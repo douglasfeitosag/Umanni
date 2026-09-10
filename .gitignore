@@ -1,8 +1,8 @@
 # Local OS/editor state
 .DS_Store
-.obsidian/workspace*.json
-.obsidian/cache/
-.obsidian/plugins/
+umanni-vault/.obsidian/workspace*.json
+umanni-vault/.obsidian/cache/
+umanni-vault/.obsidian/plugins/
 # Secrets and local runtimes
 .env
 .env.*
@@ -15,7 +15,7 @@ tmp/
 coverage/
 test-results/
 playwright-report/
-# Spec Kit generated tooling: regenerate using TOOLING.md.
+# Spec Kit generated tooling: regenerate using umanni-vault/TOOLING.md.
 # Keep project-owned constitution/specs and pin metadata versioned.
 .agents/skills/speckit-*/
 .specify/scripts/
