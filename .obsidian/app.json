@@ -1,0 +1,5 @@
+{
+  "alwaysUpdateLinks": true,
+  "newLinkFormat": "relative",
+  "userIgnoreFilters": [".git/", ".agents/", "node_modules/", "vendor/", "coverage/"]
+}

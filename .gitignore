@@ -1,0 +1,26 @@
+# Local OS/editor state
+.DS_Store
+.obsidian/workspace*.json
+.obsidian/cache/
+.obsidian/plugins/
+# Secrets and local runtimes
+.env
+.env.*
+!.env.example
+.codex/
+node_modules/
+vendor/bundle/
+log/
+tmp/
+coverage/
+test-results/
+playwright-report/
+# Spec Kit generated tooling: regenerate using TOOLING.md.
+# Keep project-owned constitution/specs and pin metadata versioned.
+.agents/skills/speckit-*/
+.specify/scripts/
+.specify/templates/
+.specify/workflows/
+.specify/integrations/
+.specify/memory/.constitution-template.json
+.specify/feature.json
