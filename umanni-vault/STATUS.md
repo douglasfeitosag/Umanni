@@ -14,7 +14,7 @@ Spec Kit 1.0.6 inicializado localmente para Codex. Constituição, README, proto
 
 ## Planejamento de branding
 
-Briefing, pesquisa, spec, plano, contratos, tarefas e critérios preparados na branch `codex/001-branding`. Nenhum asset ou componente foi criado. O prazo original de 11/09/2026 passou; não o apresentar como cumprido.
+Briefing, pesquisa, spec, plano, contratos, tarefas e critérios preparados na branch `codex/001-branding`. Após autorização explícita de Douglas em 2026-09-14, a branch foi reaplicada sobre a `main` atual e publicada. Nenhum asset ou componente foi criado. O prazo original de 11/09/2026 passou; não o apresentar como cumprido.
 
 ## Próxima tarefa
 
@@ -23,7 +23,7 @@ Douglas abre manualmente uma sessão executora **gpt-5.6-terra / high** e usa [[
 ## Pendências e momento de resolução
 
 - Antes de executar branding: nenhuma decisão visual bloqueante; seguir `specs/001-branding/` sem extrapolar.
-- Antes do primeiro PR: o bootstrap de `main` foi confirmado em `origin/main`, mas proteções/checks não foram comprovados. Implantar e testar o gate detalhado em `specs/001-branding/plan.md`, incluindo ledger associado ao HEAD e cobertura de comentários gerais. Mesmo login não cria revisores independentes.
+- Antes do primeiro PR: a proteção base de `main` foi configurada e relida pela API do GitHub em 2026-09-14: PR com uma aprovação, descarte de aprovação obsoleta, conversas resolvidas, aplicação a administradores e bloqueio de force-push/exclusão. Checks obrigatórios, `review-ledger`, cobertura de comentários gerais, identidade independente e runner isolado ainda não foram implementados nem testados; portanto, o gate completo continua pendente.
 - Antes da estrutura de aplicação: versões compatíveis fixadas, Vite/gerenciador de pacotes, contratos Inertia, policy de cobertura e configuração do ambiente de testes; escolher skills/plugins estritamente úteis, conforme a etapa posterior ao branding.
 - Antes dos fluxos de usuário: cadastro/ativação/senha inicial, importação CSV/XLSX (colunas, duplicidade, erros, limites e repetição), avatar, último administrador e matriz de autorização. Ver 05-LEITURA-DO-TESTE.
 - Antes de instalar runner: runtime/isolamento, recursos, isolamento por PR e proteção da máquina em repositório público. Runner permanece no Mac.
@@ -33,4 +33,4 @@ Essas pendências não foram resolvidas silenciosamente; bloqueiam os prompts qu
 
 ## Reorganização do vault
 
-Entrega 002: notas, prompts, relatórios, specs e configuração Obsidian em umanni-vault; constituição canônica CONSTITUICAO.md. Branch codex/002-organize-vault preparada em worktree isolado; integração na main permanece com Douglas. Ver [[EXEC-002-ORGANIZE-VAULT]] e [[PROMPT-COND-002-RETOMADA]].
+Entrega 002: notas, prompts, relatórios, specs e configuração Obsidian em umanni-vault; constituição canônica CONSTITUICAO.md. A branch `codex/002-organize-vault` foi integrada por Douglas na `main` pelo PR #1, commit `a98885f`. Ver [[EXEC-002-ORGANIZE-VAULT]] e [[PROMPT-COND-002-RETOMADA]].

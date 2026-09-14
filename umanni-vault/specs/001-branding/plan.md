@@ -113,6 +113,8 @@ Nenhuma sessão desta feature deve executar push ou abrir PR enquanto estes iten
 
 Até comprovar o gate, condutora e executora criam apenas commits locais. Douglas continua sendo a única pessoa autorizada a fazer merge ou fechar PR.
 
+Atualização de 2026-09-14: Douglas autorizou explicitamente configurar a proteção base de `main`, sincronizar a reorganização já integrada, recriar `codex/001-branding` sobre essa base e publicar a branch. A proteção foi confirmada pela API com uma aprovação obrigatória, descarte de aprovações obsoletas, conversas resolvidas, aplicação a administradores e bloqueio de force-push/exclusão. Essa autorização excepcional de push não comprova nem dispensa os checks, o `review-ledger`, a identidade independente ou o runner isolado ainda pendentes, e não autoriza PR ou merge.
+
 ## Validação visual
 
 - Viewports: 1440×1024 e 390×844; login mostra ambos.
