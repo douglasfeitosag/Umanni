@@ -61,7 +61,7 @@
 
 ## Fase 6 — Fechamento
 
-- [ ] T027 Consolidar inventário, instruções e limitações em `branding/README.md`; referenciar `branding/LICENSES/UMANNI-NOTICE.md` no README, playbook, procedência, validação e EXEC e incluir aviso resumido com essa referência em cada prancha/composição.
+- [ ] T027 Consolidar inventário, instruções e limitações em `branding/README.md`; referenciar `branding/LICENSES/UMANNI-NOTICE.md` no README, playbook, especificação de componentes, procedência, validação, manifesto de ícones e EXEC e incluir aviso resumido com essa referência em cada prancha/composição.
 - [ ] T028 Executar `specs/001-branding/quickstart.md` e registrar cada resultado real em `branding/VALIDATION.md`.
 - [ ] T029 Registrar modelo real, arquivos, formatos, evidências, licenças, limitações e estado Git em `EXEC-001-BRANDING.md`.
 - [ ] T030 Atualizar apenas os aprendizados verificáveis propostos em `EXEC-001-BRANDING.md`; a condutora futura decide alterações em `MEMORIA-PROJETO.md`.

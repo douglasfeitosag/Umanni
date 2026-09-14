@@ -8,7 +8,7 @@ Cada item exige evidência em `branding/VALIDATION.md`.
 - [ ] Assinatura e símbolo preservam proporção, desenho e azul.
 - [ ] Nenhuma variante branca, preta, monocromática, vertical ou com slogan existe.
 - [ ] O SVG oficial é descrito como contêiner de raster.
-- [ ] O aviso canônico é referenciado por README, playbook, procedência, validação e EXEC; cada prancha mostra aviso resumido sem modificar assets oficiais.
+- [ ] O aviso canônico é referenciado por README, playbook, especificação de componentes, procedência, validação, manifesto de ícones e EXEC; cada prancha mostra aviso resumido sem modificar assets oficiais.
 - [ ] O favicon está identificado somente como empacotamento técnico byte a byte, fora da contagem de variantes e não usado como logo independente.
 
 ## Tipografia, cor e licenças

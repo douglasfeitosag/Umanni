@@ -51,7 +51,7 @@ A análise inicial contou 24 requisitos funcionais, 8 critérios de sucesso e 31
 ## Pendências
 
 - O prazo original de 11/09/2026 passou antes do fechamento em 14/09; não declarar cumprimento.
-- Bootstrap remoto está publicado, mas checks/proteções/runner não estão comprovados. `plan.md` define o gate; até implantá-lo, somente commits locais.
+- A proteção base está configurada, mas checks, `review-ledger`, identidade independente e runner ainda não estão comprovados. O PR documental pode ser criado/atualizado com label e responsável para revisão; o gate completo continua obrigatório antes de apresentar implementação como pronta para merge.
 - Regras funcionais de conta, importação, avatar, último administrador, paginação e filtros permanecem para specs posteriores.
 - A executora deve revalidar hashes e licenças atuais, especialmente a licença efetiva do Roboto baixado.
 
