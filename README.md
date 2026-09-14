@@ -1,6 +1,6 @@
 ### AI Usage Disclosure
 
-Documentation preparation used Codex, identified in the session as based on GPT-6. The precise runtime model variant has not been verified and must be reconciled before the final submission. The planned roles are `gpt-5.6-sol` (medium) for conductors, `gpt-5.6-terra` (high) for executors, and `gpt-5.6-luna` (high) for reviewers; this is not a claim that those models have already performed work. Each execution report must identify its actual model and contribution.
+The documentation baseline used Codex, identified in that session as based on GPT-6; its precise runtime variant was not exposed. Branding planning used `gpt-5.6-sol` with medium reasoning, as configured for the conductor session. Future `gpt-5.6-terra` (high) executor and `gpt-5.6-luna` (high) reviewer roles remain plans until their reports identify actual work. Each execution report must name its actual model and contribution.
 
 # Umanni
 
