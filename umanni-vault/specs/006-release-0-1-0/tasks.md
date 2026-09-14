@@ -8,19 +8,19 @@
 
 ## Fase 1 — Preparação
 
-- [ ] T001 Confirmar checkout limpo em `codex/006-release-0-1-0`, base `0cd4c4142be8833401a5721c5e7cc637ea40b161`, ausência local/remota de `v0.1.0`, ausência de GitHub Release e inventário dos PRs 1–8; registrar em `umanni-vault/EXEC-006-RELEASE-0-1-0.md`.
-- [ ] T002 Validar os artefatos de planejamento em `umanni-vault/specs/006-release-0-1-0/` e publicar o PR de preparação com label `documentation` e Douglas como responsável, sem criar ou atribuir milestones antes da revisão; nesta entrega, registrar no EXEC o desvio já ocorrido no primeiro HEAD e não fazer nova mutação externa até T003.
-- [ ] T003 Obter revisão independente do planejamento no HEAD exato do PR, corrigir/confirmar todas as threads e exigir `review-ledger=success` + `spec-reviewed` antes de T004.
+- [x] T001 Confirmar checkout limpo em `codex/006-release-0-1-0`, base `0cd4c4142be8833401a5721c5e7cc637ea40b161`, ausência local/remota de `v0.1.0`, ausência de GitHub Release e inventário dos PRs 1–8; registrar em `umanni-vault/EXEC-006-RELEASE-0-1-0.md`.
+- [x] T002 Validar os artefatos de planejamento em `umanni-vault/specs/006-release-0-1-0/` e publicar o PR de preparação com label `documentation` e Douglas como responsável, sem criar ou atribuir milestones antes da revisão; nesta entrega, registrar no EXEC o desvio já ocorrido no primeiro HEAD e não fazer nova mutação externa até T003.
+- [x] T003 Obter revisão independente do planejamento no HEAD exato do PR, corrigir/confirmar todas as threads e exigir `review-ledger=success` + `spec-reviewed` antes de T004.
 
 **Checkpoint**: nenhuma política, tag, release ou nova mutação de milestone ocorre antes do aceite do planejamento. Os milestones criados prematuramente no primeiro HEAD ficam congelados e serão tratados como desvio explícito, não como precedente do processo.
 
 ## Fase 2 — Fundação de versionamento
 
-- [ ] T004 [US2] Criar ou reconfirmar após o aceite os milestones GitHub `0.1.0` e `Backlog` pela API `/repos/douglasfeitosag/Umanni/milestones`, atribuir PRs 1–8 e o PR de preparação a `0.1.0`, a issue 9 a `Backlog`, e registrar IDs/estado/desvio inicial em `umanni-vault/EXEC-006-RELEASE-0-1-0.md`.
-- [ ] T005 [P] [US2] Registrar D-018 e SemVer/tag imutável/milestones em `umanni-vault/09-DOCUMENTACAO-E-PUBLICACAO.md`.
-- [ ] T006 [US2] Atualizar `umanni-vault/CONSTITUICAO.md` de 2.0.0 para 2.1.0 com novo princípio compatível de gestão de versões e histórico da emenda.
-- [ ] T007 [US2] Atualizar o ciclo, critérios de inclusão/adiamento e fechamento em `umanni-vault/PROTOCOL.md`.
-- [ ] T008 [US2] Acrescentar a regra operacional resumida para agentes em `AGENTS.md` e o aprendizado durável em `umanni-vault/MEMORIA-PROJETO.md`.
+- [x] T004 [US2] Criar ou reconfirmar após o aceite os milestones GitHub `0.1.0` e `Backlog` pela API `/repos/douglasfeitosag/Umanni/milestones`, atribuir PRs 1–8 e o PR de preparação a `0.1.0`, a issue 9 a `Backlog`, e registrar IDs/estado/desvio inicial em `umanni-vault/EXEC-006-RELEASE-0-1-0.md`.
+- [x] T005 [P] [US2] Registrar D-018 e SemVer/tag imutável/milestones em `umanni-vault/09-DOCUMENTACAO-E-PUBLICACAO.md`.
+- [x] T006 [US2] Atualizar `umanni-vault/CONSTITUICAO.md` de 2.0.0 para 2.1.0 com novo princípio compatível de gestão de versões e histórico da emenda.
+- [x] T007 [US2] Atualizar o ciclo, critérios de inclusão/adiamento e fechamento em `umanni-vault/PROTOCOL.md`.
+- [x] T008 [US2] Acrescentar a regra operacional resumida para agentes em `AGENTS.md` e o aprendizado durável em `umanni-vault/MEMORIA-PROJETO.md`.
 
 **Checkpoint**: qualquer tarefa nova pode ser classificada por versão ou backlog sem depender desta conversa.
 
@@ -30,10 +30,10 @@
 
 **Teste independente**: uma pessoa identifica incluídos/excluídos em menos de dois minutos e os links levam aos artefatos existentes.
 
-- [ ] T009 [P] [US1] Criar `CHANGELOG.md` em inglês com a entrada `0.1.0`, data, destaques e limitações.
-- [ ] T010 [P] [US1] Criar `umanni-vault/releases/0.1.0.md` em português com notas finais, PRs 1–8, validações e exclusões, sem alegar tag/release já publicada.
-- [ ] T011 [US1] Atualizar `README.md` em inglês com versão atual planejada, link do changelog/release notes e fronteira pré-aplicação.
-- [ ] T012 [US1] Corrigir `umanni-vault/STATUS.md` para registrar o merge real do PR6, a preparação de `0.1.0`, o backlog da issue 9 e a próxima fase da aplicação sem claims obsoletos.
+- [x] T009 [P] [US1] Criar `CHANGELOG.md` em inglês com a entrada `0.1.0`, data, destaques e limitações.
+- [x] T010 [P] [US1] Criar `umanni-vault/releases/0.1.0.md` em português com notas finais, PRs 1–8, validações e exclusões, sem alegar tag/release já publicada.
+- [x] T011 [US1] Atualizar `README.md` em inglês com versão atual planejada, link do changelog/release notes e fronteira pré-aplicação.
+- [x] T012 [US1] Corrigir `umanni-vault/STATUS.md` para registrar o merge real do PR6, a preparação de `0.1.0`, o backlog da issue 9 e a próxima fase da aplicação sem claims obsoletos.
 
 ## Fase 4 — História 3: auditoria e publicação (P2)
 
@@ -41,9 +41,9 @@
 
 **Teste independente**: comparar PR, gate, principal, tag, release e milestone e obter o mesmo commit de versão.
 
-- [ ] T013 [US3] Criar e preencher `umanni-vault/EXEC-006-RELEASE-0-1-0.md` com escopo, versões/modelos reais, arquivos, milestones, comandos/resultados, hashes, desvio inicial e uma matriz T001–T019 de estado/destino/evidência.
-- [ ] T014 [US3] Criar `umanni-vault/PROMPT-COND-006-FOUNDATION.md` autossuficiente para a próxima sessão, usando a tag imutável `v0.1.0` como base resolvível, URL determinística da release, pendências, versão-alvo/backlog e próxima ação; após a publicação, verificar esses identificadores e registrar os hashes reais no comentário final do PR.
-- [ ] T015 [US3] Executar integralmente `umanni-vault/specs/006-release-0-1-0/quickstart.md` até o checkpoint pré-publicação, validar links/textos/escopo e executar `git diff --check` + staging exato + `git diff --cached --check`.
+- [x] T013 [US3] Criar e preencher `umanni-vault/EXEC-006-RELEASE-0-1-0.md` com escopo, versões/modelos reais, arquivos, milestones, comandos/resultados, hashes, desvio inicial e uma matriz T001–T019 de estado/destino/evidência.
+- [x] T014 [US3] Criar `umanni-vault/PROMPT-COND-006-FOUNDATION.md` autossuficiente para a próxima sessão, usando a tag imutável `v0.1.0` como base resolvível, URL determinística da release, pendências, versão-alvo/backlog e próxima ação; após a publicação, verificar esses identificadores e registrar os hashes reais no comentário final do PR.
+- [x] T015 [US3] Executar integralmente `umanni-vault/specs/006-release-0-1-0/quickstart.md` até o checkpoint pré-publicação, validar links/textos/escopo e executar `git diff --check` + staging exato + `git diff --cached --check`.
 - [ ] T016 [US3] Commitar e publicar a preparação, invalidar o aceite de spec, iniciar automaticamente a revisão final Luna high no HEAD exato, corrigir achados e obter `review-ledger=success` + `code-reviewed` com todas as threads resolvidas.
 - [ ] T017 [US3] Mapear no EXEC T001–T016 como concluídas com evidência e T017 como pronta; depois reconfirmar principal, HEAD, milestone, gate e mergeabilidade, fazer o merge normal especificamente autorizado e atualizar o checkout local sem auto-merge ou bypass.
 - [ ] T018 [US3] Capturar o commit de merge do PR, mapear T017 concluída no comentário final e exigir igualdade exata entre checkout, `origin/main` e esse SHA imediatamente antes da tag; qualquer avanço da principal exige parada e nova revisão.

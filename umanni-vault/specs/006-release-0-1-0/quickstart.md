@@ -8,7 +8,7 @@ Executar da raiz do repositório. Antes da integração, comandos de inspeção 
 git status --short --branch
 git diff --check
 git diff --cached --check
-rg -n "PR 6.*próxima|PR6.*pendente|review.*pending|release.*pending" README.md umanni-vault/STATUS.md umanni-vault/EXEC-006-RELEASE-0-1-0.md
+rg -n "PR 6.*(próxima|pendente)|PR6.*pendente|review (is|remains) pending|release (is|remains) pending" README.md umanni-vault/STATUS.md umanni-vault/EXEC-006-RELEASE-0-1-0.md
 gh pr list --state merged --limit 20 --json number,title,mergeCommit
 gh api 'repos/douglasfeitosag/Umanni/milestones?state=all'
 git tag --list v0.1.0

@@ -4,7 +4,7 @@ Origem: PEDIDO-001, D-002, D-004, D-013. Relacionados: [[STATUS]], [AGENTS](../A
 
 ## Ciclo
 
-Pedido preservado → esclarecimento → spec → plano → tarefas → PR com label/responsável → revisão independente da spec → discussão/correções/revisão do novo HEAD → aceite da spec → prompt da executora → EXEC/atualização do PR → revisão independente da implementação → discussão/correções/revisão do novo HEAD → aguardando Douglas → merge verificado → encerramento.
+Pedido preservado → esclarecimento → versão-alvo ou `Backlog` → spec → plano → tarefas → PR com label/responsável/milestone → revisão independente da spec → discussão/correções/revisão do novo HEAD → aceite da spec → prompt da executora → EXEC/atualização do PR → revisão independente da implementação → discussão/correções/revisão do novo HEAD → autorização → merge verificado → tag/release da versão quando aplicável → encerramento.
 
 Cada entrega tem um ID. Cada prompt e retorno identifica papel, autor/modelo, destinatário, pedido de origem, spec, commit base, branch, PR se existir e resposta anterior. A condutora não assume que uma mensagem privada substitui o registro no PR.
 
@@ -23,6 +23,12 @@ A resposta começa com `[CONDUTORA]` para planejamento ou `[EXECUTORA]` para imp
 Sem consenso após resposta fundamentada e reconsideração explícita da revisora, a condutora interrompe o trabalho dependente e apresenta a Douglas: ponto controvertido, posição de cada papel, evidências, consequências das alternativas, recomendação de cada lado e pergunta decisória exata. A decisão de Douglas é registrada no comentário antes da continuidade.
 
 Agentes podem criar e atualizar PRs automaticamente. Na criação, aplicam pelo menos um label coerente e atribuem Douglas, salvo indicação diferente. Merge, fechamento e auto-merge permanecem proibidos sem autorização explícita e específica.
+
+## Gestão e fechamento de versões
+
+Cada tarefa recebe antes da execução um milestone de versão ou `Backlog`. O milestone de versão contém somente itens pretendidos para aquele marco; adiamentos registram motivo e novo destino. Antes do fechamento, conferir que não existe item incluído aberto ou sem decisão, que documentação e evidências refletem o conteúdo real e que a revisão final pertence ao HEAD exato.
+
+Depois do merge autorizado, capturar o SHA de merge do PR e exigir igualdade com o checkout e `origin/main` imediatamente antes de publicar. Criar uma tag anotada `vMAJOR.MINOR.PATCH` nesse SHA exato, sem força e sem mover tags; então criar a GitHub Release final a partir das notas versionadas e fechar o milestone. Qualquer tag/release preexistente, avanço da principal, gate inválido ou divergência de SHA interrompe o fluxo. Registrar tag, alvo, URL da release e estado do milestone no PR ou EXEC. Planejar a próxima tarefa já com versão-alvo ou backlog explícito.
 
 Como todos os papéis usam a conta autora, `Request changes` e `Approve` nativos não são usados. O gate equivalente e verificável é o status obrigatório `review-ledger`, associado ao SHA exato, junto das threads e labels. A independência é de sessão/papel/modelo e deve ser declarada sem fingir identidades diferentes.
 

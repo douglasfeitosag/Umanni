@@ -10,6 +10,8 @@ A user-management application being prepared for the [Umanni Fullstack Developer
 
 The initial documentation and static branding archive are available, together with a browser-only visual prototype using fictional data. Open [the visual archive](branding/hub/index.html) or follow [the prototype run instructions](branding/prototype/README.md). Application code, Docker images, CI workflows and the production runner have not been implemented. There are no working application build, seed, run or application-test commands yet; do not treat the planned stack or visual simulation as a working product.
 
+The first documented project milestone is version **0.1.0**. See the [changelog](CHANGELOG.md) and the [0.1.0 release notes](umanni-vault/releases/0.1.0.md) for its exact contents and exclusions. This is a pre-application release: it packages the governed documentation, verified static identity, visual reference hub and disposable prototype, not a production-ready system.
+
 Target delivery: September 11, 2026, end of day in America/Sao_Paulo. No paid cloud hosting is planned. The intended evaluator experience is a reproducible local Docker Compose environment, including background imports and live progress.
 
 ## Planned scope
@@ -46,4 +48,4 @@ Open the `umanni-vault` subfolder as an Obsidian vault and start at [HOME](umann
 - [Spec Kit installation and version](umanni-vault/TOOLING.md)
 - [Initial documentation specification](umanni-vault/specs/000-documentation/spec.md)
 
-Every implementation needs a specification, plan, tasks, acceptance criteria and stop conditions first. Executors return an `EXEC-*` report. Douglas retains merge control unless he explicitly delegates it; the visual-delivery merge in feature 005 is specifically delegated only after its complete validation and independent-review gates succeed.
+Every implementation needs a specification, plan, tasks, acceptance criteria, stop conditions and a release target or explicit backlog destination first. Executors return an `EXEC-*` report. Douglas retains merge control unless he explicitly delegates it; a reviewed merge is not tagged or released until the integrated commit is verified.

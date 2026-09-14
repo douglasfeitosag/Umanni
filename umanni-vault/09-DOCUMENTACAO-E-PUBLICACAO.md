@@ -28,4 +28,14 @@ O enunciado exige README em inglês, mas não fixa o idioma de todos os demais m
 - Vault explicativo, decisões, pedidos, prompts, relatórios EXEC, planos e cenários BDD em português.
 - Relacionar cenários BDD e testes por identificadores estáveis, mesmo quando seus textos estiverem em idiomas diferentes.
 
-Motivo: manter o trabalho de planejamento compreensível para Douglas e a apresentação da aplicação alinhada ao README. Interface em inglês é uma escolha aprovada do projeto, não obrigação atribuída ao teste. Não implementar suporte a múltiplos idiomas sem necessidade definida.
+Motivo: manter o trabalho de planejamento compreensível para Douglas e a apresentação pública do repositório alinhada ao README. Por correção posterior de Douglas, a interface e o sistema usam português; documentação pública de entrada, código e testes permanecem em inglês. Não implementar suporte a múltiplos idiomas sem necessidade definida.
+
+## D-018 — Versões, milestones, tags e releases
+
+Data: 2026-09-14. Decisor: Douglas. Registro: Codex. Estado: aprovado.
+
+Pedido de Douglas: “Vamos fechar a tag e release da 0.1.0 com o que fizemos aqui até agora. Sempre pensando em pensar na tag, nas tarefas que vão entrar na versão e quando terminar criar as tags e os releases”.
+
+Toda tarefa passa a receber antes da execução uma versão-alvo ou o destino explícito `Backlog`. O conteúdo de uma versão é verificável pelo milestone correspondente; um item que não entrar precisa de justificativa e novo destino, sem desaparecer da rastreabilidade. Para `0.1.0`, entram os PRs 1–8 e o PR de preparação da release. A issue 9 permanece em `Backlog` porque é um polimento visual pequeno e não bloqueante.
+
+Versões seguem SemVer. A marca Git usa tag anotada `vMAJOR.MINOR.PATCH`, criada uma única vez no commit integrado e nunca movida. A publicação exige spec e plano aceitos, implementação revisada no HEAD exato, merge especificamente autorizado, principal local/remota igual ao SHA integrado, notas versionadas, GitHub Release final e fechamento do milestone. A próxima frente já nasce com versão-alvo ou backlog; a tag só é considerada no encerramento, depois de verificar todo o conjunto incluído.
