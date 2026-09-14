@@ -63,3 +63,7 @@ Distinguish static boards, a reference gallery and a navigable demonstration in 
 Douglas answered “Pode” to fictional sign-up/edit/delete/import demonstrations reset on reload, with no real authentication, files or database. VP-003 is now explicit. He separately authorized continued visual work, agent-performed merges after all checks, and cross-review in PRs. Two independent reviewer contexts must accept the same final HEAD. This does not authorize new production rules or protection bypasses.
 
 PR4/5/8 and the governance PR7 are now integrated; current baseline is main `1a90b8b2714149279e9e85abad7c0cfc9daeca96`. PR6 is synchronized and will target main. Its merge conflicts were the already-reviewed PNG correction and report; those three files were retained exactly from main. Planning and execution evidence continue in EXEC-005-VISUAL-PROTOTYPE.md.
+
+## 2026-09-14 — Implementation handoff completed
+
+The accepted simulation boundary was implemented under `branding/prototype/` after both exact-HEAD planning reviews succeeded. The demonstration now covers all five stories with fictional resettable data, native-browser journeys, core tests, responsive/keyboard evidence and eight screenshots. This historical scope record remains unchanged above; current commands, coverage, findings, publication hashes and final reviews belong to `EXEC-005-VISUAL-PROTOTYPE.md` and PR6.
