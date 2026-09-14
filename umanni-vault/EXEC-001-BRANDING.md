@@ -1,6 +1,6 @@
 # EXEC-001 — Umanni visual identity
 
-Request author: Douglas. Role: executor. Preparation: COND-001-BRANDING.md. Scope: static identity delivery on PR [#3](https://github.com/douglasfeitosag/Umanni/pull/3). Date: 2026-09-14.
+Request author: Douglas. Role: executor. Preparation: COND-001-BRANDING.md. Scope: static identity delivery on PR [#4](https://github.com/douglasfeitosag/Umanni/pull/4). Date: 2026-09-14.
 
 ## Outcome
 
@@ -14,7 +14,7 @@ Canonical notice: [UMANNI-NOTICE](../branding/LICENSES/UMANNI-NOTICE.md). The br
 
 - Integrated base: `b374118f8793a2c86e9142400bfe5dc76f66f420`.
 - Approved entry HEAD: `f1e145d606595f0913bae3ee417ba048e2c915c9`.
-- Branch: `codex/003-branding-assets`; PR #3 remains open, assigned to `douglasfeitosag`, topic label `branding`.
+- Branch: `codex/003-branding-assets`; PR #3 was initially open, assigned to `douglasfeitosag`, topic label `branding`.
 - Initial branch/status checks showed a clean tree matching origin.
 - PR HEAD matched the local SHA; `review-ledger=SUCCESS`, `spec-reviewed`.
 - GraphQL returned one resolved review thread. Its final reviewer message explicitly reconfirmed f1e145d; no additional page or unresolved thread.
@@ -115,9 +115,9 @@ T001–T012: entry gate, authorized structure, source collection, notices/licens
 
 1. `6567275b39a3963a4c4f3f88b4cebfa91b5c0d35` — `feat(branding): preserve official assets and license provenance`.
 2. `95cc565fe27629d2cdb6f203a63817488a4da199` — `feat(branding): add Portuguese static UI kit and visual boards`.
-3. Report/checklist commit message: `docs(branding): record static validation and review handoff`. Its final SHA is reported in the PR #3 handoff comment after publication; the report does not attempt to embed its own commit hash.
+3. Report/checklist commit message: `docs(branding): record static validation and review handoff`. Its original SHA is b86038203708275971112a591189b38171fd86ea; the current published SHA is reported on PR #4; the report does not attempt to embed its own commit hash.
 
-The push and final-head verification are performed after committing this report. PR #3 keeps topic label branding and Douglas as assignee; spec-reviewed is replaced with review-pending and review-ledger is set pending on the exact published HEAD. No technical acceptance or merge is asserted. A separate reviewer session must inspect that HEAD and publish each finding individually; the executor never resolves those conversations.
+The push and final-head verification are performed after committing this report. PR #4 keeps topic label branding and Douglas as assignee; spec-reviewed is replaced with review-pending and review-ledger is set pending on the exact published HEAD. No technical acceptance or merge is asserted. A separate reviewer session must inspect that HEAD and publish each finding individually; the executor never resolves those conversations.
 
 ## Next-stage boundary and proposed learnings
 
@@ -132,3 +132,13 @@ Proposed learnings for the conductor, not edits to MEMORIA-PROJETO:
 - Upstream license whitespace may fail diff checks; preserve complete terms and disclose any formatting-only normalization with separate hashes.
 - Keep internal persona assessment separate from formal independent review and human merge authority.
 - Distinguish English README requirements in the test from internal interface-language decisions.
+
+## Publication recovery after an external merge
+
+The first publication check discovered that PR #3 had been merged by account douglasfeitosag at 2026-09-14T15:20:48Z, while this execution was in progress. Its merge commit f6a91c23a5b61b1572d1f78c195a9cd5248ea422 contains planning HEAD f1e145d, not the assets produced afterward. The executor did not perform that merge.
+
+The metadata update attempted after pushing the assets therefore affected a historical PR. The original PR #3 title/body were recovered from GitHub timeline/content-edit history and restored, with spec-reviewed/branding and the original assignee. No history was deleted.
+
+The executor opened PR #4 against current main for the 31-file static delivery, retaining branch codex/003-branding-assets. No rebase, force push or merge was used. The new PR is review-pending, assigned to Douglas, and requires review-ledger pending on its current published SHA. This addendum supersedes the former PR #3 publication destination; it does not change the approved entry-gate evidence.
+
+Follow-up explicitly requested by Douglas: create a central visualization page for this material. It is a separate topic from the preserved assets/UI kit and will receive its own plan and PR.
