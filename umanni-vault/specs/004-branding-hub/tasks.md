@@ -8,6 +8,6 @@
 - [x] H006 Start local server and test the real page at 1440×1024 and 390×844; inspect images, section headings, Tab/Shift+Tab/Enter, skip link, disclosure, 44×44 targets, links and overflow; capture allowed screenshots. Verify script-src none and immediate/no-animation scrolling.
 - [x] H007 Compare displayed color/type snapshots to tokens; measure actual contrast; confirm loaded fonts/resources and absence of external dependencies or errors.
 - [x] H008 Record evidence, persona verdict and remaining prototype/formal-review scope in EXEC-004-BRANDING-HUB.md.
-- [ ] H009 Verify new-file/staged differences and topic scope; atomic commits; publish PR with labels/assignee; verify HEAD/conflict state; do not merge.
+- [x] H009 Verify new-file/staged differences and topic scope; atomic commits; publish PR with labels/assignee; verify HEAD/conflict state; do not merge.
 
 H001–H002 precede implementation; H006–H007 precede completion claims. Native link/disclosure behavior gets browser validation rather than artificial application tests.

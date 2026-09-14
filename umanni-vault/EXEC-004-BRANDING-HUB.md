@@ -79,6 +79,8 @@ The full navigable application prototype remains separate, unimplemented work. T
 
 ## Publication and proposed learning
 
-Publication is pending at this report revision. The new themed PR is intended to target `codex/003-branding-assets` while PR4 remains open, preserving a hub-only diff. Recheck current remote state before publishing; assign Douglas, apply branding/review-pending and record review-ledger pending on the exact final HEAD. No merge/closure/auto-merge is authorized.
+Published as [PR5](https://github.com/douglasfeitosag/Umanni/pull/5), targeting `codex/003-branding-assets` while PR4 remains open. GitHub confirmed OPEN and MERGEABLE, with Douglas assigned and branding/review-pending labels. The published evidence commit is `7a9d341a0d430d1f80326e47a38756b7dfa2a0f2`; review-ledger was explicitly set pending. This final handoff record is a subsequent documentation-only commit, whose exact hash is reported to Douglas and receives its own pending status after push. No merge, closure or auto-merge occurred.
+
+Final scope check: exactly the nine allowed paths in the parent-to-topic diff; worktree clean before this handoff record. Both new-file intent-to-add/working diff and full staging/cached whitespace checks passed. The final documentation-only update repeats these checks before commit and publication. Existing assets, license files, tokens and boards remain unchanged. The final commit message is `docs(branding-hub): record publication and review handoff`.
 
 Proposed learning for the conductor: capture actual viewport and screenshot dimensions separately; inspect lower sections rather than relying on a first-screen image; recheck remote PR state immediately before every publication; retain a native local gallery as a reference without presenting it as the operational prototype.
