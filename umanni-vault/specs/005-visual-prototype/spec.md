@@ -4,11 +4,18 @@
 
 **Created**: 2026-09-14
 
-**Status**: Draft — one scope decision outstanding; no implementation authorized by this draft.
+**Status**: Scope clarified — planning and independent pre-implementation review required.
 
 **Input**: Douglas requested the complete visual identity, playbook, design and navigable prototype, assessed critically by different personas, with UI kit/tokens ready for programming and atomic, conflict-free topic PRs.
 
 The existing identity assets and reference hub do not satisfy the navigable-prototype requirement. This proposal covers the user-management journeys identified in [the test analysis](../../05-LEITURA-DO-TESTE.md), while keeping a visual demonstration distinct from production behavior. The detailed proposal below is not an approved business specification.
+
+## Clarifications
+
+### Session 2026-09-14
+
+- Q: May sign-up, editing, deletion and import use fictional demonstration data, reset on page reload, without real authentication, files or database? → A: Douglas answered “Pode” (approved).
+- Douglas also authorized continued visual work and agent-performed merges after all checks, and requested cross-review in the PRs. Two reviewer contexts independent of authorship must accept the same final HEAD before integration. This exception is scoped to the visual delivery, not the future production application.
 
 ## User Scenarios & Testing
 
@@ -110,7 +117,7 @@ A reviewer can exercise every journey at wide/narrow sizes and trace visual deci
 
 - **VP-001**: Provide a genuinely navigable local visual prototype, not a gallery or a set of inert screenshots.
 - **VP-002**: Cover all five user stories, including visitor sign-up, role-specific entry, dashboard, users CRUD/role, import and own profile/account deletion.
-- **VP-003**: Proposed simulation boundary: [NEEDS CLARIFICATION: May the prototype simulate sign-up, edits, deletion and import outcomes with fictional disposable data, reset on reload, without implementing real authentication, uploads, persistence or undecided business rules?]
+- **VP-003**: Simulate sign-up, edits, deletion and import outcomes using fictional disposable data. Reload or explicit restart restores the baseline. No real authentication, uploads, persistence or undecided production rules are implemented; Douglas approved this boundary.
 - **VP-004**: Clearly separate demonstration controls/scenario selection from product-facing UI; maintain a visible fictional/non-production notice.
 - **VP-005**: All visible primary actions have a meaningful tested demonstration outcome, or an explicit unresolved-policy explanation; no dead links or silent placeholder buttons.
 - **VP-006**: Use Portuguese UI and English public documentation, following Douglas's correction; preserve existing branding sources, fonts, licenses and canonical notice.
@@ -122,7 +129,7 @@ A reviewer can exercise every journey at wide/narrow sizes and trace visual deci
 - **VP-012**: At1440×1024 and390×844, every route/state remains usable without page overflow or clipped essential controls; validate short-window and enlarged-text behavior.
 - **VP-013**: Preserve source records and provide a route/state-to-component handoff with reproducible checks and original-resolution screenshots.
 - **VP-014**: Record actual model identification, internal persona findings, limitations and exact reviewed/published commits. Formal review must use a distinct session and current-HEAD ledger.
-- **VP-015**: Keep atomic commits and a separate prototype topic PR without conflicts; preserve Douglas as assignee and never merge, close or enable auto-merge.
+- **VP-015**: Keep atomic commits and a separate prototype topic PR without conflicts; preserve Douglas as assignee. Douglas authorizes agent-performed visual-delivery merges only after all validations, both independent reviews on the final HEAD, resolved findings and successful mandatory checks. Never bypass protections, enable auto-merge or expand into production behavior.
 - **VP-016**: Do not claim the overall objective complete until identity, playbook, design, UI kit/tokens, navigable journeys, validation and required review evidence all exist.
 
 ### Key Entities
@@ -143,18 +150,18 @@ A reviewer can exercise every journey at wide/narrow sizes and trace visual deci
 - **SC-003**: Every measured text/control pair meets its declared contrast threshold; zero clipped essential elements or horizontal page overflow in the tested viewports.
 - **SC-004**: Demonstration state can be restored to the same documented baseline after each journey; no personal data, real credentials or real file content are required.
 - **SC-005**: Every displayed logo/font and referenced license remains traceable to its preserved original; every visual extension is identified and reviewed.
-- **SC-006**: Fidelity and usability personas deliver evidence-backed verdicts with no unresolved actionable finding; the formal project reviewer independently verifies the current HEAD.
-- **SC-007**: The final prototype topic PR contains only its authorized files, is conflict-free at publication, and leaves integration exclusively to Douglas.
+- **SC-006**: Two reviewers independent of authorship deliver evidence-backed verdicts covering fidelity/accessibility and behavior/specification/evidence, with no unresolved actionable finding on the same current HEAD. The shared ledger becomes successful only after both acceptances.
+- **SC-007**: The final prototype topic PR contains only authorized files, is conflict-free, and is integrated only after the complete SC-006 and validation gates under Douglas's scoped merge authorization.
 
 ## Assumptions
 
 - This feature extends the completed static scope; neither the original asset-only prompt nor the gallery's approval authorizes new production rules.
-- The simulation proposal requires Douglas's answer to VP-003 before the executable plan/tasks are prepared.
+- Douglas approved VP-003; the executable plan/tasks may now be prepared, followed by independent review before implementation.
 - Public identity and component decisions remain authoritative: [briefing](../001-branding/briefing.md), [state matrix](../001-branding/contracts/component-state-matrix.md), [playbook](../../../branding/BRAND-PLAYBOOK.md), [tokens](../../../branding/tokens/tokens.json).
 - Required application behavior is sourced from RF-01 through RF-09 in the test analysis. The prototype demonstrates the intended experience but does not prove authentication, persistence, queue processing, live transport or authorization.
 - Credential activation, import policy, avatar storage and last-administrator protections remain application-specification decisions, not research guesses.
 - The existing local reference hub remains a separate deliverable and will not be silently replaced.
-- No dependency installation, hosting, runner/protection configuration or automatic reviewer task creation is part of this draft.
+- No dependency installation, hosting or runner/protection configuration is included. Automatic independent reviewer dispatch is required by Douglas's later instruction.
 - Independent spec/plan/task approval on the exact HEAD must precede implementation; later implementation requires its own formal review. Internal personas are supplementary.
 
 ## Source Coverage and Stop Condition
@@ -171,4 +178,4 @@ A reviewer can exercise every journey at wide/narrow sizes and trace visual deci
 | RF-08 | Own-profile edit/deletion journey | Server-side access-control proof |
 | RF-09 | Name/email/role and avatar fallback | Real avatar upload/storage/field policy |
 
-Stop this drafting phase after publishing its unresolved decision and evidence. Do not create prototype code, an executable implementation prompt or a claimed approved plan while VP-003 is unanswered. Once answered, complete plan/tasks/contracts/validation policy, obtain formal independent spec review, then execute and validate the full navigable scope.
+Complete plan/tasks/contracts/validation policy, publish for independent specification review, and do not implement before both reviewers accept the exact planning HEAD. Then execute and validate all five journeys, correct and re-review findings, and merge only under the complete final gate. Stop dependent work on genuine scope conflict; do not silently introduce production rules. Completion means the visual prototype, handoff and validation are integrated and viewable locally, not a production application.

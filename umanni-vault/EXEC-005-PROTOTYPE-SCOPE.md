@@ -1,5 +1,7 @@
 # EXEC-005 — Prototype scope preparation
 
+Historical preparation record. Its unresolved-scope and manual-merge statements describe the original drafting turn; the dated update below supersedes them for the current delivery.
+
 Date: 2026-09-14. Role: executor reporting the remaining scope to Douglas and the conductor. Runtime declaration available in this session: GPT-5-based Codex; exact serving alias unverified. No Terra/Luna identity or formal reviewer is claimed.
 
 ## Goal audit and current evidence
@@ -55,3 +57,9 @@ The usability persona read the source product requirements, closed branding brie
 ## Proposed learning
 
 Distinguish static boards, a reference gallery and a navigable demonstration in completion audits. Trace every required product journey, especially those absent from existing boards. A request to keep working does not settle unresolved product behavior or waive formal review.
+
+## 2026-09-14 — Scope accepted and continuation authorized
+
+Douglas answered “Pode” to fictional sign-up/edit/delete/import demonstrations reset on reload, with no real authentication, files or database. VP-003 is now explicit. He separately authorized continued visual work, agent-performed merges after all checks, and cross-review in PRs. Two independent reviewer contexts must accept the same final HEAD. This does not authorize new production rules or protection bypasses.
+
+PR4/5/8 and the governance PR7 are now integrated; current baseline is main `1a90b8b2714149279e9e85abad7c0cfc9daeca96`. PR6 is synchronized and will target main. Its merge conflicts were the already-reviewed PNG correction and report; those three files were retained exactly from main. Planning and execution evidence continue in EXEC-005-VISUAL-PROTOTYPE.md.
