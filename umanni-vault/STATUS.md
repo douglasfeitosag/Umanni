@@ -4,25 +4,28 @@ Atualizado: 2026-09-14. Projeto: `/Users/douglas/Projects/Umanni`. O vault é a 
 
 ## Decidido
 
-Umanni; entrega até 11/09/2026 no fim do dia, com dedicação parcial. Ruby 4+/Rails 8+, React/Inertia, TypeScript, Tailwind, PostgreSQL, autenticação Rails nativa, Solid Queue/Cable. RSpec, Vitest/React Testing Library e Playwright. MVC organizado por funcionalidade e serviços para orquestrações. Docker Compose local, sem hospedagem contratada. CI com runner no Mac. Documentação pública. Idiomas conforme D-012. Sessões abertas manualmente; merge/fechamento só por Douglas.
+Umanni; o prazo original de 11/09/2026 passou e não deve ser apresentado como cumprido. Ruby 4+/Rails 8+, React/Inertia, TypeScript, Tailwind, PostgreSQL, autenticação Rails nativa, Solid Queue/Cable. RSpec, Vitest/React Testing Library e Playwright. MVC organizado por funcionalidade e serviços para orquestrações. Docker Compose local, sem hospedagem contratada. CI com runner no Mac. Documentação pública. Idiomas conforme D-012 e a correção posterior de Douglas: interface em português, código/testes/README públicos em inglês. Douglas autorizou merges da frente visual por agente somente após validação completa, duas revisões independentes no mesmo HEAD, threads resolvidas e `review-ledger` bem-sucedido.
 
 Branding: reprodução avaliativa da identidade pública da Umanni, sem autorização expressa e com aviso não oficial. Site principal prevalece sobre o blog editorial. Somente assinatura horizontal/símbolo azul, Montserrat dominante, Roboto em utilidades, paleta adaptada quando necessário para WCAG AA, Heroicons e tema claro. O tema escuro não integra a entrega por falta de evidência pública suficiente. Layout, estados e cinco composições estáticas estão fechados em `specs/001-branding/`.
 
 ## Entrega documental
 
-Spec Kit 1.0.6 inicializado localmente para Codex. Constituição, README, protocolo, índices e spec/plano/tarefas documentais preparados. Validação e commit registrados em EXEC-000-DOCUMENTACAO.md. Nenhuma aplicação, CI, runner ou branding implementado; o bootstrap 11e47d2 foi publicado na main mediante autorização posterior de Douglas.
+Spec Kit 1.0.6 inicializado localmente para Codex. Constituição, README, protocolo, índices e specs/planos/tarefas documentais estão no vault. A entrega visual estática foi implementada, validada, revisada e integrada pelos PRs 4, 5 e 8; o PR de governança 7 também foi integrado. A `main` de base da execução 005 é `1a90b8b2714149279e9e85abad7c0cfc9daeca96`. Ainda não existe aplicação Rails, Docker Compose, CI de aplicação ou runner de produção.
 
 ## Planejamento de branding
 
 Briefing, pesquisa, spec, plano, contratos, tarefas e critérios preparados na branch `codex/001-branding` e publicados no PR #2, com label `documentation` e Douglas como responsável. A revisão Luna high sob a mesma conta publicou oito achados; após discussão e correção, todos foram confirmados. Como o GitHub não oferece `Request changes`/`Approve` da própria conta autora, a governança adotou `review-ledger` obrigatório, labels de estado e resolução exclusiva das threads pela revisora. Os comentários existentes com `\\n` literal foram corrigidos pela API. Douglas mesclou o PR #2 em 2026-09-14; `main` passou a `b374118`, com árvore equivalente ao HEAD aprovado `5674d91`. Nenhum asset ou componente foi criado. O prazo original de 11/09/2026 passou; não o apresentar como cumprido.
 
+## Protótipo visual navegável
+
+A feature 005 está na branch `codex/005-visual-prototype`, PR 6. O planejamento foi aceito por duas revisões independentes no HEAD `b80c62434592bb99cda9fe27967593a6c4b271ee` antes do início da implementação. O protótipo em `branding/prototype/` usa somente HTML/CSS/ES modules, dados fictícios reiniciáveis e os assets/licenças já preservados; não implementa autenticação, persistência, upload, fila ou regras de produção. A matriz nativa passou em 1440×1024 e 390×844, os 28 testes centrais passaram com 100% de linhas/funções e 92,12% de ramos, e oito PNGs finais foram inspecionados. A publicação, as duas revisões finais Luna high e o merge normal ainda são as próximas etapas deste mesmo fluxo.
+
 ## Próxima tarefa
 
-A condutora prepara a branch `codex/003-branding-assets` e o PR #3 a partir da `main` integrada, corrigindo o handoff que antes apontava para o PR #2 já mesclado. A revisora reconfirma esse HEAD com o check obrigatório `review-ledger`, resolve eventuais threads e aplica `spec-reviewed`. Depois Douglas abre a sessão executora **gpt-5.6-terra / high** nessa branch e usa [[PROMPT-EXEC-001-BRANDING]]. A executora produz e valida somente `branding/` e `EXEC-001-BRANDING.md`, atualiza o PR #3 e aguarda `code-reviewed`; merge e fechamento continuam reservados a Douglas.
+Publicar o HEAD de implementação do PR 6, substituir `spec-reviewed` por `review-pending`, obter duas revisões finais independentes sobre o mesmo SHA, corrigir cada achado na thread sem resolvê-la como executora, e permitir que os proprietários das revisões resolvam suas threads. Somente com `review-ledger` bem-sucedido, `code-reviewed`, HEAD atual e PR mesclável a autorização específica de Douglas permite o merge normal. Depois, confirmar a integração e manter o protótipo aberto localmente.
 
 ## Pendências e momento de resolução
 
-- Antes de executar branding: comprovar `review-ledger` obrigatório no SHA vigente, todas as threads resolvidas pela revisora e label `spec-reviewed`; depois seguir `specs/001-branding/` sem extrapolar.
 - Proteção de `main`: configurada e relida pela API em 2026-09-14 com PR obrigatório, zero aprovações nativas, `review-ledger` obrigatório e estrito por SHA, conversas resolvidas, aplicação a administradores e bloqueio de force-push/exclusão. Labels `review-pending`, `changes-requested`, `spec-reviewed` e `code-reviewed` existem. Checks de entrega, automação do ledger e runner isolado ainda permanecem pendentes; o status manual do ledger não deve ser apresentado como workflow automatizado.
 - Antes da estrutura de aplicação: versões compatíveis fixadas, Vite/gerenciador de pacotes, contratos Inertia, policy de cobertura e configuração do ambiente de testes; escolher skills/plugins estritamente úteis, conforme a etapa posterior ao branding.
 - Antes dos fluxos de usuário: cadastro/ativação/senha inicial, importação CSV/XLSX (colunas, duplicidade, erros, limites e repetição), avatar, último administrador e matriz de autorização. Ver 05-LEITURA-DO-TESTE.

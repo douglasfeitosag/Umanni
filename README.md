@@ -1,14 +1,14 @@
 ### AI Usage Disclosure
 
-The documentation baseline used Codex, identified in that session as based on GPT-6; its precise runtime variant was not exposed. Branding planning used `gpt-5.6-sol` with medium reasoning, as configured for the conductor session. Future `gpt-5.6-terra` (high) executor and `gpt-5.6-luna` (high) reviewer roles remain plans until their reports identify actual work. Each execution report must name its actual model and contribution.
+The documentation baseline used Codex, identified in that session as based on GPT-6; its precise runtime variant was not exposed. Branding planning and prototype coordination used `gpt-5.6-sol` with medium reasoning, as configured for those sessions. A delegated `gpt-5.6-terra` high-reasoning executor implemented the prototype state core and tests. Exact final-review identities and contributions are recorded in the corresponding execution reports and pull requests; no unperformed reviewer is credited.
 
 # Umanni
 
-A user-management application being prepared for the [Umanni Fullstack Developer test](https://github.com/umanni/Fullstack-Developer/blob/7b5af5859afbb049221254bdacfa138aac25679b/README.md). This repository currently contains planning and documentation only. It is a candidate demonstration, not an official Umanni product.
+A user-management application being prepared for the [Umanni Fullstack Developer test](https://github.com/umanni/Fullstack-Developer/blob/7b5af5859afbb049221254bdacfa138aac25679b/README.md). This repository includes a static identity package and a disposable navigable visual prototype, but no production application. It is a candidate demonstration, not an official Umanni product.
 
 ## Delivery status
 
-The initial documentation is available. Branding, application code, Docker images, CI workflows and the local runner have not been implemented. There are no working application build, seed, run or test commands yet. Those instructions will be added and verified with the corresponding delivery; do not treat the planned stack as a working application.
+The initial documentation and static branding archive are available, together with a browser-only visual prototype using fictional data. Open [the visual archive](branding/hub/index.html) or follow [the prototype run instructions](branding/prototype/README.md). Application code, Docker images, CI workflows and the production runner have not been implemented. There are no working application build, seed, run or application-test commands yet; do not treat the planned stack or visual simulation as a working product.
 
 Target delivery: September 11, 2026, end of day in America/Sao_Paulo. No paid cloud hosting is planned. The intended evaluator experience is a reproducible local Docker Compose environment, including background imports and live progress.
 
@@ -36,7 +36,7 @@ Exact versions and the coverage policy will be pinned in the implementation plan
 
 ## Documentation and workflow
 
-Open the `umanni-vault` subfolder as an Obsidian vault and start at [HOME](umanni-vault/HOME.md). Markdown is also readable directly on GitHub. Internal planning is in Portuguese; the interface, code identifiers, test names and commit messages will be in English.
+Open the `umanni-vault` subfolder as an Obsidian vault and start at [HOME](umanni-vault/HOME.md). Markdown is also readable directly on GitHub. Internal planning is in Portuguese. The demonstrated interface is in Portuguese; public README/code/test identifiers and commit messages are in English.
 
 - [Current state and blockers](umanni-vault/STATUS.md)
 - [Project constitution](umanni-vault/CONSTITUICAO.md)
@@ -46,4 +46,4 @@ Open the `umanni-vault` subfolder as an Obsidian vault and start at [HOME](umann
 - [Spec Kit installation and version](umanni-vault/TOOLING.md)
 - [Initial documentation specification](umanni-vault/specs/000-documentation/spec.md)
 
-Every implementation needs a specification, plan, tasks, acceptance criteria and stop conditions first. Executors return an `EXEC-*` report. Douglas opens sessions manually and retains exclusive control over PR merging and closure unless he explicitly delegates that action.
+Every implementation needs a specification, plan, tasks, acceptance criteria and stop conditions first. Executors return an `EXEC-*` report. Douglas retains merge control unless he explicitly delegates it; the visual-delivery merge in feature 005 is specifically delegated only after its complete validation and independent-review gates succeed.

@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Umanni prototype browser tests</title>
+    <link rel="stylesheet" href="../styles.css">
+    <script type="module" src="browser.mjs"></script>
+  </head>
+  <body class="test-runner">
+    <main>
+      <p class="eyebrow">Native browser adapter</p>
+      <h1>Prototype test runner</h1>
+      <p id="runner-status" role="status">Running…</p>
+      <ol id="test-results"></ol>
+      <iframe id="prototype-frame" title="Prototype under test"></iframe>
+    </main>
+  </body>
+</html>
