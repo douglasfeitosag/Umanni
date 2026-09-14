@@ -1,8 +1,8 @@
 # Especificação 001 — Identidade visual Umanni
 
-**Branch da feature**: `codex/001-branding`
+**Branch de planejamento**: `codex/001-branding` | **Branch de execução**: `codex/003-branding-assets`
 **Criada em**: 2026-09-14
-**Estado**: em revisão independente no PR #2; execução bloqueada até aceite da revisora no HEAD vigente
+**Estado**: revisão original aceita e mesclada por Douglas no PR #2; handoff pós-merge em revisão independente no PR #3, com execução bloqueada até `review-ledger=success` e label `spec-reviewed` no HEAD vigente
 **Origem**: briefing conduzido com Douglas entre 2026-09-10 e 2026-09-14
 
 ## Cenários de usuário e aceite
