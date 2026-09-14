@@ -10,7 +10,7 @@ Preparação documental e operacional do primeiro marco público: política de v
 
 - Condução e execução documental: sessão Codex principal; o identificador preciso do modelo de serving não foi exposto nesta sessão, portanto não é inferido.
 - Revisão independente do planejamento: `gpt-5.6-luna`, esforço `high`, contexto separado `/root/release_010_planning_review`.
-- Revisão final: será registrada aqui e no PR quando efetivamente executada; nenhum revisor futuro é creditado antecipadamente.
+- Revisão final da entrega: `gpt-5.6-luna`, esforço `high`, contexto separado `/root/release_010_final_review`.
 
 ## Escopo e arquivos
 
@@ -45,7 +45,8 @@ A revisora abriu sete achados no review `5203044951`. Seis foram corrigidos em `
 - Milestone #2 `Backlog`: aberto, issue #9 aberta e atribuída.
 - Release probe: falha esperada com HTTP 404; o quickstart aborta em sucesso inesperado e em qualquer erro não-404.
 - `git diff --check`, staging exato e `git diff --cached --check` concluíram sem erro; links locais centrais, symlink da constituição, ausência da tag/release e destinos dos milestones foram confirmados.
-- Revisão final, merge, tag e publicação serão completados na matriz e no comentário final do PR sem reescrever a tag.
+- A revisão final abriu R-008 a R-010 no HEAD `72aba4df754d96016f77305baedd242a3abdc468`. As correções de precisão histórica, gates fail-safe e dispatch automático foram publicadas em `b959fa484e01bad4fdbc2a7c80b53de13988585d`; a revisora resolveu as três threads e publicou o aceite `5203267785`, com `review-ledger=success` no status `54155044650`.
+- Merge, tag e publicação serão completados na matriz e no comentário final do PR sem reescrever a tag.
 
 ## Matriz T001–T019
 
@@ -66,8 +67,8 @@ A revisora abriu sete achados no review `5203044951`. Seis foram corrigidos em `
 | T013 | concluída | Este EXEC; hashes externos finais serão publicados no PR. |
 | T014 | concluída | Prompt da fundação usa `v0.1.0` e URL determinística. |
 | T015 | concluída | Quickstart pré-publicação, links e diffs aprovados. |
-| T016 | pendente | Revisão final Luna high no futuro HEAD de entrega. |
-| T017 | pendente | Gate e merge autorizado após a revisão. |
+| T016 | concluída | Review final `5203267785`, status `54155044650`, threads R-008–R-010 resolvidas. |
+| T017 | pronta | Reconfirmar o gate no novo HEAD deste registro e executar o merge autorizado. |
 | T018 | pendente | Igualdade do SHA integrado antes da tag. |
 | T019 | pendente | Tag, release, milestone fechado e comentário final. |
 
