@@ -55,7 +55,7 @@ Independent test: all journeys at both target viewports, keyboard, short window,
 
 - [x] T019 Run full quickstart, core coverage at concurrency1/2 and browser runner; finish evidence and limitations in umanni-vault/EXEC-005-VISUAL-PROTOTYPE.md and branding/prototype/VALIDATION.md.
 - [x] T020 Add prototype link and factual review/status copy only to branding/hub/index.html per contracts/interaction.md, preserving the gallery and truthful static-preview captions. Update README.md, umanni-vault/STATUS.md and umanni-vault/MEMORIA-PROJETO.md with actual visual delivery and scoped authority, preserving production decisions; verify no obsolete global pending claims remain for the integrated static delivery.
-- [ ] T021 Check exact plan allowlist, intent-to-add/working diff and staged whitespace; commit/publish PR6 and record hashes in umanni-vault/EXEC-005-VISUAL-PROTOTYPE.md.
+- [x] T021 Check exact plan allowlist, intent-to-add/working diff and staged whitespace; commit/publish PR6 and record hashes in umanni-vault/EXEC-005-VISUAL-PROTOTYPE.md.
 - [ ] T022 Obtain two independent final PR reviews, correct/recheck all findings on the same HEAD, then verify successful gate and perform authorized normal merge; record final integration result in PR and open branding/prototype/index.html locally.
 
 ## Dependencies and parallel opportunities

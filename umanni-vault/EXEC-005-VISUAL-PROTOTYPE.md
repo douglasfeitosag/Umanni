@@ -103,9 +103,9 @@ The hub now keeps every static-preview caption truthful, labels the already-inte
 
 Publication/final-review fields remain deliberately open until their commands actually occur:
 
-- implementation commit: pending;
+- implementation commit: `add620e3785a87bdb6e002a85f12d7cc04d3f536`;
 - commit message: `feat: add navigable Umanni visual prototype`;
-- PR6 published HEAD: pending;
+- first PR6 implementation publication: `add620e3785a87bdb6e002a85f12d7cc04d3f536`;
 - final visual/accessibility review: pending;
 - final behavior/specification/evidence review: pending;
 - corrective commits, if any: pending;
