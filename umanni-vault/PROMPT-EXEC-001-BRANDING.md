@@ -1,6 +1,6 @@
 # PROMPT-EXEC-001 — Executar identidade visual Umanni
 
-Autor do pedido: Douglas. Preparadora: condutora Codex `gpt-5.6-sol / medium`. Destinatária: executora **gpt-5.6-terra / high**. Resposta anterior: `COND-001-BRANDING.md`. PR: `#2`. Só iniciar quando o status obrigatório `review-ledger` estiver `success` no HEAD indicado, todas as threads estiverem resolvidas pela revisora e o PR tiver label `spec-reviewed`. Leia o hash atual e confirme branch e `git status`; se houver commit posterior ao status, pare e solicite nova revisão da spec.
+Autor do pedido: Douglas. Preparadora: condutora Codex `gpt-5.6-sol / medium`. Destinatária: executora **gpt-5.6-terra / high**. Resposta anterior: `COND-001-BRANDING.md`. Base integrada: `b374118f8793a2c86e9142400bfe5dc76f66f420`. Branch de execução: `codex/003-branding-assets`. PR de execução: `#3`. O PR documental `#2` foi mesclado por Douglas e permanece como registro da revisão da spec; não tente atualizá-lo. Só iniciar quando o status obrigatório `review-ledger` estiver `success` no HEAD indicado do PR #3, todas as threads estiverem resolvidas pela revisora e o PR tiver label `spec-reviewed`. Leia o hash atual e confirme branch e `git status`; se houver commit posterior ao status, pare e solicite nova revisão da spec.
 
 ## Leitura obrigatória e exclusiva inicial
 
@@ -74,6 +74,6 @@ Os textos visíveis nas composições devem estar em inglês. Playbook, relatór
 
 Não criar React, Tailwind, Rails, HTML interativo, testes de aplicação, tema escuro, novas variantes de logo, ilustrações, gráficos ou regras funcionais. Não instalar plugins, contratar serviços, configurar runner/proteções ou alterar GitHub.
 
-Crie commit coeso, atualize a branch/PR #2 e preserve label e responsável. Não execute fechamento de PR, auto-merge ou merge. Douglas controla a integração.
+Crie commit coeso, atualize a branch `codex/003-branding-assets` e o PR #3 e preserve label e responsável. O novo commit remove a validade prática do aceite de spec no HEAD anterior: deixe `review-ledger` pendente para a revisão da implementação e substitua `spec-reviewed` por `review-pending`. Não execute fechamento de PR, auto-merge ou merge. Douglas controla a integração.
 
 Pare quando `branding/` e `EXEC-001-BRANDING.md` estiverem completos, validados, commitados e publicados no PR. O EXEC deve listar arquivos/formatos, fontes/hashes, comandos/resultados, inspeção visual, licenças, limitações, modelo real, base e mensagem do commit e aprendizados propostos. Responda aos achados com `[EXECUTORA]` e o hash corretivo; não resolva conversas. Informe o hash final ao Douglas. A revisão Luna high posterior exige sessão própria; a revisora reconfirma o HEAD e publica cada achado individualmente no PR.

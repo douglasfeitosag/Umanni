@@ -58,3 +58,7 @@ A análise inicial contou 24 requisitos funcionais, 8 critérios de sucesso e 31
 ## Addendum de revisão — 2026-09-14
 
 A revisora `gpt-5.6-luna / high` analisou o HEAD `875f1e3` sob o mesmo login do autor e publicou achados como `COMMENTED`; sete ficaram em threads e um em comentário geral. Condutora e revisora corrigiram e confirmaram o conteúdo. Para operar com uma única conta, o aceite passa a exigir status `review-ledger=success` no SHA exato, threads resolvidas pela revisora e label `spec-reviewed`. A execução permanece bloqueada até essa comprovação no HEAD vigente; depois Douglas abre manualmente a sessão `gpt-5.6-terra / high` com `PROMPT-EXEC-001-BRANDING.md`.
+
+## Addendum pós-merge — 2026-09-14
+
+Douglas mesclou o PR documental #2. A `main` integrada `b374118` possui árvore equivalente ao HEAD aprovado `5674d91`, mas o PR mesclado não pode receber a implementação. A condutora abriu a branch `codex/003-branding-assets` para o handoff e o PR #3 passa a hospedar a execução e a revisão posterior dos artefatos. A executora só começa depois da reconfirmação independente desse novo HEAD e continua proibida de mesclar ou fechar o PR.

@@ -14,11 +14,11 @@ Spec Kit 1.0.6 inicializado localmente para Codex. Constituição, README, proto
 
 ## Planejamento de branding
 
-Briefing, pesquisa, spec, plano, contratos, tarefas e critérios preparados na branch `codex/001-branding` e publicados no PR #2, com label `documentation` e Douglas como responsável. A revisão Luna high sob a mesma conta publicou oito achados; após discussão e correção, todos foram confirmados. Como o GitHub não oferece `Request changes`/`Approve` da própria conta autora, a governança adotou `review-ledger` obrigatório, labels de estado e resolução exclusiva das threads pela revisora. Os comentários existentes com `\\n` literal foram corrigidos pela API. Nenhum asset ou componente foi criado. O prazo original de 11/09/2026 passou; não o apresentar como cumprido.
+Briefing, pesquisa, spec, plano, contratos, tarefas e critérios preparados na branch `codex/001-branding` e publicados no PR #2, com label `documentation` e Douglas como responsável. A revisão Luna high sob a mesma conta publicou oito achados; após discussão e correção, todos foram confirmados. Como o GitHub não oferece `Request changes`/`Approve` da própria conta autora, a governança adotou `review-ledger` obrigatório, labels de estado e resolução exclusiva das threads pela revisora. Os comentários existentes com `\\n` literal foram corrigidos pela API. Douglas mesclou o PR #2 em 2026-09-14; `main` passou a `b374118`, com árvore equivalente ao HEAD aprovado `5674d91`. Nenhum asset ou componente foi criado. O prazo original de 11/09/2026 passou; não o apresentar como cumprido.
 
 ## Próxima tarefa
 
-A revisora reconfirma o HEAD com o check obrigatório `review-ledger`, resolve as threads e aplica `spec-reviewed`. Depois Douglas abre a sessão executora **gpt-5.6-terra / high** e usa [[PROMPT-EXEC-001-BRANDING]]. A executora produz e valida somente `branding/` e `EXEC-001-BRANDING.md`, atualiza o PR e aguarda `code-reviewed`; merge e fechamento continuam reservados a Douglas.
+A condutora prepara a branch `codex/003-branding-assets` e o PR #3 a partir da `main` integrada, corrigindo o handoff que antes apontava para o PR #2 já mesclado. A revisora reconfirma esse HEAD com o check obrigatório `review-ledger`, resolve eventuais threads e aplica `spec-reviewed`. Depois Douglas abre a sessão executora **gpt-5.6-terra / high** nessa branch e usa [[PROMPT-EXEC-001-BRANDING]]. A executora produz e valida somente `branding/` e `EXEC-001-BRANDING.md`, atualiza o PR #3 e aguarda `code-reviewed`; merge e fechamento continuam reservados a Douglas.
 
 ## Pendências e momento de resolução
 
