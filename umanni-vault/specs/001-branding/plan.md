@@ -30,7 +30,7 @@ O prazo original terminava em 2026-09-11. A data atual é 2026-09-14; o plano re
 - **Entregas auditáveis**: passa; cada asset exige origem, hash, transformação, inspeção e limitação.
 - **Controle humano**: passa; sessão executora será aberta manualmente; merge e fechamento permanecem exclusivos de Douglas.
 - **Memória e transparência**: passa; documentos distinguem modelos, terceiros e trabalho original; nenhum segredo será incluído.
-- **Revisão independente**: passa somente quando uma revisora sob identidade GitHub distinta submeter `Approve` para spec, plano e tarefas no PR #2 antes da execução; achados exigem `Request changes`, uma thread por achado e resolução pela revisora. Implementação e evidências exigem novo ciclo formal no mesmo PR.
+- **Revisão independente**: passa quando uma revisora em sessão distinta confirmar spec, plano e tarefas no PR #2, resolver as threads, aplicar `spec-reviewed` e marcar `review-ledger=success` no HEAD antes da execução. Achados exigem `review-ledger=failure`, label `changes-requested` e uma thread por achado. Implementação e evidências exigem novo ciclo no mesmo PR.
 
 ### Após o desenho
 
@@ -112,7 +112,7 @@ O PR documental pode ser criado e atualizado automaticamente, com label e respon
 7. runner no Mac isolado por PR e sem segredos persistentes acessíveis a código não confiável, instalado somente após plano/teste específico;
 8. verificação da identidade GitHub; o mesmo login não será apresentado como revisores independentes.
 
-Até comprovar o gate, o PR permanece bloqueado e não pode ser apresentado como pronto para merge. A executora só inicia após `Approve` da spec no HEAD vigente por identidade GitHub distinta; pode publicar a entrega estática no mesmo PR para a segunda revisão formal. Douglas continua sendo a única pessoa autorizada a fazer merge ou fechar PR.
+Até comprovar o gate, o PR permanece bloqueado e não pode ser apresentado como pronto para merge. A executora só inicia após `review-ledger=success`, threads resolvidas e `spec-reviewed` no HEAD vigente; pode publicar a entrega estática no mesmo PR para a segunda revisão. Douglas continua sendo a única pessoa autorizada a fazer merge ou fechar PR.
 
 Atualização de 2026-09-14: Douglas autorizou explicitamente configurar a proteção base de `main`, sincronizar a reorganização já integrada e criar/atualizar PRs automaticamente, sempre com label e responsável. A proteção foi confirmada pela API com uma aprovação obrigatória, descarte de aprovações obsoletas, conversas resolvidas, aplicação a administradores e bloqueio de force-push/exclusão. A autorização de PR não comprova nem dispensa os checks, o `review-ledger`, a identidade independente ou o runner isolado ainda pendentes, e não autoriza merge ou fechamento.
 
@@ -135,4 +135,4 @@ Busca, filtro, paginação, seleção em lote e mudança rápida de papel não i
 
 ## Parada
 
-A condutora para após uma revisora sob identidade GitHub distinta resolver todas as threads e submeter `Approve` no PR #2 contra o novo HEAD. Não cria assets. A executora para após produzir, validar, commitar e publicar `branding/` e `EXEC-001-BRANDING.md` no PR, preservando label e responsável. Não implementa aplicação, faz merge ou fechamento.
+A condutora para após uma revisora em sessão distinta resolver todas as threads, aplicar `spec-reviewed` e marcar `review-ledger=success` no PR #2 contra o novo HEAD. Não cria assets. A executora para após produzir, validar, commitar e publicar `branding/` e `EXEC-001-BRANDING.md` no PR, preservando label e responsável. Não implementa aplicação, faz merge ou fechamento.
