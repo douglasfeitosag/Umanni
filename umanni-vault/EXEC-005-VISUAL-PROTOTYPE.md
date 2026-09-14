@@ -103,7 +103,7 @@ Clean-code score: 9.0/10 for this disposable static scope. The residual size of 
 
 The hub now keeps every static-preview caption truthful, labels the already-integrated archive “Acervo estático revisado” and adds the separately labeled “Abrir protótipo navegável” link. README, STATUS, project memory and the historical scope report now distinguish the integrated static delivery, the demonstration and the absent production application.
 
-Publication/final-review fields remain deliberately open until their commands actually occur:
+Publication and implementation-review record:
 
 - implementation commit: `add620e3785a87bdb6e002a85f12d7cc04d3f536`;
 - commit message: `feat: add navigable Umanni visual prototype`;
@@ -114,9 +114,10 @@ Publication/final-review fields remain deliberately open until their commands ac
 - first corrective commit: `bba93adad98505b10bd404cea3dddaa2ba7b016e`;
 - behavior recheck on that commit: accepted in review `5202107581`;
 - visual recheck on that commit: `VP-FV-01` corrected, then changes requested in review `5202108636`, finding `VP-FV-02` / thread `4008913968` for authenticated 200% horizontal overflow;
-- final visual/accessibility review: pending;
-- final behavior/specification/evidence review: pending;
-- corrective commits, if any: pending;
-- final `review-ledger`, `code-reviewed` and merge result: pending.
+- second corrective commit: `9de40954bf6b3cd2c3b8df3de7470fb81e3a5820`;
+- final visual/accessibility acceptance of that implementation: review `5202286007`, with `VP-FV-01` and `VP-FV-02` resolved only by their owner;
+- final behavior/specification/evidence acceptance of that implementation: review `5202211290`;
+- implementation findings: all seven review threads resolved by their owners; no remaining blocking finding;
+- exact-HEAD finalization review, successful `review-ledger`, `code-reviewed` label and authorized merge result are recorded in the closing PR6 comment because those events necessarily postdate this immutable repository record.
 
 Proposed learning: hash-routed visual prototypes must test skip links as navigation boundaries, and responsive layouts with duplicate table/card controls must restore focus to the visible representation. Screenshot evidence must keep browser viewport and encoded payload dimensions separate instead of silently equating them.
