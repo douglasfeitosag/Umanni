@@ -1,6 +1,6 @@
 # Constituição do Umanni
 
-Versão: 1.1.2. Ratificada em 2026-09-10 e atualizada em 2026-09-14.
+Versão: 1.2.0. Ratificada em 2026-09-10 e atualizada em 2026-09-14.
 Origem: PEDIDO-001 e decisões D-001 a D-016, indexadas em [STATUS](STATUS.md).
 
 ## I. Especificação antes da execução
@@ -29,13 +29,13 @@ Vault Markdown na subpasta `umanni-vault/` do próprio repositório público, co
 
 ## VII. Revisão independente e deliberação rastreável
 
-Toda entrega exige uma revisora em sessão distinta da autoria. A revisora avalia spec, plano e tarefas antes de qualquer execução e avalia código, testes, documentação e evidências depois da execução. Cada achado deve ser publicado em comentário individual no PR, preferencialmente na linha pertinente, com ID, severidade, evidência, impacto, autor/papel/modelo e commit analisado. Toda mensagem de deliberação começa com exatamente uma tag de papel visível: `[REVISORA]`, `[CONDUTORA]` ou `[EXECUTORA]`, conforme quem fala naquela interação.
+Toda entrega exige uma revisora em sessão e identidade GitHub distintas da autoria. A revisora avalia spec, plano e tarefas antes de qualquer execução e avalia código, testes, documentação e evidências depois da execução. Havendo achado acionável, a revisora agrupa os achados em uma revisão formal `Request changes`, com um comentário individual por achado. Cada comentário deve abrir uma thread de review na linha pertinente ou, quando não houver linha específica, no arquivo pertinente; comentário geral do PR não substitui a thread. O comentário contém ID, severidade, evidência, impacto, autor/papel/modelo e commit analisado. Toda mensagem de deliberação começa com exatamente uma tag de papel visível: `[REVISORA]`, `[CONDUTORA]` ou `[EXECUTORA]`, conforme quem fala naquela interação.
 
-A condutora responde pelos artefatos de planejamento; a executora responde pela implementação. A responsável e a revisora discutem no próprio comentário, registram correções e evidências e buscam acordo. Um achado só pode ser encerrado após confirmação explícita da revisora; a autora não resolve unilateralmente a conversa. Novos commits tornam obsoleta qualquer revisão não reconfirmada para o novo HEAD.
+A condutora responde pelos artefatos de planejamento; a executora responde pela implementação. A responsável e a revisora discutem exclusivamente na mesma thread, registram correções e evidências e buscam acordo. Somente a revisora pode resolver a thread depois de confirmar o resultado no novo HEAD; a autora não resolve unilateralmente nem responde ao achado em comentário geral separado. Depois de resolver todas as threads bloqueantes, a revisora submete `Approve` para encerrar o estado geral de mudanças solicitadas. Novos commits tornam obsoleta qualquer revisão ou aprovação não reconfirmada para o novo HEAD.
 
 Quando persistir discordância após resposta fundamentada e reconsideração explícita da revisora, a condutora interrompe o trabalho dependente e entrega a Douglas um resumo de decisão contendo: ponto controvertido, posição de cada papel, evidências, consequências de cada alternativa, recomendação de cada lado e pergunta decisória exata. Douglas é o fiel da balança. Nenhuma agente faz merge, fecha o PR ou apresenta consenso inexistente.
 
-Se os papéis operarem sob o mesmo login do GitHub, cada comentário identifica sessão, papel e modelo; essa separação de processo não será apresentada como aprovação independente da plataforma.
+Papéis sob o mesmo login podem colaborar e registrar tags, mas não satisfazem `Request changes`, `Approve` ou a exigência de revisão independente da plataforma. Sem identidade GitHub distinta para a revisora, a entrega permanece bloqueada e a revisão é apenas evidência preparatória, nunca aceite formal.
 
 Todo PR deve ser criado com pelo menos um label coerente com a entrega e um responsável atribuído. Na ausência de indicação diferente, Douglas é o responsável. A condutora verifica e corrige esses metadados antes de iniciar a revisão e após qualquer mudança relevante de escopo.
 
@@ -50,3 +50,5 @@ Alteração 1.1.0: revisão independente obrigatória antes e depois da execuç�
 Alteração 1.1.1: criação automática de PR autorizada; label e responsável passam a ser obrigatórios. Merge e fechamento permanecem sob controle de Douglas, salvo permissão específica.
 
 Alteração 1.1.2: comentários de revisão e respostas passam a exigir tag visível do papel ativo.
+
+Alteração 1.2.0: achados acionáveis passam a exigir revisão formal `Request changes`, discussão exclusiva na mesma thread, resolução pela revisora e `Approve` final sob identidade GitHub distinta.

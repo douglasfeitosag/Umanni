@@ -57,4 +57,4 @@ A análise inicial contou 24 requisitos funcionais, 8 critérios de sucesso e 31
 
 ## Addendum de revisão — 2026-09-14
 
-A revisora independente `gpt-5.6-luna / high` analisou o HEAD `875f1e3` e publicou sete comentários individuais no PR #2. A condutora deve responder com tag `[CONDUTORA]`, vincular o commit corretivo e aguardar reconfirmação da revisora. A execução permanece bloqueada até esse aceite; depois Douglas abre manualmente a sessão `gpt-5.6-terra / high` com `PROMPT-EXEC-001-BRANDING.md`.
+A revisora `gpt-5.6-luna / high` analisou o HEAD `875f1e3` sob o mesmo login do autor e publicou achados como `COMMENTED`; sete ficaram em threads e um em comentário geral. Condutora e revisora corrigiram e confirmaram o conteúdo, mas esse histórico é apenas evidência preparatória: não equivale a `Request changes`/`Approve` independente. A execução permanece bloqueada até uma revisora sob identidade GitHub distinta repetir a revisão formal no HEAD vigente; depois Douglas abre manualmente a sessão `gpt-5.6-terra / high` com `PROMPT-EXEC-001-BRANDING.md`.

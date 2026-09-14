@@ -1,6 +1,6 @@
 # PROMPT-EXEC-001 — Executar identidade visual Umanni
 
-Autor do pedido: Douglas. Preparadora: condutora Codex `gpt-5.6-sol / medium`. Destinatária: executora **gpt-5.6-terra / high**. Resposta anterior: `COND-001-BRANDING.md`. PR: `#2`. Só iniciar depois de a revisora confirmar no PR que spec, plano e tarefas estão aceitos no HEAD indicado. Leia o hash atual e confirme branch e `git status`; se houver commits posteriores ao aceite, pare e solicite nova revisão da spec.
+Autor do pedido: Douglas. Preparadora: condutora Codex `gpt-5.6-sol / medium`. Destinatária: executora **gpt-5.6-terra / high**. Resposta anterior: `COND-001-BRANDING.md`. PR: `#2`. Só iniciar depois de uma revisora sob identidade GitHub distinta submeter `Approve` para spec, plano e tarefas no HEAD indicado. Leia o hash atual e confirme branch e `git status`; se houver commits posteriores ao aceite, pare e solicite nova revisão formal da spec.
 
 ## Leitura obrigatória e exclusiva inicial
 

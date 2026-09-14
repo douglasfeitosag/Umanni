@@ -14,15 +14,15 @@ Spec Kit 1.0.6 inicializado localmente para Codex. Constituição, README, proto
 
 ## Planejamento de branding
 
-Briefing, pesquisa, spec, plano, contratos, tarefas e critérios preparados na branch `codex/001-branding` e publicados no PR #2, com label `documentation` e Douglas como responsável. A revisora Luna high publicou oito achados sobre o HEAD inicial; após duas rodadas de correção e discussão no PR, confirmou todos como corrigidos e aceitou spec, plano e tarefas no commit `b1daca6`. As sete conversas inline estão resolvidas e o achado geral possui confirmação explícita. Nenhum asset ou componente foi criado. O prazo original de 11/09/2026 passou; não o apresentar como cumprido.
+Briefing, pesquisa, spec, plano, contratos, tarefas e critérios preparados na branch `codex/001-branding` e publicados no PR #2, com label `documentation` e Douglas como responsável. A revisão Luna high realizada sob o mesmo login publicou oito achados como `COMMENTED`, não como `Request changes`; sete usaram threads e um foi comentário geral. As correções e confirmações permanecem como evidência preparatória, mas não constituem a revisão formal agora exigida. Nenhum asset ou componente foi criado. O prazo original de 11/09/2026 passou; não o apresentar como cumprido.
 
 ## Próxima tarefa
 
-Após reconfirmação da revisora para o commit de atualização deste estado, Douglas pode abrir a sessão executora **gpt-5.6-terra / high** e usar [[PROMPT-EXEC-001-BRANDING]]. A executora produz e valida somente `branding/` e `EXEC-001-BRANDING.md`, atualiza o PR e aguarda nova revisão; merge e fechamento continuam reservados a Douglas.
+Configurar uma identidade GitHub distinta para a revisora e repetir a revisão formal da spec com `Request changes` se houver achado ou `Approve` se o HEAD estiver limpo. Somente após aprovação formal Douglas abre a sessão executora **gpt-5.6-terra / high** e usa [[PROMPT-EXEC-001-BRANDING]]. A executora produz e valida somente `branding/` e `EXEC-001-BRANDING.md`, atualiza o PR e aguarda nova revisão; merge e fechamento continuam reservados a Douglas.
 
 ## Pendências e momento de resolução
 
-- Antes de executar branding: obter no PR #2 a reconfirmação da revisora para o HEAD após esta atualização exclusiva de estado; depois seguir `specs/001-branding/` sem extrapolar.
+- Antes de executar branding: obter no PR #2 revisão formal sob identidade GitHub distinta, com threads e `Request changes`/`Approve` conforme o resultado; depois seguir `specs/001-branding/` sem extrapolar.
 - Antes do primeiro PR: a proteção base de `main` foi configurada e relida pela API do GitHub em 2026-09-14: PR com uma aprovação, descarte de aprovação obsoleta, conversas resolvidas, aplicação a administradores e bloqueio de force-push/exclusão. Checks obrigatórios, `review-ledger`, cobertura de comentários gerais, identidade independente e runner isolado ainda não foram implementados nem testados; portanto, o gate completo continua pendente.
 - Antes da estrutura de aplicação: versões compatíveis fixadas, Vite/gerenciador de pacotes, contratos Inertia, policy de cobertura e configuração do ambiente de testes; escolher skills/plugins estritamente úteis, conforme a etapa posterior ao branding.
 - Antes dos fluxos de usuário: cadastro/ativação/senha inicial, importação CSV/XLSX (colunas, duplicidade, erros, limites e repetição), avatar, último administrador e matriz de autorização. Ver 05-LEITURA-DO-TESTE.

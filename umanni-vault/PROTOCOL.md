@@ -16,11 +16,15 @@ O EXEC descreve resultado real, alterações, hashes/PR, comandos e resultados, 
 
 ## Achados e revisão
 
-Um comentário por achado: tag `[REVISORA]`, ID estável, severidade, localização, reprodução/evidência, impacto, correção proposta, papel/modelo e commit analisado. A resposta começa com `[CONDUTORA]` para planejamento ou `[EXECUTORA]` para implementação e vincula commit corretivo e validação. A revisora responde com `[REVISORA]` e confirma corrigido, aceita a justificativa ou mantém o achado; a autora nunca resolve unilateralmente a conversa. Nenhum achado pode ficar sem decisão antes do aceite.
+Havendo achados acionáveis, a revisora cria uma única revisão formal `Request changes`. Cada achado abre uma thread de review própria, na linha pertinente ou no arquivo quando não houver linha específica, com tag `[REVISORA]`, ID estável, severidade, localização, reprodução/evidência, impacto, correção proposta, papel/modelo e commit analisado. Comentário geral do PR não substitui uma thread de achado.
+
+A resposta começa com `[CONDUTORA]` para planejamento ou `[EXECUTORA]` para implementação, permanece na mesma thread e vincula commit corretivo e validação. A revisora responde na thread com `[REVISORA]` e confirma corrigido, aceita a justificativa ou mantém o achado. Somente a revisora resolve a thread. Depois de resolver todas as threads bloqueantes contra o novo HEAD, a revisora submete `Approve`, encerrando o estado geral de mudanças solicitadas. Nenhum achado pode ficar sem decisão antes do aceite.
 
 Sem consenso após resposta fundamentada e reconsideração explícita da revisora, a condutora interrompe o trabalho dependente e apresenta a Douglas: ponto controvertido, posição de cada papel, evidências, consequências das alternativas, recomendação de cada lado e pergunta decisória exata. A decisão de Douglas é registrada no comentário antes da continuidade.
 
 Agentes podem criar e atualizar PRs automaticamente. Na criação, aplicam pelo menos um label coerente e atribuem Douglas, salvo indicação diferente. Merge, fechamento e auto-merge permanecem proibidos sem autorização explícita e específica.
+
+`Request changes` e `Approve` exigem que a revisora use identidade GitHub distinta da autora do PR. Tags de papel sob o mesmo login registram colaboração, mas não contam como revisão formal nem liberam o gate.
 
 Novos commits exigem verificar se as revisões continuam válidas. O futuro check obrigatório deve cobrir tanto conversas de review quanto achados em comentários gerais, associados ao HEAD revisado. Até esse mecanismo existir e ser testado, não afirmar bloqueio automático de merge. O PR documental pode existir para hospedar a revisão; o gate mínimo de CI, ledger e proteções precisa ser comprovado antes de apresentar uma implementação como pronta para merge.
 
