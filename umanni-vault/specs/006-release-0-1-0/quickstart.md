@@ -12,9 +12,15 @@ rg -n "PR 6.*próxima|PR6.*pendente|review.*pending|release.*pending" README.md 
 gh pr list --state merged --limit 20 --json number,title,mergeCommit
 gh api 'repos/douglasfeitosag/Umanni/milestones?state=all'
 git tag --list v0.1.0
-release_probe=$(gh api repos/douglasfeitosag/Umanni/releases/tags/v0.1.0 2>&1)
-test $? -ne 0
-printf '%s\n' "$release_probe" | rg 'HTTP 404'
+if release_probe=$(gh api repos/douglasfeitosag/Umanni/releases/tags/v0.1.0 2>&1); then
+  printf '%s\n' 'ERRO: v0.1.0 já possui GitHub Release; interromper.' >&2
+  exit 1
+fi
+printf '%s\n' "$release_probe" | rg -q 'HTTP 404' || {
+  printf '%s\n' 'ERRO: falha inesperada ao consultar a release; interromper.' >&2
+  printf '%s\n' "$release_probe" >&2
+  exit 1
+}
 ```
 
 Esperado antes da publicação: diff sem erro; nenhuma afirmação obsoleta sobre o PR6; milestone `0.1.0` contém PRs 1–8 e o PR de preparação; issue 9 pertence a `Backlog`; tag vazia e probe da release com HTTP 404. Qualquer outro erro da API interrompe o fluxo.
