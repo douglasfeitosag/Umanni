@@ -1,6 +1,6 @@
 # Constituição do Umanni
 
-Versão: 1.1.1. Ratificada em 2026-09-10 e atualizada em 2026-09-14.
+Versão: 1.1.2. Ratificada em 2026-09-10 e atualizada em 2026-09-14.
 Origem: PEDIDO-001 e decisões D-001 a D-016, indexadas em [STATUS](STATUS.md).
 
 ## I. Especificação antes da execução
@@ -29,7 +29,7 @@ Vault Markdown na subpasta `umanni-vault/` do próprio repositório público, co
 
 ## VII. Revisão independente e deliberação rastreável
 
-Toda entrega exige uma revisora em sessão distinta da autoria. A revisora avalia spec, plano e tarefas antes de qualquer execução e avalia código, testes, documentação e evidências depois da execução. Cada achado deve ser publicado em comentário individual no PR, preferencialmente na linha pertinente, com ID, severidade, evidência, impacto, autor/papel/modelo e commit analisado.
+Toda entrega exige uma revisora em sessão distinta da autoria. A revisora avalia spec, plano e tarefas antes de qualquer execução e avalia código, testes, documentação e evidências depois da execução. Cada achado deve ser publicado em comentário individual no PR, preferencialmente na linha pertinente, com ID, severidade, evidência, impacto, autor/papel/modelo e commit analisado. Toda mensagem de deliberação começa com exatamente uma tag de papel visível: `[REVISORA]`, `[CONDUTORA]` ou `[EXECUTORA]`, conforme quem fala naquela interação.
 
 A condutora responde pelos artefatos de planejamento; a executora responde pela implementação. A responsável e a revisora discutem no próprio comentário, registram correções e evidências e buscam acordo. Um achado só pode ser encerrado após confirmação explícita da revisora; a autora não resolve unilateralmente a conversa. Novos commits tornam obsoleta qualquer revisão não reconfirmada para o novo HEAD.
 
@@ -48,3 +48,5 @@ Alteração 1.0.1: caminhos adaptados ao vault dedicado por pedido de Douglas (e
 Alteração 1.1.0: revisão independente obrigatória antes e depois da execução, discussão dos achados no PR, confirmação da revisora para encerramento e arbitragem de Douglas quando não houver consenso.
 
 Alteração 1.1.1: criação automática de PR autorizada; label e responsável passam a ser obrigatórios. Merge e fechamento permanecem sob controle de Douglas, salvo permissão específica.
+
+Alteração 1.1.2: comentários de revisão e respostas passam a exigir tag visível do papel ativo.

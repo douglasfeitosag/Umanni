@@ -14,15 +14,15 @@ Spec Kit 1.0.6 inicializado localmente para Codex. Constituição, README, proto
 
 ## Planejamento de branding
 
-Briefing, pesquisa, spec, plano, contratos, tarefas e critérios preparados na branch `codex/001-branding`. Após autorização explícita de Douglas em 2026-09-14, a branch foi reaplicada sobre a `main` atual e publicada. Nenhum asset ou componente foi criado. O prazo original de 11/09/2026 passou; não o apresentar como cumprido.
+Briefing, pesquisa, spec, plano, contratos, tarefas e critérios preparados na branch `codex/001-branding` e publicados no PR #2, com label `documentation` e Douglas como responsável. A revisora Luna high publicou sete achados da spec no HEAD `875f1e3`; a condutora está corrigindo e respondendo no próprio PR. Nenhum asset ou componente foi criado. O prazo original de 11/09/2026 passou; não o apresentar como cumprido.
 
 ## Próxima tarefa
 
-Douglas abre manualmente uma sessão executora **gpt-5.6-terra / high** e usa [[PROMPT-EXEC-001-BRANDING]]. A executora produz e valida somente `branding/` e `EXEC-001-BRANDING.md`, com commit local. Não implementar componentes, fazer push ou abrir PR.
+A revisora Luna high precisa reconfirmar no PR #2 os sete achados contra o novo HEAD. Somente após aceite explícito da spec Douglas abre a sessão executora **gpt-5.6-terra / high** e usa [[PROMPT-EXEC-001-BRANDING]]. A executora produz e valida somente `branding/` e `EXEC-001-BRANDING.md`, atualiza o PR e aguarda nova revisão; merge e fechamento continuam reservados a Douglas.
 
 ## Pendências e momento de resolução
 
-- Antes de executar branding: nenhuma decisão visual bloqueante; seguir `specs/001-branding/` sem extrapolar.
+- Antes de executar branding: concluir no PR #2 o ciclo de correção e reconfirmação dos achados `SPEC-REV-001` a `SPEC-REV-007`; seguir `specs/001-branding/` sem extrapolar.
 - Antes do primeiro PR: a proteção base de `main` foi configurada e relida pela API do GitHub em 2026-09-14: PR com uma aprovação, descarte de aprovação obsoleta, conversas resolvidas, aplicação a administradores e bloqueio de force-push/exclusão. Checks obrigatórios, `review-ledger`, cobertura de comentários gerais, identidade independente e runner isolado ainda não foram implementados nem testados; portanto, o gate completo continua pendente.
 - Antes da estrutura de aplicação: versões compatíveis fixadas, Vite/gerenciador de pacotes, contratos Inertia, policy de cobertura e configuração do ambiente de testes; escolher skills/plugins estritamente úteis, conforme a etapa posterior ao branding.
 - Antes dos fluxos de usuário: cadastro/ativação/senha inicial, importação CSV/XLSX (colunas, duplicidade, erros, limites e repetição), avatar, último administrador e matriz de autorização. Ver 05-LEITURA-DO-TESTE.

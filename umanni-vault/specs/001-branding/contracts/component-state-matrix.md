@@ -12,11 +12,11 @@
 | Avatar | image, initials, icon | default, loading, error | duas iniciais; nunca logo |
 | Badge | role, status | neutral, success, warning, error, info | texto/ícone redundante |
 | Metric card | total, admin, regular | default, updating | mudança breve sem toast |
-| Users table | desktop | loading, empty, populated, error | vira cartões |
-| User card | mobile | loading, empty, populated, error | mesmos dados/ações |
+| Users table | desktop | loading, empty, populated, error | avatar, nome, e-mail, papel, estado; `Create user` na página e `Edit`/`Delete` por linha |
+| User card | mobile | loading, empty, populated, error | mesmos dados e ações do desktop; papel só muda dentro de `Edit` |
 | Toast | success, error, info | entering, visible, dismissing | rodapé mobile; topo direito desktop |
 | Destructive dialog | user/account | open, invalid, valid, submitting, error | `EXCLUIR` após trim habilita |
 | Import progress | queued, processing, completed, partial, failed | persistente | sem percentual inventado |
 | Feedback block | empty/loading/semantic | aplicável | mensagem, ícone e ação |
 
-Regras: foco visível; cor nunca único indicador; mensagens importantes recuperáveis; erro importante em toast exige dispensa; `prefers-reduced-motion` remove transição não essencial; nenhuma prancha define permissão, filtro, paginação ou regra não aprovada.
+Regras: foco visível; cor nunca único indicador; mensagens importantes recuperáveis; erro importante em toast exige dispensa; `prefers-reduced-motion` remove transição não essencial; nenhuma prancha define permissão, busca, filtro, paginação, seleção em lote, mudança rápida de papel ou regra não aprovada.

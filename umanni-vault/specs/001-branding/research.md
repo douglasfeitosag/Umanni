@@ -17,13 +17,13 @@ Realizada entre 2026-09-10 e 2026-09-14. Fontes externas são evidência, não i
 | Símbolo PNG | `https://blog.umanni.com.br/content/images/2024/08/Logo-Umanni---U--Azul--1.png` | 1095×1004 transparente | `499d74fec6b1b711e0d166c744fe20dd3fcb63c1125e2da14a78a70f07e2c186` |
 | Favicon | `https://www.umanni.com.br/assets/favicon.ico` | frames 48/32/16 px | `4b58ef4177a142dcd6e9f6838b5281664a8c65d6d4026c2f29c7246ef5e7ca2a` |
 
-**Decisão**: preservar assinatura e símbolo; favicon é derivado técnico.
+**Decisão**: preservar assinatura e símbolo; favicon é empacotamento técnico copiado byte a byte, fora da contagem de variantes e sem autorização para extrair ou criar outro desenho.
 **Rejeitado**: vetorizar, redesenhar ou criar versão branca/preta/vertical/monocromática.
 
 ## Tipografia
 
-**Decisão**: Montserrat domina; Roboto fica em ações/utilidades; pesos 400–700.
-**Fontes**: `https://github.com/google/fonts/tree/main/ofl/montserrat` e upstream oficial vigente de Roboto.
+**Decisão**: Montserrat domina; Roboto fica em ações/utilidades; pesos 400–700. Usar as fontes variáveis romanas, sem itálico: `ofl/montserrat/Montserrat[wght].ttf` com eixo `wght` e `ofl/roboto/Roboto[wdth,wght].ttf` com `wdth=100` e eixo `wght`. Os nomes locais do contrato são apenas cópias byte a byte; procedência registra nomes, eixos e hashes upstream/local.
+**Fontes**: `https://github.com/google/fonts/blob/main/ofl/montserrat/Montserrat%5Bwght%5D.ttf` e `https://github.com/google/fonts/blob/main/ofl/roboto/Roboto%5Bwdth%2Cwght%5D.ttf`, verificadas no upstream Google Fonts em 2026-09-14.
 **Rejeitado**: Inter/Crimson Text do blog e fontes sem licença.
 
 ## Cor

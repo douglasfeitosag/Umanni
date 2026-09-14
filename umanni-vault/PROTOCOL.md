@@ -4,7 +4,7 @@ Origem: PEDIDO-001, D-002, D-004, D-013. Relacionados: [[STATUS]], [AGENTS](../A
 
 ## Ciclo
 
-Pedido preservado → esclarecimento → spec → plano → tarefas → análise de consistência → prompt da executora → EXEC/PR → revisão e correções → aguardando Douglas → merge verificado → encerramento.
+Pedido preservado → esclarecimento → spec → plano → tarefas → PR com label/responsável → revisão independente da spec → discussão/correções/revisão do novo HEAD → aceite da spec → prompt da executora → EXEC/atualização do PR → revisão independente da implementação → discussão/correções/revisão do novo HEAD → aguardando Douglas → merge verificado → encerramento.
 
 Cada entrega tem um ID. Cada prompt e retorno identifica papel, autor/modelo, destinatário, pedido de origem, spec, commit base, branch, PR se existir e resposta anterior. A condutora não assume que uma mensagem privada substitui o registro no PR.
 
@@ -16,9 +16,13 @@ O EXEC descreve resultado real, alterações, hashes/PR, comandos e resultados, 
 
 ## Achados e revisão
 
-Um comentário por achado: ID estável, severidade, localização, reprodução/evidência, impacto e correção proposta. A resposta vincula commit corretivo e validação. A condutora registra corrigido, não procedente com justificativa ou bloqueado. Nenhum achado pode ficar sem decisão antes do aceite.
+Um comentário por achado: tag `[REVISORA]`, ID estável, severidade, localização, reprodução/evidência, impacto, correção proposta, papel/modelo e commit analisado. A resposta começa com `[CONDUTORA]` para planejamento ou `[EXECUTORA]` para implementação e vincula commit corretivo e validação. A revisora responde com `[REVISORA]` e confirma corrigido, aceita a justificativa ou mantém o achado; a autora nunca resolve unilateralmente a conversa. Nenhum achado pode ficar sem decisão antes do aceite.
 
-Novos commits exigem verificar se as revisões continuam válidas. O futuro check obrigatório deve cobrir tanto conversas de review quanto achados em comentários gerais, associados ao HEAD revisado. Até esse mecanismo existir e ser testado, não afirmar bloqueio automático de merge. Antes do primeiro PR, preparar o plano do gate mínimo de CI e das proteções.
+Sem consenso após resposta fundamentada e reconsideração explícita da revisora, a condutora interrompe o trabalho dependente e apresenta a Douglas: ponto controvertido, posição de cada papel, evidências, consequências das alternativas, recomendação de cada lado e pergunta decisória exata. A decisão de Douglas é registrada no comentário antes da continuidade.
+
+Agentes podem criar e atualizar PRs automaticamente. Na criação, aplicam pelo menos um label coerente e atribuem Douglas, salvo indicação diferente. Merge, fechamento e auto-merge permanecem proibidos sem autorização explícita e específica.
+
+Novos commits exigem verificar se as revisões continuam válidas. O futuro check obrigatório deve cobrir tanto conversas de review quanto achados em comentários gerais, associados ao HEAD revisado. Até esse mecanismo existir e ser testado, não afirmar bloqueio automático de merge. O PR documental pode existir para hospedar a revisão; o gate mínimo de CI, ledger e proteções precisa ser comprovado antes de apresentar uma implementação como pronta para merge.
 
 ## Passagem de sessão
 

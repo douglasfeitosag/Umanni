@@ -30,6 +30,7 @@ O prazo original terminava em 2026-09-11. A data atual é 2026-09-14; o plano re
 - **Entregas auditáveis**: passa; cada asset exige origem, hash, transformação, inspeção e limitação.
 - **Controle humano**: passa; sessão executora será aberta manualmente; merge e fechamento permanecem exclusivos de Douglas.
 - **Memória e transparência**: passa; documentos distinguem modelos, terceiros e trabalho original; nenhum segredo será incluído.
+- **Revisão independente**: passa quando a revisora aceitar spec, plano e tarefas no PR #2 antes da execução; implementação e evidências exigem novo ciclo de revisão no mesmo PR.
 
 ### Após o desenho
 
@@ -100,7 +101,7 @@ SVG é a fonte editável das pranchas e PNG a evidência renderizada. Esses SVGs
 - A sessão iniciou com árvore limpa e sem commits posteriores em `main`.
 - Isso confirma a publicação do bootstrap; não comprova proteções, checks ou runner.
 
-Nenhuma sessão desta feature deve executar push ou abrir PR enquanto estes itens não forem configurados e testados em tarefa própria:
+O PR documental pode ser criado e atualizado automaticamente, com label e responsável, para hospedar a revisão da spec. Isso não comprova o gate completo nem autoriza execução ou merge. Antes de pedir a Douglas o merge de uma entrega implementada, estes itens devem estar configurados e testados em tarefa própria:
 
 1. regra de `main` exigindo PR e bloqueando force-push/exclusão;
 2. checks obrigatórios para entrega e ledger de revisão;
@@ -111,17 +112,27 @@ Nenhuma sessão desta feature deve executar push ou abrir PR enquanto estes iten
 7. runner no Mac isolado por PR e sem segredos persistentes acessíveis a código não confiável, instalado somente após plano/teste específico;
 8. verificação da identidade GitHub; o mesmo login não será apresentado como revisores independentes.
 
-Até comprovar o gate, condutora e executora criam apenas commits locais. Douglas continua sendo a única pessoa autorizada a fazer merge ou fechar PR.
+Até comprovar o gate, o PR permanece bloqueado e não pode ser apresentado como pronto para merge. A executora só inicia após aceite independente da spec no HEAD vigente; pode publicar a entrega estática no mesmo PR para a segunda revisão. Douglas continua sendo a única pessoa autorizada a fazer merge ou fechar PR.
 
-Atualização de 2026-09-14: Douglas autorizou explicitamente configurar a proteção base de `main`, sincronizar a reorganização já integrada, recriar `codex/001-branding` sobre essa base e publicar a branch. A proteção foi confirmada pela API com uma aprovação obrigatória, descarte de aprovações obsoletas, conversas resolvidas, aplicação a administradores e bloqueio de force-push/exclusão. Essa autorização excepcional de push não comprova nem dispensa os checks, o `review-ledger`, a identidade independente ou o runner isolado ainda pendentes, e não autoriza PR ou merge.
+Atualização de 2026-09-14: Douglas autorizou explicitamente configurar a proteção base de `main`, sincronizar a reorganização já integrada e criar/atualizar PRs automaticamente, sempre com label e responsável. A proteção foi confirmada pela API com uma aprovação obrigatória, descarte de aprovações obsoletas, conversas resolvidas, aplicação a administradores e bloqueio de force-push/exclusão. A autorização de PR não comprova nem dispensa os checks, o `review-ledger`, a identidade independente ou o runner isolado ainda pendentes, e não autoriza merge ou fechamento.
 
 ## Validação visual
 
-- Viewports: 1440×1024 e 390×844; login mostra ambos.
+| Artefato | Canvas/viewport normativo | Conteúdo e ações representadas |
+| --- | --- | --- |
+| `components.svg/png` | 1440×1024 | prancha de componentes e estados; sem fluxo funcional |
+| `login-responsive.svg/png` | canvas 1878×1024 com artboards 1440×1024 e 390×844 separados por 48 px | e-mail, senha e `Sign in`; sem recuperação de senha ou ação não especificada |
+| `dashboard-desktop.svg/png` | 1440×1024 | três indicadores não interativos; navegação para painel, usuários, importações e perfil/conta |
+| `users-desktop.svg/png` | 1440×1024 | `Create user`; `Edit` e `Delete` por linha; papel alterado somente dentro da edição |
+| `import-desktop.svg/png` | 1440×1024 | escolher/substituir arquivo, iniciar importação e acompanhar estado; sem mapeamento ou pré-validação inventados |
+| `users-mobile.svg/png` | 390×844 | os mesmos dados e ações de usuários desktop em cartões; toast no rodapé |
+
+Busca, filtro, paginação, seleção em lote e mudança rápida de papel não integram as composições. A área de respiro e o tamanho mínimo do logo não foram publicados como norma: o playbook registra essa ausência e identifica qualquer recomendação visual como `adapted`, com método e viewport de validação, nunca como regra oficial observada.
+
 - Texto normal: 4,5:1; texto grande: 3:1; componentes/foco: 3:1 contra cores adjacentes.
 - Alvos estreitos: 44×44 px ou espaçamento equivalente documentado.
 - Movimento discreto, funcional e removível por preferência de movimento reduzido.
 
 ## Parada
 
-A condutora para após validar e commitar localmente planejamento, passagem, STATUS e memória. Não cria assets. A executora para após produzir, validar e commitar localmente `branding/` e `EXEC-001-BRANDING.md`. Não implementa aplicação, faz push/PR, merge ou fechamento.
+A condutora para após a revisora confirmar no PR #2 todos os achados da spec contra o novo HEAD. Não cria assets. A executora para após produzir, validar, commitar e publicar `branding/` e `EXEC-001-BRANDING.md` no PR, preservando label e responsável. Não implementa aplicação, faz merge ou fechamento.

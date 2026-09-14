@@ -1,12 +1,12 @@
 # COND-001 — Planejamento de branding
 
-Data: 2026-09-14. Condutora: Codex `gpt-5.6-sol / medium`. Autor das decisões: Douglas. Origem: `PROMPT-COND-001-BRANDING.md`. Base verificada: `11e47d2364399d0c19fb9fa812de5e5d4cac4c71`, `docs: establish Umanni project baseline`. Branch: `codex/001-branding`. PR: não criado.
+Data: 2026-09-14. Condutora: Codex `gpt-5.6-sol / medium`. Autor das decisões: Douglas. Origem: `PROMPT-COND-001-BRANDING.md`. Base original: `11e47d2364399d0c19fb9fa812de5e5d4cac4c71`, depois sincronizada com `a98885f`. Branch: `codex/001-branding`. PR: #2.
 
 ## Resultado
 
 Briefing fechado em perguntas individuais. Foram produzidos spec, plano, pesquisa, modelo de artefatos, contratos, quickstart, checklists e 31 tarefas. O Spec Kit 1.0.6 foi regenerado conforme `TOOLING.md`; a constituição permaneceu byte a byte igual. Nenhum asset ou componente de aplicação foi criado.
 
-A análise de consistência contou 24 requisitos funcionais, 8 critérios de sucesso e 31 tarefas. Todos possuem cobertura por produção ou validação; não foram encontrados conflitos constitucionais, marcadores pendentes ou achados críticos/altos.
+A análise inicial contou 24 requisitos funcionais, 8 critérios de sucesso e 31 tarefas. A revisão independente posterior no PR #2 identificou sete achados (`SPEC-REV-001` a `SPEC-REV-007`), que prevalecem sobre a conclusão inicial até correção e reconfirmação no novo HEAD.
 
 ## Decisões confirmadas
 
@@ -55,6 +55,6 @@ A análise de consistência contou 24 requisitos funcionais, 8 critérios de suc
 - Regras funcionais de conta, importação, avatar, último administrador, paginação e filtros permanecem para specs posteriores.
 - A executora deve revalidar hashes e licenças atuais, especialmente a licença efetiva do Roboto baixado.
 
-## Próximo passo
+## Addendum de revisão — 2026-09-14
 
-Douglas abre manualmente uma sessão `gpt-5.6-terra / high` e cola `PROMPT-EXEC-001-BRANDING.md`. A sessão produz somente a entrega estática e para após commit local. Revisores Luna high serão preparados depois, por prompt próprio.
+A revisora independente `gpt-5.6-luna / high` analisou o HEAD `875f1e3` e publicou sete comentários individuais no PR #2. A condutora deve responder com tag `[CONDUTORA]`, vincular o commit corretivo e aguardar reconfirmação da revisora. A execução permanece bloqueada até esse aceite; depois Douglas abre manualmente a sessão `gpt-5.6-terra / high` com `PROMPT-EXEC-001-BRANDING.md`.

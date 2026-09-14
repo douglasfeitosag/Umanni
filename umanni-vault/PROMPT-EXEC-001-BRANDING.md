@@ -1,6 +1,6 @@
 # PROMPT-EXEC-001 — Executar identidade visual Umanni
 
-Autor do pedido: Douglas. Preparadora: condutora Codex `gpt-5.6-sol / medium`. Destinatária: executora **gpt-5.6-terra / high**. Resposta anterior: `COND-001-BRANDING.md`. Base: commit local cuja mensagem é `docs: plan Umanni branding`; leia o hash com `git log -1` e confirme mensagem, branch e `git status` antes de trabalhar. Se houver commits posteriores, compare o estado e não descarte alterações.
+Autor do pedido: Douglas. Preparadora: condutora Codex `gpt-5.6-sol / medium`. Destinatária: executora **gpt-5.6-terra / high**. Resposta anterior: `COND-001-BRANDING.md`. PR: `#2`. Só iniciar depois de a revisora confirmar no PR que spec, plano e tarefas estão aceitos no HEAD indicado. Leia o hash atual e confirme branch e `git status`; se houver commits posteriores ao aceite, pare e solicite nova revisão da spec.
 
 ## Leitura obrigatória e exclusiva inicial
 
@@ -44,8 +44,8 @@ Não altere spec, plano, briefing, contratos, tarefas, STATUS, README ou MEMORIA
 - Assinatura PNG: `https://blog.umanni.com.br/content/images/2024/08/Logo-Umanni--Azul--1.png`
 - Símbolo PNG: `https://blog.umanni.com.br/content/images/2024/08/Logo-Umanni---U--Azul--1.png`
 - Favicon: `https://www.umanni.com.br/assets/favicon.ico`
-- Montserrat: `https://github.com/google/fonts/tree/main/ofl/montserrat`
-- Roboto: `https://github.com/google/fonts/tree/main/ofl/roboto`
+- Montserrat: `https://github.com/google/fonts/blob/main/ofl/montserrat/Montserrat%5Bwght%5D.ttf`
+- Roboto: `https://github.com/google/fonts/blob/main/ofl/roboto/Roboto%5Bwdth%2Cwght%5D.ttf`
 - Heroicons/licença: `https://github.com/tailwindlabs/heroicons`
 - Termos Umanni: `https://blog.umanni.com.br/politica-de-privacidade-e-termos-de-uso-2023/`
 
@@ -68,12 +68,12 @@ Os textos visíveis nas composições devem estar em inglês. Playbook, relatór
 - Explicar que tema escuro não existe por falta de informação pública suficiente.
 - Confirmar alvos de 44×44 px em tela estreita ou espaçamento equivalente.
 - Preservar e verificar licenças e o aviso Umanni.
-- Executar `git diff --check` e verificar o escopo final.
+- Verificar arquivos novos com `git add --intent-to-add` + `git diff --check`, depois staging integral + `git diff --cached --check`, e verificar o escopo final.
 
 ## Limites e parada
 
 Não criar React, Tailwind, Rails, HTML interativo, testes de aplicação, tema escuro, novas variantes de logo, ilustrações, gráficos ou regras funcionais. Não instalar plugins, contratar serviços, configurar runner/proteções ou alterar GitHub.
 
-O gate remoto ainda não foi comprovado. Crie apenas commit local coeso. Não execute push, abertura/fechamento de PR, auto-merge ou merge. Douglas controla a integração.
+Crie commit coeso, atualize a branch/PR #2 e preserve label e responsável. Não execute fechamento de PR, auto-merge ou merge. Douglas controla a integração.
 
-Pare quando `branding/` e `EXEC-001-BRANDING.md` estiverem completos, validados e commitados localmente. O EXEC deve listar arquivos/formatos, fontes/hashes, comandos/resultados, inspeção visual, licenças, limitações, modelo real, base e mensagem do commit e aprendizados propostos. Informe o hash final do commit na resposta ao Douglas, evitando a autorreferência impossível de registrar dentro do próprio commit. Não abra sessão revisora automaticamente; revisão Luna high exige prompt próprio e abertura manual por Douglas.
+Pare quando `branding/` e `EXEC-001-BRANDING.md` estiverem completos, validados, commitados e publicados no PR. O EXEC deve listar arquivos/formatos, fontes/hashes, comandos/resultados, inspeção visual, licenças, limitações, modelo real, base e mensagem do commit e aprendizados propostos. Responda aos achados com `[EXECUTORA]` e o hash corretivo; não resolva conversas. Informe o hash final ao Douglas. A revisão Luna high posterior exige sessão própria; a revisora reconfirma o HEAD e publica cada achado individualmente no PR.

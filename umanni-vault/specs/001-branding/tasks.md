@@ -25,9 +25,9 @@
 
 - [ ] T008 [P] [US1] Preservar assinatura oficial SVG e PNG sem alteração em `branding/assets/logo/umanni-horizontal.svg` e `branding/assets/logo/umanni-horizontal.png`.
 - [ ] T009 [P] [US1] Preservar símbolo e favicon oficiais em `branding/assets/logo/umanni-symbol.png` e `branding/assets/logo/favicon.ico`.
-- [ ] T010 [P] [US1] Obter fontes oficiais licenciadas e registrar arquivos/pesos em `branding/assets/fonts/montserrat-variable.ttf` e `branding/assets/fonts/roboto-variable.ttf`.
+- [ ] T010 [P] [US1] Copiar byte a byte `ofl/montserrat/Montserrat[wght].ttf` para `branding/assets/fonts/montserrat-variable.ttf` e `ofl/roboto/Roboto[wdth,wght].ttf` para `branding/assets/fonts/roboto-variable.ttf`; registrar nomes upstream/local, `wght=400–700`, `wdth=100` para Roboto e hashes upstream/local idênticos em `branding/PROVENANCE.md`.
 - [ ] T011 [US1] Validar hashes, tipos, dimensões, transparência e frames dos assets e registrar resultados reais em `branding/VALIDATION.md`.
-- [ ] T012 [US1] Documentar usos permitidos, alterações proibidas, área de respiro observacional e tamanhos mínimos validados em `branding/BRAND-PLAYBOOK.md`, sem inventar variante.
+- [ ] T012 [US1] Registrar em `branding/BRAND-PLAYBOOK.md` que não foram encontradas normas públicas de área de respiro ou tamanho mínimo; documentar usos e alterações proibidas e rotular qualquer recomendação derivada como `adapted`, com método, medida e viewport de validação, nunca como regra oficial.
 
 **Checkpoint**: US1 demonstra apenas as duas variantes públicas e a limitação de uso.
 
@@ -49,23 +49,23 @@
 
 **Teste independente**: inspecionar cinco composições nos viewports definidos e confirmar que não inventam comportamento.
 
-- [ ] T020 [P] [US3] Criar login amplo/estreito com frase separada e aviso não oficial em `branding/boards/login-responsive.svg`.
-- [ ] T021 [P] [US3] Criar painel amplo com exatamente três indicadores em `branding/boards/dashboard-desktop.svg`.
-- [ ] T022 [P] [US3] Criar gestão de usuários ampla com tabela e diálogo `EXCLUIR` em `branding/boards/users-desktop.svg`.
-- [ ] T023 [P] [US3] Criar importação de tela única e estados persistentes em `branding/boards/import-desktop.svg`.
-- [ ] T024 [P] [US3] Criar gestão de usuários mobile em cartões, menu recolhível e toast inferior em `branding/boards/users-mobile.svg`.
-- [ ] T025 [US3] Renderizar os cinco SVGs para PNGs homônimos em `branding/boards/` e registrar comando/dimensão em `branding/VALIDATION.md`.
-- [ ] T026 [US3] Inspecionar hierarquia, corte, sobreposição, contraste, alvos e consistência e preencher `specs/001-branding/checklists/visual-acceptance.md`.
+- [ ] T020 [P] [US3] Criar login em `branding/boards/login-responsive.svg`, no canvas 1878×1024 com artboards 1440×1024 e 390×844 separados por 48 px, contendo somente e-mail, senha, `Sign in`, frase separada e aviso não oficial.
+- [ ] T021 [P] [US3] Criar painel 1440×1024 com exatamente três indicadores não interativos e navegação aprovada em `branding/boards/dashboard-desktop.svg`.
+- [ ] T022 [P] [US3] Criar gestão de usuários 1440×1024 em `branding/boards/users-desktop.svg`, com tabela, `Create user`, `Edit`/`Delete` por linha e diálogo `EXCLUIR`; papel muda somente na edição.
+- [ ] T023 [P] [US3] Criar importação 1440×1024 em `branding/boards/import-desktop.svg`, com escolher/substituir arquivo, iniciar e acompanhar estado, sem mapeamento ou pré-validação inventados.
+- [ ] T024 [P] [US3] Criar gestão de usuários 390×844 em `branding/boards/users-mobile.svg`, preservando dados e ações do desktop em cartões, menu recolhível e toast inferior.
+- [ ] T025 [US3] Renderizar os cinco SVGs para PNGs homônimos em `branding/boards/` nas dimensões da tabela normativa de `specs/001-branding/plan.md` e registrar comando/dimensão em `branding/VALIDATION.md`.
+- [ ] T026 [US3] Inspecionar cada artefato no viewport normativo, incluindo os dois artboards do login, e preencher `specs/001-branding/checklists/visual-acceptance.md` com hierarquia, corte, sobreposição, contraste, alvos, ações e consistência.
 
 **Checkpoint**: cinco composições aprovadas sem código executável.
 
 ## Fase 6 — Fechamento
 
-- [ ] T027 Consolidar inventário, instruções e limitações em `branding/README.md`.
+- [ ] T027 Consolidar inventário, instruções e limitações em `branding/README.md`; referenciar `branding/LICENSES/UMANNI-NOTICE.md` no README, playbook, procedência, validação e EXEC e incluir aviso resumido com essa referência em cada prancha/composição.
 - [ ] T028 Executar `specs/001-branding/quickstart.md` e registrar cada resultado real em `branding/VALIDATION.md`.
 - [ ] T029 Registrar modelo real, arquivos, formatos, evidências, licenças, limitações e estado Git em `EXEC-001-BRANDING.md`.
 - [ ] T030 Atualizar apenas os aprendizados verificáveis propostos em `EXEC-001-BRANDING.md`; a condutora futura decide alterações em `MEMORIA-PROJETO.md`.
-- [ ] T031 Verificar `git diff --check`, revisar o escopo, criar um commit local coeso e informar o hash resultante na resposta final, sem push ou PR.
+- [ ] T031 Incluir arquivos novos com `git add --intent-to-add branding/ EXEC-001-BRANDING.md`, executar `git diff --check`, revisar o escopo, adicionar os arquivos integralmente e executar `git diff --cached --check`; registrar ambos os resultados no EXEC e criar commit coeso. Push/atualização do PR são permitidos com label e responsável; merge e fechamento permanecem proibidos.
 
 ## Dependências
 
