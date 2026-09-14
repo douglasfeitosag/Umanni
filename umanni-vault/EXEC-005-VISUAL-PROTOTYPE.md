@@ -56,6 +56,7 @@ The observed increments were real failures followed by the smallest passing impl
 13. skip link changed the hash to `#main-content` → regression test failed, then explicit focus handling preserved `#/login`;
 14. mobile dialog Escape targeted the hidden table duplicate → visible-trigger selection restored focus to the matching card action.
 15. final visual review measured 33 px horizontal overflow at 1280×720 with 200% text → the decorative story remained clipped, the scaled authentication layout was released from shared page padding, mobile controls were allowed to reflow and a native-browser regression was added.
+16. corrective visual review found that the first regression stopped at the visitor screen and metric cards exceeded the authenticated 390 px viewport → the regression now enters the administrator dashboard, narrow grid tracks/cards can shrink, and scaled shell actions reflow within their containers.
 
 The native runner does not assert synthetic hidden-iframe focus restoration because that environment returned the iframe body after programmatic clicks. The mandatory observation was instead repeated with real browser keyboard input: Escape restored the trigger in both desktop table and mobile card layouts. Initial dialog focus and containment remain asserted/observed.
 
@@ -110,6 +111,9 @@ Publication/final-review fields remain deliberately open until their commands ac
 - publication-evidence commit: `8852490b6d4dc0bb650ecb31336e9cd6263a924c`;
 - initial behavior review on that publication: accepted in review `5202000485`;
 - initial visual review on that publication: changes requested in review `5201971989`, finding `VP-FV-01` / thread `4008794925` for 200% horizontal overflow;
+- first corrective commit: `bba93adad98505b10bd404cea3dddaa2ba7b016e`;
+- behavior recheck on that commit: accepted in review `5202107581`;
+- visual recheck on that commit: `VP-FV-01` corrected, then changes requested in review `5202108636`, finding `VP-FV-02` / thread `4008913968` for authenticated 200% horizontal overflow;
 - final visual/accessibility review: pending;
 - final behavior/specification/evidence review: pending;
 - corrective commits, if any: pending;

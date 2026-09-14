@@ -14,7 +14,7 @@ Node `v25.8.2` executed all 28 tests successfully with `--test-concurrency=1` an
 
 `node --check branding/prototype/app.mjs` passed. This denominator excludes the DOM adapter by design and is not described as whole-application coverage.
 
-The native-browser runner loaded the actual adapter in a same-origin iframe and passed 8/8 named journeys at both 1440×1024 and 390×844. It covered both personas, signup validation/failure/retry, administrator CRUD and counts, all list scenarios, both import formats and every terminal result, own-profile update/deletion, cancellation and duplicate-submit guards, back/forward, sign-out, restart, reload, forged routes and missing targets. Late RED/GREEN regressions also prove that the skip link preserves the current hash route and that 200% visitor text with reduced motion causes no horizontal overflow.
+The native-browser runner loaded the actual adapter in a same-origin iframe and passed 8/8 named journeys at both 1440×1024 and 390×844. It covered both personas, signup validation/failure/retry, administrator CRUD and counts, all list scenarios, both import formats and every terminal result, own-profile update/deletion, cancellation and duplicate-submit guards, back/forward, sign-out, restart, reload, forged routes and missing targets. Late RED/GREEN regressions also prove that the skip link preserves the current hash route and that 200% visitor and authenticated views with reduced motion cause no horizontal overflow.
 
 ## Real-browser observations
 

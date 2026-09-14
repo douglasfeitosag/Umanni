@@ -226,11 +226,16 @@ await run("back, forward, sign-out, restart, reload, and missing routes recover 
   assertEqual(frameDocument.querySelector("#login-title")?.textContent, "Bem-vindo");
 });
 
-await run("enlarged visitor text and reduced motion preserve horizontal reflow", async () => {
+await run("enlarged visitor and authenticated views preserve horizontal reflow", async () => {
   const frameDocument = await loadPrototype("&text-scale=200&reduced-motion=true");
   assertEqual(frameDocument.documentElement.scrollWidth <= frameDocument.documentElement.clientWidth, true);
   assertEqual(getComputedStyle(frameDocument.documentElement).fontSize, "32px");
   assertEqual(getComputedStyle(frameDocument.querySelector(".button")).transitionDuration, "1e-05s");
+
+  frameDocument.querySelector('[data-action="login"][data-user-id="u1"]').click();
+  await nextFrame();
+  assertEqual(frameDocument.querySelector("h1")?.textContent, "Painel");
+  assertEqual(frameDocument.documentElement.scrollWidth <= frameDocument.documentElement.clientWidth, true);
 });
 
 statusElement.textContent = results.every(({ passed }) => passed)
