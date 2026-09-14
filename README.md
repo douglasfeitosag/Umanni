@@ -1,6 +1,6 @@
 ### AI Usage Disclosure
 
-The documentation baseline used Codex, identified in that session as based on GPT-6; its precise runtime variant was not exposed. Branding planning and prototype coordination used `gpt-5.6-sol` with medium reasoning, as configured for those sessions. A delegated `gpt-5.6-terra` high-reasoning executor implemented the prototype state core and tests. Exact final-review identities and contributions are recorded in the corresponding execution reports and pull requests; no unperformed reviewer is credited.
+Foundation planning used Codex, identified by its environment as GPT-6 without an exposed exact runtime variant, including a separate read-only research agent. Review identities are recorded on the planning PR. The documentation baseline used Codex, identified in that session as based on GPT-6; its precise runtime variant was not exposed. Branding planning and prototype coordination used `gpt-5.6-sol` with medium reasoning, as configured for those sessions. A delegated `gpt-5.6-terra` high-reasoning executor implemented the prototype state core and tests. Exact final-review identities and contributions are recorded in the corresponding execution reports and pull requests; no unperformed reviewer is credited.
 
 # Umanni
 
@@ -34,7 +34,7 @@ Target delivery: September 11, 2026, end of day in America/Sao_Paulo. No paid cl
 | Delivery | Multi-stage Dockerfile and local Docker Compose |
 | Quality | TDD/BDD, parallel tests, at least 90% coverage; lint, Brakeman, ESLint |
 
-Exact versions and the coverage policy will be pinned in the implementation plan. The architecture is a Rails MVC monolith organized by feature, with application services for multi-step operations; see [ADR-001](umanni-vault/08-ARQUITETURA-PROPOSTA.md).
+The proposed exact versions and coverage policy for 0.2.0 are recorded in the [foundation plan](umanni-vault/specs/008-foundation-plan/plan.md), with [research](umanni-vault/specs/008-foundation-plan/research.md), [contracts](umanni-vault/specs/008-foundation-plan/contracts/quality.md) and [tasks](umanni-vault/specs/008-foundation-plan/tasks.md). This is planning only; independent acceptance is recorded on the PR before execution. The architecture is a Rails MVC monolith organized by feature, with application services for multi-step operations; see [ADR-001](umanni-vault/08-ARQUITETURA-PROPOSTA.md).
 
 ## Documentation and workflow
 

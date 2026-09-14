@@ -10,7 +10,7 @@ Branding: reprodução avaliativa da identidade pública da Umanni, sem autoriza
 
 ## Entrega documental e versão
 
-Spec Kit 1.0.6 inicializado localmente para Codex. Constituição, README, protocolo, índices e specs/planos/tarefas documentais estão no vault. A entrega visual estática foi implementada, validada, revisada e integrada pelos PRs 3–5 e 8; o protótipo navegável foi integrado pelo PR 6 e a governança de revisão automática pelo PR 7. O milestone `0.1.0` reúne os PRs 1–8 e a preparação da release; a issue 9 permanece no milestone `Backlog`. A publicação final de `v0.1.0` depende do merge revisado da preparação e da verificação do SHA integrado. Ainda não existe aplicação Rails, Docker Compose, CI de aplicação ou runner de produção.
+Spec Kit 1.0.6 inicializado localmente para Codex. Constituição, README, protocolo, índices e specs/planos/tarefas documentais estão no vault. A entrega visual estática foi implementada, validada, revisada e integrada pelos PRs 3–5 e 8; o protótipo navegável foi integrado pelo PR 6 e a governança de revisão automática pelo PR 7. O milestone `0.1.0` reúne os PRs 1–8 e a preparação da release; a issue 9 permanece no milestone `Backlog`. A preparação foi integrada pelo PR #10; a tag anotada `v0.1.0` e a GitHub Release estão publicadas no commit `87e8c51894faa5794e9759b9caa5df4871d350e7`, e o milestone `0.1.0` está fechado (estado relido em 2026-09-14). Ainda não existe aplicação Rails, Docker Compose, CI de aplicação ou runner de produção.
 
 ## Planejamento de branding
 
@@ -22,7 +22,7 @@ A feature 005 foi integrada na `main` pelo PR 6, merge commit `0cd4c4142be883340
 
 ## Próxima tarefa
 
-Concluir a preparação documental da versão `0.1.0`, obter revisão final Luna high no HEAD exato, fazer o merge normal especificamente autorizado por Douglas e, somente depois de confirmar o SHA integrado local/remoto, publicar a tag anotada `v0.1.0`, a GitHub Release final e fechar o milestone. A fase seguinte é planejar a fundação da aplicação com versão-alvo `0.2.0`, usando `v0.1.0` como base imutável; não implementar a aplicação sem nova spec, plano, tarefas e revisão.
+PROMPT-COND-006: planejamento da fundação em `codex/008-foundation-plan`, feature `specs/008-foundation-plan/`, versão-alvo `0.2.0` (milestone 3), base imutável `v0.1.0`. Spec, pesquisa, contratos, plano e tarefas preparados; revisão independente será vinculada ao HEAD do PR. Somente depois de `review-ledger=success`, `spec-reviewed` e todas as threads resolvidas pela revisora será entregue prompt autossuficiente à executora. O estado final do aceite é verificado no PR, não pressuposto por este arquivo. Nenhuma aplicação implementada nesta sessão; sem merge, tag ou release autorizados. Ver [[COND-006-FOUNDATION-PLAN]].
 
 ## Pendências e momento de resolução
 
