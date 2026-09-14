@@ -37,7 +37,7 @@ branding/prototype/
   evidence/desktop.png, evidence/mobile.png, evidence/signup.png
   evidence/users.png, evidence/form.png, evidence/import.png
   evidence/profile.png, evidence/dialog.png
-branding/hub/index.html                         # prototype link only
+branding/hub/index.html                         # prototype link + factual status copy only
 README.md                                      # actual delivery / run link
 umanni-vault/specs/005-visual-prototype/
   spec.md, plan.md, research.md, data-model.md, quickstart.md, tasks.md
@@ -52,7 +52,7 @@ No historical spec001/004, token, original font/logo/license, constitution or ap
 
 ## Responsibilities / coverage policy
 
-`state.mjs`: fixtures, immutable demo transitions, validation, route guards, counts and import phases; no DOM. `views.mjs`: escaped HTML for all routes/feedback/dialog; no mutations. `app.mjs`: small native DOM/event/hash/focus adapter, no business rules. Unit tests explicitly import and inventory both core modules (Node24 only covers imported files). Enforce ≥90% lines/functions/branches of **state.mjs and views.mjs**; no ignore pragmas or evasion by moving logic to adapter.
+`state.mjs`: fixtures, immutable demo transitions, validation, route guards, counts, import phases, exact confirmation and full begin/cancel/complete/retry/idempotence decisions with operation IDs; no DOM. `views.mjs`: escaped HTML for every route/feedback/dialog, including all import/profile states; no mutations. `app.mjs`: native DOM/event/hash/focus dispatch and timer scheduling only, no behavioral guards or phase decisions. Unit tests explicitly import and inventory both core modules (Node24 only covers imported files). Enforce ≥90% lines/functions/branches of **state.mjs and views.mjs**; no ignore pragmas or evasion by moving logic to adapter. Late/duplicate completion and cancellation are core-tested invariants regardless of timer scheduling.
 
 DOM adapter is outside the numeric Node denominator and instead must pass the complete native-browser action matrix in contracts/interaction.md, including actual events/forms/dialog and manual keyboard/visual checks. No claim of90% whole-app/production coverage. A native browser test page exercises the actual adapter in an isolated same-origin iframe, not a fake DOM. Failure or inability to execute that browser layer blocks acceptance. Node tests run with concurrency1 and2. This explicit visual-only policy avoids installing DOM test dependencies or claiming production qualification.
 

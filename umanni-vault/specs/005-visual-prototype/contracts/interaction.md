@@ -22,6 +22,10 @@ Auth only: original horizontal logo and separate slogan, no invented password/ac
 
 ## Dialog / feedback
 
+Deterministic failure recipe: each save form has a separate “Controles da demonstração” disclosure with “Resultado de salvar” native selector, values Sucesso(success, default)/Falha ilustrativa(error). The dialog has its own distinct demonstration fieldset and “Resultado de excluir” selector with the same values, reachable while modal. These are not product controls. They preserve draft/target/confirmation and are disabled while pending. Select error, submit valid values, observe400ms pending then persistent error/no mutation; choose success and retry the same action, observing exactly one mutation. Reset restores both defaults. Tests verify this sequence for save and delete, including cancel/repeated submit/late completion.
+
+All guards and operation transitions are pure state.mjs behavior: exact confirmation, actor/target/draft checks, operation ID, begin/cancel/complete/retry and import phase progression. app.mjs only dispatches events, schedules/cancels400ms callbacks with operation IDs, renders and handles native focus/hash. Stale completion after cancel/navigation/reset or completion twice is a model no-op; the timer itself is not trusted as a correctness guard.
+
 Native dialog: heading/description/target, confirmation field, Cancel and Excluir. Initial focus Cancel; focus containment; Escape cancels; outside click never deletes. Trimmed exact EXCLUIR enables action; lowercase remains invalid. Pending400ms disallows repeats but cancellation remains operable and cancels work. Failure retains target/confirmation and inline error; same action retries. Cancel returns to initiating control or h1 if absent. Navigation/reset cancel pending timers. Form errors set aria-invalid/describedby and focus first invalid control.
 
 Toast persists until explicit dismissal, no focus theft; important errors remain inline. Reserved layout region right-aligned wide/bottom narrow, not over controls or notice. Metrics announce once per completed data change. Reduced motion removes nonessential transitions (hover120ms/toast180ms/metric300ms maxima). No fake progress counters.
@@ -34,4 +38,8 @@ Escape all user values in HTML/attributes. No eval/inline handlers. CSP self scr
 
 ## Mandatory browser action matrix
 
+Core Node tests also cover every route/state renderer, including selected/queued/processing/all import outcomes and profile/view/edit/delete-dialog/guard-feedback. Browser cases complement, not replace, this numeric coverage.
+
 At1440×1024 and390×844 exercise every route/action: both roles, signup, CRUD/role/counts, own profile/update/delete, both formats/all import outcomes, every list scenario/recovery, invalid form, failed save/delete/retry, cancel pending, duplicate submit, sign-out/restart/reload, back/forward, forged admin route and missing user. Keyboard: skip/menu/native select/visible focus, dialog containment/Escape/restoration. Also1440×640,200% text,reduced-motion. Test runner passes do not substitute actual browser/visual/keyboard evidence. Any unavailable mandatory observation blocks acceptance.
+
+Hub integration copy: preserve the static gallery and its truthful captions that previews are not interactive. Replace only obsolete global review-pending statements with “Acervo estático revisado” and a separate link labeled “Abrir protótipo navegável”. Do not announce prototype acceptance in the page before the final gate; use the neutral “Demonstração com dados fictícios”. After acceptance, status and evidence are linked from the prototype report. Validate no global pending claim remains for the already-integrated static delivery.

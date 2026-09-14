@@ -25,22 +25,22 @@ Independent test: both demo identities reach their correct home, signup creates 
 
 Independent test: create/edit/change role/cancel/delete an example; compare counts and table/card data; list error/empty/loading recover without losing fixtures.
 
-- [ ] T009 [US2] Add CRUD/count/policy/escaping/confirmation RED cases in branding/prototype/tests/state.test.mjs and branding/prototype/tests/views.test.mjs.
+- [ ] T009 [US2] Add CRUD/count/policy/escaping/confirmation and deterministic save/delete success/error/retry/pending/cancel/duplicate/late-completion RED cases in branding/prototype/tests/state.test.mjs and branding/prototype/tests/views.test.mjs; include preserved target/draft/confirmation and reset defaults.
 - [ ] T010 [US2] Implement users/forms/counts/list scenarios in branding/prototype/state.mjs and branding/prototype/views.mjs; trim values, illustrative required/email errors, no product duplicate policy.
-- [ ] T011 [US2] Implement native dialog, exact trimmed EXCLUIR, cancel/retry, 400ms pending and duplicate prevention in branding/prototype/app.mjs; extend branding/prototype/tests/browser.mjs for focus and cancellation.
+- [ ] T011 [US2] Implement pure exact trimmed EXCLUIR, operation-ID begin/cancel/complete/retry and duplicate/stale-completion guards in branding/prototype/state.mjs with RED/GREEN; wire native dialog, selectors and400ms scheduling only in branding/prototype/app.mjs. Extend branding/prototype/tests/browser.mjs for deterministic failure/retry, draft preservation, focus and cancellation.
 
 ## Phase 5 — US3: import (P1)
 
 Independent test: both supplied formats traverse selected/queued/processing and each terminal result, with retry/replace; no real file or added-user claims.
 
-- [ ] T012 [US3] Add import transition/idempotence RED tests in branding/prototype/tests/state.test.mjs.
-- [ ] T013 [US3] Implement one-screen import/scenario controls in branding/prototype/state.mjs, branding/prototype/views.mjs and branding/prototype/app.mjs; cover all outcomes in branding/prototype/tests/browser.mjs.
+- [ ] T012 [US3] Add import transition/idempotence RED tests in branding/prototype/tests/state.test.mjs and Node renderer tests for both formats, idle/selected/queued/processing/completed/partial/failed/retry feedback in branding/prototype/tests/views.test.mjs.
+- [ ] T013 [US3] Implement one-screen import/scenario transitions only in branding/prototype/state.mjs and render in branding/prototype/views.mjs; branding/prototype/app.mjs dispatches actions without deciding phases. Cover all outcomes in branding/prototype/tests/browser.mjs in addition to Node state/views tests.
 
 ## Phase 6 — US4: own profile (P1)
 
 Independent test: regular account views/edits itself, cannot reach another record, and cancellation/deletion end coherently.
 
-- [ ] T014 [US4] Add self-only edit/delete/role and missing-user RED cases in branding/prototype/tests/state.test.mjs.
+- [ ] T014 [US4] Add self-only edit/delete/role and missing-user RED cases in branding/prototype/tests/state.test.mjs; add Node rendering tests in branding/prototype/tests/views.test.mjs for profile/view/edit, validation/guard feedback and every account-dialog state (open/invalid/valid/pending/error/retry).
 - [ ] T015 [US4] Implement profile/edit/account deletion in branding/prototype/state.mjs, branding/prototype/views.mjs and branding/prototype/app.mjs; add account lifecycle to branding/prototype/tests/browser.mjs.
 
 ## Phase 7 — US5: responsive handoff (P2)
@@ -54,7 +54,7 @@ Independent test: all journeys at both target viewports, keyboard, short window,
 ## Phase 8 — Integration and review
 
 - [ ] T019 Run full quickstart, core coverage at concurrency1/2 and browser runner; finish evidence and limitations in umanni-vault/EXEC-005-VISUAL-PROTOTYPE.md and branding/prototype/VALIDATION.md.
-- [ ] T020 Add prototype link only to branding/hub/index.html; update README.md, umanni-vault/STATUS.md and umanni-vault/MEMORIA-PROJETO.md with actual visual delivery and scoped authority, preserving production decisions.
+- [ ] T020 Add prototype link and factual review/status copy only to branding/hub/index.html per contracts/interaction.md, preserving the gallery and truthful static-preview captions. Update README.md, umanni-vault/STATUS.md and umanni-vault/MEMORIA-PROJETO.md with actual visual delivery and scoped authority, preserving production decisions; verify no obsolete global pending claims remain for the integrated static delivery.
 - [ ] T021 Check exact plan allowlist, intent-to-add/working diff and staged whitespace; commit/publish PR6 and record hashes in umanni-vault/EXEC-005-VISUAL-PROTOTYPE.md.
 - [ ] T022 Obtain two independent final PR reviews, correct/recheck all findings on the same HEAD, then verify successful gate and perform authorized normal merge; record final integration result in PR and open branding/prototype/index.html locally.
 
