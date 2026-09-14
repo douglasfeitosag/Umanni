@@ -226,6 +226,13 @@ await run("back, forward, sign-out, restart, reload, and missing routes recover 
   assertEqual(frameDocument.querySelector("#login-title")?.textContent, "Bem-vindo");
 });
 
+await run("enlarged visitor text and reduced motion preserve horizontal reflow", async () => {
+  const frameDocument = await loadPrototype("&text-scale=200&reduced-motion=true");
+  assertEqual(frameDocument.documentElement.scrollWidth <= frameDocument.documentElement.clientWidth, true);
+  assertEqual(getComputedStyle(frameDocument.documentElement).fontSize, "32px");
+  assertEqual(getComputedStyle(frameDocument.querySelector(".button")).transitionDuration, "1e-05s");
+});
+
 statusElement.textContent = results.every(({ passed }) => passed)
   ? `${results.length} browser tests passed`
   : `${results.filter(({ passed }) => !passed).length} browser tests failed`;
@@ -248,9 +255,9 @@ function recordResult(name, passed, detail = "") {
   resultsElement.append(item);
 }
 
-async function loadPrototype() {
+async function loadPrototype(parameters = "") {
   const loaded = new Promise((resolve) => frame.addEventListener("load", resolve, { once: true }));
-  frame.src = `../index.html?test=${Date.now()}#/login`;
+  frame.src = `../index.html?test=${Date.now()}${parameters}#/login`;
   await loaded;
   await nextFrame();
   return frame.contentDocument;

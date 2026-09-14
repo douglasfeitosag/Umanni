@@ -55,6 +55,7 @@ The observed increments were real failures followed by the smallest passing impl
 12. wrapped signup link had a non-clickable bounding-box center → 44 px inline-flex target;
 13. skip link changed the hash to `#main-content` → regression test failed, then explicit focus handling preserved `#/login`;
 14. mobile dialog Escape targeted the hidden table duplicate → visible-trigger selection restored focus to the matching card action.
+15. final visual review measured 33 px horizontal overflow at 1280×720 with 200% text → the decorative story remained clipped, the scaled authentication layout was released from shared page padding, mobile controls were allowed to reflow and a native-browser regression was added.
 
 The native runner does not assert synthetic hidden-iframe focus restoration because that environment returned the iframe body after programmatic clicks. The mandatory observation was instead repeated with real browser keyboard input: Escape restored the trigger in both desktop table and mobile card layouts. Initial dialog focus and containment remain asserted/observed.
 
@@ -76,7 +77,7 @@ node --check branding/prototype/app.mjs
 passed
 ```
 
-Runtime evidence: Node `v25.8.2`; Python `3.14.7`; loopback server `127.0.0.1:8765`. The complete native-browser runner passed 7/7 journeys at 1440×1024 and again at 390×844. Manual checks covered all routes/actions, 1440×640, 200% text through the documented deterministic validation parameter, reduced motion, real Tab/Shift+Tab/Enter/Escape, native select, back/forward/reload, zero horizontal overflow, vertical recovery, and 44 px narrow targets. Console warning/error count was zero; all declared resources were local.
+Runtime evidence: Node `v25.8.2`; Python `3.14.7`; loopback server `127.0.0.1:8765`. The complete native-browser runner passed 8/8 journeys at 1440×1024 and again at 390×844. Manual checks covered all routes/actions, 1440×640, 200% text through the documented deterministic validation parameter, reduced motion, real Tab/Shift+Tab/Enter/Escape, native select, back/forward/reload, zero horizontal overflow, vertical recovery, and 44 px narrow targets. The 200% corrective check additionally measured equal scroll/client widths at 1280×720, 1440×1024 and 390×844. Console warning/error count was zero; all declared resources were local.
 
 WCAG calculations and pair purposes are in `branding/prototype/VALIDATION.md`. Normal text pairs meet 4.5:1; large/control/focus pairs meet 3:1. White with `#03A1E0` is 2.93:1 and therefore appears only in preserved marks/decor, never as ordinary text. No dark theme exists because the public identity evidence was insufficient to define one faithfully.
 
@@ -106,6 +107,9 @@ Publication/final-review fields remain deliberately open until their commands ac
 - implementation commit: `add620e3785a87bdb6e002a85f12d7cc04d3f536`;
 - commit message: `feat: add navigable Umanni visual prototype`;
 - first PR6 implementation publication: `add620e3785a87bdb6e002a85f12d7cc04d3f536`;
+- publication-evidence commit: `8852490b6d4dc0bb650ecb31336e9cd6263a924c`;
+- initial behavior review on that publication: accepted in review `5202000485`;
+- initial visual review on that publication: changes requested in review `5201971989`, finding `VP-FV-01` / thread `4008794925` for 200% horizontal overflow;
 - final visual/accessibility review: pending;
 - final behavior/specification/evidence review: pending;
 - corrective commits, if any: pending;

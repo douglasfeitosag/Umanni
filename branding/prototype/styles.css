@@ -66,6 +66,12 @@ html[data-text-scale="200"] .auth-layout {
   display: block;
 }
 
+html[data-text-scale="200"] #main-content.auth-layout {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
 html[data-text-scale="200"] .auth-story,
 html[data-text-scale="200"] .auth-panel {
   max-width: none;
@@ -74,7 +80,6 @@ html[data-text-scale="200"] .auth-panel {
 
 html[data-text-scale="200"] .auth-story {
   min-height: 100vh;
-  overflow: visible;
 }
 
 html[data-text-scale="200"] .auth-logo {
@@ -971,6 +976,29 @@ dialog::backdrop {
 }
 
 @media (max-width: 767px) {
+  html[data-text-scale="200"] .auth-story,
+  html[data-text-scale="200"] .auth-panel {
+    padding: 1rem;
+  }
+
+  html[data-text-scale="200"] .auth-logo {
+    width: min(100%, 11rem);
+  }
+
+  html[data-text-scale="200"] .auth-story h1 {
+    max-width: none;
+    overflow-wrap: anywhere;
+    font-size: 1.5rem;
+  }
+
+  html[data-text-scale="200"] .auth-actions .button,
+  html[data-text-scale="200"] .auth-secondary a,
+  html[data-text-scale="200"] .demo-notice a {
+    min-width: 0;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+
   .auth-layout {
     display: block;
     min-height: 100vh;

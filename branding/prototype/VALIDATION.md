@@ -14,16 +14,16 @@ Node `v25.8.2` executed all 28 tests successfully with `--test-concurrency=1` an
 
 `node --check branding/prototype/app.mjs` passed. This denominator excludes the DOM adapter by design and is not described as whole-application coverage.
 
-The native-browser runner loaded the actual adapter in a same-origin iframe and passed 7/7 named journeys at both 1440×1024 and 390×844. It covered both personas, signup validation/failure/retry, administrator CRUD and counts, all list scenarios, both import formats and every terminal result, own-profile update/deletion, cancellation and duplicate-submit guards, back/forward, sign-out, restart, reload, forged routes and missing targets. A late RED/GREEN regression also proves that the skip link preserves the current hash route.
+The native-browser runner loaded the actual adapter in a same-origin iframe and passed 8/8 named journeys at both 1440×1024 and 390×844. It covered both personas, signup validation/failure/retry, administrator CRUD and counts, all list scenarios, both import formats and every terminal result, own-profile update/deletion, cancellation and duplicate-submit guards, back/forward, sign-out, restart, reload, forged routes and missing targets. Late RED/GREEN regressions also prove that the skip link preserves the current hash route and that 200% visitor text with reduced motion causes no horizontal overflow.
 
 ## Real-browser observations
 
 The same prototype was exercised outside the runner with native controls:
 
 - 1440×1024: all routes, forms, table, dialog and feedback remained within the page width; every complete journey was reachable.
-- 390×844: all 7 runner journeys passed; the mobile menu opened from the keyboard; table-equivalent cards, forms, import, profile and dialog remained usable with zero horizontal page overflow.
+- 390×844: all 8 runner journeys passed; the mobile menu opened from the keyboard; table-equivalent cards, forms, import, profile and dialog remained usable with zero horizontal page overflow.
 - 1440×640: content remained vertically scrollable, the heading stayed visible and no horizontal overflow appeared.
-- 200% text: `?text-scale=200` produced a computed 32 px root size; visitor and signed-in routes had zero horizontal page overflow and preserved all content through vertical scrolling.
+- 200% text: `?text-scale=200` produced a computed 32 px root size; visitor and signed-in routes had zero horizontal page overflow and preserved all content through vertical scrolling. The corrective reflow check measured scroll width equal to client width at 1280×720, 1440×1024 and 390×844.
 - Reduced motion: the operating-system media rule and deterministic `?reduced-motion=true` path both reduce animation and transition durations to 0.01 ms with one iteration. Computed button transition duration was 0.01 ms.
 - Keyboard: the skip link showed a solid visible focus ring, moved focus to `main-content` and kept `#/login`; the mobile menu opened with Enter; the native role select changed through its real control; the native dialog opened on Cancel, retained Tab/Shift+Tab focus, closed with Escape and restored focus to the correct visible delete trigger in both table and card layouts.
 - Narrow targets: every visible `a`, `button`, `input`, `select` and `summary` measured at least 44 px high after responsive refinements. Footer links use 44 px targets rather than relying on tight spacing.
