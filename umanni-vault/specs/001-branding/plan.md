@@ -110,11 +110,11 @@ O PR documental pode ser criado e atualizado automaticamente, com label e respon
 5. ledger versionado com ID, severidade, local, evidência, impacto, autor/papel/modelo, commit analisado, decisão e commit corretivo;
 6. check `review-ledger` que falhe se houver achado sem decisão, HEAD divergente ou comentários/reviews não representados;
 7. runner no Mac isolado por PR e sem segredos persistentes acessíveis a código não confiável, instalado somente após plano/teste específico;
-8. verificação da identidade GitHub; o mesmo login não será apresentado como revisores independentes.
+8. verificação de sessão, papel e modelo; o mesmo login será declarado e não será apresentado como duas identidades ou aprovação nativa independente.
 
 Até comprovar o gate, o PR permanece bloqueado e não pode ser apresentado como pronto para merge. A executora só inicia após `review-ledger=success`, threads resolvidas e `spec-reviewed` no HEAD vigente; pode publicar a entrega estática no mesmo PR para a segunda revisão. Douglas continua sendo a única pessoa autorizada a fazer merge ou fechar PR.
 
-Atualização de 2026-09-14: Douglas autorizou explicitamente configurar a proteção base de `main`, sincronizar a reorganização já integrada e criar/atualizar PRs automaticamente, sempre com label e responsável. A proteção foi confirmada pela API com uma aprovação obrigatória, descarte de aprovações obsoletas, conversas resolvidas, aplicação a administradores e bloqueio de force-push/exclusão. A autorização de PR não comprova nem dispensa os checks, o `review-ledger`, a identidade independente ou o runner isolado ainda pendentes, e não autoriza merge ou fechamento.
+Atualização de 2026-09-14: Douglas autorizou explicitamente configurar a proteção base de `main`, sincronizar a reorganização já integrada e criar/atualizar PRs automaticamente, sempre com label e responsável. A configuração vigente foi confirmada pela API com zero aprovações nativas, `review-ledger` obrigatório e estrito por SHA, conversas resolvidas, aplicação a administradores e bloqueio de force-push/exclusão. Labels e threads representam o estado da revisão sob a conta única. A autorização de PR não comprova nem dispensa os checks de entrega, a futura automação do ledger ou o runner isolado ainda pendentes, e não autoriza merge ou fechamento.
 
 ## Validação visual
 
