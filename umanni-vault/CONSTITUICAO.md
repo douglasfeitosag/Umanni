@@ -1,7 +1,7 @@
 # Constituição do Umanni
 
-Versão: 2.0.0. Ratificada em 2026-09-10 e atualizada em 2026-09-14.
-Origem: PEDIDO-001 e decisões D-001 a D-016, indexadas em [STATUS](STATUS.md).
+Versão: 2.1.0. Ratificada em 2026-09-10 e atualizada em 2026-09-14.
+Origem: PEDIDO-001 e decisões D-001 a D-018, indexadas em [STATUS](STATUS.md).
 
 ## Core Principles
 
@@ -48,6 +48,12 @@ Quando persistir discordância após resposta fundamentada e reconsideração ex
 Como o GitHub não permite `Request changes` ou `Approve` da própria conta autora, o projeto não usa aprovação nativa como gate. A separação exigida é de sessão/papel/modelo, e o bloqueio verificável usa `review-ledger`, labels e threads resolvíveis no PR. Isso não transforma a mesma conta em duas identidades nem permite apresentar a revisão como aprovação nativa do GitHub.
 
 Todo PR deve ser criado com pelo menos um label coerente com a entrega e um responsável atribuído. Na ausência de indicação diferente, Douglas é o responsável. A condutora verifica e corrige esses metadados antes de iniciar a revisão e após qualquer mudança relevante de escopo.
+
+### VIII. Gestão explícita de versões
+
+Antes da execução, toda tarefa deve estar vinculada a uma versão-alvo ou ao `Backlog`; trabalho sem destino não entra silenciosamente na entrega. A spec e o plano definem o conteúdo pretendido, enquanto o milestone registra no GitHub o conjunto verificável. Uma versão só pode ser fechada quando cada item incluído estiver concluído ou adiado com justificativa e novo destino explícito.
+
+Tags de versão são anotadas, imutáveis e seguem SemVer com prefixo `v`. Somente após revisão final bem-sucedida, merge autorizado e igualdade comprovada entre o commit integrado local e remoto pode a tag ser criada nesse commit exato. A GitHub Release reutiliza notas versionadas no repositório, não é rascunho nem pré-release quando representa um marco final, e o milestone correspondente fecha depois da verificação pública. Tags existentes nunca são movidas ou sobrescritas; divergência de estado interrompe a publicação.
 
 ## Automatic final-review workflow
 
@@ -123,4 +129,6 @@ This is a major version because it redefines the prior mandatory startup respons
 Independent specification review, reviewer-owned findings and human-controlled merge
 remain mandatory. Historical amendments remain unchanged as provenance.
 
-**Version**: 2.0.0 | **Ratified**: 2026-09-10 | **Last Amended**: 2026-09-14
+Alteração 2.1.0: acrescenta o princípio VIII de gestão explícita de versões, por decisão D-018 de Douglas em 2026-09-14. Toda tarefa passa a exigir versão-alvo ou backlog, e cada versão fecha por milestone, merge revisado, tag anotada imutável e GitHub Release verificável. É uma alteração minor porque adiciona uma capacidade de governança compatível com os princípios anteriores.
+
+**Version**: 2.1.0 | **Ratified**: 2026-09-10 | **Last Amended**: 2026-09-14

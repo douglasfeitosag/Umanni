@@ -8,9 +8,9 @@ Umanni; o prazo original de 11/09/2026 passou e não deve ser apresentado como c
 
 Branding: reprodução avaliativa da identidade pública da Umanni, sem autorização expressa e com aviso não oficial. Site principal prevalece sobre o blog editorial. Somente assinatura horizontal/símbolo azul, Montserrat dominante, Roboto em utilidades, paleta adaptada quando necessário para WCAG AA, Heroicons e tema claro. O tema escuro não integra a entrega por falta de evidência pública suficiente. Layout, estados e cinco composições estáticas estão fechados em `specs/001-branding/`.
 
-## Entrega documental
+## Entrega documental e versão
 
-Spec Kit 1.0.6 inicializado localmente para Codex. Constituição, README, protocolo, índices e specs/planos/tarefas documentais estão no vault. A entrega visual estática foi implementada, validada, revisada e integrada pelos PRs 4, 5 e 8; o PR de governança 7 também foi integrado. A `main` de base da execução 005 é `1a90b8b2714149279e9e85abad7c0cfc9daeca96`. Ainda não existe aplicação Rails, Docker Compose, CI de aplicação ou runner de produção.
+Spec Kit 1.0.6 inicializado localmente para Codex. Constituição, README, protocolo, índices e specs/planos/tarefas documentais estão no vault. A entrega visual estática foi implementada, validada, revisada e integrada pelos PRs 3–5 e 8; o protótipo navegável foi integrado pelo PR 6 e a governança de revisão automática pelo PR 7. O milestone `0.1.0` reúne os PRs 1–8 e a preparação da release; a issue 9 permanece no milestone `Backlog`. A publicação final de `v0.1.0` depende do merge revisado da preparação e da verificação do SHA integrado. Ainda não existe aplicação Rails, Docker Compose, CI de aplicação ou runner de produção.
 
 ## Planejamento de branding
 
@@ -18,11 +18,11 @@ Briefing, pesquisa, spec, plano, contratos, tarefas e critérios preparados na b
 
 ## Protótipo visual navegável
 
-A feature 005 está na branch `codex/005-visual-prototype`, PR 6. O planejamento foi aceito por duas revisões independentes no HEAD `b80c62434592bb99cda9fe27967593a6c4b271ee` antes do início da implementação. O protótipo em `branding/prototype/` usa somente HTML/CSS/ES modules, dados fictícios reiniciáveis e os assets/licenças já preservados; não implementa autenticação, persistência, upload, fila ou regras de produção. A matriz nativa passou em 1440×1024 e 390×844, os 28 testes centrais passaram com 100% de linhas/funções e 92,12% de ramos, e oito PNGs finais foram inspecionados. A publicação, as duas revisões finais Luna high e o merge normal ainda são as próximas etapas deste mesmo fluxo.
+A feature 005 foi integrada na `main` pelo PR 6, merge commit `0cd4c4142be8833401a5721c5e7cc637ea40b161`, depois de duas revisões finais Luna high no mesmo HEAD e gate bem-sucedido. O protótipo em `branding/prototype/` usa somente HTML/CSS/ES modules, dados fictícios reiniciáveis e os assets/licenças já preservados; não implementa autenticação, persistência, upload, fila ou regras de produção. A matriz nativa passou em 1440×1024 e 390×844, os 28 testes centrais passaram com 100% de linhas/funções e 92,12% de ramos, e oito PNGs finais foram inspecionados.
 
 ## Próxima tarefa
 
-Publicar o HEAD de implementação do PR 6, substituir `spec-reviewed` por `review-pending`, obter duas revisões finais independentes sobre o mesmo SHA, corrigir cada achado na thread sem resolvê-la como executora, e permitir que os proprietários das revisões resolvam suas threads. Somente com `review-ledger` bem-sucedido, `code-reviewed`, HEAD atual e PR mesclável a autorização específica de Douglas permite o merge normal. Depois, confirmar a integração e manter o protótipo aberto localmente.
+Concluir a preparação documental da versão `0.1.0`, obter revisão final Luna high no HEAD exato, fazer o merge normal especificamente autorizado por Douglas e, somente depois de confirmar o SHA integrado local/remoto, publicar a tag anotada `v0.1.0`, a GitHub Release final e fechar o milestone. A fase seguinte é planejar a fundação da aplicação com versão-alvo `0.2.0`, usando `v0.1.0` como base imutável; não implementar a aplicação sem nova spec, plano, tarefas e revisão.
 
 ## Pendências e momento de resolução
 
