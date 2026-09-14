@@ -1,6 +1,6 @@
 # Constituição do Umanni
 
-Versão: 1.1.0. Ratificada em 2026-09-10 e atualizada em 2026-09-14.
+Versão: 1.1.1. Ratificada em 2026-09-10 e atualizada em 2026-09-14.
 Origem: PEDIDO-001 e decisões D-001 a D-016, indexadas em [STATUS](STATUS.md).
 
 ## I. Especificação antes da execução
@@ -21,7 +21,7 @@ Commits atômicos, documentação e README atualizados. Cada executora recebe pr
 
 ## V. Controle humano da integração
 
-Somente Douglas faz merge ou fecha PR, salvo autorização explícita. Proibidos auto-merge e integração direta que contornem essa regra. O primeiro commit documental local atende ao bootstrap autorizado do remoto vazio. Sessões são abertas manualmente por Douglas: condutora Sol medium, executora Terra high e revisores Luna high.
+Agentes podem criar e atualizar PRs automaticamente quando a entrega estiver pronta para revisão. Somente Douglas faz merge ou fecha PR, salvo autorização explícita e específica; continuam proibidos auto-merge e integração direta que contornem esse controle. O primeiro commit documental local atende ao bootstrap autorizado do remoto vazio. Sessões são abertas manualmente por Douglas: condutora Sol medium, executora Terra high e revisores Luna high.
 
 ## VI. Memória, transparência e entrega local
 
@@ -37,6 +37,8 @@ Quando persistir discordância após resposta fundamentada e reconsideração ex
 
 Se os papéis operarem sob o mesmo login do GitHub, cada comentário identifica sessão, papel e modelo; essa separação de processo não será apresentada como aprovação independente da plataforma.
 
+Todo PR deve ser criado com pelo menos um label coerente com a entrega e um responsável atribuído. Na ausência de indicação diferente, Douglas é o responsável. A condutora verifica e corrige esses metadados antes de iniciar a revisão e após qualquer mudança relevante de escopo.
+
 ## Governança
 
 Instruções explícitas de Douglas prevalecem. Mudanças de princípios exigem decisão registrada, análise do impacto nos artefatos e atualização da versão: major para incompatibilidade, minor para princípio novo, patch para esclarecimento. Todo plano verifica estes princípios. Nenhum template pode autorizar merge ou inventar requisitos. A condutora atualiza estado, aprendizados e prompt da próxima sessão ao concluir sua tarefa.
@@ -44,3 +46,5 @@ Instruções explícitas de Douglas prevalecem. Mudanças de princípios exigem 
 Alteração 1.0.1: caminhos adaptados ao vault dedicado por pedido de Douglas (entrega 002); princípios mantidos.
 
 Alteração 1.1.0: revisão independente obrigatória antes e depois da execução, discussão dos achados no PR, confirmação da revisora para encerramento e arbitragem de Douglas quando não houver consenso.
+
+Alteração 1.1.1: criação automática de PR autorizada; label e responsável passam a ser obrigatórios. Merge e fechamento permanecem sob controle de Douglas, salvo permissão específica.
