@@ -64,6 +64,31 @@ The table above records downloaded upstream bytes/hashes. The first Git whitespa
 - [Umanni terms](https://blog.umanni.com.br/politica-de-privacidade-e-termos-de-uso-2023/): HTTP 200, text/html; initial download of 271128 bytes, SHA-256 `83c7e8ee8b6c348d1c61691f677000fe6e703a245604db68e9da248c027f7d95`. They reserve intellectual property rights and set conditions for reproduction; this delivery does not grant a trademark license.
 - [Heroicons](https://github.com/tailwindlabs/heroicons): 15 outline icons actually used in the boards, from v2.2.0 commit `0435d4ca364a608cc75e2f8683d374e55abbae26`. No solid icons are used. The [manifest](assets/icons/heroicons-manifest.md) records the exact union, per-board references, rendered sizes, sources, byte counts, and hashes. Embedded path geometry matches the downloaded upstream drawings.
 
-## Foundation scope
+## Decisions and derivatives
 
-This increment preserves official assets and licenses. Tokens, component documentation and derived boards are delivered in the subsequent visual-system increment. The actual downloaded files and their metadata above have been verified before producing derivatives.
+Functional palette, typographic roles, shell, states, and viewports follow briefing/spec/contracts 001 and Douglas's subsequent explicit instruction: documentation in English, website/system interface in Portuguese. Layout recommendations and functional tokens are `adapted` where they are not public observations.
+
+The institutional phrase `Desenvolvendo o potencial das pessoas` is `observed` public brand copy, retained only in authentication and kept separate from the logo. The additional authentication text `Pessoas no centro. Um espaço para cuidar da sua equipe.` is original `adapted` interface copy for this evaluation; it is not represented as an official Umanni slogan or campaign. All people and organizational counts on the boards are fictional.
+
+Six editable static SVG boards and six corresponding PNG renders exist. Their dimensions and SHA-256 values below were read from the delivered files on 2026-09-14, after the mobile header changed to the preserved symbol at 44 px wide. These are evaluation compositions, not new logo variants or executable application components. The horizontal PNG and symbol PNG are embedded without changing their bytes and displayed at proportional sizes. Icons preserve upstream path geometry in local SVG symbols. Typography, layout, interface copy, and state examples are composed for this delivery. PNG output rasterizes each SVG at its declared dimensions; source assets and distributed TTF files remain unchanged.
+
+Rendering uses `rsvg-convert` 2.60 with `PANGOCAIRO_BACKEND=fc` and `FONTCONFIG_FILE=/tmp/umanni-branding-sources.qQUkCB/fontconfig.xml`. That fontconfig file adds the delivered `branding/assets/fonts` directory; `fc-match` resolved Montserrat and Roboto to the local `montserrat-variable.ttf` and `roboto-variable.ttf` files. The explicit Fontconfig backend replaces the default CoreText backend that ignored this font configuration. No modified or subset font is redistributed. The temporary font configuration is an execution aid, not an upstream asset or required public delivery file.
+
+| Derived file under `boards/` | Dimensions (px) | Bytes | SHA-256 |
+| --- | --- | --- | --- |
+| `components.svg` | 1440×1024 | 99814 | `ebbfaf77e6e9a6144e2af8a8ab41379c0c6fb81d3bb78d52861241385a138a34` |
+| `components.png` | 1440×1024 | 189306 | `ffcb4a83a6e3ed20537ec2d0f625c21b584cbbebc91f38421d281bfc110717b7` |
+| `dashboard-desktop.svg` | 1440×1024 | 30619 | `b55e90af131a8fa132375a8a12385acc2929c7180dd2bc1d295411254be41e2a` |
+| `dashboard-desktop.png` | 1440×1024 | 70481 | `1c9ff5f6fa2d8dcc170449df8e86fa885c9968fa6bd8b759811ad6e17e44b786` |
+| `import-desktop.svg` | 1440×1024 | 33812 | `39da73d7e9c3d073f2c43289cbe581e5689db618ce927a97fea955a79523c959` |
+| `import-desktop.png` | 1440×1024 | 135637 | `dc05f877444953f74025db0be2380e4dec5208af96fafc3243a347c17a329b60` |
+| `login-responsive.svg` | 1878×1024 | 53190 | `464654f0990b9da211584c3eea1543d3eaef6b46c0dad686caf17484a19509d5` |
+| `login-responsive.png` | 1878×1024 | 106230 | `e5cf0e179c95203c63df5bf3baf0bef2327e28eb5b07aeb8b2468a03d3518350` |
+| `users-desktop.svg` | 1440×1024 | 38033 | `7ba288aea1446a4090a698b0e3ee80b92b7b5ec5e0818c8e595c9cd359679822` |
+| `users-desktop.png` | 1440×1024 | 143593 | `21fdfff31b130276c3901825491b6636e99bf68e40b3c99a7ac9b08100bf5b17` |
+| `users-mobile.svg` | 390×844 | 45355 | `86b3e10c6d8b3a359b8cc029247a8efd2a9fa3b06911eecdce5ece157309955e` |
+| `users-mobile.png` | 390×844 | 64816 | `25e4fd4828924ec3e6b9d524016c43d878201e40f8d4cd39c476ce75f66d1c23` |
+
+The login canvas contains separate 1440×1024 and 390×844 artboards with a 48 px gap. All boards display the Portuguese evaluation notice and canonical notice path. Visual inspection, contrast measurements, and final acceptance evidence are documented in [VALIDATION](VALIDATION.md); hashes establish file identity, not usability or accessibility by themselves.
+
+This document's English wording and the font metadata verification were prepared as technical writing by a provenance-focused persona. They do not constitute formal independent review or acceptance.
