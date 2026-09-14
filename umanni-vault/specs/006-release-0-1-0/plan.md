@@ -26,7 +26,7 @@ Preparar um primeiro marco público imutável do repositório, corrigir o estado
 
 **Restrições**: não mover/sobrescrever tags; não publicar antes do merge; sem aplicação, pacote binário ou asset adicional; novo commit invalida revisão; release final não é rascunho nem pré-release
 
-**Escala/escopo**: primeira tag/release, dois milestones (`0.1.0` e `Backlog`), PRs 1–8 mais o PR de preparação, issue 9 e até onze arquivos documentais novos/alterados
+**Escala/escopo**: primeira tag/release, dois milestones (`0.1.0` e `Backlog`), PRs 1–8 mais o PR de preparação, issue 9 e até doze arquivos documentais novos/alterados
 
 ## Verificação da constituição
 
@@ -38,7 +38,7 @@ Preparar um primeiro marco público imutável do repositório, corrigir o estado
 - **Revisão independente**: planejamento e entrega final usam contexto Luna high separado, threads resolvidas pelo revisor e `review-ledger` no HEAD exato.
 - **Governança**: a nova regra permanente acrescenta um princípio de gestão de versões; a constituição muda de 2.0.0 para 2.1.0 por adicionar capacidade compatível, sem alterar princípios anteriores.
 
-Gate inicial: aprovado. Reavaliar após produzir o contrato; nenhuma violação prevista.
+Gate da autoria: preparado. O aceite independente permanece pendente até a revisão no HEAD exato; nenhuma execução documental ou publicação pode começar antes desse aceite.
 
 ## Estrutura do projeto
 
@@ -69,6 +69,7 @@ umanni-vault/
 ├── MEMORIA-PROJETO.md
 ├── 09-DOCUMENTACAO-E-PUBLICACAO.md
 ├── releases/0.1.0.md
+├── PROMPT-COND-006-FOUNDATION.md
 └── EXEC-006-RELEASE-0-1-0.md
 ```
 
@@ -80,4 +81,4 @@ Nenhuma violação ou complexidade excepcional.
 
 ## Check pós-design
 
-O contrato mantém tag imutável, revisão exata, merge antes da marcação e falha segura. Milestones tornam a versão-alvo verificável sem adicionar automação. A release preserva as exclusões da aplicação. Gate aprovado.
+O desenho proposto mantém tag imutável, revisão exata, merge antes da marcação e falha segura. Milestones tornam a versão-alvo verificável sem adicionar automação. A release preserva as exclusões da aplicação. Check pós-design da autoria: preparado; aprovação independente ainda pendente.

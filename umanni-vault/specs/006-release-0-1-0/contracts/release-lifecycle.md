@@ -9,21 +9,26 @@
 ## Preparação
 
 1. Criar branch e PR específicos a partir da principal limpa.
-2. Atualizar estado, changelog, notas e governança sem alegar tag/release ainda inexistentes.
-3. Atribuir ao milestone da versão todos os PRs/issues incluídos; manter itens sem compromisso no milestone `Backlog`.
-4. Executar validação documental e conferir que não existe tag/release conflitante.
-5. Obter revisão independente no HEAD exato, resolver achados apenas pelos respectivos revisores e deixar `review-ledger=success` com label `code-reviewed` ou equivalente documental.
+2. Publicar e obter revisão independente da spec, plano e tarefas no HEAD exato antes de criar/atribuir milestones ou alterar a política vigente.
+3. Depois de `spec-reviewed`, atualizar estado, changelog, notas e governança sem alegar tag/release ainda inexistentes.
+4. Criar/reconfirmar o milestone da versão e atribuir todos os PRs/issues incluídos; manter itens sem compromisso no milestone `Backlog`.
+5. Executar validação documental e conferir que não existe tag/release conflitante.
+6. Obter revisão independente final no HEAD exato, resolver achados apenas pelos respectivos revisores e deixar `review-ledger=success` com label `code-reviewed` ou equivalente documental.
+
+Na primeira execução de `0.1.0`, milestones foram criados e atribuídos antes do primeiro aceite por causa de uma inconsistência no planejamento inicial. O estado foi congelado após o achado R-001, deve ser registrado no EXEC e só pode ser reconfirmado — ou sofrer nova mutação — depois de `spec-reviewed`.
 
 ## Integração e publicação
 
 1. Confirmar novamente HEAD, base atual, gate, threads, responsável, milestone e ausência de conflito.
 2. Fazer somente o merge normal explicitamente autorizado.
 3. Atualizar o checkout da principal e confirmar que o HEAD revisado é ancestral do commit de merge.
-4. Criar a tag anotada `vX.Y.Z` no commit de merge da principal e verificar localmente o objeto e o alvo.
-5. Publicar a tag remota sem força.
-6. Criar a GitHub Release final vinculada à tag existente, usando o arquivo de notas revisado.
-7. Conferir que release e tag resolvem para o mesmo commit e fechar o milestone da versão.
-8. Registrar a evidência pós-publicação no comentário final do PR, pois ela ocorre depois do commit imutável de preparação.
+4. Capturar o SHA de merge no PR e exigir igualdade exata entre ele, o checkout e `origin/main`; qualquer avanço interrompe para nova revisão.
+5. Conferir no EXEC que todas as tarefas anteriores estão concluídas com evidência e que somente a publicação permanece pronta.
+6. Criar a tag anotada `vX.Y.Z` no SHA de merge confirmado e verificar localmente o objeto e o alvo.
+7. Publicar a tag remota sem força.
+8. Criar a GitHub Release final vinculada à tag existente, usando o arquivo de notas revisado.
+9. Conferir que release e tag resolvem para o mesmo commit, validar o prompt de passagem e fechar o milestone da versão.
+10. Registrar a matriz final e a evidência pós-publicação no comentário final do PR, pois elas ocorrem depois do commit imutável de preparação.
 
 ## Falhas e recuperação
 

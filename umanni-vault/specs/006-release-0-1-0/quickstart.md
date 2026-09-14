@@ -10,12 +10,14 @@ git diff --check
 git diff --cached --check
 rg -n "PR 6.*próxima|PR6.*pendente|review.*pending|release.*pending" README.md umanni-vault/STATUS.md umanni-vault/EXEC-006-RELEASE-0-1-0.md
 gh pr list --state merged --limit 20 --json number,title,mergeCommit
-gh api repos/douglasfeitosag/Umanni/milestones?state=all
+gh api 'repos/douglasfeitosag/Umanni/milestones?state=all'
 git tag --list v0.1.0
-gh release view v0.1.0
+release_probe=$(gh api repos/douglasfeitosag/Umanni/releases/tags/v0.1.0 2>&1)
+test $? -ne 0
+printf '%s\n' "$release_probe" | rg 'HTTP 404'
 ```
 
-Esperado antes da publicação: diff sem erro; nenhuma afirmação obsoleta sobre o PR6; milestone `0.1.0` contém PRs 1–8 e o PR de preparação; issue 9 pertence a `Backlog`; tag/release inexistentes.
+Esperado antes da publicação: diff sem erro; nenhuma afirmação obsoleta sobre o PR6; milestone `0.1.0` contém PRs 1–8 e o PR de preparação; issue 9 pertence a `Backlog`; tag vazia e probe da release com HTTP 404. Qualquer outro erro da API interrompe o fluxo.
 
 ## Gate do PR
 
@@ -32,9 +34,13 @@ Confirmar no HEAD exato:
 Depois do merge normal autorizado, confirmar a principal e criar a tag anotada no commit de merge:
 
 ```sh
+merge_sha=$(gh pr view 10 --json state,mergeCommit --jq 'select(.state == "MERGED") | .mergeCommit.oid')
+test -n "$merge_sha"
 git switch main
 git pull --ff-only origin main
-git tag -a v0.1.0 "$(git rev-parse HEAD)" -m "Release 0.1.0"
+test "$(git rev-parse HEAD)" = "$merge_sha"
+test "$(git rev-parse origin/main)" = "$merge_sha"
+git tag -a v0.1.0 "$merge_sha" -m "Release 0.1.0"
 git show --no-patch --format=fuller v0.1.0
 git push origin refs/tags/v0.1.0
 gh release create v0.1.0 --verify-tag --title "Umanni 0.1.0" --notes-file umanni-vault/releases/0.1.0.md
@@ -50,8 +56,8 @@ git rev-list -n 1 v0.1.0
 git rev-parse origin/main
 git cat-file -t v0.1.0
 gh release view v0.1.0 --json name,tagName,isDraft,isPrerelease,targetCommitish,url
-gh api repos/douglasfeitosag/Umanni/milestones?state=all
+gh api 'repos/douglasfeitosag/Umanni/milestones?state=all'
 git status --short --branch
 ```
 
-Esperado: objeto `tag`; tag e principal resolvem para o mesmo commit de merge; release `Umanni 0.1.0` final; milestone `0.1.0` fechado; checkout limpo. Registrar hashes, URL e resultado no comentário final do PR.
+Esperado: objeto `tag`; tag e principal resolvem para o mesmo commit de merge capturado do PR; release `Umanni 0.1.0` final; milestone `0.1.0` fechado; checkout limpo. Antes da tag, o EXEC deve mapear T001–T018 como concluídas com evidência e T019 como `publication-ready`; qualquer tarefa bloqueada ou adiada sem destino interrompe. Registrar hashes, URL, validação do prompt de passagem e resultado no comentário final do PR.
