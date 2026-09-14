@@ -14,5 +14,8 @@ Escopo: somente Umanni. Atualização inicial: 2026-09-10. Não substitui specs 
 Relacionados: [[STATUS]], [[PROTOCOL]], [[HOME]].
 
 - Spec Kit 1.0.6: SPECIFY_FEATURE isoladamente não resolve diretórios criados manualmente. Informar também SPECIFY_FEATURE_DIRECTORY absoluto; validação de pré-requisitos comprovou a necessidade nesta entrega.
-
 - D-017: vault dedicado em umanni-vault, por pedido de Douglas. Em mudanças de diretório, validar links e caminhos do Spec Kit; preservar pedidos históricos e isolar alterações quando outra condutora estiver ativa.
+- Branding 001: usar a identidade pública da Umanni para o teste, com aviso de uso avaliativo não oficial e sem licença expressa. Site principal governa a interface; blog apenas confirma marca/contexto editorial. Fonte: briefing confirmado por Douglas em 2026-09-14.
+- Acessibilidade prevalece sobre combinações públicas inadequadas: manter `#03A1E0` no logo/realces, mas explicar e usar pares funcionais WCAG AA para texto e controles. Fonte: `specs/001-branding/briefing.md`.
+- Tema escuro não existe na entrega 001 porque não foram encontradas informações públicas suficientes para criá-lo fielmente; não apresentar isso como limitação técnica. Fonte: `specs/001-branding/briefing.md`.
+- Para artefatos de branding, preservar URL, data, hash, transformação e licença/restrição. O SVG oficial da assinatura incorpora raster e não autoriza vetorização ou variantes inventadas. Fonte: `specs/001-branding/research.md`.
