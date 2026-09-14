@@ -15,7 +15,7 @@ All notable project milestones are documented in this file. This project follows
 ### Validation
 
 - 28 core prototype tests passed with 100% line/function coverage and 92.12% branch coverage.
-- Eight final browser scenarios passed across 390×844, 1280×720 and 1440×1024 viewports.
+- Eight final browser scenarios passed at 390×844 and 1440×1024; a separate 200% text reflow check ran at 1280×720.
 - Static assets, licenses, keyboard behavior and final screenshots were inspected as recorded in the corresponding execution reports.
 
 ### Known limitations

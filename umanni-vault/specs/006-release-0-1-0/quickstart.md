@@ -5,13 +5,27 @@ Executar da raiz do repositório. Antes da integração, comandos de inspeção 
 ## Preparação documental
 
 ```sh
+set -eu
+status_output=$(git status --porcelain)
+if [ -n "$status_output" ]; then
+  printf '%s\n' 'ERRO: checkout contém mudanças; interromper.' >&2
+  printf '%s\n' "$status_output" >&2
+  exit 1
+fi
 git status --short --branch
 git diff --check
 git diff --cached --check
-rg -n "PR 6.*(próxima|pendente)|PR6.*pendente|review (is|remains) pending|release (is|remains) pending" README.md umanni-vault/STATUS.md umanni-vault/EXEC-006-RELEASE-0-1-0.md
+if rg -n "PR 6.*(próxima|pendente)|PR6.*pendente|review (is|remains) pending|release (is|remains) pending" README.md umanni-vault/STATUS.md umanni-vault/EXEC-006-RELEASE-0-1-0.md; then
+  printf '%s\n' 'ERRO: afirmação obsoleta encontrada; interromper.' >&2
+  exit 1
+fi
 gh pr list --state merged --limit 20 --json number,title,mergeCommit
 gh api 'repos/douglasfeitosag/Umanni/milestones?state=all'
-git tag --list v0.1.0
+tag_matches=$(git tag --list v0.1.0)
+if [ -n "$tag_matches" ]; then
+  printf '%s\n' 'ERRO: tag v0.1.0 já existe; interromper.' >&2
+  exit 1
+fi
 if release_probe=$(gh api repos/douglasfeitosag/Umanni/releases/tags/v0.1.0 2>&1); then
   printf '%s\n' 'ERRO: v0.1.0 já possui GitHub Release; interromper.' >&2
   exit 1
