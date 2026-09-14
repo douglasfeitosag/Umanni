@@ -29,3 +29,9 @@ Validação documental: pré-requisitos Spec Kit, git diff --check, consistênci
 Integração runtime, locks, testes, cobertura e imagem final são trabalho futuro da executora, não pendências mascaradas desta pesquisa. Decisões funcionais permanecem Backlog. Se a revisão encontrar conflito de versão/contrato ou expansão funcional, parar trabalho dependente e levar pergunta concreta a Douglas.
 
 Somente após review-ledger success/spec-reviewed/zero threads será preparado o prompt da executora e publicado no PR/chat, contendo SHA revisado e este conjunto de leituras. Não incluí-lo antecipadamente no commit. Esse procedimento evita invalidar o aceite por um commit contendo apenas o prompt; se Douglas quiser versioná-lo antes da execução, o novo HEAD precisa de nova revisão. Execução ocorrerá em sessão aberta manualmente por Douglas, conforme governança. Nenhum merge/tag/release nesta condução.
+
+## Correções da primeira revisão independente
+
+A revisora Luna high publicou FND-001 a FND-003 no PR11 sobre o commit d919e44. A checagem inicial de whitespace não abrangia os arquivos ainda untracked: o diff completo contra v0.1.0 revelou seis linhas com espaços finais. A correção removeu os espaços e passou a validar `git diff --check v0.1.0 HEAD`, além do diff de trabalho.
+
+T004 agora prevê módulo frontend mínimo importável que retorna null antes do RED comportamental de T005. A prova de isolamento usa hook before(:suite) em cada worker e duas observações obrigatórias no agregador, sem depender de qual processo recebe um arquivo de spec. Essas correções são documentais; nenhum scaffold ou hook foi implementado. O novo HEAD será reexaminado pela revisora antes do aceite, registrado no PR.

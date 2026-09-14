@@ -10,13 +10,13 @@ Entrada: [spec](spec.md), [plano](plan.md), [pesquisa](research.md), [dados](dat
 
 ## Fase 2 — Harness / destino 0.2.0
 
-- [ ] T004 Preparar `spec/spec_helper.rb`, `spec/rails_helper.rb`, `.rspec`, `.simplecov`, `vitest.config.ts`, `app/frontend/test/setup.ts` para testes focalizados, instrumentação antes de boot e política integral de quality.md; não gerar testes vazios para passar. FR005/006.
+- [ ] T004 Preparar `spec/spec_helper.rb`, `spec/rails_helper.rb`, `.rspec`, `.simplecov`, `vitest.config.ts`, `app/frontend/test/setup.ts` para testes focalizados, instrumentação antes de boot e política integral de quality.md; acrescentar somente scaffold exportável em `app/frontend/pages/Foundation/Show.tsx` que retorna null, sem texto/props/comportamento da página, para permitir importação do teste. Não gerar testes vazios para passar. FR005/006.
 
 ## Fase 3 — US1 / destino 0.2.0
 
 Objetivo: página real verificável sem fluxo de usuários. Teste independente: BDD01–04.
 
-- [ ] T005 [US1] Escrever primeiro testes BDD01–04 em `spec/requests/foundation_spec.rb` e `app/frontend/pages/Foundation/Show.test.tsx`; comprovar RED pela ausência da resposta/página, não por dependência quebrada. Props obrigatórias: `app: { name: "Umanni", version: "0.2.0" }`, `errors: {}`; strings não nulas. FR001/002/005.
+- [ ] T005 [US1] Escrever primeiro testes BDD01–04 em `spec/requests/foundation_spec.rb` e `app/frontend/pages/Foundation/Show.test.tsx`; comprovar RED por asserção de resposta/texto/props ausentes (o scaffold frontend de T004 já é importável), não por dependência ou módulo quebrado. Props obrigatórias: `app: { name: "Umanni", version: "0.2.0" }`, `errors: {}`; strings não nulas. FR001/002/005.
 - [ ] T006 [US1] Implementar somente `app/controllers/foundation_controller.rb`, rotas em `config/routes.rb`, layout em `app/views/layouts/application.html.erb`, `app/frontend/pages/Foundation/Show.tsx`, `app/frontend/types/foundation.ts`, entrypoint e stylesheet; manter CSRF e props permitidas, configurar digest em `config/initializers/inertia_rails.rb`, Vite em `vite.config.ts`/`config/vite.json`; obter GREEN e refatorar. FR001/002.
 - [ ] T007 [US1] Criar testes de navegador BDD01–03 em `spec/e2e/foundation.spec.ts` antes de ajustes finais de integração; comprovar HTML inicial, visita Link, recarregamento por mismatch, título, aviso, seis projetos e ausência de erros de console em `playwright.config.ts`; registrar RED/GREEN relevante. FR001/002/005.
 
@@ -24,9 +24,9 @@ Objetivo: página real verificável sem fluxo de usuários. Teste independente: 
 
 Objetivo: qualidade e isolamento comprovados. Teste independente: BDD05–07.
 
-- [ ] T008 [US2] Escrever RED de conexão/isolamento em `spec/integration/database_isolation_spec.rb`: current_database distinto por processo e diferente do desenvolvimento, marcador TEMPORARY de mesmo nome em conexões isoladas; não criar migration de domínio. FR003/005.
-- [ ] T009 [US2] Configurar primary PostgreSQL em `config/database.yml`, banco test sem fallback ao desenvolvimento, pools/sufixos exatos de data-model.md e preparo seguro em `lib/tasks/verification.rake`; schema/seed vazios em `db/schema.rb`/`db/seeds.rb`; obter GREEN com dois processos. FR003.
-- [ ] T010 [US2] Implementar consolidação verificável em `lib/tasks/coverage.rake` e `.simplecov`, run IDs/manifest de dois resultados, threshold Ruby90%, Vitest linhas90% e include de arquivos não importados em `vitest.config.ts`; comprovar BDD06–07 removendo um resultado e acrescentando arquivos sem cobertura em cópia temporária; registrar provas no EXEC. FR006.
+- [ ] T008 [US2] Escrever RED de conexão/isolamento em `spec/integration/database_isolation_spec.rb` e especificar probe em `spec/support/worker_database_probe.rb`, carregado por rails_helper e executado before(:suite) em cada processo: current_database distinto por processo e diferente do desenvolvimento, marcador TEMPORARY de mesmo nome em conexões isoladas. Cada processo grava observação com run ID, TEST_ENV_NUMBER, banco e sucesso do marcador; o agregador deve exigir exatamente os workers 1/2 e bancos umanni_test/umanni_test2. Não depender da distribuição do arquivo de spec nem criar migration de domínio. FR003/005.
+- [ ] T009 [US2] Configurar primary PostgreSQL em `config/database.yml`, banco test sem fallback ao desenvolvimento, pools/sufixos exatos de data-model.md, probe before(:suite) implementado em `spec/support/worker_database_probe.rb` e preparo seguro em `lib/tasks/verification.rake`; schema/seed vazios em `db/schema.rb`/`db/seeds.rb`; obter GREEN com dois processos. FR003.
+- [ ] T010 [US2] Implementar consolidação verificável em `lib/tasks/coverage.rake` e `.simplecov`, run IDs/manifest de dois resultados e duas observações de isolamento válidas (conforme data-model.md), threshold Ruby90%, Vitest linhas90% e include de arquivos não importados em `vitest.config.ts`; comprovar BDD06–07 removendo um resultado e acrescentando arquivos sem cobertura em cópia temporária; registrar provas no EXEC. FR006.
 - [ ] T011 [US2] Configurar `tsconfig.json` strict, `eslint.config.js`, `.rubocop.yml` e Brakeman; criar `bin/check` com propagação de falhas, preparo seguro, suites/build/browser e códigos de saída; provar falha por teste/tipo/lint controlados no EXEC. FR005/006.
 
 ## Fase 5 — US3 / destino 0.2.0

@@ -10,6 +10,7 @@ git rev-parse 'v0.1.0^{commit}'
 gh release view v0.1.0 --json tagName,url,publishedAt
 gh issue view 9 --json title,state,milestone
 SPECIFY_FEATURE_DIRECTORY=/Users/douglas/Projects/Umanni/umanni-vault/specs/008-foundation-plan SPECIFY_FEATURE=008-foundation-plan .specify/scripts/bash/check-prerequisites.sh --json --require-spec --require-tasks --include-tasks
+git diff --check v0.1.0 HEAD
 git diff --check
 ```
 
@@ -67,7 +68,7 @@ RAILS_ENV=test bundle exec vite build
 npm exec playwright -- test --workers=2
 ```
 
-Playwright instala browsers no tooling durante build, usa seis projetos e inicia Rails test dedicado na porta3101 com assets compilados; não reutiliza servidor existente. RSpec inclui pelo menos dois arquivos para particionar e comprova os dois bancos. `coverage:verify` será criada e testada contra ausência de resultado.
+Playwright instala browsers no tooling durante build, usa seis projetos e inicia Rails test dedicado na porta3101 com assets compilados; não reutiliza servidor existente. RSpec inclui pelo menos dois arquivos para particionar; o probe before(:suite) executa em cada worker e o agregador exige ambas as observações válidas conforme data-model.md. `coverage:verify` será criada e testada contra ausência de resultado.
 
 4. Configurar somente variáveis locais de delivery no .env ignorado, preparar `umanni_production` e testar imagem final sem development server:
 

@@ -1,6 +1,6 @@
 # Plano — fundação mínima da aplicação
 
-**Branch**: `codex/008-foundation-plan` | **Data**: 2026-09-14 | **Spec**: [spec.md](spec.md)  
+**Branch**: `codex/008-foundation-plan` | **Data**: 2026-09-14 | **Spec**: [spec.md](spec.md)
 **Versão-alvo**: 0.2.0, milestone3. Base: v0.1.0 (`87e8c51894faa5794e9759b9caa5df4871d350e7`). Origem: PROMPT-COND-006/Douglas. Documento de planejamento; não executar nesta sessão.
 
 ## Summary
@@ -47,7 +47,7 @@ app/frontend/test/setup.ts
 app/frontend/pages/Foundation/Show.test.tsx
 config/, config.ru, Rakefile, bin/, db/schema.rb, db/seeds.rb
 spec/{spec_helper,rails_helper}.rb, spec/requests/foundation_spec.rb
-spec/integration/database_isolation_spec.rb
+spec/integration/database_isolation_spec.rb, spec/support/worker_database_probe.rb
 lib/tasks/{coverage,verification}.rake
 spec/e2e/foundation.spec.ts
 ```
@@ -58,7 +58,7 @@ Arquivos convencionais de boot Rails são permitidos apenas para essa estrutura.
 
 1. **Gate de entrada**: base intacta, árvore limpa, spec-reviewed, review-ledger success no SHA exato, zero threads pendentes; execução em sessão aberta por Douglas. Branch de execução `codex/009-foundation-app`, nascida do commit de planejamento aceito. Não assumir planejamento já mesclado.
 2. **Bootstrap controlado**: runtime isolado conforme environment.md; verificar CLI do Rails fixado antes de usar flags. Gerar Rails mínimo sem JavaScript/asset pipeline/Hotwire, testes Minitest, CI, git, Solid, mailbox, text e storage. Preservar Docker defaults úteis Thruster/Kamal, mas não criar deploy efetivo. Inertia será integrado manualmente seguindo o contrato e versões, evitando geração automática com ranges atuais. CSR explícito com resolve/setup e createRoot, sem @inertiajs/vite nem servidor SSR.
-3. **Locks e testes primeiro**: instalar dependências exatas; registrar resolução limpa. Harness mínimo de RSpec e Vitest precede controller/page. Para cada BDD, falha pela ausência do comportamento, implementação mínima, sucesso e refatoração. Boot/geração não precisa de teste artificial anterior à existência da aplicação; registrar falha focalizada assim que o harness consegue executar.
+3. **Locks e testes primeiro**: instalar dependências exatas; registrar resolução limpa. Harness mínimo de RSpec e Vitest precede comportamento de controller/page. Criar módulo frontend importável que retorna null antes do teste de componente; isso é scaffold, não implementação do comportamento. Para cada BDD, falha pela ausência do comportamento, implementação mínima, sucesso e refatoração. Boot/geração não precisa de teste artificial anterior à existência da aplicação; registrar falha focalizada assim que o harness consegue executar.
 4. **US1**: página mínima acessível, integração HTML/JSON e asset-version, /up, 404. Sem converter telas do protótipo. CSS Tailwind básico, tema claro, sem novos assets ou biblioteca visual. Preservar restrições da identidade; título/texto simples dispensam redesign.
 5. **US2**: PostgreSQL e isolamento, medição completa por linguagem, provas negativas do gate e suites em paralelo conforme quality.md.
 6. **US3**: Docker final non-root, Compose e clean build, seis projetos Playwright, bin/check, README e EXEC com evidência real. Verificar secrets/arquivos ignorados e preservar arquivo visual por diff contra base.
