@@ -32,6 +32,7 @@ O fechamento documental foi integrado pelo [PR #13](https://github.com/douglasfe
 
 ## Pendências e momento de resolução
 
+- O roadmap documental 012 organiza B001–B007 sem executar aplicação: identidade/acesso e interfaces funcionais são previstos para 0.3.0; importação CSV/XLSX para 0.4.0; CI/runner, extras e issue #9 preservam destino Backlog. A branch de planejamento é `codex/012-user-roadmap`; seus artefatos ainda exigem revisão independente antes de qualquer prompt de execução.
 - Proteção de `main`: configurada e relida pela API em 2026-09-14 com PR obrigatório, zero aprovações nativas, `review-ledger` obrigatório e estrito por SHA, conversas resolvidas, aplicação a administradores e bloqueio de force-push/exclusão. Labels `review-pending`, `changes-requested`, `spec-reviewed` e `code-reviewed` existem. foundation-checks foi adicionado como obrigatório na execução009, preservando as demais proteções; automação do ledger e runner isolado permanecem pendentes; o status manual do ledger não deve ser apresentado como workflow automatizado.
 - A fundação fixou versões compatíveis, Vite/npm, contratos Inertia, política de cobertura e ambientes de teste; qualquer ampliação futura desses contratos exige nova especificação e evidência própria.
 - Antes dos fluxos de usuário: cadastro/ativação/senha inicial, importação CSV/XLSX (colunas, duplicidade, erros, limites e repetição), avatar, último administrador e matriz de autorização. Ver 05-LEITURA-DO-TESTE.
