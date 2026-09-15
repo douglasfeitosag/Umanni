@@ -20,7 +20,7 @@
 
 - [x] T001 Verify clean `codex/010-foundation-release`, local/remote Foundation merge `665da839ab2efdd08c94664f842d9d17fcf3023c`, reviewed head/tree equality and absence of `v0.2.0`; record observed facts in `umanni-vault/EXEC-010-FOUNDATION-RELEASE.md`.
 - [x] T002 Validate `umanni-vault/specs/010-foundation-release/spec.md`, `plan.md`, `research.md`, `data-model.md`, `contracts/release-lifecycle.md`, `quickstart.md`, `checklists/requirements.md` and this `tasks.md` with Spec Kit prerequisites, cross-artifact analysis and `git diff --check`.
-- [ ] T003 Commit only `umanni-vault/specs/010-foundation-release/` and the initial `umanni-vault/EXEC-010-FOUNDATION-RELEASE.md`, then push `codex/010-foundation-release` and open a documentation PR targeting main with milestone `0.2.0`, label `documentation` and Douglas assigned.
+- [x] T003 Commit only `umanni-vault/specs/010-foundation-release/` and the initial `umanni-vault/EXEC-010-FOUNDATION-RELEASE.md`, then push `codex/010-foundation-release` and open a documentation PR targeting main with milestone `0.2.0`, label `documentation` and Douglas assigned.
 - [ ] T004 Dispatch an independent Luna high reviewer in a fresh context for the exact planning HEAD; require reviewer-owned threads, `review-ledger` and `spec-reviewed`, recording dispatch and result in `umanni-vault/EXEC-010-FOUNDATION-RELEASE.md`.
 - [ ] T005 Resolve any planning findings through author replies and scoped commits in the original threads, returning every new HEAD to the reviewer; do not begin Phase 2 until exact-head acceptance is verified in `umanni-vault/EXEC-010-FOUNDATION-RELEASE.md`.
 

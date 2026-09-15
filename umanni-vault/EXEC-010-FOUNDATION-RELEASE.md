@@ -9,7 +9,9 @@
 - Branch: `codex/010-foundation-release`.
 - Base: `main`/`origin/main` em `665da839ab2efdd08c94664f842d9d17fcf3023c`, merge do PR #12.
 - Spec: `umanni-vault/specs/010-foundation-release/`.
-- Estado atual: planejamento preparado e validado localmente; ainda não publicado nem revisado. Não existem tag/release `v0.2.0`; milestone 0.2.0 permanece aberto.
+- PR de preparação: [#13](https://github.com/douglasfeitosag/Umanni/pull/13), base `main`, label `documentation`, Douglas responsável, milestone 0.2.0.
+- Commit inicial de planejamento: `13b5784` (`docs: plan foundation 0.2.0 release`).
+- Estado atual: planejamento preparado, validado e publicado; revisão independente ainda pendente. Não existem tag/release `v0.2.0`; milestone 0.2.0 permanece aberto e agora inclui este PR em andamento.
 
 ## Resultado do gate inicial
 
@@ -62,7 +64,7 @@ O conteúdo integrado da Foundation é tecnicamente elegível. A publicação im
 | --- | --- | --- |
 | T001 | concluída | gate inicial e tabela de SHAs/estado acima |
 | T002 | concluída | Spec Kit, checklist, análise cruzada e diff sem erros |
-| T003 | pronta | commit/push/PR de planejamento ainda não executados |
+| T003 | concluída | commit `13b5784`, branch remota e PR #13 com metadados obrigatórios |
 | T004–T005 | pendentes | revisão independente do planejamento |
 | T006–T007 | bloqueadas por revisão | evidência de prontidão pós-aceite |
 | T008–T013 | bloqueadas por revisão | registros públicos e validação documental |
