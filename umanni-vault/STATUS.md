@@ -1,6 +1,6 @@
 # Estado vigente
 
-Atualizado: 2026-09-14. Projeto: `/Users/douglas/Projects/Umanni`. O vault é a subpasta `umanni-vault/` do repositório; registros da conversa foram preservados aqui. Use este índice para distinguir estado atual de propostas históricas.
+Atualizado: 2026-09-15. Projeto: `/Users/douglas/Projects/Umanni`. O vault é a subpasta `umanni-vault/` do repositório; registros da conversa foram preservados aqui. Use este índice para distinguir estado atual de propostas históricas.
 
 ## Decidido
 
@@ -10,7 +10,7 @@ Branding: reprodução avaliativa da identidade pública da Umanni, sem autoriza
 
 ## Entrega documental e versão
 
-Spec Kit 1.0.6 inicializado localmente para Codex. Constituição, README, protocolo, índices e specs/planos/tarefas documentais estão no vault. A entrega visual estática foi implementada, validada, revisada e integrada pelos PRs 3–5 e 8; o protótipo navegável foi integrado pelo PR 6 e a governança de revisão automática pelo PR 7. O milestone `0.1.0` reúne os PRs 1–8 e a preparação da release; a issue 9 permanece no milestone `Backlog`. A preparação foi integrada pelo PR #10; a tag anotada `v0.1.0` e a GitHub Release estão publicadas no commit `87e8c51894faa5794e9759b9caa5df4871d350e7`, e o milestone `0.1.0` está fechado (estado relido em 2026-09-14). Ainda não existe aplicação Rails, Docker Compose, CI de aplicação ou runner de produção.
+Spec Kit 1.0.6 inicializado localmente para Codex. Constituição, README, protocolo, índices e specs/planos/tarefas documentais estão no vault. A entrega visual estática foi implementada, validada, revisada e integrada pelos PRs 3–5 e 8; o protótipo navegável foi integrado pelo PR 6 e a governança de revisão automática pelo PR 7. O milestone `0.1.0` reúne os PRs 1–8 e a preparação da release; a issue 9 permanece no milestone `Backlog`. A preparação foi integrada pelo PR #10; a tag anotada `v0.1.0` e a GitHub Release estão publicadas no commit `87e8c51894faa5794e9759b9caa5df4871d350e7`, e o milestone `0.1.0` está fechado (estado relido em 2026-09-14). Na base 0.1.0 não existia aplicação Rails. A execução 009 abaixo acrescenta a fundação; CI automático e runner continuam fora do escopo.
 
 ## Planejamento de branding
 
@@ -23,6 +23,10 @@ A feature 005 foi integrada na `main` pelo PR 6, merge commit `0cd4c4142be883340
 ## Próxima tarefa
 
 PROMPT-COND-006: planejamento da fundação em `codex/008-foundation-plan`, feature `specs/008-foundation-plan/`, versão-alvo `0.2.0` (milestone 3), base imutável `v0.1.0`. Spec, pesquisa, contratos, plano e tarefas preparados; revisão independente será vinculada ao HEAD do PR. Somente depois de `review-ledger=success`, `spec-reviewed` e todas as threads resolvidas pela revisora será entregue prompt autossuficiente à executora. O estado final do aceite é verificado no PR, não pressuposto por este arquivo. Nenhuma aplicação implementada nesta sessão; sem merge, tag ou release autorizados. Ver [[COND-006-FOUNDATION-PLAN]].
+
+## Execução 009 — validação em andamento
+
+A execução em `codex/009-foundation-app` nasceu do SHA aprovado `d1f3a3a349ed4a7610c4da7b170d4d2976c56691`. Página Rails–Inertia, testes, locks e empacotamento estão implementados localmente. Douglas autorizou a restrição `json = 2.21.2`, resolvendo a incompatibilidade transitiva com Rails; a regressão de sessão e os 12 cenários Playwright passaram. A validação completa, provas negativas, imagem final e revisão independente seguem em execução. Ver [[EXEC-009-FOUNDATION-APP]]. Sem aceite final, merge ou release.
 
 ## Pendências e momento de resolução
 
