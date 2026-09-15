@@ -1,6 +1,6 @@
 ### AI Usage Disclosure
 
-The foundation implementation used Codex, identified as GPT-6 without an exposed exact runtime variant. Final implementation review is pending the complete validation.
+The foundation implementation used Codex, identified as GPT-6 without an exposed exact runtime variant. Independent implementation review was dispatched in a fresh context with `gpt-5.6-luna`/high configured. The reviewer reported a GPT-5 runtime identity without an exposed exact variant; final acceptance is pending the corrected HEAD.
 
 Foundation planning used Codex, identified by its environment as GPT-6 without an exposed exact runtime variant, including a separate read-only research agent. Review identities are recorded on the planning PR. The documentation baseline used Codex, identified in that session as based on GPT-6; its precise runtime variant was not exposed. Branding planning and prototype coordination used `gpt-5.6-sol` with medium reasoning, as configured for those sessions. A delegated `gpt-5.6-terra` high-reasoning executor implemented the prototype state core and tests. Exact final-review identities and contributions are recorded in the corresponding execution reports and pull requests; no unperformed reviewer is credited.
 

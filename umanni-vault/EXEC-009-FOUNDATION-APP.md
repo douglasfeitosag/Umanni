@@ -203,3 +203,13 @@ Observações completas dessa execução:
 ```
 
 Este commit documental será novamente validado; o registro por SHA no PR complementa o relatório sem presumir herança de status. Revisora ainda não publicou aceite.
+
+## Revisão independente — rodada 1 e correção
+
+A revisora foi iniciada automaticamente em contexto novo, sem conversa herdada, com configuração de convocação **gpt-5.6-luna/high**. Ela declarou que seu runtime se identifica como **GPT-5, variante não exposta**, e corrigiu a atribuição na própria thread. Registram-se separadamente a configuração solicitada/aceita pela ferramenta e a autodescrição, sem inventar confirmação interna de variante. A sessão de autoria permanece GPT-6/variante não exposta.
+
+HEAD revisado: e75ab48d43204d465889334472ff5384ded468e4. [FOUNDATION-REVIEW-001](https://github.com/douglasfeitosag/Umanni/pull/12#discussion_r4012674877), Sev2: tornar exatas as asserções de props. A revisora publicou COMMENTED, review-ledger=failure e changes-requested. Verificações próprias reportadas: SHAs local/remoto, smoke HTTP/Inertia e verification:prepare; não foram atribuídos a ela os testes de autoria.
+
+A executora reproduziu em cópia temporária com prop adicional internal_probe=true: o E2E antigo passou indevidamente (0), enquanto o RSpec antigo já rejeitou a prop (1). Portanto a lacuna funcional era no toMatchObject do E2E; em RSpec a mudança torna a igualdade explícita. Corrigidos ambos para comparar somente props por igualdade, mantendo o envelope aberto aos campos legítimos do adaptador.
+
+RED com a prop extra e novas asserções: request spec **1**, Playwright focalizado Chromium **1**, ambos por diferença de props. Uma primeira cópia temporária truncada provocou SyntaxError e foi descartada; não conta como RED. Após restaurar o controller original: os mesmos request spec e Playwright focalizado passaram (**0/0**). Nenhuma prop experimental entrou no checkout/commit. O novo HEAD será revalidado integralmente e respondido na mesma thread; somente a revisora resolve/publica sucesso.

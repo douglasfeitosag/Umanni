@@ -14,7 +14,9 @@ test('opens the technical page and performs an Inertia visit', async ({ page }) 
   await page.getByRole('link', { name: 'Recarregar página' }).click()
   const response = await visit
   expect(response.status()).toBe(200)
-  expect(await response.json()).toMatchObject({ component: 'Foundation/Show', props: { app: { name: 'Umanni', version: '0.2.0' }, errors: {} } })
+  const body = await response.json()
+  expect(body.component).toBe('Foundation/Show')
+  expect(body.props).toEqual({ app: { name: 'Umanni', version: '0.2.0' }, errors: {} })
   expect(errors).toEqual([])
 })
 
