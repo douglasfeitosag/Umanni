@@ -203,3 +203,7 @@ Validação corretiva antes do commit: `git diff --check` e `sh -n` dos seis blo
 ## Limites e parada
 
 Nenhum arquivo de aplicação, lock, branding ou runtime foi alterado. Nenhuma tag, GitHub Release, alteração de milestone ou merge foi executado. O próximo gate é publicar os registros documentais no PR #13, invalidar o aceite do planejamento e obter revisão final independente no novo HEAD exato. Um achado, novo commit, divergência da principal, tag/release inesperada ou item aberto sem destino interrompe o trabalho dependente.
+
+## Fechamento posterior verificado
+
+Esta seção acrescenta o desfecho sem reescrever as rodadas e placeholders pré-publicação acima. A preparação final foi aceita no HEAD `f56971eca6b5e280e2f20cf0ccaae2dce3254a37`, com `foundation-checks=success`, `review-ledger=success`, label `code-reviewed` e 8/8 threads resolvidas pela revisora. O PR #13 foi integrado pelo merge `b5fc0ed5d9014e9841a82e0c19f634684db71182`, igual a `main` e `origin/main` no gate de publicação. A tag anotada `v0.2.0` possui objeto `ea39aa30fae38ddf73cd42468aeb1acdcd01b880` e peeled target igual ao merge. A GitHub Release `Umanni 0.2.0` é final em <https://github.com/douglasfeitosag/Umanni/releases/tag/v0.2.0>, publicada em `2026-09-15T11:11:14Z`; o milestone 0.2.0 foi fechado em `2026-09-15T11:11:16Z`, contendo somente PRs #11–#13. A issue #9 permanece aberta no Backlog. O comentário final do PR #13 registra T001–T019 concluídas.

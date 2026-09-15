@@ -136,3 +136,7 @@ Busca, filtro, paginação, seleção em lote e mudança rápida de papel não i
 ## Parada
 
 A condutora para após uma revisora em sessão distinta resolver todas as threads, aplicar `spec-reviewed` e marcar `review-ledger=success` no PR #3 contra o novo HEAD. Não cria assets. A executora para após produzir, validar, commitar e publicar `branding/` e `EXEC-001-BRANDING.md` no PR #3, preservando label e responsável. Não implementa aplicação, faz merge ou fechamento.
+
+## Fechamento posterior verificado
+
+O texto acima preserva o plano e o ponto de parada anteriores à execução. O PR #3 foi integrado enquanto a produção dos assets estava em andamento e contém apenas o handoff aceito. A entrega estática real foi publicada no PR #4, aceita no HEAD `97c5012e193b57531f245e07d9169cde84468e31` com `review-ledger=success` e `code-reviewed`, e integrada pelo merge `cba851bcc5a672c7e447fbe17f3f03428397b955`. O `EXEC-001-BRANDING.md` registra T001–T031 concluídas.

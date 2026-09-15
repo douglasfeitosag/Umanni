@@ -2,7 +2,7 @@
 
 **Feature Branch**: `codex/008-foundation-plan`
 **Created**: 2026-09-14
-**Status**: planejamento sujeito a revisão independente; execução proibida nesta sessão.
+**Status**: planejamento aceito no PR #11; execução concluída e integrada pelo PR #12; fechamento integrado pelo PR #13 e publicado como `v0.2.0` em `b5fc0ed5d9014e9841a82e0c19f634684db71182`.
 **Input**: PROMPT-COND-006 de Douglas; versão-alvo `0.2.0`.
 **Base imutável**: `v0.1.0`, commit `87e8c51894faa5794e9759b9caa5df4871d350e7`, [release](https://github.com/douglasfeitosag/Umanni/releases/tag/v0.1.0).
 **Autoria**: condutora Codex, identificada pelo ambiente como GPT-6; variante exata da sessão não exposta. A pesquisa delegada herda esse ambiente. Não atribuir Sol medium sem evidência.

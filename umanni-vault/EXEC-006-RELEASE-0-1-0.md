@@ -75,3 +75,7 @@ A revisora abriu sete achados no review `5203044951`. Seis foram corrigidos em `
 ## Limitações
 
 Esta entrega não cria aplicação, automação de release, workflow, runner, pacote ou artefato binário. O `review-ledger` continua um status gerido por agentes, não um workflow automatizado. A issue #9 permanece em `Backlog`. A release 0.1.0 é pré-aplicação.
+
+## Fechamento posterior verificado
+
+Esta seção acrescenta o desfecho sem reescrever o snapshot pré-publicação acima. O PR #10 foi revalidado no HEAD final `b3c559f2aa9e1b07b241deeac0ad5ddcaf674b53`, com `review-ledger=success`, label `code-reviewed` e 10/10 threads resolvidas. O merge normal produziu `87e8c51894faa5794e9759b9caa5df4871d350e7`; checkout e `origin/main` eram iguais a esse SHA antes da publicação. A tag anotada `v0.1.0` possui objeto `27bfdfe5c7f3d7c1a96b6797fb5779fce5f0ef79` e aponta para o merge. A GitHub Release `Umanni 0.1.0` é final em <https://github.com/douglasfeitosag/Umanni/releases/tag/v0.1.0>; o milestone 0.1.0 está fechado e a issue #9 continua aberta no Backlog. O comentário final do PR registra T001–T019 concluídas.

@@ -20,7 +20,7 @@ Briefing, pesquisa, spec, plano, contratos, tarefas e critérios preparados na b
 
 A feature 005 foi integrada na `main` pelo PR 6, merge commit `0cd4c4142be8833401a5721c5e7cc637ea40b161`, depois de duas revisões finais Luna high no mesmo HEAD e gate bem-sucedido. O protótipo em `branding/prototype/` usa somente HTML/CSS/ES modules, dados fictícios reiniciáveis e os assets/licenças já preservados; não implementa autenticação, persistência, upload, fila ou regras de produção. A matriz nativa passou em 1440×1024 e 390×844, os 28 testes centrais passaram com 100% de linhas/funções e 92,12% de ramos, e oito PNGs finais foram inspecionados.
 
-## Fundação 0.2.0 — integrada e em preparação de release
+## Fundação 0.2.0 — integrada e publicada
 
 O planejamento PROMPT-COND-006 foi aceito no PR #11, HEAD d1f3a3a349ed4a7610c4da7b170d4d2976c56691, e já estava integrado quando o gate inicial da execução foi conferido. O checkbox histórico do plano não foi alterado para presumir aceite.
 
@@ -28,7 +28,7 @@ A execução PROMPT-EXEC-009 entregou a fundação em `codex/009-foundation-app`
 
 A revisão independente encontrou FOUNDATION-REVIEW-001, corrigido em `b66492faafaab7815a1a16e401a0ce18cbb45b33`; o HEAD documental final do PR #12 recebeu novamente `foundation-checks=success`, `review-ledger=success` e `code-reviewed`, com a única thread resolvida pela revisora. Convocação configurada Luna high/contexto novo; autodescrição da revisora GPT-5/variante não exposta. Ver [[EXEC-009-FOUNDATION-APP]].
 
-O fechamento documental está no [PR #13](https://github.com/douglasfeitosag/Umanni/pull/13), branch `codex/010-foundation-release`, label `documentation`, Douglas responsável e milestone 0.2.0. O planejamento foi aceito no HEAD `5c961ba65b70adb391066085d5dcc8ef7a6e7ac2`, com `review-ledger=success`, `spec-reviewed` e cinco threads resolvidas. O PR prepara `CHANGELOG.md`, notas `umanni-vault/releases/0.2.0.md`, o fechamento T019 da execução anterior e o prompt pós-merge; o aceite final deve pertencer ao novo HEAD exato e ficar registrado no PR. A tag e a GitHub Release `v0.2.0` continuam ausentes, e o milestone permanece aberto até merge autorizado, publicação verificada e fechamento posterior. Nenhuma dessas transições é antecipada pelo documento. Ver [[EXEC-010-FOUNDATION-RELEASE]].
+O fechamento documental foi integrado pelo [PR #13](https://github.com/douglasfeitosag/Umanni/pull/13), com HEAD final revisado `f56971eca6b5e280e2f20cf0ccaae2dce3254a37`, `foundation-checks=success`, `review-ledger=success`, `code-reviewed` e 8/8 threads resolvidas pela revisora. O merge `b5fc0ed5d9014e9841a82e0c19f634684db71182` é o alvo da tag anotada `v0.2.0` e da [GitHub Release final](https://github.com/douglasfeitosag/Umanni/releases/tag/v0.2.0), publicada em 2026-09-15. O milestone 0.2.0 está fechado com PRs #11–#13; a issue #9 continua aberta no Backlog. Ver [[EXEC-010-FOUNDATION-RELEASE]].
 
 ## Pendências e momento de resolução
 

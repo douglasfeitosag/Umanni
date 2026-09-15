@@ -64,12 +64,12 @@
 **Independent Test**: Before merge, the PR is accepted and publication objects are absent. After merge, annotated tag, final release, local/remote main and closed milestone all resolve to the captured preparation merge, with issue #9 still in Backlog.
 
 - [x] T013 [US3] Run the complete documentation-scope, link, stale-claim and state validation in `umanni-vault/specs/010-foundation-release/quickstart.md`; require zero non-release files and update evidence in `umanni-vault/EXEC-010-FOUNDATION-RELEASE.md`.
-- [ ] T014 [US3] Commit/push the scoped release records, verify PR metadata and exact remote HEAD, invalidate inherited planning acceptance and dispatch the independent final Luna high review; record it in `umanni-vault/EXEC-010-FOUNDATION-RELEASE.md` and the PR.
-- [ ] T015 [US3] Respond to each final finding in its original thread, make only scoped corrections, re-run validation and return each new HEAD to the reviewer until `review-ledger=success`, final review label and zero unresolved threads are verified.
-- [ ] T016 [US3] Deliver Douglas an exact merge handoff from `umanni-vault/PROMPT-COND-007-FOUNDATION-CLOSURE.md`; stop before merge, tag, release or milestone closure unless Douglas explicitly authorizes the exact next transition.
-- [ ] T017 [US3] After Douglas merges, fetch/prune, fast-forward local main, capture the preparation merge SHA and execute every Integration Gate check in `umanni-vault/specs/010-foundation-release/contracts/release-lifecycle.md`; stop on any divergence.
-- [ ] T018 [US3] Create and push annotated `v0.2.0` on the captured merge, publish final `Umanni 0.2.0` from `umanni-vault/releases/0.2.0.md`, verify all targets and close milestone 3 only after successful verification.
-- [ ] T019 [US3] Publish the final `[CONDUTORA]` evidence comment on the preparation PR with merge SHA, tag object/peeled target, release URL/state, milestone state, issue #9 destination and complete T001–T019 outcome.
+- [x] T014 [US3] Commit/push the scoped release records, verify PR metadata and exact remote HEAD, invalidate inherited planning acceptance and dispatch the independent final Luna high review; record it in `umanni-vault/EXEC-010-FOUNDATION-RELEASE.md` and the PR.
+- [x] T015 [US3] Respond to each final finding in its original thread, make only scoped corrections, re-run validation and return each new HEAD to the reviewer until `review-ledger=success`, final review label and zero unresolved threads are verified.
+- [x] T016 [US3] Deliver Douglas an exact merge handoff from `umanni-vault/PROMPT-COND-007-FOUNDATION-CLOSURE.md`; stop before merge, tag, release or milestone closure unless Douglas explicitly authorizes the exact next transition.
+- [x] T017 [US3] After Douglas merges, fetch/prune, fast-forward local main, capture the preparation merge SHA and execute every Integration Gate check in `umanni-vault/specs/010-foundation-release/contracts/release-lifecycle.md`; stop on any divergence.
+- [x] T018 [US3] Create and push annotated `v0.2.0` on the captured merge, publish final `Umanni 0.2.0` from `umanni-vault/releases/0.2.0.md`, verify all targets and close milestone 3 only after successful verification.
+- [x] T019 [US3] Publish the final `[CONDUTORA]` evidence comment on the preparation PR with merge SHA, tag object/peeled target, release URL/state, milestone state, issue #9 destination and complete T001–T019 outcome.
 
 **Checkpoint**: Version 0.2.0 is complete only after T019. Until Douglas merges, the valid stopping point is T016.
 
@@ -125,3 +125,7 @@ Task: "Draft the 0.2.0 section in CHANGELOG.md from the accepted evidence."
 - A new commit invalidates prior review status.
 - Do not claim application tests were rerun unless a command was actually executed; reuse earlier results only with their exact provenance.
 - Never merge, force, move a tag, enable auto-merge or close the milestone early.
+
+## Later ledger evidence
+
+T014–T019 were reconciled on 2026-09-15 without changing their descriptions. The final PR #13 comment records reviewed head `f56971eca6b5e280e2f20cf0ccaae2dce3254a37`, merge `b5fc0ed5d9014e9841a82e0c19f634684db71182`, annotated `v0.2.0`, the final release, the closed 0.2.0 milestone, issue #9 in Backlog and T001–T019 completed.

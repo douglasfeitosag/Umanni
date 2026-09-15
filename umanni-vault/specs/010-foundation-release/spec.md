@@ -4,7 +4,7 @@
 
 **Created**: 2026-09-15
 
-**Status**: Planning accepted; release preparation in progress
+**Status**: Completed, independently reviewed and integrated by PR #13; published as `v0.2.0` at `b5fc0ed5d9014e9841a82e0c19f634684db71182`
 
 **Input**: User description: "The Foundation merge is complete. Update local branches and publish the release before the next task, if every release gate is satisfied."
 

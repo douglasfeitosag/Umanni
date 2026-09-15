@@ -18,6 +18,6 @@ Leia primeiro umanni-vault/STATUS.md, este arquivo, umanni-vault/PROTOCOL.md e `
 - Documentação do projeto será pública; não copiar credenciais, memórias pessoais ou dados de outros projetos. Memória curta do projeto fica em umanni-vault/MEMORIA-PROJETO.md; executoras propõem aprendizados e a condutora consolida.
 - Ao encerrar uma tarefa da condutora: atualizar estado, documentos, aprendizados e gerar prompt autossuficiente para sessão limpa. Não abrir automaticamente sessões de condução ou execução; a revisão final independente é a exceção obrigatória e deve ser iniciada automaticamente pela agente responsável durante a última etapa do desenvolvimento.
 
-Ainda não há aplicação. Não usar comandos de build/teste fictícios. Ver umanni-vault/TOOLING.md para preparar somente o Spec Kit.
+Existe uma fundação Rails–Inertia mínima publicada em `v0.2.0`; ela não inclui autenticação, gestão de usuários, importação, jobs ou CI automático. Executar somente comandos e testes reais previstos pelo spec vigente. Ver `umanni-vault/TOOLING.md` para o uso do Spec Kit.
 
 O vault é `umanni-vault/`, incluindo `specs/`. Caminhos de notas em prompts são relativos ao vault, salvo indicação explícita. README.md e AGENTS.md são entradas da raiz; a constituição canônica é umanni-vault/CONSTITUICAO.md e o caminho padrão .specify/memory/constitution.md é um link simbólico para ela.

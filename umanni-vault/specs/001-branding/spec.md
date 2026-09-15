@@ -2,7 +2,7 @@
 
 **Branch de planejamento**: `codex/001-branding` | **Branch de execução**: `codex/003-branding-assets`
 **Criada em**: 2026-09-14
-**Estado**: revisão original aceita e mesclada por Douglas no PR #2; handoff pós-merge em revisão independente no PR #3, com execução bloqueada até `review-ledger=success` e label `spec-reviewed` no HEAD vigente
+**Estado**: planejamento aceito no PR #2; handoff integrado no PR #3; execução estática concluída, revisada e integrada no PR #4, HEAD `97c5012e193b57531f245e07d9169cde84468e31`, merge `cba851bcc5a672c7e447fbe17f3f03428397b955`
 **Origem**: briefing conduzido com Douglas entre 2026-09-10 e 2026-09-14
 
 ## Cenários de usuário e aceite

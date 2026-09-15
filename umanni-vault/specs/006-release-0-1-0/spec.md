@@ -4,7 +4,7 @@
 
 **Criado em**: 2026-09-14
 
-**Estado**: Rascunho para revisão
+**Estado**: concluída pelo PR #10 e publicada como `v0.1.0`; merge/alvo `87e8c51894faa5794e9759b9caa5df4871d350e7`
 
 **Entrada**: Encerrar a primeira versão pública do trabalho já integrado como `0.1.0` e tornar obrigatório planejar tarefas por versão, criando tag e release quando cada versão terminar.
 
