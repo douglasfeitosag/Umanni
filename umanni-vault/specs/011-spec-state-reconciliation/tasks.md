@@ -22,6 +22,13 @@ Todas as tarefas pertencem à versão `0.2.1`. Backlog funcional existente perma
 ## Validação e revisão final
 
 - [x] T012 Validar o working diff, links, claims, checkboxes, allowlist e `git diff --check`; registrar os resultados pré-commit no EXEC e commitá-los/publicá-los no HEAD candidato.
-- [ ] T013 No checkout limpo do HEAD candidato, executar `quickstart.md`, confirmar `HEAD == origin/codex/011-spec-state-reconciliation`, publicar a evidência no PR sem criar commit autorreferencial, remover o aceite herdado e iniciar automaticamente revisão final Luna high em contexto separado.
-- [ ] T014 Responder achados nas threads originais, corrigir somente o escopo e obter `review-ledger=success`, `code-reviewed` e zero threads abertas no HEAD final.
-- [ ] T015 Entregar a Douglas o PR revisado e parar antes de merge, tag, release ou fechamento do milestone 0.2.1.
+- [x] T013 No checkout limpo do HEAD candidato, executar `quickstart.md`, confirmar `HEAD == origin/codex/011-spec-state-reconciliation`, publicar a evidência no PR sem criar commit autorreferencial, remover o aceite herdado e iniciar automaticamente revisão final Luna high em contexto separado.
+- [x] T014 Responder achados nas threads originais, corrigir somente o escopo e obter `review-ledger=success`, `code-reviewed` e zero threads abertas no HEAD final.
+- [x] T015 Entregar a Douglas o PR revisado e parar antes de merge, tag, release ou fechamento do milestone 0.2.1.
+
+## Publicação autorizada
+
+- [ ] T016 Após autorização específica de Douglas, acrescentar `CHANGELOG.md` e `umanni-vault/releases/0.2.1.md`, atualizar a allowlist/quickstart/EXEC, validar e obter nova revisão independente no HEAD exato.
+- [ ] T017 Reconfirmar PR, HEAD, checks, threads, milestone, base principal e ausência de tag/release; fazer merge normal autorizado sem auto-merge ou bypass e exigir `main == origin/main == merge_sha`.
+- [ ] T018 Criar e publicar a tag anotada `v0.2.1` no merge capturado, publicar a GitHub Release final a partir das notas versionadas, verificar objeto/alvo/estado e fechar o milestone 0.2.1.
+- [ ] T019 Publicar no PR a evidência final com HEAD revisado, merge, tag, release, milestone, Backlog e matriz T001–T019; não iniciar nova feature.

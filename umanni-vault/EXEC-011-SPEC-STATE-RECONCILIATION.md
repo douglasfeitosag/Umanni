@@ -64,3 +64,9 @@ T001–T012 concluídas. O próximo passo é publicar o HEAD candidato, executar
 ## Correção do gate no primeiro HEAD candidato
 
 O primeiro HEAD candidato `9b71517` passou igualdade local/remota, diff e objetos das tags, mas o bloco de busca negativa encerrou com código 1 justamente porque não encontrou claims obsoletos. O resultado desejado estava correto; o controle de fluxo do quickstart não estava. O bloco foi corrigido para abortar somente quando `rg` encontra uma ocorrência e aceitar explicitamente o resultado sem matches. Nenhuma tag, release, milestone ou arquivo funcional foi alterado durante essa reprodução.
+
+## Autorização de integração e publicação
+
+Douglas autorizou explicitamente o merge do PR #14 e a publicação de 0.2.1. A revalidação anterior à transição confirmou checkout limpo, PR aberto/mergeável no HEAD `0b306e185c4aa69b069258e0ad0e165b2898d2ef`, base `b5fc0ed5d9014e9841a82e0c19f634684db71182`, `review-ledger=success`, `code-reviewed`, milestone 4/0.2.1 e ausência local/remota da tag e da GitHub Release 0.2.1 (HTTP 404).
+
+O gate de release detectou que o commit ainda não continha changelog nem notas versionadas 0.2.1. Para cumprir o protocolo, o planejamento foi ampliado antes dessa execução: `CHANGELOG.md` e `umanni-vault/releases/0.2.1.md` entram na allowlist, o quickstart passa a bloquear publicação preexistente e T016–T019 cobrem nova revisão, merge, publicação e evidência final. Nenhum merge ou objeto de release será criado antes do aceite independente desse novo HEAD.

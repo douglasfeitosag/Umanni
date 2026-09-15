@@ -34,6 +34,7 @@ Executar um patch estritamente documental que separa três camadas: estado vigen
 5. Acrescentar evidência pós-publicação aos EXECs 006 e 010 sem apagar seus snapshots.
 6. Executar quickstart, revisar o diff e publicar o HEAD final.
 7. Iniciar automaticamente revisão final Luna high, corrigir achados na mesma thread e entregar o PR a Douglas.
+8. Após autorização específica de Douglas, acrescentar changelog e notas versionadas, revisar o novo HEAD, fazer o merge normal e somente então publicar a tag/release 0.2.1 e fechar o milestone.
 
 ## Arquivos candidatos
 
@@ -41,9 +42,11 @@ Novos: os artefatos deste diretório e `umanni-vault/EXEC-011-SPEC-STATE-RECONCI
 
 Existentes permitidos, sem expansão implícita:
 
+- `CHANGELOG.md`
 - `README.md`
 - `AGENTS.md`
 - `umanni-vault/STATUS.md`
+- `umanni-vault/releases/0.2.1.md`
 - `umanni-vault/MEMORIA-PROJETO.md`
 - `umanni-vault/EXEC-006-RELEASE-0-1-0.md`
 - `umanni-vault/EXEC-010-FOUNDATION-RELEASE.md`
@@ -61,7 +64,7 @@ Existentes permitidos, sem expansão implícita:
 - `umanni-vault/specs/010-foundation-release/spec.md`
 - `umanni-vault/specs/010-foundation-release/tasks.md`
 
-Os seis arquivos novos desta entrega também integram a allowlist: `umanni-vault/EXEC-011-SPEC-STATE-RECONCILIATION.md` e os cinco arquivos versionados sob `umanni-vault/specs/011-spec-state-reconciliation/`. Qualquer outro caminho bloqueia T012.
+Os arquivos novos desta entrega também integram a allowlist: `umanni-vault/EXEC-011-SPEC-STATE-RECONCILIATION.md`, `umanni-vault/releases/0.2.1.md` e os cinco arquivos versionados sob `umanni-vault/specs/011-spec-state-reconciliation/`. Qualquer outro caminho bloqueia T012/T016.
 
 ## Validação
 
@@ -77,3 +80,5 @@ Os seis arquivos novos desta entrega também integram a allowlist: `umanni-vault
 ## Aceite e parada
 
 Aceite conforme SC-001–SC-006. Parar antes de merge, tag ou release. Qualquer claim sem evidência permanece aberto e é devolvido a Douglas, não inferido.
+
+Depois da autorização específica registrada por Douglas, a parada anterior ao merge deixa de bloquear somente as transições T017–T019. Um novo HEAD continua exigindo revisão independente completa; qualquer gate inválido interrompe antes do merge ou da publicação.
