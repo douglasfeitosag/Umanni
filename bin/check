@@ -1,0 +1,37 @@
+#!/bin/bash
+set -euo pipefail
+cd "$(dirname "$0")/.."
+if [[ "${RAILS_ENV:-test}" != "test" ]]; then
+  echo "bin/check requires RAILS_ENV=test" >&2
+  exit 1
+fi
+export RAILS_ENV=test
+if [[ -v DATABASE_URL ]]; then
+  echo "Do not supply DATABASE_URL to bin/check" >&2
+  exit 1
+fi
+if [[ -n "${TEST_ENV_NUMBER:-}" ]]; then
+  echo "Run bin/check outside an RSpec worker" >&2
+  exit 1
+fi
+: "${TEST_DATABASE_URL:?Supply the dedicated umanni_test URL}"
+export VERIFICATION_SHA="${VERIFICATION_SHA:-$(git rev-parse HEAD)}"
+export VERIFICATION_RUN_ID="$(ruby -rsecurerandom -e 'puts SecureRandom.uuid')"
+export SIMPLECOV_RUN_ID="$VERIFICATION_RUN_ID"
+export VITE_RUBY_AUTO_BUILD=false
+printf 'Verification run %s at %s\n' "$VERIFICATION_RUN_ID" "$VERIFICATION_SHA"
+BUNDLE_FROZEN=true bundle check
+npm ls --all >/dev/null
+bundle exec rake verification:prepare
+bundle exec rails zeitwerk:check
+# Request specs render real asset tags on a fresh checkout.
+bundle exec vite build
+bundle exec parallel_rspec -n 2 spec/requests spec/integration
+bundle exec rake coverage:verify
+npm exec tsc -- --noEmit
+npm exec eslint -- app/frontend spec/e2e '*.config.ts' --max-warnings=0
+bundle exec rubocop
+bundle exec brakeman --no-pager
+npm exec vitest -- run --coverage --maxWorkers=2
+bundle exec vite build
+npm exec playwright -- test --workers=2

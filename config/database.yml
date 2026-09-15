@@ -1,0 +1,28 @@
+<%
+require "uri"
+test_url = ENV.fetch("TEST_DATABASE_URL", "postgresql://umanni:umanni-local@127.0.0.1:5432/umanni_test")
+suffix = ENV.fetch("TEST_ENV_NUMBER", "")
+raise "Unsupported test worker" unless ["", "2"].include?(suffix)
+parsed_test_url = URI.parse(test_url)
+raise "Expected PostgreSQL test URL" unless %w[postgres postgresql].include?(parsed_test_url.scheme)
+raise "Test URL cannot contain query or fragment overrides" if parsed_test_url.query || parsed_test_url.fragment
+raise "Unsafe test database" unless %w[/umanni_test /umanni_e2e].include?(parsed_test_url.path)
+raise "E2E cannot use an RSpec worker suffix" if parsed_test_url.path == "/umanni_e2e" && !suffix.empty?
+parsed_test_url.path += suffix
+%>
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+
+development:
+  <<: *default
+  url: <%= ENV.fetch("DATABASE_URL", "postgresql://umanni:umanni-local@127.0.0.1:5432/umanni_development").inspect %>
+
+test:
+  <<: *default
+  url: <%= parsed_test_url.to_s.inspect %>
+
+production:
+  <<: *default
+  url: <%= ENV.fetch("DATABASE_URL", "postgresql://umanni:umanni-local@127.0.0.1:5432/umanni_production").inspect %>

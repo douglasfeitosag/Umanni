@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+@layer base {
+  body { margin: 0; background: #ffffff; color: #0d3c61; font-family: system-ui, sans-serif; }
+  a:focus-visible { outline: 3px solid #0d3c61; outline-offset: 4px; }
+}
