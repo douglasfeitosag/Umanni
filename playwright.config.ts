@@ -27,6 +27,6 @@ export default defineConfig({
     url: 'http://127.0.0.1:3101/up',
     reuseExistingServer: false,
     timeout: 30000,
-    env: { RAILS_ENV: 'test', TEST_DATABASE_URL: e2eDatabaseUrl.toString(), TEST_ENV_NUMBER: '', VITE_RUBY_AUTO_BUILD: 'false' },
+    env: { RAILS_ENV: 'test', TEST_DATABASE_URL: e2eDatabaseUrl.toString(), TEST_ENV_NUMBER: '', VITE_RUBY_AUTO_BUILD: 'false', CABLE_ADAPTER: 'solid_cable' },
   },
 })

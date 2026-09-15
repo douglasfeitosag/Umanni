@@ -10,8 +10,13 @@ export default function AdminUserForm({ user, roleOptions }: { user?: UserView; 
   function submit(event: React.FormEvent) {
     event.preventDefault()
     const options = { forceFormData: true, onError: () => document.querySelector<HTMLElement>('[aria-invalid="true"]')?.focus() }
-    if (creating) form.post('/admin/users', options)
-    else form.patch(`/admin/users/${user.id}`, options)
+    if (creating) {
+      form.transform(data => ({ admin_user: data }))
+      form.post('/admin/users', options)
+    } else {
+      form.transform(data => ({ admin_user: { full_name: data.full_name, email: data.email, role: data.role, avatar: data.avatar, remove_avatar: data.remove_avatar } }))
+      form.patch(`/admin/users/${user.id}`, options)
+    }
   }
   return (
     <form onSubmit={submit} noValidate>

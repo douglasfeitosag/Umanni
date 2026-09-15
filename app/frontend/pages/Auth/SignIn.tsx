@@ -6,6 +6,7 @@ export default function SignIn() {
   const credentialError = (form.errors as Record<string, string>).credentials
   function submit(event: React.FormEvent) {
     event.preventDefault()
+    form.transform(data => ({ session: data }))
     form.post('/session', { onError: () => document.querySelector<HTMLInputElement>('#email')?.focus() })
   }
 

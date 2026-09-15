@@ -6,6 +6,7 @@ export default function ProfileEdit({ profile }: { profile: UserView }) {
   const form = useForm<{ full_name: string; email: string; avatar: File | null; remove_avatar: '0' | '1' }>({ full_name: profile.fullName, email: profile.email, avatar: null, remove_avatar: '0' })
   function submit(event: React.FormEvent) {
     event.preventDefault()
+    form.transform(data => ({ profile: data }))
     form.patch('/profile', { forceFormData: true, onError: () => document.querySelector<HTMLElement>('[aria-invalid="true"]')?.focus() })
   }
   return (

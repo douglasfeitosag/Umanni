@@ -1,7 +1,10 @@
 require "rails_helper"
 
 RSpec.describe User, type: :model do
-  before { described_class.delete_all }
+  before do
+    Session.delete_all
+    described_class.delete_all
+  end
 
   it "normalizes email and persists a regular user with a valid password" do
     user = described_class.create!(

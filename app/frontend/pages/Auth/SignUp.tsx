@@ -5,6 +5,7 @@ export default function SignUp() {
   const form = useForm({ full_name: '', email: '', password: '', password_confirmation: '' })
   function submit(event: React.FormEvent) {
     event.preventDefault()
+    form.transform(data => ({ registration: data }))
     form.post('/sign-up', { onError: () => document.querySelector<HTMLElement>('[aria-invalid="true"]')?.focus() })
   }
 
