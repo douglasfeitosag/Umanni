@@ -88,7 +88,7 @@ Implemente e rastreie individualmente US1.1–US7.3. A matriz completa de teste/
 
 Obedeça integralmente a seção “Arquivos permitidos para a futura execução” do plano. Alteração fora dela exige parada e esclarecimento. Em particular, não altere `branding/prototype/`, assets originais, specs aceitas, workflows/runner, importação, deploy/Kamal/SSR/ZJIT ou dados reais.
 
-Não implemente busca, filtro, paginação, seleção em lote, troca rápida de papel, alteração/recuperação de senha existente, e-mail, convite, API paralela, Redis, Devise/Pundit/CanCanCan ou estado global React.
+Não implemente busca, filtro, paginação, seleção em lote, troca rápida de papel, alteração/recuperação de senha existente, envio/verificação/infraestrutura de e-mail, convite, API paralela, Redis, Devise/Pundit/CanCanCan ou estado global React. O endereço de e-mail permanece campo obrigatório de cadastro e identidade de login conforme FR-002–FR-004 e D-028.
 
 ## Entrega e EXEC
 
