@@ -42,7 +42,7 @@ A execução está publicada no PR #17, branch `codex/013-identity-access-app`. 
 
 ## Pendências e momento de resolução
 
-- A spec 013 de identidade/acesso para 0.3.0 foi integrada pelo PR #16 e sua execução está em validação antes de novo PR; importação CSV/XLSX permanece para 0.4.0; CI/runner, extras e issue #9 preservam destino Backlog.
+- A spec 013 de identidade/acesso para 0.3.0 foi integrada pelo PR #16 e sua execução está publicada no PR #17; a leitura do check de revisão do HEAD e a autorização específica de merge permanecem pendentes de consulta/decisão. Importação CSV/XLSX permanece para 0.4.0; CI/runner, extras e issue #9 preservam destino Backlog.
 - Proteção de `main`: configurada e relida pela API em 2026-09-14 com PR obrigatório, zero aprovações nativas, `review-ledger` obrigatório e estrito por SHA, conversas resolvidas, aplicação a administradores e bloqueio de force-push/exclusão. Labels `review-pending`, `changes-requested`, `spec-reviewed` e `code-reviewed` existem. foundation-checks foi adicionado como obrigatório na execução009, preservando as demais proteções; automação do ledger e runner isolado permanecem pendentes; o status manual do ledger não deve ser apresentado como workflow automatizado.
 - A fundação fixou versões compatíveis, Vite/npm, contratos Inertia, política de cobertura e ambientes de teste; qualquer ampliação futura desses contratos exige nova especificação e evidência própria.
 - Antes dos fluxos de usuário: cadastro/ativação/senha inicial, importação CSV/XLSX (colunas, duplicidade, erros, limites e repetição), avatar, último administrador e matriz de autorização. Ver 05-LEITURA-DO-TESTE.
