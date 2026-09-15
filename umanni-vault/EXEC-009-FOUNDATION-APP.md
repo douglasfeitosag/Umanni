@@ -9,7 +9,7 @@
 - Base imutável: v0.1.0, `87e8c51894faa5794e9759b9caa5df4871d350e7`.
 - Planejamento aceito: [PR #11](https://github.com/douglasfeitosag/Umanni/pull/11), SHA `d1f3a3a349ed4a7610c4da7b170d4d2976c56691`. Branch de execução nasceu diretamente desse SHA.
 - Commits de implementação: `0738bd2` (aplicação/gates) e `90f07adc9256fb1baa1486138f71484ad8598d8b` (empacotamento/evidências). Este relatório acrescenta a correção focalizada do hostname Vite e consolida os resultados.
-- Estado: fundação implementada; código corrigido passou todos os perfis em clean-room no SHA 1cbbf83. Revisão independente pendente. **Sem aceite final ou autorização de integração.**
+- Estado: **fundação implementada e tecnicamente aceita no SHA b66492f**, com os dois statuses bem-sucedidos, code-reviewed e thread resolvida pela revisora. A consolidação documental também exige gates no próprio HEAD do PR. Integração não autorizada.
 
 GET `/` apresenta a página técnica Rails–Inertia/React em português, versão 0.2.0 e aviso explícito de indisponibilidade de cadastro, login e gestão de usuários. `/up`, 404, PostgreSQL primary, assets compilados, isolamento, cobertura por linguagem e Compose estão implementados. Nenhum fluxo de usuário, importação, job, Redis, e-mail, SSR, deploy, profiling, CI automático ou runner foi criado.
 
@@ -153,13 +153,13 @@ Essas mutações não foram adicionadas à aplicação nem ao protótipo. Result
 
 Proteção relida antes/depois via API: foundation-checks adicionado a review-ledger, strict=true; comparação estrutural confirmou todos os outros campos preservados, incluindo enforce_admins, conversas resolvidas e bloqueios de force-push/exclusão. São **statuses manuais por SHA**, sem workflow/runner. Primeiro SHA publicado recebeu failure pelo smoke dev; novo HEAD precisa de nova validação e nova revisão.
 
-T001–T015 concluídas, com validação integral de 1cbbf83 e status manual publicado. T016–T018 aguardam revisora independente Luna high, que será iniciada automaticamente com contexto novo após revalidação deste ajuste documental. Nenhuma revisão/aceite atribuído antes de ocorrer. T019 pertence à condutora; B001–B007 não executadas.
+T001–T018 concluídas; validação e revisão técnica aceitas em b66492f, com a rodada final documental sujeita aos mesmos gates por SHA. A revisão e a resolução foram feitas exclusivamente pela sessão independente, conforme registros abaixo. T019 pertence à condutora; B001–B007 não executadas.
 
 Arquivos: manifestos/locks/versões, boot Rails/config/bin/db/public, frontend/contrato, specs/harness/E2E, quality configs/lib/tasks, Dockerfile/Compose/ignore/env example e README/STATUS/EXEC/research/tasks. Listagem exata no diff do PR. Branding/AGENTS/constituição/checkbox histórico preservados.
 
 ## Limitações e passagem
 
-Ainda falta aceite independente e confirmação dos dois statuses no HEAD final, code-reviewed e todas as threads resolvidas pela revisora. Não declarar SC003/T018 satisfeitos enquanto isso não ocorrer. Evidências deste arquivo distinguem os SHAs testados; resultados de novos HEADs devem ser registrados no PR e confrontados com os statuses, sem herança de sucesso.
+Aceite independente, dois statuses bem-sucedidos, code-reviewed e thread resolvida foram conferidos em b66492f. O HEAD documental final deve conservar esses gates no seu próprio SHA; sua revalidação fica registrada nos comentários/statuses do PR, sem criar um ciclo de commits apenas para escrever o próprio hash. Evidências deste arquivo distinguem os SHAs testados; resultados de novos HEADs devem ser registrados no PR e confrontados com os statuses, sem herança de sucesso.
 
 Somente Linux arm64 foi testado. /up verifica boot, não banco. Não há autenticação/autorização/importação/serviços futuros. Artefatos de teste temporários e recursos Compose têm nomes exclusivos e só esses recursos serão limpos. Nenhum dado de outro projeto foi publicado. Merge, fechamento de PR, auto-merge, tag, release e fechamento de0.2.0 não foram executados e não estão autorizados. A condutora recebe T019 após o aceite técnico; Douglas decide integração.
 
@@ -213,3 +213,24 @@ HEAD revisado: e75ab48d43204d465889334472ff5384ded468e4. [FOUNDATION-REVIEW-001]
 A executora reproduziu em cópia temporária com prop adicional internal_probe=true: o E2E antigo passou indevidamente (0), enquanto o RSpec antigo já rejeitou a prop (1). Portanto a lacuna funcional era no toMatchObject do E2E; em RSpec a mudança torna a igualdade explícita. Corrigidos ambos para comparar somente props por igualdade, mantendo o envelope aberto aos campos legítimos do adaptador.
 
 RED com a prop extra e novas asserções: request spec **1**, Playwright focalizado Chromium **1**, ambos por diferença de props. Uma primeira cópia temporária truncada provocou SyntaxError e foi descartada; não conta como RED. Após restaurar o controller original: os mesmos request spec e Playwright focalizado passaram (**0/0**). Nenhuma prop experimental entrou no checkout/commit. O novo HEAD será revalidado integralmente e respondido na mesma thread; somente a revisora resolve/publica sucesso.
+
+## Aceite independente e passagem — b66492f
+
+A revisora reavaliou **b66492faafaab7815a1a16e401a0ce18cbb45b33**, executou request spec, RuboCop focalizado, Playwright Chromium focalizado e diff --check, todos **0**. Confirmou a correção e [resolveu a mesma thread](https://github.com/douglasfeitosag/Umanni/pull/12#discussion_r4012731574). A executora não resolveu nenhuma thread nem publicou review-ledger/code-reviewed.
+
+API relida pela executora: foundation-checks=success e review-ledger=success no mesmo SHA; label code-reviewed; uma thread resolvida, sem página restante; PR OPEN, não draft, main como base, Douglas responsável, milestone3/0.2.0. A sessão revisora e autoria usam a mesma conta GitHub, com contextos/papéis distintos, conforme protocolo.
+
+A validação completa de b66492f repetiu todos os comandos de test/delivery/dev, incluindo inventário de gems herdadas/caches. Resultado **0**, contagens/cobertura iguais às tabelas. Imagem final `sha256:4b268847e7e17b7f8a219c3405e84012c42923918e9986ad9027bc5c687b9e1f`, arm64, UID1000. [Evidência por SHA e observações dos dois workers](https://github.com/douglasfeitosag/Umanni/pull/12#issuecomment-5675923902).
+
+A ausência de herança foi comprovada pela API ao publicar e75ab48: total_count=0/statuses=[], apesar do predecessor1cbbf83 ter foundation-checks=success. A revisão de e75ab48 foi failure, o novo b66492f recebeu seu próprio aceite após correção. Nenhum resultado anterior autoriza outro HEAD. A rodada documental final e seu SHA exato ficam registrados no PR junto aos statuses.
+
+| Critério | Evidência |
+| --- | --- |
+| SC001; BDD01–04/08 | Cópias limpas, página/Link/mismatch, health/404, assets e imagem final; testes e smoke descritos |
+| SC002; BDD05–07 | Dois processos/bancos/markers, Ruby7/7 e TS1/1 separados, provas negativas reais |
+| SC003; BDD09 | PR com metadados, proteções preservadas, status por SHA sem herança, revisão e thread resolvida pela revisora |
+| SC004 | Recorte mínimo, nenhum fluxo de negócio, segredo publicado ou mudança visual; issue9 no Backlog |
+
+**T001–T018 concluídas. T019 pendente, de responsabilidade da condutora.** A condutora deve preparar PROMPT-COND-007-FOUNDATION-CLOSURE e avaliar os itens restantes do milestone; Douglas decide integração. Este retorno não cria o prompt da condutora nem fecha0.2.0. Nenhum merge, fechamento de PR, auto-merge, tag ou release foi executado.
+
+Aprendizados propostos à condutora: compatibilidade transitiva precisa de regressão de sessão; adaptadores Inertia3 exigem formato de JSON inicial compatível; digest deve ser estável/concurrent-safe; Thruster define PORT pelo TARGET_PORT; Vite precisa do hostname interno explícito; inventário final deve abranger gems herdadas e arquivos de cache, além do bundle carregado. A memória do projeto não foi consolidada pela executora.
