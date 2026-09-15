@@ -46,7 +46,6 @@ Existentes permitidos, sem expansão implícita:
 - `README.md`
 - `AGENTS.md`
 - `umanni-vault/STATUS.md`
-- `umanni-vault/releases/0.2.1.md`
 - `umanni-vault/MEMORIA-PROJETO.md`
 - `umanni-vault/EXEC-006-RELEASE-0-1-0.md`
 - `umanni-vault/EXEC-010-FOUNDATION-RELEASE.md`

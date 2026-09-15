@@ -70,3 +70,11 @@ O primeiro HEAD candidato `9b71517` passou igualdade local/remota, diff e objeto
 Douglas autorizou explicitamente o merge do PR #14 e a publicação de 0.2.1. A revalidação anterior à transição confirmou checkout limpo, PR aberto/mergeável no HEAD `0b306e185c4aa69b069258e0ad0e165b2898d2ef`, base `b5fc0ed5d9014e9841a82e0c19f634684db71182`, `review-ledger=success`, `code-reviewed`, milestone 4/0.2.1 e ausência local/remota da tag e da GitHub Release 0.2.1 (HTTP 404).
 
 O gate de release detectou que o commit ainda não continha changelog nem notas versionadas 0.2.1. Para cumprir o protocolo, o planejamento foi ampliado antes dessa execução: `CHANGELOG.md` e `umanni-vault/releases/0.2.1.md` entram na allowlist, o quickstart passa a bloquear publicação preexistente e T016–T019 cobrem nova revisão, merge, publicação e evidência final. Nenhum merge ou objeto de release será criado antes do aceite independente desse novo HEAD.
+
+## Aceite da ampliação e preparação da release
+
+A revisora aceitou o planejamento ampliado no HEAD `f553f7785d5755d42f26f03a56ad7b771e65639c`, review `5209911844`, com `review-ledger=success`, `spec-reviewed` e as três threads anteriores ainda resolvidas. A configuração solicitada foi `gpt-5.6-luna/high`; o runtime não expôs a variante exata.
+
+Após esse aceite, `CHANGELOG.md` recebeu a entrada 0.2.1 em inglês e `umanni-vault/releases/0.2.1.md` recebeu as notas finais em português. Ambos descrevem somente a reconciliação documental, preservam o Backlog e não alegam mudança funcional. O novo HEAD invalida o aceite anterior e exige revisão final antes do merge autorizado.
+
+A validação pré-commit da ampliação confirmou 27/27 caminhos na allowlist, links Markdown locais válidos, zero claims vigentes obsoletos, zero tarefas `T` abertas nos specs concluídos, exatamente B001–B007 abertas no Backlog e ausência local/remota da tag e da GitHub Release 0.2.1 (HTTP 404). O Ruby definido pelo projeto, 4.0.6, não está instalado neste host; a inspeção documental de links usou explicitamente `/usr/bin/ruby` e não foi apresentada como teste da aplicação.
