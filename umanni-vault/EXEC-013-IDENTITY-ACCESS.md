@@ -1,6 +1,6 @@
 # EXEC-013 — Identidade e acesso 0.3.0
 
-**Estado**: gates técnicos aprovados; publicação do PR e revisão final independente pendentes
+**Estado**: implementação e gates técnicos concluídos; o estado de revisão aplicável é somente o `headRefOid`, os checks, labels e threads atualmente publicados no PR #17.
 
 **Papel/modelo**: EXECUTORA Codex, GPT-5 (variante de execução não exposta)
 
@@ -107,10 +107,10 @@ No mesmo HEAD, `docker compose --profile delivery build --no-cache web`, `db:pre
 
 ## Limites preservados
 
-Nenhum merge, fechamento de PR, auto-merge, tag, release, fechamento de milestone, importação, CI/runner, e-mail, recuperação de senha ou início de 0.4.0 foi realizado. A revisão Luna final não foi iniciada porque o gate limpo e a publicação ainda não estão completos.
+Nenhum merge, fechamento de PR, auto-merge, tag, release, fechamento de milestone, importação, CI/runner, e-mail, recuperação de senha ou início de 0.4.0 foi realizado. A revisão final foi iniciada automaticamente após a publicação; qualquer novo commit exige uma nova rodada e não herda o ledger do SHA anterior.
 
 ## Correções da revisão independente
 
 A primeira revisão independente do PR de execução identificou cinco achados no HEAD documental `fd51cf4`: associação programática do erro de papel, IDs únicos para múltiplos diálogos destrutivos, propagação de `permissions.changeRole`, foco no `h1` após navegação Inertia e alvos de navegação móvel de no mínimo 44 × 44 px. A correção mantém a proteção autoritativa no servidor, torna o papel somente leitura quando a policy já nega a mudança, gera IDs por instância com `useId` e direciona o foco ao título da rota (com fallback para `main`). RTL cobre os dois primeiros contratos e Playwright cobre foco de rota e dimensões móveis.
 
-No HEAD corretivo `bcfc99387665143ed41fec6ce91c2bb2a1540fff`, o Compose foi reconstruído sem cache e `bin/check` passou: RSpec em dois shards (27 + 24 exemplos), Ruby 92,48% de linhas, TypeScript/ESLint/RuboCop sem infrações, Brakeman sem alertas, Vitest 14/14 e Playwright 60/60 nos seis perfis Chromium, Firefox e WebKit. A revisora independente Luna high, em contexto separado, revalidou o HEAD remoto, confirmou cada correção, resolveu as cinco threads e publicou `review-ledger=success` e label `code-reviewed` no PR #17. O PR permanece aguardando exclusivamente a autorização de merge de Douglas; nenhuma tag, release ou fechamento de milestone foi criado.
+No HEAD corretivo histórico `bcfc99387665143ed41fec6ce91c2bb2a1540fff`, o Compose foi reconstruído sem cache e `bin/check` passou: RSpec em dois shards (27 + 24 exemplos), Ruby 92,48% de linhas, TypeScript/ESLint/RuboCop sem infrações, Brakeman sem alertas, Vitest 14/14 e Playwright 60/60 nos seis perfis Chromium, Firefox e WebKit. As cinco threads dessa rodada foram resolvidas e o status `review-ledger=success` foi publicado para aquele SHA. Esse aceite não é transferido para commits posteriores: antes de merge, tag, release ou fechamento de milestone, consultar o HEAD e os metadados vigentes no PR #17.
