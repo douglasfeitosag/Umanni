@@ -162,3 +162,7 @@ Arquivos: manifestos/locks/versões, boot Rails/config/bin/db/public, frontend/c
 Ainda falta aceite independente e confirmação dos dois statuses no HEAD final, code-reviewed e todas as threads resolvidas pela revisora. Não declarar SC003/T018 satisfeitos enquanto isso não ocorrer. Evidências deste arquivo distinguem os SHAs testados; resultados de novos HEADs devem ser registrados no PR e confrontados com os statuses, sem herança de sucesso.
 
 Somente Linux arm64 foi testado. /up verifica boot, não banco. Não há autenticação/autorização/importação/serviços futuros. Artefatos de teste temporários e recursos Compose têm nomes exclusivos e só esses recursos serão limpos. Nenhum dado de outro projeto foi publicado. Merge, fechamento de PR, auto-merge, tag, release e fechamento de0.2.0 não foram executados e não estão autorizados. A condutora recebe T019 após o aceite técnico; Douglas decide integração.
+
+## Ampliação da inspeção da imagem
+
+O pipeline limpo do HEAD 70e98e4 passou (0), mas a inspeção adicional de todas as gems da imagem base encontrou debug, minitest, power_assert, test-unit e typeprof herdadas de Ruby. O teste anterior verificava somente as gems carregadas pelo bundle e era insuficiente para essa parte do contrato. A asserção de inventário completo falhou (1); essas ferramentas foram removidas exclusivamente no stage production. foundation-checks desse HEAD recebeu failure até revalidação. Nenhuma versão central alterada.

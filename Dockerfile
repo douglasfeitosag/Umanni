@@ -29,6 +29,7 @@ RUN SECRET_KEY_BASE_DUMMY=1 bundle exec vite build && bundle exec ruby -rvite_ru
 
 FROM base AS production
 ENV RAILS_ENV=production BUNDLE_WITHOUT=development:test THRUSTER_HTTP_PORT=3000 THRUSTER_TARGET_PORT=3001
+RUN gem uninstall --all --executables --ignore-dependencies debug minitest power_assert test-unit typeprof
 RUN groupadd --gid 1000 rails && useradd --uid 1000 --gid 1000 --create-home --shell /bin/bash rails
 COPY --from=build /usr/local/bundle /usr/local/bundle
 COPY --from=build /rails/Gemfile /rails/Gemfile.lock /rails/Rakefile /rails/config.ru ./
