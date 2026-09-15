@@ -2,6 +2,26 @@
 
 All notable project milestones are documented in this file. This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.2.1] - 2026-09-15
+
+### Changed
+
+- Reconciled every completed specification with its verified pull-request, review, merge and release evidence.
+- Updated current project entrypoints to reflect the integrated and published 0.2.0 foundation.
+- Completed historical task ledgers where GitHub or execution records prove completion, while preserving original task descriptions.
+- Added separate closure sections to pre-publication plans and execution reports instead of rewriting their historical snapshots.
+
+### Validation
+
+- The documentation diff is restricted to the versioned reconciliation allowlist and contains no application, runtime, lock, test or branding changes.
+- Current-state stale-claim checks, local Markdown links and completed-spec task ledgers are verified on the reviewed pull-request head.
+- Foundation backlog items B001–B007 and issue #9 remain explicitly open and outside this patch.
+
+### Known limitations
+
+- This patch adds no product behavior and does not implement authentication, user management, imports, jobs, automated CI or runner installation.
+- Historical prompts, quickstarts, explicitly historical checklists and original execution-report bodies remain snapshots of their creation time.
+
 ## [0.2.0] - 2026-09-15
 
 ### Added
@@ -50,3 +70,4 @@ All notable project milestones are documented in this file. This project follows
 
 [0.1.0]: https://github.com/douglasfeitosag/Umanni/releases/tag/v0.1.0
 [0.2.0]: https://github.com/douglasfeitosag/Umanni/releases/tag/v0.2.0
+[0.2.1]: https://github.com/douglasfeitosag/Umanni/releases/tag/v0.2.1

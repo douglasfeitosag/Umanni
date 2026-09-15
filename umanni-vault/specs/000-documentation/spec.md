@@ -1,6 +1,6 @@
 # Especificação 000 — Base documental
 
-Data: 2026-09-10. Estado: entrega documental. Origem: [PLANO-000](../../14-PLANO-000-INICIALIZACAO.md).
+Data: 2026-09-10. Estado: concluída no bootstrap e preservada pelo PR #1. Origem: [PLANO-000](../../14-PLANO-000-INICIALIZACAO.md). Os cenários abaixo descrevem a fotografia inicial pré-aplicação, não o estado atual do repositório.
 
 ## Cenários de aceite
 

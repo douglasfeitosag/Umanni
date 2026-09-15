@@ -1,5 +1,7 @@
 # 004 — Brand reference hub
 
+Status: completed and reviewed in PR #5 at `68ac49e8fda19494898e623f6da38d51f011fe0a`; integrated there and subsequently reconciled into `main` by PR #8, merge `0c163a579a0cd74e443f7b96e78a58a7d8af1eba`. References below to pending review describe the pre-integration snapshot.
+
 Request: Douglas asked for a page concentrating the visual identity information and providing a way to view it. This extends the original static-asset scope explicitly; it does not authorize application business behavior.
 
 ## Purpose and scope

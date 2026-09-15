@@ -82,3 +82,7 @@ Nenhuma violação ou complexidade excepcional.
 ## Check pós-design
 
 O desenho proposto mantém tag imutável, revisão exata, merge antes da marcação e falha segura. Milestones tornam a versão-alvo verificável sem adicionar automação. A release preserva as exclusões da aplicação. Check pós-design da autoria: preparado; aprovação independente ainda pendente.
+
+## Fechamento posterior verificado
+
+Os gates acima registram o estado no momento da preparação. O planejamento e a entrega foram posteriormente aceitos no PR #10; o HEAD final revisado `b3c559f2aa9e1b07b241deeac0ad5ddcaf674b53` recebeu `review-ledger=success`, com 10/10 threads resolvidas. O merge `87e8c51894faa5794e9759b9caa5df4871d350e7` tornou-se o alvo imutável da tag anotada e da release final `v0.1.0`; o milestone 0.1.0 foi fechado.

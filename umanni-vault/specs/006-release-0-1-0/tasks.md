@@ -45,9 +45,9 @@
 - [x] T014 [US3] Criar `umanni-vault/PROMPT-COND-006-FOUNDATION.md` autossuficiente para a próxima sessão, usando a tag imutável `v0.1.0` como base resolvível, URL determinística da release, pendências, versão-alvo/backlog e próxima ação; após a publicação, verificar esses identificadores e registrar os hashes reais no comentário final do PR.
 - [x] T015 [US3] Executar integralmente `umanni-vault/specs/006-release-0-1-0/quickstart.md` até o checkpoint pré-publicação, validar links/textos/escopo e executar `git diff --check` + staging exato + `git diff --cached --check`.
 - [x] T016 [US3] Commitar e publicar a preparação, invalidar o aceite de spec, iniciar automaticamente a revisão final Luna high no HEAD exato, corrigir achados e obter `review-ledger=success` + `code-reviewed` com todas as threads resolvidas.
-- [ ] T017 [US3] Mapear no EXEC T001–T016 como concluídas com evidência e T017 como pronta; depois reconfirmar principal, HEAD, milestone, gate e mergeabilidade, fazer o merge normal especificamente autorizado e atualizar o checkout local sem auto-merge ou bypass.
-- [ ] T018 [US3] Capturar o commit de merge do PR, mapear T017 concluída no comentário final e exigir igualdade exata entre checkout, `origin/main` e esse SHA imediatamente antes da tag; qualquer avanço da principal exige parada e nova revisão.
-- [ ] T019 [US3] Com T001–T018 concluídas e documentadas, criar/push da tag anotada `v0.1.0` no SHA capturado, publicar a release final `Umanni 0.1.0` com `umanni-vault/releases/0.1.0.md`, verificar alvo/estado/prompt, fechar milestone `0.1.0` e registrar a matriz final/evidência no comentário do PR.
+- [x] T017 [US3] Mapear no EXEC T001–T016 como concluídas com evidência e T017 como pronta; depois reconfirmar principal, HEAD, milestone, gate e mergeabilidade, fazer o merge normal especificamente autorizado e atualizar o checkout local sem auto-merge ou bypass.
+- [x] T018 [US3] Capturar o commit de merge do PR, mapear T017 concluída no comentário final e exigir igualdade exata entre checkout, `origin/main` e esse SHA imediatamente antes da tag; qualquer avanço da principal exige parada e nova revisão.
+- [x] T019 [US3] Com T001–T018 concluídas e documentadas, criar/push da tag anotada `v0.1.0` no SHA capturado, publicar a release final `Umanni 0.1.0` com `umanni-vault/releases/0.1.0.md`, verificar alvo/estado/prompt, fechar milestone `0.1.0` e registrar a matriz final/evidência no comentário do PR.
 
 ## Dependências e ordem
 
@@ -56,3 +56,7 @@ T001 → T002 → T003 → T004. Após T004, T005 e T009/T010 podem ser preparad
 ## Condição de parada
 
 Parar sem criar/mover tag se o HEAD/base mudar sem revisão, se `v0.1.0` ou a release aparecerem previamente, se houver item de `0.1.0` aberto sem decisão, tarefa sem estado/destino/evidência, thread bloqueante, ledger inválido ou conflito. A entrega só termina quando T001–T019 estiverem mapeadas, o prompt de passagem estiver versionado e verificado, tag anotada e release final existirem, apontarem ao commit integrado, milestone `0.1.0` estiver fechado, issue 9 permanecer em `Backlog` e a evidência estiver publicada no PR.
+
+## Evidência posterior do ledger
+
+T017–T019 foram reconciliadas em 2026-09-15 sem alterar suas descrições. O comentário final do PR #10 registra o merge `87e8c51894faa5794e9759b9caa5df4871d350e7`, a tag anotada `v0.1.0`, a release final, o milestone 0.1.0 fechado e T001–T019 concluídas.
