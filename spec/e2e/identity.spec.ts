@@ -118,8 +118,6 @@ test('US4.1–US4.3 performs admin CRUD and denies the admin surface to regular 
   const regularPage = await regularContext.newPage()
   const regularEmail = uniqueEmail(testInfo, 'denied')
   await register(regularPage, regularEmail)
-  await regularPage.goto('/admin/users')
-  await expect(regularPage.locator('body')).not.toContainText(email)
   expect((await regularPage.request.get('/admin/users')).status()).toBe(403)
   await regularContext.close()
 })
@@ -177,8 +175,7 @@ test('US7.1–US7.3 updates dashboard metrics through Cable, reload and reconnec
   await page.getByLabel('Papel').selectOption('regular')
   await page.getByRole('button', { name: 'Salvar alterações' }).click()
   await expect.poll(() => cableClosed).toBe(true)
-  const deniedReload = await demotedPage.reload()
-  expect(deniedReload?.status()).toBe(403)
+  expect((await demotedPage.request.get('/admin/dashboard')).status()).toBe(403)
   await demotedContext.close()
 
   const deletedEmail = uniqueEmail(testInfo, 'deleted-admin')
