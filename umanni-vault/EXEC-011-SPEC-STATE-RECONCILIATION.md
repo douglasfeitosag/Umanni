@@ -60,3 +60,7 @@ Nenhuma tarefa incompleta pertencente aos specs concluídos permaneceu aberta. O
 - Resultado agregado: `PRECOMMIT_RECONCILIATION_OK`.
 
 T001–T012 concluídas. O próximo passo é publicar o HEAD candidato, executar o quickstart em checkout limpo e iniciar a revisão final independente. Nenhum merge, tag, release ou fechamento do milestone 0.2.1 foi executado.
+
+## Correção do gate no primeiro HEAD candidato
+
+O primeiro HEAD candidato `9b71517` passou igualdade local/remota, diff e objetos das tags, mas o bloco de busca negativa encerrou com código 1 justamente porque não encontrou claims obsoletos. O resultado desejado estava correto; o controle de fluxo do quickstart não estava. O bloco foi corrigido para abortar somente quando `rg` encontra uma ocorrência e aceitar explicitamente o resultado sem matches. Nenhuma tag, release, milestone ou arquivo funcional foi alterado durante essa reprodução.
