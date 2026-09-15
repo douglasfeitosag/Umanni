@@ -20,6 +20,10 @@ class User < ApplicationRecord
   validate :password_policy, if: -> { password.present? }
   validate :avatar_is_safe
 
+  after_create_commit :invalidate_dashboard_metrics
+  after_update_commit :handle_role_transition, if: :saved_change_to_role?
+  after_destroy_commit :disconnect_and_invalidate
+
   def avatar_url
     Rails.application.routes.url_helpers.rails_blob_path(avatar.blob, only_path: true) if avatar.attached? && avatar.blob.persisted?
   end
@@ -38,5 +42,23 @@ class User < ApplicationRecord
 
     errors.add(:avatar, "deve ser JPEG, PNG ou WebP") unless ALLOWED_AVATAR_TYPES.include?(avatar.blob.content_type)
     errors.add(:avatar, "deve ter no máximo 5 MiB") if avatar.blob.byte_size > MAX_AVATAR_SIZE
+  end
+
+  def handle_role_transition
+    disconnect_cable if role_before_last_save == "admin" && regular?
+    invalidate_dashboard_metrics
+  end
+
+  def disconnect_and_invalidate
+    disconnect_cable
+    invalidate_dashboard_metrics
+  end
+
+  def disconnect_cable
+    ActionCable.server.remote_connections.where(current_user: self).disconnect
+  end
+
+  def invalidate_dashboard_metrics
+    ActionCable.server.broadcast("dashboard_metrics", { type: "dashboard.metrics.changed", schemaVersion: 1 })
   end
 end

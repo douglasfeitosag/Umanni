@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  mount ActionCable.server => "/cable"
   get "sign-up", to: "registrations#new", as: :sign_up
   post "sign-up", to: "registrations#create"
   get "sign-in", to: "sessions#new", as: :sign_in
