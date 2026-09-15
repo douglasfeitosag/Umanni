@@ -83,6 +83,15 @@ describe('identity interfaces', () => {
     expect(destroy).toHaveBeenCalledWith('/profile', expect.any(Object))
   })
 
+  it('keeps deletion dialog labels unique when multiple dialogs are rendered', () => {
+    render(<><DeletionDialog action="/admin/users/1" label="Excluir Ana" /><DeletionDialog action="/admin/users/2" label="Excluir Bruno" /></>)
+    fireEvent.click(screen.getByRole('button', { name: 'Excluir Ana' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Excluir Bruno' }))
+    const dialogs = screen.getAllByRole('dialog')
+    expect(new Set(dialogs.map(dialog => dialog.getAttribute('aria-labelledby'))).size).toBe(2)
+    expect(new Set(screen.getAllByLabelText('Confirmação').map(input => input.id)).size).toBe(2)
+  })
+
   it('submits sign-in and sign-up envelopes while exposing accessible errors', () => {
     formErrors = { credentials: 'E-mail ou senha inválidos.', email: 'inválido' }
     const { unmount } = render(<SignIn />)
@@ -160,5 +169,16 @@ describe('identity interfaces', () => {
     editOptions.onError()
     expect(patch).toHaveBeenCalledWith('/admin/users/2', expect.any(Object))
     expect(screen.getByText('Zona de atenção')).toBeVisible()
+  })
+
+  it('associates role errors and hides the role mutation for the last administrator', () => {
+    formErrors = { role: 'deve permanecer administrador' }
+    const { rerender } = render(<AdminUserForm user={admin} roleOptions={roleOptions} />)
+    expect(screen.getByLabelText('Papel')).toHaveAttribute('aria-describedby', 'role-error')
+    expect(screen.getByText('deve permanecer administrador')).toHaveAttribute('id', 'role-error')
+
+    rerender(<EditUser user={admin} roleOptions={roleOptions} permissions={{ edit: true, destroy: false, changeRole: false }} />)
+    expect(screen.getByLabelText('Papel')).toHaveAttribute('readonly', '')
+    expect(screen.queryByRole('combobox', { name: 'Papel' })).not.toBeInTheDocument()
   })
 })

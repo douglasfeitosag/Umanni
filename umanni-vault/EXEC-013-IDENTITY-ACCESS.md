@@ -108,3 +108,7 @@ No mesmo HEAD, `docker compose --profile delivery build --no-cache web`, `db:pre
 ## Limites preservados
 
 Nenhum merge, fechamento de PR, auto-merge, tag, release, fechamento de milestone, importação, CI/runner, e-mail, recuperação de senha ou início de 0.4.0 foi realizado. A revisão Luna final não foi iniciada porque o gate limpo e a publicação ainda não estão completos.
+
+## Correções da revisão independente
+
+A primeira revisão independente do PR de execução identificou cinco achados no HEAD documental `fd51cf4`: associação programática do erro de papel, IDs únicos para múltiplos diálogos destrutivos, propagação de `permissions.changeRole`, foco no `h1` após navegação Inertia e alvos de navegação móvel de no mínimo 44 × 44 px. A correção mantém a proteção autoritativa no servidor, torna o papel somente leitura quando a policy já nega a mudança, gera IDs por instância com `useId` e direciona o foco ao título da rota (com fallback para `main`). RTL cobre os dois primeiros contratos e Playwright cobre foco de rota e dimensões móveis. O novo HEAD requer gate limpo e nova revisão independente antes de qualquer aceite técnico.

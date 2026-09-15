@@ -107,6 +107,7 @@ test('US4.1–US4.3 performs admin CRUD and denies the admin surface to regular 
   await page.getByLabel('Senha inicial', { exact: true }).fill(password)
   await page.getByLabel('Confirmar senha inicial').fill(password)
   await page.getByRole('button', { name: 'Criar usuário' }).click()
+  await expect(page).toHaveURL(/\/admin\/users$/)
   await expect(page.getByText(email)).toBeVisible()
   const row = page.getByRole('row').filter({ hasText: email })
   await row.getByRole('link', { name: 'Editar' }).click()
@@ -216,4 +217,17 @@ test('NFR-002–NFR-003 preserves keyboard focus, reduced motion, short viewport
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)
   expect(overflow).toBeLessThanOrEqual(1)
   await expect(page.getByRole('button', { name: 'Criar conta' })).toBeVisible()
+})
+
+test('NFR-002 moves focus to the route heading and preserves 44px mobile navigation targets', async ({ page }) => {
+  await login(page, adminEmail)
+  await page.getByRole('link', { name: 'Pessoas' }).click()
+  await expect(page.getByRole('heading', { name: 'Pessoas' })).toBeFocused()
+
+  await page.setViewportSize({ width: 390, height: 844 })
+  for (const link of await page.getByRole('navigation').getByRole('link').all()) {
+    const box = await link.boundingBox()
+    expect(box?.width).toBeGreaterThanOrEqual(44)
+    expect(box?.height).toBeGreaterThanOrEqual(44)
+  }
 })

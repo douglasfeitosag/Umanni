@@ -1,10 +1,25 @@
 import { Link, usePage } from '@inertiajs/react'
-import type { PropsWithChildren } from 'react'
+import { useEffect, useRef, type PropsWithChildren } from 'react'
 import type { SharedProps } from '../types'
 import logoUrl from '../../../branding/assets/logo/umanni-horizontal.svg'
 
 export default function AppLayout({ children }: PropsWithChildren) {
-  const { auth, flash } = usePage<SharedProps>().props
+  const page = usePage<SharedProps>()
+  const { auth, flash } = page.props
+  const previousUrl = useRef(page.url)
+
+  useEffect(() => {
+    if (previousUrl.current === page.url) return
+
+    previousUrl.current = page.url
+    requestAnimationFrame(() => {
+      const main = document.querySelector<HTMLElement>('#main-content')
+      const heading = main?.querySelector<HTMLElement>('h1')
+      const target = heading ?? main
+      target?.setAttribute('tabindex', '-1')
+      target?.focus()
+    })
+  }, [page.url])
 
   return (
     <div className="app-shell">

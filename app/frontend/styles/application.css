@@ -22,8 +22,8 @@ a { color: var(--blue-dark); text-underline-offset: .2em; }
 .site-header { min-height: 76px; padding: .8rem clamp(1rem, 5vw, 4.5rem); display: flex; align-items: center; justify-content: space-between; gap: 2rem; background: var(--white); border-bottom: 1px solid var(--line); }
 .brand-logo { display: block; width: 140px; height: auto; }
 nav { display: flex; align-items: center; flex-wrap: wrap; gap: .4rem 1.25rem; }
-nav a, .quiet-button { color: var(--navy); font-family: Montserrat, sans-serif; font-weight: 650; text-decoration: none; }
-.quiet-button { appearance: none; border: 0; background: none; cursor: pointer; min-height: 44px; padding: 0 .4rem; }
+nav a, .quiet-button { min-width: 48px; min-height: 48px; display: inline-flex; align-items: center; justify-content: center; color: var(--navy); font-family: Montserrat, sans-serif; font-weight: 650; text-decoration: none; }
+.quiet-button { appearance: none; border: 0; background: none; cursor: pointer; padding: 0 .4rem; }
 main { width: 100%; }
 footer { padding: 1.2rem; color: var(--muted); text-align: center; font-size: .88rem; }
 .flash { width: min(760px, calc(100% - 2rem)); margin: 1rem auto 0; padding: .8rem 1rem; border-left: 4px solid var(--blue-dark); background: #e8f7fd; }
