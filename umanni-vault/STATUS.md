@@ -30,11 +30,13 @@ A revisão independente encontrou FOUNDATION-REVIEW-001, corrigido em `b66492faa
 
 O fechamento documental foi integrado pelo [PR #13](https://github.com/douglasfeitosag/Umanni/pull/13), com HEAD final revisado `f56971eca6b5e280e2f20cf0ccaae2dce3254a37`, `foundation-checks=success`, `review-ledger=success`, `code-reviewed` e 8/8 threads resolvidas pela revisora. O merge `b5fc0ed5d9014e9841a82e0c19f634684db71182` é o alvo da tag anotada `v0.2.0` e da [GitHub Release final](https://github.com/douglasfeitosag/Umanni/releases/tag/v0.2.0), publicada em 2026-09-15. O milestone 0.2.0 está fechado com PRs #11–#13; a issue #9 continua aberta no Backlog. Ver [[EXEC-010-FOUNDATION-RELEASE]].
 
+A reconciliação documental posterior foi integrada pelo [PR #14](https://github.com/douglasfeitosag/Umanni/pull/14) no commit `bc9626e7a1ef9ce53375e0eb0d579e7831f0e7e0`. A tag `v0.2.1` e a [GitHub Release final 0.2.1](https://github.com/douglasfeitosag/Umanni/releases/tag/v0.2.1) apontam para esse commit e foram publicadas em 2026-09-15. Essa release corrige estado documental; não amplia a fundação funcional descrita acima.
+
 ## Planejamento de identidade e acesso 0.3.0
 
 O roadmap 012 foi integrado pelo PR #15 em `4265a46a7ca5ba8e6c1af68dd3b412a7cbf536b8`. A entrega documental 013 nasceu dessa base na branch `codex/013-identity-access` e está publicada no [PR #16](https://github.com/douglasfeitosag/Umanni/pull/16), vinculada ao milestone aberto `0.3.0`, com escopo exclusivo de identidade e acesso. A spec detalha cadastro regular, sessão/redirecionamento por papel, perfil próprio, autorização server-side, CRUD administrativo, proteção concorrente do último administrador, avatar, bootstrap local e dashboard total/por papel via Solid Cable. Nenhuma aplicação foi implementada nesta branch.
 
-D-019–D-026 permanecem fechadas. A spec 013 acrescenta D-027–D-030 somente para fechar política de senha, unicidade de e-mail, protocolo de invalidação das métricas e concorrência do último administrador, cada uma comparando três cenários. O planejamento aguarda revisão independente Luna high no HEAD exato; prompt de execução, implementação, merge, tag e release ainda não estão autorizados.
+D-019–D-026 permanecem fechadas. A spec 013 acrescenta D-027–D-031 somente para fechar política de senha, unicidade de e-mail, protocolo de invalidação das métricas, concorrência do último administrador e serialização do bootstrap, cada uma comparando três cenários. O planejamento aguarda revisão independente Luna high no HEAD exato; prompt de execução, implementação, merge, tag e release ainda não estão autorizados.
 
 ## Pendências e momento de resolução
 

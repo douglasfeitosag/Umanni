@@ -91,6 +91,16 @@ D-019–D-026 permanecem fechadas: credencial varia por origem sem e-mail; conta
 
 **Decisão: C.** Toda exclusão ou mudança de `admin` para `regular` adquire lock das linhas administrativas e reavalia a contagem dentro da mesma transação. Teste concorrente no PostgreSQL deve provar que ao menos um administrador permanece.
 
+### D-031 — serialização do primeiro bootstrap
+
+| Cenário | Segurança/consistência | Complexidade | Prática de mercado |
+| --- | --- | --- | --- |
+| A. Mutex no processo Ruby | Evita disputa apenas dentro de um processo; dois containers ainda criam dois admins | Pouco código, garantia local insuficiente | Inadequado para coordenação entre processos |
+| B. Lock exclusivo da tabela `users` | Serializa de forma forte, mas bloqueia toda criação de usuário | SQL simples com impacto amplo | Reservado a operações raras que toleram bloqueio global |
+| C. Advisory lock transacional PostgreSQL com chave constante do bootstrap | Serializa processos/containers no mesmo banco e permite reconsulta dentro do lock | Um adapter PostgreSQL pequeno e teste concorrente | Padrão apropriado para singleton lógico sem linha preexistente |
+
+**Decisão: C.** O comando chama `pg_advisory_xact_lock(130013)` dentro da transação, reconsulta a existência de qualquer admin dentro do lock e cria no máximo um. A constante Ruby recebe o nome revelador `FIRST_ADMIN_BOOTSTRAP_LOCK_KEY = 130013`; não se reutiliza essa chave para outro fluxo. Duas execuções concorrentes produzem uma criação e um no-op; o lock termina com commit/rollback.
+
 ## Requisitos funcionais
 
 - **FR-001**: visitante pode abrir cadastro sem dados autenticados de terceiros.
@@ -107,7 +117,7 @@ D-019–D-026 permanecem fechadas: credencial varia por origem sem e-mail; conta
 - **FR-012**: exclusão ou rebaixamento nunca deixa zero administradores, inclusive sob concorrência. Um admin pode excluir/rebaixar a si mesmo somente se outro admin persistido continuar; autoexclusão encerra sua sessão.
 - **FR-013**: avatar é opcional; ausência/falha de apresentação usa iniciais ou ícone, nunca a marca.
 - **FR-014**: o servidor aceita somente JPEG/PNG/WebP cujo tipo detectado seja permitido e tamanho seja no máximo 5 MiB; rejeição não substitui o avatar anterior.
-- **FR-015**: bootstrap lê nome, e-mail e senha de variáveis de ambiente documentadas, não imprime senha, exige banco local explicitamente permitido, cria um admin se nenhum existir e torna-se no-op se qualquer admin já existir.
+- **FR-015**: `bin/rails umanni:bootstrap_admin` aceita somente `RAILS_ENV=development`, adapter PostgreSQL e host efetivo local (socket/vazio, `localhost`, `127.0.0.1`, `::1` ou o serviço Compose `db`). A configuração efetiva vem de `ActiveRecord::Base.connection_db_config` depois da precedência Rails normal, inclusive `DATABASE_URL`; o comando não interpreta uma segunda conexão. Exige `UMANNI_BOOTSTRAP_CONFIRM=CREATE_FIRST_ADMIN` e `UMANNI_BOOTSTRAP_DATABASE` exatamente igual ao nome efetivo do banco. A ordem é: validar ambiente/adapter/host/confirmação do banco; abrir transação e adquirir o lock D-031; reconsultar admins; se existir algum, encerrar como no-op sem exigir credenciais; se não existir, exigir `UMANNI_BOOTSTRAP_FULL_NAME`, `UMANNI_BOOTSTRAP_EMAIL` e `UMANNI_BOOTSTRAP_PASSWORD`, aplicando D-027/D-028, e persistir. Campos vazios são inválidos; nenhum valor sensível é impresso ou registrado.
 - **FR-016**: dashboard autorizado recebe `metrics.total`, `metrics.byRole.admin` e `metrics.byRole.regular`, sempre inteiros não negativos cuja soma por papel equivale ao total.
 - **FR-017**: criação, exclusão ou mudança de papel confirmada emite a invalidação Cable somente depois do commit; falha/rollback não emite.
 - **FR-018**: dashboard atualiza as três métricas sem reload integral, e reload/reconexão recuperam a verdade persistida.
@@ -116,45 +126,45 @@ D-019–D-026 permanecem fechadas: credencial varia por origem sem e-mail; conta
 
 ### US1 — Cadastro regular
 
-1. **Dado** visitante com nome, e-mail e senha/confirmação válidos, **quando** envia o cadastro, **então** nasce um único usuário `regular`, a sessão é iniciada e o perfil próprio é exibido.
-2. **Dado** `role=admin` forjado ou e-mail equivalente em outra caixa/espaços, **quando** envia o cadastro, **então** não ocorre escalada nem duplicidade e o retorno é interativo e seguro.
-3. **Dado** senha fora de D-027, confirmação divergente ou campos inválidos, **quando** envia, **então** nada persiste, erros ficam ligados aos campos e o rascunho não sensível permanece.
+1. **US1.1** — **Dado** visitante com nome, e-mail e senha/confirmação válidos, **quando** envia o cadastro, **então** nasce um único usuário `regular`, a sessão é iniciada e o perfil próprio é exibido.
+2. **US1.2** — **Dado** `role=admin` forjado ou e-mail equivalente em outra caixa/espaços, **quando** envia o cadastro, **então** não ocorre escalada nem duplicidade e o retorno é interativo e seguro.
+3. **US1.3** — **Dado** senha fora de D-027, confirmação divergente ou campos inválidos, **quando** envia, **então** nada persiste, erros ficam ligados aos campos e o rascunho não sensível permanece.
 
 ### US2 — Sessão e destino por papel
 
-1. **Dado** credencial válida, **quando** inicia sessão, **então** admin chega ao dashboard e regular ao próprio perfil.
-2. **Dado** e-mail inexistente, senha errada ou conta sem credencial, **quando** tenta login, **então** recebe a mesma mensagem neutra e nenhuma informação de existência.
-3. **Dado** pessoa autenticada, **quando** encerra sessão, **então** o cookie anterior não reabre rota privada.
+1. **US2.1** — **Dado** credencial válida, **quando** inicia sessão, **então** admin chega ao dashboard e regular ao próprio perfil.
+2. **US2.2** — **Dado** e-mail inexistente, senha errada ou conta sem credencial, **quando** tenta login, **então** recebe a mesma mensagem neutra e nenhuma informação de existência.
+3. **US2.3** — **Dado** pessoa autenticada, **quando** encerra sessão, **então** o cookie anterior não reabre rota privada.
 
 ### US3 — Perfil próprio
 
-1. **Dado** regular autenticado, **quando** consulta ou edita nome/e-mail/avatar, **então** somente seu registro é retornado/mutado e o papel permanece somente leitura.
-2. **Dado** ID ou `role` de terceiro forjado, **quando** envia request direto, **então** o servidor nega sem expor props do alvo e não altera dados.
-3. **Dado** confirmação destrutiva válida, **quando** exclui a própria conta, **então** conta/sessão deixam de valer e a navegação chega ao login com retorno recuperável.
+1. **US3.1** — **Dado** regular autenticado, **quando** consulta ou edita nome/e-mail/avatar, **então** somente seu registro é retornado/mutado e o papel permanece somente leitura.
+2. **US3.2** — **Dado** ID ou `role` de terceiro forjado, **quando** envia request direto, **então** o servidor nega sem expor props do alvo e não altera dados.
+3. **US3.3** — **Dado** confirmação destrutiva válida, **quando** exclui a própria conta, **então** conta/sessão deixam de valer e a navegação chega ao login com retorno recuperável.
 
 ### US4 — Administração e autorização
 
-1. **Dado** administrador, **quando** lista, cria, consulta, edita, muda papel ou exclui usuário, **então** a mudança válida persiste e respostas contêm somente campos permitidos.
-2. **Dado** visitante ou regular, **quando** tenta cada endpoint administrativo, inclusive Cable, **então** o servidor redireciona/não autoriza conforme autenticação sem executar a operação.
-3. **Dado** dois pedidos concorrentes que poderiam remover/rebaixar os administradores restantes, **quando** executam, **então** a serialização preserva ao menos um admin e a operação bloqueada explica como recuperar.
+1. **US4.1** — **Dado** administrador, **quando** lista, cria, consulta, edita, muda papel ou exclui usuário, **então** a mudança válida persiste e respostas contêm somente campos permitidos.
+2. **US4.2** — **Dado** visitante ou regular, **quando** tenta cada endpoint administrativo, inclusive Cable, **então** o servidor redireciona/não autoriza conforme autenticação sem executar a operação.
+3. **US4.3** — **Dado** dois pedidos concorrentes que poderiam remover/rebaixar os administradores restantes, **quando** executam, **então** a serialização preserva ao menos um admin e a operação bloqueada explica como recuperar.
 
 ### US5 — Avatar
 
-1. **Dado** JPEG/PNG/WebP detectado de até 5 MiB, **quando** o dono autorizado envia, **então** o novo avatar aparece e eventual substituição só ocorre após persistência bem-sucedida.
-2. **Dado** SVG, tipo disfarçado, arquivo acima do limite ou conteúdo malformado, **quando** envia, **então** recebe erro de campo seguro, o avatar anterior permanece e nenhum conteúdo ativo é renderizado.
-3. **Dado** avatar ausente ou indisponível, **quando** a tela renderiza, **então** mostra iniciais/ícone acessível sem layout quebrado.
+1. **US5.1** — **Dado** JPEG/PNG/WebP detectado de até 5 MiB, **quando** o dono autorizado envia, **então** o novo avatar aparece e eventual substituição só ocorre após persistência bem-sucedida.
+2. **US5.2** — **Dado** SVG, tipo disfarçado, arquivo acima do limite ou conteúdo malformado, **quando** envia, **então** recebe erro de campo seguro, o avatar anterior permanece e nenhum conteúdo ativo é renderizado.
+3. **US5.3** — **Dado** avatar ausente ou indisponível, **quando** a tela renderiza, **então** mostra iniciais/ícone acessível sem layout quebrado.
 
 ### US6 — Primeiro administrador
 
-1. **Dado** ambiente local permitido, nenhuma conta admin e variáveis válidas, **quando** o comando roda, **então** existe exatamente um admin autenticável sem segredo impresso.
-2. **Dado** qualquer admin existente, **quando** o comando roda novamente, **então** não cria, substitui, rebaixa nem redefine credencial.
-3. **Dado** variável ausente/inválida ou ambiente não permitido, **quando** o comando roda, **então** falha antes de persistir e orienta a correção sem ecoar segredo.
+1. **US6.1** — **Dado** ambiente local permitido, nenhuma conta admin e duas execuções concorrentes com variáveis válidas, **quando** o comando roda, **então** existe exatamente um admin autenticável, a outra execução é no-op e nenhum segredo é impresso.
+2. **US6.2** — **Dado** qualquer admin existente e allowlist operacional válida, **quando** o comando roda novamente sem variáveis de credencial, **então** não cria, substitui, rebaixa nem redefine credencial.
+3. **US6.3** — **Dado** confirmação/banco/host/ambiente proibido ou credencial obrigatória ausente/inválida, **quando** o comando roda, **então** falha antes de persistir e orienta a correção sem ecoar senha.
 
 ### US7 — Dashboard ao vivo e reload
 
-1. **Dado** dashboard admin aberto, **quando** usuário é criado/excluído ou muda de papel e a transação confirma, **então** Cable invalida as métricas e as três props atualizam sem reload integral.
-2. **Dado** rollback, evento duplicado/fora de ordem ou rajada, **quando** o cliente recebe sinais, **então** não aplica delta, coalesce recargas e termina refletindo a consulta persistida.
-3. **Dado** conexão interrompida ou página recarregada, **quando** restabelece, **então** as métricas atuais reaparecem; regular não assina nem consulta o canal.
+1. **US7.1** — **Dado** dashboard admin aberto, **quando** usuário é criado/excluído ou muda de papel e a transação confirma, **então** Cable invalida as métricas e as três props atualizam sem reload integral.
+2. **US7.2** — **Dado** rollback, evento duplicado/fora de ordem ou rajada, **quando** o cliente recebe sinais, **então** não aplica delta, coalesce recargas e termina refletindo a consulta persistida.
+3. **US7.3** — **Dado** conexão interrompida, página recarregada ou admin conectado que perde o papel/sessão, **quando** o estado muda, **então** a conexão sem permissão é encerrada, a consulta é negada e somente um admin atual recupera as métricas persistidas.
 
 ## Requisitos não funcionais e aceite
 

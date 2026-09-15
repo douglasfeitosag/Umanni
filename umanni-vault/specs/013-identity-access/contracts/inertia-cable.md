@@ -2,7 +2,7 @@
 
 ## Convenções
 
-- Chaves JSON usam `camelCase`; papéis usam `admin|regular`.
+- Props JSON de resposta usam `camelCase`; payloads de formulário e chaves de erro usam `snake_case`, iguais aos atributos Rails. Papéis usam `admin|regular`.
 - IDs são opacos ao frontend. Nenhuma prop inclui segredo ou metadado interno do Active Storage.
 - Permissões são calculadas no servidor. Ausência de botão no cliente não substitui autorização.
 - Erros de formulário usam a integração Inertia e chaves estáveis por campo; mensagens visíveis são em português.
@@ -68,13 +68,18 @@ type DashboardMetrics = {
 
 ## Formulários permitidos
 
-- cadastro: `fullName`, `email`, `password`, `passwordConfirmation`;
-- perfil: `fullName`, `email`, `avatar` e `removeAvatar` explícito;
-- criação admin: `fullName`, `email`, `role`, `password`, `passwordConfirmation`, `avatar`;
-- edição admin: `fullName`, `email`, `role`, `avatar`, `removeAvatar`;
-- exclusão: `confirmation`, que deve equivaler a `EXCLUIR` após `trim`.
+- cadastro: `registration[full_name]`, `registration[email]`, `registration[password]`, `registration[password_confirmation]`;
+- login: `session[email]`, `session[password]`;
+- perfil: `profile[full_name]`, `profile[email]`, `profile[avatar]` e `profile[remove_avatar]` explícito;
+- criação admin: `admin_user[full_name]`, `admin_user[email]`, `admin_user[role]`, `admin_user[password]`, `admin_user[password_confirmation]`, `admin_user[avatar]`;
+- edição admin: `admin_user[full_name]`, `admin_user[email]`, `admin_user[role]`, `admin_user[avatar]`, `admin_user[remove_avatar]`;
+- exclusão própria/admin: `deletion[confirmation]`, que deve equivaler a `EXCLUIR` após `trim`.
 
 Campos extras são descartados pelos strong parameters; testes verificam que `role` público/próprio e senha em edição não produzem efeito.
+
+Forms sem arquivo usam o request Inertia normal. Forms que enviam `avatar` usam `FormData`/`multipart/form-data`; updates incluem `_method=patch` se o adapter não processar PATCH multipart diretamente. O controller mapeia o envelope e as chaves acima diretamente para strong parameters Rails, sem conversão implícita camelCase. Erros voltam no error bag sob a chave de atributo `snake_case` (`full_name`, `password_confirmation`, `avatar`, `role`, `confirmation`); cada componente mantém um mapa explícito dessas chaves para seu controle e `aria-describedby`. Props persistidas de resposta continuam camelCase conforme os tipos deste contrato. Senha e confirmação nunca voltam no error bag como valor.
+
+Valores escalares do wire são strings UTF-8; `role` aceita somente `admin|regular`; `remove_avatar` usa `"1"` para remover e ausência/`"0"` para manter. Um arquivo `avatar` é a parte binária do multipart. Se `avatar` e `remove_avatar="1"` chegarem juntos, o servidor rejeita a combinação ambígua e preserva o avatar anterior; a interface nunca envia ambos. IDs de alvo vêm exclusivamente da rota admin, não do corpo.
 
 ## Métricas e Cable
 
@@ -99,6 +104,8 @@ Contrato do cliente:
 6. nunca aplicar delta ou confiar em contagem transmitida.
 
 O servidor emite o sinal após commit de criação/exclusão de usuário ou transição de papel. Alteração apenas de nome/e-mail/avatar não emite. Falha e rollback não emitem. A consulta parcial repete autenticação/autorização e retorna as três contagens numa única fotografia transacionalmente consistente o bastante para a tela; `admin + regular == total` é validado no servidor/teste.
+
+Logout, exclusão e transição `admin -> regular` desconectam, depois do commit, todas as conexões Cable identificadas para o usuário afetado por meio das remote connections do Action Cable. No rebaixamento, a desconexão do antigo admin ocorre antes do sinal global de invalidação. Mesmo se uma corrida entregar o sinal sem dados, a partial reload reautoriza e responde 403; o cliente encerra a subscription ao receber essa negação. Testes mantêm uma conexão aberta antes de logout/exclusão/rebaixamento e provam desconexão, ausência de novos sinais utilizáveis e negação da recarga.
 
 ## Erros e negações
 

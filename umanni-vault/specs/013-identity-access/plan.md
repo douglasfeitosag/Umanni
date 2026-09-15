@@ -23,6 +23,7 @@ A futura executora trabalhará em incrementos verticais test-first. Cada increme
 - cadastro força `regular` fora dos parâmetros permitidos;
 - criação administrativa aceita papel e senha inicial; edição não aceita senha;
 - exclusão/rebaixamento de admin ocorre em serviço transacional que bloqueia as linhas admin antes de recontar e mutar;
+- bootstrap valida a allowlist exata de FR-015, adquire o advisory transaction lock D-031 e reconsulta a existência de admin antes de criar;
 - evento de métricas é emitido somente em `after_commit` da mudança relevante, nunca durante rollback;
 - substituição de avatar mantém o anterior se validação/persistência falhar; blobs substituídos ou pertencentes a conta apagada são removidos sem deixar a transação parcialmente aplicada.
 
@@ -44,7 +45,7 @@ Nomes finais podem seguir a saída idiomática do gerador, mas qualquer diferen�
 
 O contrato detalhado está em [contracts/inertia-cable.md](contracts/inertia-cable.md). Controllers fazem autenticação, autorização e strong parameters antes de montar props. React nunca decide permissão; apenas omite controles que o servidor informou como permitidos. Props de usuário nunca incluem digest, senha, token, session ID ou atributo Active Storage interno.
 
-O canal autentica a conexão pela sessão Rails e rejeita assinatura não administrativa. O broadcast versionado apenas invalida métricas. O hook React recarrega a prop `metrics` com coalescência e repete a consulta em conexão/reconexão.
+O canal autentica a conexão pela sessão Rails e rejeita assinatura não administrativa. O broadcast versionado apenas invalida métricas. O hook React recarrega a prop `metrics` com coalescência e repete a consulta em conexão/reconexão. Logout, exclusão e rebaixamento desconectam remotamente as conexões do ator afetado depois do commit; toda partial reload reautoriza.
 
 ## Interface, estados e acessibilidade
 
@@ -77,8 +78,8 @@ O canal autentica a conexão pela sessão Rails e rejeita assinatura não admini
 - models: normalização/unicidade concorrente, senha, papéis, avatar e relações de sessão;
 - requests: todos os endpoints por visitante/regular/admin, strong params, respostas Inertia, CSRF, XSS/SQLi/enumeração e exclusão com logout;
 - service: lock/rollback e disputa concorrente do último admin;
-- command/task: bootstrap válido, repetido, inválido e ambiente proibido sem vazar senha;
-- channel/connection: assinatura admin aceita, demais rejeitadas, payload mínimo e emissão somente após commit;
+- command/task: allowlist completa do bootstrap, caso válido, no-op sem credenciais, disputa concorrente, entrada inválida e ambiente proibido sem vazar senha;
+- channel/connection: assinatura admin aceita, demais rejeitadas, payload mínimo, emissão somente após commit e conexão existente revogada em logout/exclusão/rebaixamento;
 - query: total e grupos, incluindo zero e mudanças de papel;
 - Active Storage: tipos/tamanhos válidos, spoof/malformado/SVG/excesso e preservação do anterior.
 

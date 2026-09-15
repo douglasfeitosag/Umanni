@@ -8,9 +8,13 @@
 - [x] Negações server-side, CRUD admin e proteção concorrente do último admin têm BDD verificável.
 - [x] Avatar JPEG/PNG/WebP <=5 MiB e rejeições seguras têm BDD verificável.
 - [x] Primeiro admin local, seguro e idempotente tem BDD verificável.
+- [x] Bootstrap tem allowlist operacional exata e serialização concorrente PostgreSQL verificável.
 - [x] Total e totais por papel via Solid Cable, partial reload e reload/reconexão têm contrato verificável.
+- [x] Conexão Cable já aberta é revogada após logout, exclusão ou rebaixamento.
 - [x] RSpec, Vitest/RTL, Playwright, RED/GREEN/refatoração, execução paralela e cobertura >=90% por linguagem estão definidos.
 - [x] Segurança, acessibilidade, responsividade, contratos Inertia/Cable, arquivos permitidos, aceite e parada estão definidos.
+- [x] Props camelCase, requests/errors snake_case, multipart e mapeamento de strong params estão explícitos.
+- [x] Cada um dos 21 cenários possui ID e linha própria na matriz cenário/teste/tarefa/evidência.
 - [x] Protótipo foi tratado como referência, não como regra ou implementação reutilizável.
 - [x] PR #16 publicado com `documentation`, milestone 0.3.0 e Douglas responsável.
 - [ ] Revisão independente Luna high aceitou o HEAD exato com `review-ledger=success`, `spec-reviewed` e zero threads abertas.
