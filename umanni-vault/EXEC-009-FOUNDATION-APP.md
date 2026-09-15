@@ -1,49 +1,43 @@
 # Execução 009 — fundação mínima da aplicação
 
-## Retomada autorizada em 2026-09-15
+## Resultado e identificação
 
-Douglas concordou com fixar `json 2.21.2`, atualizar o lock e continuar a validação, mantendo o restante da matriz. Esta decisão resolve a pergunta B-009-01 abaixo; os registros de bloqueio permanecem como histórico. A restrição será examinada na revisão independente da implementação. Execução retomada, ainda sem aceite final.
+- Pedido: Douglas, **PROMPT-EXEC-009**, origem PROMPT-COND-006. Destinatários: condutora e Douglas.
+- Papel: executora. Modelo realmente utilizado: **GPT-6; variante exata não exposta**. Não atribuir Terra high a esta sessão.
+- Versão-alvo: **0.2.0**, [milestone 3](https://github.com/douglasfeitosag/Umanni/milestone/3), ainda aberto.
+- Branch: `codex/009-foundation-app`. [PR #12](https://github.com/douglasfeitosag/Umanni/pull/12), base main, label enhancement, Douglas responsável.
+- Base imutável: v0.1.0, `87e8c51894faa5794e9759b9caa5df4871d350e7`.
+- Planejamento aceito: [PR #11](https://github.com/douglasfeitosag/Umanni/pull/11), SHA `d1f3a3a349ed4a7610c4da7b170d4d2976c56691`. Branch de execução nasceu diretamente desse SHA.
+- Commits de implementação: `0738bd2` (aplicação/gates) e `90f07adc9256fb1baa1486138f71484ad8598d8b` (empacotamento/evidências). Este relatório acrescenta a correção focalizada do hostname Vite e consolida os resultados.
+- Estado: fundação implementada e validada localmente; revalidação do HEAD com correção Vite e revisão independente pendentes. **Sem aceite final ou autorização de integração.**
 
-## Identificação e estado
+GET `/` apresenta a página técnica Rails–Inertia/React em português, versão 0.2.0 e aviso explícito de indisponibilidade de cadastro, login e gestão de usuários. `/up`, 404, PostgreSQL primary, assets compilados, isolamento, cobertura por linguagem e Compose estão implementados. Nenhum fluxo de usuário, importação, job, Redis, e-mail, SSR, deploy, profiling, CI automático ou runner foi criado.
 
-- Pedido: Douglas, PROMPT-EXEC-009, originado em PROMPT-COND-006.
-- Papel: executora. Modelo realmente utilizado: GPT-6; variante exata não exposta. Não atribuir Terra high a esta sessão.
-- Versão-alvo: 0.2.0, milestone 3. Estado: execução retomada após restrição JSON autorizada, validação em andamento, sem aceite final.
-- Base publicada: `v0.1.0`, `87e8c51894faa5794e9759b9caa5df4871d350e7`.
-- Planejamento: PR #11, HEAD aprovado `d1f3a3a349ed4a7610c4da7b170d4d2976c56691`.
-- Branch: `codex/009-foundation-app`, criada diretamente desse HEAD. PR de implementação ainda não criado.
+## Gate inicial e preservação
 
-## Gate inicial observado
+Checkout canônico/origin confirmados e árvore inicialmente limpa. Main local estava em f9a817cc6972c2438230f12d7dafedf0abc2d5b0. Tag v0.1.0 correspondia à base, commit aprovado disponível e branch de execução inexistente. API confirmou PR #11 já integrado, mesmo HEAD aprovado, spec-reviewed, review-ledger=success e três threads resolvidas, sem paginação restante. Não foi feito merge nesta sessão.
 
-Checkout canônico confirmado com origin `https://github.com/douglasfeitosag/Umanni.git` e árvore inicialmente limpa. A main local estava em `f9a817cc6972c2438230f12d7dafedf0abc2d5b0`. A tag publicada apontava para a base esperada; o commit aprovado existia localmente; a branch de execução não existia localmente nem no remoto.
+Comandos de gate, criação da branch e check-prerequisites do Spec Kit: **0**. As primeiras tentativas de fetch/gh falharam por restrições anteriores de sandbox/rede (255/1); as repetições autorizadas passaram. A sessão passou posteriormente a full access/approval never, sem alterar runtimes globais. O checkbox histórico de revisão do planejamento e o link simbólico da constituição foram preservados.
 
-Consulta GitHub confirmou PR #11 já integrado, HEAD ainda igual ao aprovado, label `spec-reviewed`, milestone 3/0.2.0 e `review-ledger=success` no SHA aprovado. As três threads estavam resolvidas, sem próxima página. Nenhum merge foi executado nesta sessão. O checkbox histórico de revisão não foi alterado.
+Comparação com v0.1.0 confirmou branding, AGENTS e constituição intactos (0). Issue #9 relida: OPEN, milestone Backlog. Não houve alteração do protótipo nem soma da cobertura dele.
 
-`git fetch origin` inicialmente falhou (255) por proteção de `.git/FETCH_HEAD`; repetição autorizada fora do sandbox terminou em 0. As primeiras consultas `gh` falharam por rede restrita (1); repetidas fora do sandbox, terminaram em 0. Isso não foi falha do gate de revisão.
+## Ambiente, geração e locks
 
-`git switch -c codex/009-foundation-app d1f3a3a349ed4a7610c4da7b170d4d2976c56691`: 0.
+Docker Engine 29.4.2, Compose 5.1.3; **Linux aarch64 no Mac**. Ruby 4.0.6, Rails 8.1.3.1, Bundler 4.0.20, Node 24.21.0, npm 11.19.0, PostgreSQL 18.6 e demais dependências diretas conforme research.md. Imagens Ruby/Node/PostgreSQL fixadas nos digests aprovados; frontend Dockerfile também fixado no digest efetivamente observado no build. amd64 consta dos manifestos, mas **não foi executado**.
 
-Pré-requisitos Spec Kit com `SPECIFY_FEATURE_DIRECTORY` absoluto, `SPECIFY_FEATURE=008-foundation-plan`, `--require-spec --require-tasks --include-tasks`: 0. Link simbólico da constituição preservado.
+Gerador Rails instalado com versão exata, help conferido, geração em pasta temporária nova com todas as flags do quickstart (0). Nunca executado rails new . --force. Inventário revisado antes da cópia: boot Rails, controllers/models-base/layout, config, binários Rails/rake/thrust/entrypoint, Rakefile/config.ru, schema/seeds vazios e páginas genéricas public. Não copiados README gerado, credentials/chaves, PWA/ícones, CI, Kamal ou frameworks excluídos. Bootsnap não foi adicionado. Gems internas do metapacote Rails não significam ativação de jobs/mail/storage/cable.
 
-## Bootstrap e inventário
+`bundle _4.0.20_ lock --add-platform aarch64-linux x86_64-linux arm64-darwin`, bundle install e BUNDLE_FROZEN=true: **0**. Gemfile.lock inclui variantes Linux arm64/amd64/Darwin; tooling tem 96 gems, bundle production tem 74. npm lock e npm ci: **0**, 273 pacotes, engines/peers estritos, auditoria sem vulnerabilidades nessa instalação. Nenhum latest ou @inertiajs/vite. npm emitiu aviso de postinstall esbuild, mas builds reais passaram sem relaxar engines/peers.
 
-Docker Engine 29.4.2 e Compose 5.1.3 observados. Runtime isolado: Linux aarch64, Ruby 4.0.6, Node 24.21.0, npm 11.19.0, Bundler 4.0.20; comandos de versão terminaram em 0. Nenhum runtime global do Mac foi modificado.
+### B-009-01 resolvido por autorização de Douglas
 
-Pull Ruby no digest aprovado: 0. Build temporário `umanni-exec009-bootstrap`, com imagens Ruby/Node por digest e instalação exata de Bundler/Rails: 0. O help de `rails _8.1.3.1_ new` confirmou as flags da receita (0). Geração ocorreu em diretório temporário novo com todas as flags de quickstart (0), nunca na raiz do checkout.
+A primeira resolução escolheu json 3.0.2. ActiveSupport 8.1.3.1 chama `JSON.parse(json, options)`; JSON 3 exige keywords, causando ArgumentError e HTTP 500 ao reler o cookie na segunda visita. Reprodução mínima com ActiveSupport::JSON.decode e request spec de duas visitas falharam (1). O trabalho dependente foi interrompido conforme a condição de parada do prompt.
 
-Inventário copiado: arquivos convencionais de boot em `app/controllers`, `app/models`, layout, `config`, `bin/rails`, `bin/rake`, `bin/thrust`, `bin/docker-entrypoint`, `Rakefile`, `config.ru`, `.ruby-version`, `db/seeds.rb` e páginas genéricas Rails em `public`. As páginas genéricas são necessárias ao contrato de erros da imagem final. Não copiados: chaves/credentials, README gerado, PWA, ícones, helpers vazios, pipeline de assets concorrente, CI ou ferramentas adicionais geradas. Nenhuma alteração em branding/AGENTS/.specify.
+Douglas concordou explicitamente em fixar **json = 2.21.2**, atualizar o lock e continuar, sem mudar as versões centrais. Essa versão mantém `parse(source, opts = nil)`. `bundle lock --update json`, instalação frozen, reprodução e regressão de sessão passaram (0). Não foi usado monkey patch nem removida proteção de sessão/CSRF. Decisão registrada também em research.md e sujeita à revisão independente.
 
-Manifestos diretos foram escritos com a matriz exata. Removido bootstrap de Bootsnap porque essa dependência não é necessária ao boot mínimo; não foram adicionados jbuilder, debug, web-console, bundler-audit ou rubocop-rails-omakase. As gems internas do metapacote Rails não significam ativação dos frameworks excluídos.
+## RED/GREEN observado
 
-## Instalação e locks observados
-
-`bundle _4.0.20_ lock --add-platform aarch64-linux x86_64-linux arm64-darwin`, `bundle install` e repetição com `BUNDLE_FROZEN=true`: 0. Foram instaladas 96 gems. `npm install --package-lock-only` e `npm ci`: 0, 273 pacotes instalados, auditoria npm sem vulnerabilidades naquela execução. Engines/peers estritos permaneceram habilitados. npm avisou sobre o postinstall de esbuild; o build Vite executou posteriormente sem ignorar engines ou peers.
-
-`Gemfile.lock` registra plataformas Linux arm64/amd64 e Darwin, incluindo variantes de gems nativas resolvidas pelo Bundler. **Somente Linux aarch64 foi executado.** As dependências diretas seguem a matriz. A resolução escolheu a dependência transitiva `json 3.0.2`, que instalou corretamente, mas falhou na integração com ActiveSupport 8.1.3.1. Instalação congelada bem-sucedida não comprova compatibilidade funcional.
-
-## RED/GREEN e comandos executados
-
-Todos os comandos de aplicação abaixo foram executados no ambiente isolado descrito acima, com o checkout montado em `/app`; após criação do container fixo, via `docker exec umanni-exec009`. Os SHAs nos relatórios identificam a base Git; **a árvore continha alterações locais, e estes resultados não são validação de um commit limpo**.
+A tabela conserva a sequência de desenvolvimento anterior à validação completa. Esses testes iniciais rodaram sobre árvore com alterações locais, não representam validação limpa de d1f3a3a.
 
 | Comando/cenário | Saída | Resultado observado |
 | --- | --- | --- |
@@ -73,106 +67,98 @@ Todos os comandos de aplicação abaixo foram executados no ambiente isolado des
 | Reprodução mínima ActiveSupport::JSON.decode | 1 | Incompatibilidade confirmada sem navegador, controller ou banco |
 | Request spec de duas visitas consecutivas | 1 | Regressão persistida: segunda visita falha no mesmo JSON.parse |
 
-## Decisões de integração dentro da matriz
 
-- CSR manual, sem @inertiajs/vite e sem SSR. O adaptador Rails agora usa `use_script_element_for_initial_page=true`, formato esperado pelo cliente Inertia 3. Props explícitas app/errors.
-- CSRF permanece ativo também no ambiente de teste. Cookie/token foram observados em resposta real; não publicados neste relatório.
-- O digest Vite Ruby passa a ser calculado no boot, evitando `Dir.chdir` concorrente a cada requisição. O Dockerfile provisório prevê salvá-lo durante o build para a imagem final sem fontes frontend; essa imagem ainda não foi validada.
-- A configuração TypeScript cobre código frontend e E2E. Configurações das ferramentas são lidas pelas próprias ferramentas e lintadas; não foi adicionada @types/node fora da matriz.
-- bin/check, Dockerfile e Compose foram escritos, mas ainda estão em desenvolvimento. Não usar sua presença como prova de execução completa ou segurança do empacotamento.
+Resultados posteriores que superam as pendências históricas da tabela:
 
-## Observações dos dois workers
+- CSP: RED por header ausente (1); política local e nonce Rails/Inertia implementados; GREEN (0).
+- Sessão após pin JSON: GREEN (0); seis projetos Playwright: **12/12**, saída 0.
+- RuboCop final: 28 arquivos, zero offenses (0). Brakeman: zero erros/warnings (0).
+- Primeiro boot production falhou por disputa de porta Thruster/Puma (1). Corrigido THRUSTER_HTTP_PORT=3000 e THRUSTER_TARGET_PORT=3001 conforme gem instalada; boot saudável (0).
+- Smoke dev após clean-room revelou 403: hostname interno `vite` recusado. Permitido somente esse hostname em server.allowedHosts. Na cópia temporária, assets 200, página/Link corretos, console sem erros e alteração/restauração do título via HMR sem reload. Alterações experimentais foram removidas; cópia voltou a diff limpo.
 
-Run ID `11111111-1111-4111-8111-111111111111`, base SHA `d1f3a3a349ed4a7610c4da7b170d4d2976c56691`, árvore de trabalho com alterações da executora:
+## Arquitetura testada e decisões
 
-| Worker | TEST_ENV_NUMBER | Banco | Marcador esperado e observado | Resultado |
+CSR manual, componente Foundation/Show, props exatas app/name/version e errors vazio. use_script_element_for_initial_page=true compatibiliza o HTML do adaptador Rails com o cliente Inertia 3. Digest Vite calculado no boot evita Dir.chdir concorrente; no build production é gravado em config/vite-digest, disponível sem fontes frontend. Request specs exercitam HTML, protocolo Inertia, 409/mismatch, sessão, CSRF, health e 404. Não existe endpoint mutante artificial.
+
+CSP mantém helpers Rails, nonce novo por resposta e assets locais; localhost:3036/HMR somente em development. Entrypoint só faz bootstrap/resolução e fornece nonce ao Inertia. Vite usa origem localhost:3036 e hostname interno vite explicitamente permitido. Código/tipos/testes/README/commits em inglês; interface/relatório em português.
+
+Primary PostgreSQL, pools/sufixos explícitos: development, test, test2, e2e e production separados. Test não herda DATABASE_URL. bin/check recusa ambiente incorreto, variável genérica DATABASE_URL, worker externo e URL de teste insegura; config rejeita query/fragment para impedir override do nome do banco. verification:prepare cria/prepara somente os três bancos de teste. Schema vazio, seed no-op, nenhuma migration de negócio.
+
+Docker: tooling contém deps/testes/browsers; build compila assets sem banco/segredo; production contém Ruby/libs de runtime, gems production e assets. UID 1000, Thruster/Puma single process/3 threads. Compose publica apenas loopback, DB sem porta no host, volume PostgreSQL18 em /var/lib/postgresql. Sem HOME/socket/credenciais GitHub montados. Perfis dev e delivery testados separadamente na porta3030. .env local ignorado, modo600, secret aleatório não registrado em logs/documentos.
+
+## Validação limpa do commit 90f07ad
+
+Cópia Git destacada do SHA completo `90f07adc9256fb1baa1486138f71484ad8598d8b`, projeto exclusivo **umanni-exec009-90f07ad**, volume novo, VERIFICATION_SHA exportado antes do build. verify usa fontes incorporadas à imagem, sem bind mount. Os comandos seguintes terminaram em **0**:
+
+1. Compose --profile test --profile delivery config --quiet e build verify web.
+2. Compose up -d --wait db.
+3. Compose --profile test run --rm verify bin/check.
+4. Compose --profile delivery run --rm web bin/rails db:prepare.
+5. Compose --profile delivery up -d --wait web.
+6. curl --fail em http://127.0.0.1:3030/up e /.
+7. Smoke de navegador da imagem final em desktop/mobile: título/lang/h1/aviso/props/versão, Link Inertia, JS/CSS 200, nenhum @vite/client/erro de console, /up 200 e rota inexistente 404 genérica sem stacktrace.
+8. Inventário runtime: UID1000/aarch64-linux; sem Node/npm/gcc/make/browsers, ferramentas de teste, .git/.env/master.key, spec, fontes frontend, vault ou branding. Rails runner confirmou umanni_production e SELECT 1 = 1.
+9. Build dos serviços dev/vite e db:prepare de development. O smoke de dev encontrou o problema de hostname descrito acima; portanto esse SHA recebeu foundation-checks=failure até a correção/revalidação, apesar do pipeline test/delivery verde.
+
+bin/check passou dependências, preparo, Zeitwerk, RSpec paralelo, consolidação, TypeScript, ESLint, RuboCop, Brakeman, Vitest coverage, build Vite e Playwright. **9 exemplos RSpec, 2 testes Vitest, 12 cenários Playwright** (Chromium/Firefox/WebKit × desktop1440×1024/mobile390×844). Dois workers; servidor E2E dedicado, reuseExistingServer=false.
+
+Imagem production limpa: `sha256:ca1306c59e5f65a095a5e082475baaba68a60606890185638712576b51b06c7a`. Digest de assets observado: `301778bccd2a2174fa5aef1dc320785e87388c3d`. Screenshots desktop/mobile inspecionados: página legível sem overflow. Nenhum teste amd64 alegado.
+
+### Dois workers — evidência do hook before(:suite)
+
+Run `a90b2be4-7c1b-4f01-bcf9-c01d061cd946`, SHA 90f07adc9256fb1baa1486138f71484ad8598d8b:
+
+| Worker | TEST_ENV_NUMBER | Banco | Marcador esperado = observado | Resultado |
 | --- | --- | --- | --- | --- |
-| 1 | vazio | umanni_test | `11111111-1111-4111-8111-111111111111:1:4c257b604dcd5a7f455f944e` | success=true, 6 exemplos |
-| 2 | 2 | umanni_test2 | `11111111-1111-4111-8111-111111111111:2:efe60d2a6b88dd9f701cd274` | success=true, 1 exemplo |
+| 1 | vazio | umanni_test | a90b2be4-7c1b-4f01-bcf9-c01d061cd946:1:d8be1e62ff895fe5fed7380b | success=true, 8 exemplos |
+| 2 | 2 | umanni_test2 | a90b2be4-7c1b-4f01-bcf9-c01d061cd946:2:19d01ae15713c2a6e90660e1 | success=true, 1 exemplo |
 
-Probes em before(:suite), uma tabela TEMPORARY de mesmo nome em cada conexão, transação e ON COMMIT DROP. A consolidação exigiu identidades, nomes e marcadores corretos. Esta execução não dependeu de qual worker recebeu o arquivo de isolamento. Provas negativas e proteção contra todas as formas de evidência inválida ainda precisam de execução.
+Ambos executaram o hook independentemente da distribuição do arquivo de isolamento. Tabela TEMPORARY de mesmo nome, marcador único por conexão, transação/ON COMMIT DROP. Agregador exige exatamente dois resultados/observações, identidades/SHA/marcadores/lista de arquivos e término bem-sucedido antes de SimpleCov.collate.
 
-## Cobertura e limites de evidência
+### Cobertura separada
 
-Ruby: 100%, 7/7 linhas nesta execução parcial. Arquivos: ApplicationController (2), FoundationController (3), ApplicationRecord (2). Escopo configurado: app/**/*.rb e lib/**/*.rb, sem exclusão individual; .rake é orquestração fora do glob de Ruby, conforme contrato. Nenhuma cobertura de navegador ou protótipo foi somada.
+| Linguagem/arquivo | Linhas cobertas/total | Percentual |
+| --- | --- | --- |
+| Ruby — ApplicationController | 2/2 | 100% |
+| Ruby — FoundationController | 3/3 | 100% |
+| Ruby — ApplicationRecord | 2/2 | 100% |
+| **Ruby total** | **7/7** | **100%** |
+| TSX — Show.tsx | 1/1 | 100% |
+| TS — foundation.ts (somente tipos) | 0/0 | não aplicável |
+| **TypeScript total** | **1/1** | **100%** |
 
-TypeScript: os dois testes passaram, mas a execução com cobertura e seus denominadores ainda não ocorreram. Ramos Ruby, funções/statements/branches TS, arquivos não exercitados e provas negativas dos limites continuam pendentes. Não há aceite SC002 nem foundation-checks.
+V8 mede o retorno JSX como uma expressão executável. Funções TS1/1 e statements1/1. Ramos Ruby/TS: denominador zero, **não aplicável**, mesmo quando ferramenta imprime 100%. O limite é90% por linguagem, nunca soma/média das linguagens. O tamanho mínimo desta página não comprova features futuras.
 
-## Bloqueio B-009-01 — Rails 8.1.3.1 e JSON 3.0.2
+Ruby inclui todos app/**/*.rb e lib/**/*.rb; arquivos não exercitados entram. Tarefas .rake ficam fora conforme quality.md; config/bin/spec/migrations/vendor não integram esse escopo. TS inclui frontend ts/tsx; exclui somente declarações, testes, __tests__, frontend/test e entrypoints. Nenhuma página ou módulo funcional excluído. Bootstrap é exercitado pelo navegador/build. Protótipo e E2E não somados.
 
-Reprodução mínima no ambiente instalado:
+## Provas negativas dos gates
 
-```sh
-docker exec umanni-exec009 bundle exec ruby -ractive_support/json -e 'puts "Ruby #{RUBY_VERSION}; ActiveSupport #{Gem.loaded_specs.fetch("activesupport").version}; JSON #{JSON::VERSION}"; ActiveSupport::JSON.decode("{}")'
-```
+Cópia temporária independente, baseline bin/check **0**, mutações individuais e restauração final bin/check **0**. Primeira tentativa com symlink node_modules falhou em npm ls e foi descartada; a prova usou cópia real e baseline válido.
 
-Código de saída 1. Resultado: `ArgumentError: wrong number of arguments (given 2, expected 1)`.
-
-Evidências do código efetivamente instalado:
-
-- `activesupport-8.1.3.1/lib/active_support/json/decoding.rb:25`: chama `::JSON.parse(json, options)` com dois argumentos posicionais.
-- `json-3.0.2/lib/json/common.rb:296`: define `parse(source, on_load: nil, object_class: nil, array_class: nil, **options)`.
-- A leitura do cookie da sessão passa por ActiveSupport::JSON.decode e provoca 500 na segunda navegação.
-- `spec/requests/foundation_spec.rb`, cenário `keeps the Rails session readable across consecutive browser visits`, reproduz o defeito com duas requisições na mesma sessão (1 exemplo, 1 falha).
-- A inspeção somente leitura do pacote publicado `json 2.21.2` encontrou `def parse(source, opts = nil)`. Isso fundamenta uma proposta de restrição, **não comprova sua instalação/integração**, que não foi executada.
-
-Origem da parada: PROMPT-EXEC-009, seção Quando parar: “Conflito de versões ou contratos”; spec.md/Condição de parada e plan.md/Fases também exigem retorno de incompatibilidade à condutora. A autorização de acesso total eliminou solicitações de sandbox, mas não altera a matriz/condições do pedido.
-
-### Pergunta concreta e proposta à condutora
-
-**A condutora aprova acrescentar uma restrição explícita para `json = 2.21.2`, mantendo Ruby 4.0.6/Rails 8.1.3.1 e o restante da matriz, atualizar o planejamento e submetê-lo à revisão necessária antes de retomar a execução?**
-
-Recomendação: validar e fixar essa dependência transitiva compatível com a API usada por Rails; depois regenerar o lock e repetir instalação congelada, regressão de sessão, matriz E2E e gates completos. Alternativa exige revisar a versão de Rails, ampliando o impacto. Não usar monkey patch, remover sessão/CSRF, ignorar o teste ou atualizar versões silenciosamente.
-
-## Histórico: tarefas e artefatos no ponto de parada
-
-T001/T002 concluídas. T003 produziu locks e instalações, mas sua compatibilidade está bloqueada; T004 harness preparado. T005/T006/T008/T009 têm implementação/evidência parcial. T007 falha pela incompatibilidade. T010–T012 têm código provisório, sem provas finais. T013–T018 não concluídas. T019 pertence à condutora. B001–B007 não executadas.
-
-Arquivos adicionados/alterados: manifestos/locks e arquivos de versão; boot Rails em app/controllers, app/models, app/views, config, bin, db e public; frontend/contrato/testes em app/frontend; RSpec e E2E em spec; quality configs e lib/tasks; Dockerfile/compose/.dockerignore/.env.example; .gitignore, README, STATUS e este EXEC. Branding/protótipo, AGENTS, constituição e revisão histórica do planejamento foram preservados.
-
-A árvore permanece com alterações locais da executora, sem commit/push/PR de implementação. HEAD Git continua d1f3a3a; não confundir com código já publicado. Nenhum foundation-checks ou review-ledger de implementação foi publicado. Nenhuma proteção alterada. Revisora Luna high ainda não iniciada porque a implementação não atingiu a etapa final; nenhuma autoria/revisão foi inventada.
-
-Imagem final, execução completa de bin/check, Brakeman, clean-room, provas negativas dos gates e SC001–004/BDD01–09 cumulativos não estão satisfeitos. Dockerfile/Compose são rascunhos locais sujeitos à continuidade e revisão. Nenhum merge, fechamento de PR, auto-merge, tag ou release nesta sessão.
-
-No ponto de parada, os containers temporários `umanni-exec009` e `umanni-exec009-db` foram parados (0); nenhum recurso de outro projeto foi tocado. O banco temporário usava tmpfs e deve ser preparado novamente na retomada. O container de ferramentas e a imagem bootstrap ficam disponíveis para retomada. O diagnóstico temporário que continha cookies foi removido, sem copiar cookies para documentos públicos. `git diff --check` e a comparação de branding/AGENTS/constituição terminaram em 0.
-
-## Validação após retomada
-
-- `bundle lock --update json` e `BUNDLE_FROZEN=true bundle install`: 0; lock agora contém json 2.21.2, 96 gems.
-- Reprodução mínima ActiveSupport::JSON.decode e request specs: 0; regressão da segunda visita corrigida sem monkey patch.
-- Playwright seis projetos/dois workers: 0, 12/12 cenários passaram.
-- CSP: teste focalizado inicialmente falhou por header ausente (1); após política local com nonce Rails, passou (0). O nonce é passado ao bootstrap Inertia para estilos da barra de progresso. HMR só permitido em development.
-- Estes resultados ainda correspondem à árvore local, sem alegação de clean-room no SHA Git.
-
-## Gates locais completos e provas negativas
-
-`docker exec -e TEST_DATABASE_URL=…/umanni_test umanni-exec009 bin/check`: **0**, run `7ef3e9c4-3c88-4563-9739-eef7acb6aba3`, árvore local baseada em d1f3a3a. Passaram: dependências, preparo dos três bancos, Zeitwerk, RSpec (9 exemplos/2 processos), agregação, tsc, ESLint, RuboCop, Brakeman (0 erros/0 warnings), Vitest (2 testes), build e Playwright (12 cenários). CSP ativa no navegador, sem erros de console.
-
-Cobertura Ruby: **7/7 linhas, 100%**; ApplicationController 2/2, FoundationController 3/3, ApplicationRecord 2/2. Ramos: denominador zero, não aplicável. TypeScript: **1/1 linha executável, 100%**, Show.tsx; funções 1/1, statements 1/1. O retorno JSX é uma expressão executável no relatório V8. foundation.ts contém somente tipos, denominador zero. Ramos TS: zero, não aplicável (o valor percentual emitido pela ferramenta não é evidência de branches executados). Esta fundação pequena não comprova cobertura de funcionalidades futuras.
-
-Exclusões Ruby: somente o escopo app/**/*.rb e lib/**/*.rb; tarefas .rake ficam fora conforme contrato. Config/bin/spec/migrations/dependências não integram denominador. Exclusões TS: declarações, testes, __tests__, frontend/test e entrypoints, exatamente conforme quality.md. O entrypoint contém somente bootstrap/resolução e recebe nonce do helper Rails; é exercitado no navegador. Protótipo/E2E não somados.
-
-Provas executadas em cópia temporária independente dentro do container de ferramentas, com fontes e dependências próprias. Baseline completo **0**, restauração seguida de bin/check completo **0**. Primeira tentativa usando symlink de node_modules foi descartada porque npm ls recusou a árvore; a cópia real passou antes de qualquer mutação. Nenhuma dessas falhas iniciais foi contada como prova de gate.
-
-| Mutação deliberada | Comando | Saída observada | Motivo comprovado |
+| Mutação | Comando | Saída | Motivo |
 | --- | --- | --- | --- |
-| Remover .resultset.json do worker 2 | coverage:verify | 1 | Resultado obrigatório ausente |
-| Remover isolation.json do worker 2 | coverage:verify | 1 | Observação obrigatória ausente |
-| Marcar failure_count=1 no resultado do worker | coverage:verify | 1 | Worker não terminou com sucesso |
-| Adicionar lib/uncovered_probe.rb não exercitado | bin/check | 2 | 9/49 linhas, 18,36%, menor que 90% |
-| Adicionar TS não importado | bin/check | 1 | 1/42 linhas, 2,38%, menor que 90% |
-| Adicionar spec com expect(1).to eq(2) | bin/check | 1 | Falha real de asserção no RSpec |
-| Atribuir número a string TS | bin/check | 2 | TS2322 |
-| Declarar variável não usada | bin/check | 1 | @typescript-eslint/no-unused-vars |
+| Remover .resultset.json do worker2 | coverage:verify | 1 | resultado obrigatório ausente |
+| Remover isolation.json do worker2 | coverage:verify | 1 | observação obrigatória ausente |
+| failure_count=1 no resultado do worker | coverage:verify | 1 | worker sem sucesso |
+| Arquivo Ruby não exercitado | bin/check | 2 | 9/49 linhas,18,36%, abaixo90% |
+| Arquivo TS não importado | bin/check | 1 | 1/42 linhas,2,38%, abaixo90% |
+| expect(1).to eq(2) em spec | bin/check | 1 | falha real de asserção |
+| Número atribuído a string | bin/check | 2 | TS2322 |
+| Variável não usada | bin/check | 1 | ESLint no-unused-vars |
+| URL de teste com query database=umanni_production | bin/check | 1 | override recusado antes do preparo |
 
-A URL de teste com query `database=umanni_production` também foi recusada (1), antes de preparo destrutivo. A configuração rejeita query/fragment e esquemas diferentes de PostgreSQL para evitar sobrescrita do nome aprovado.
+Essas mutações não foram adicionadas à aplicação nem ao protótipo. Resultados separados por run ID evitam aproveitar worker de outra execução. Ausência de resultado não pode ser compensada por cobertura do outro processo.
 
-## Empacotamento e proteção — progresso
+## GitHub, revisão e tarefas
 
-Build da imagem production: 0. db:prepare na imagem final: 0, criou exclusivamente umanni_production. Primeiro boot final: 1, pois Thruster sobrescrevia PORT com seu TARGET_PORT padrão e disputava a porta 3000 com Puma. Corrigido Dockerfile para THRUSTER_HTTP_PORT=3000 e THRUSTER_TARGET_PORT=3001 conforme README da gem instalada. Revalidação em andamento.
+Proteção relida antes/depois via API: foundation-checks adicionado a review-ledger, strict=true; comparação estrutural confirmou todos os outros campos preservados, incluindo enforce_admins, conversas resolvidas e bloqueios de force-push/exclusão. São **statuses manuais por SHA**, sem workflow/runner. Primeiro SHA publicado recebeu failure pelo smoke dev; novo HEAD precisa de nova validação e nova revisão.
 
-Proteção de main relida antes/depois por API. PATCH alterou somente required_status_checks, adicionando foundation-checks a review-ledger e mantendo strict=true. Comparação estrutural confirmou todos os demais campos preservados: enforce_admins, required_conversation_resolution, revisões obsoletas descartadas, zero aprovações nativas, force-push/exclusão proibidos. Código de saída 0. São statuses manuais; nenhum workflow/runner foi criado.
+T001–T012 concluídas. T013 tem clean-room/test/delivery comprovados e correção dev a revalidar no novo HEAD. T014 documentação consolidada. T015 PR/metadados/proteção preparados, sucesso final pendente. T016–T018 aguardam revalidação/revisora independente Luna high, que será iniciada automaticamente com contexto novo. Nenhuma revisão/aceite atribuído antes de ocorrer. T019 pertence à condutora; B001–B007 não executadas.
 
-Build production corrigido: **0**, imagem `sha256:527b604427dd49832df6a2bc82fb36436e3033414c26e2635bf211494f1506e3`. Compose delivery saudável: **0**. Imagem final: UID 1000, aarch64-linux; verificações de ausência de Node/npm/gcc/make/browsers, gems de teste, .env/.git/master.key, frontend fonte/spec/vault/branding: **0**. Rails runner: banco umanni_production, SELECT 1 = 1 (**0**). Smoke Playwright da imagem final em desktop/mobile: **0**, HTML/props/versão, Link Inertia, JS/CSS 200, sem @vite/client ou erro de console; /up 200 e rota desconhecida 404 genérica. PNGs desktop/mobile inspecionados; layout legível sem overflow. O frontend do Dockerfile também foi fixado no digest efetivamente usado pelo builder.
+Arquivos: manifestos/locks/versões, boot Rails/config/bin/db/public, frontend/contrato, specs/harness/E2E, quality configs/lib/tasks, Dockerfile/Compose/ignore/env example e README/STATUS/EXEC/research/tasks. Listagem exata no diff do PR. Branding/AGENTS/constituição/checkbox histórico preservados.
 
-Este resultado de imagem ainda precede a cópia limpa do commit final. A imagem tooling foi construída com as versões aprovadas e browsers (0); a próxima validação parte do SHA com fontes incorporadas, sem bind mount.
+## Limitações e passagem
+
+Ainda falta aceite independente e confirmação dos dois statuses no HEAD final, code-reviewed e todas as threads resolvidas pela revisora. Não declarar SC003/T018 satisfeitos enquanto isso não ocorrer. Evidências deste arquivo distinguem os SHAs testados; resultados de novos HEADs devem ser registrados no PR e confrontados com os statuses, sem herança de sucesso.
+
+Somente Linux arm64 foi testado. /up verifica boot, não banco. Não há autenticação/autorização/importação/serviços futuros. Artefatos de teste temporários e recursos Compose têm nomes exclusivos e só esses recursos serão limpos. Nenhum dado de outro projeto foi publicado. Merge, fechamento de PR, auto-merge, tag, release e fechamento de0.2.0 não foram executados e não estão autorizados. A condutora recebe T019 após o aceite técnico; Douglas decide integração.

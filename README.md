@@ -1,6 +1,6 @@
 ### AI Usage Disclosure
 
-The partial foundation implementation used Codex, identified as GPT-6 without an exposed exact runtime variant. Final implementation review is pending the complete validation.
+The foundation implementation used Codex, identified as GPT-6 without an exposed exact runtime variant. Final implementation review is pending the complete validation.
 
 Foundation planning used Codex, identified by its environment as GPT-6 without an exposed exact runtime variant, including a separate read-only research agent. Review identities are recorded on the planning PR. The documentation baseline used Codex, identified in that session as based on GPT-6; its precise runtime variant was not exposed. Branding planning and prototype coordination used `gpt-5.6-sol` with medium reasoning, as configured for those sessions. A delegated `gpt-5.6-terra` high-reasoning executor implemented the prototype state core and tests. Exact final-review identities and contributions are recorded in the corresponding execution reports and pull requests; no unperformed reviewer is credited.
 
@@ -10,7 +10,7 @@ A user-management application being prepared for the [Umanni Fullstack Developer
 
 ## Delivery status
 
-The initial documentation and static branding archive are available, together with a browser-only visual prototype using fictional data. Open [the visual archive](branding/hub/index.html) or follow [the prototype run instructions](branding/prototype/README.md). The local foundation implementation is undergoing validation. An explicitly approved json 2.21.2 pin resolves the Rails 8.1.3.1 session compatibility issue. Scaffold, focused tests and provisional Docker files exist, but the application is not a verified deliverable. Do not treat those files or the visual simulation as a working product. See the [execution report](umanni-vault/EXEC-009-FOUNDATION-APP.md) for observed results and pending validation. No application CI workflow or production runner has been implemented.
+The initial documentation and static branding archive are available, together with a browser-only visual prototype using fictional data. Open [the visual archive](branding/hub/index.html) or follow [the prototype run instructions](branding/prototype/README.md). The local foundation implementation is undergoing validation. An explicitly approved json 2.21.2 pin resolves the Rails 8.1.3.1 session compatibility issue. The technical page, isolated tests and production image have passed local validation; the development hostname fix and final independent review are pending. User-management features remain unavailable. See the [execution report](umanni-vault/EXEC-009-FOUNDATION-APP.md) for observed results and pending validation. No application CI workflow or production runner has been implemented.
 
 The first documented project milestone is version **0.1.0**. See the [changelog](CHANGELOG.md) and the [0.1.0 release notes](umanni-vault/releases/0.1.0.md) for its exact contents and exclusions. This is a pre-application release: it packages the governed documentation, verified static identity, visual reference hub and disposable prototype, not a production-ready system.
 
