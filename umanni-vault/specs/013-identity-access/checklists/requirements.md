@@ -17,6 +17,6 @@
 - [x] Cada um dos 21 cenários possui ID e linha própria na matriz cenário/teste/tarefa/evidência.
 - [x] Protótipo foi tratado como referência, não como regra ou implementação reutilizável.
 - [x] PR #16 publicado com `documentation`, milestone 0.3.0 e Douglas responsável.
-- [ ] Revisão independente Luna high aceitou o HEAD exato com `review-ledger=success`, `spec-reviewed` e zero threads abertas.
-- [ ] Prompt autossuficiente da executora foi criado somente depois do primeiro aceite e revalidado no novo HEAD.
-- [ ] Trabalho parou antes de aplicação, merge, tag ou release.
+- [x] Revisão independente Luna high aceitou o HEAD `74ef24610333751723e4613e88852613244b043a` com `review-ledger=success`, `spec-reviewed` e zero threads abertas.
+- [x] Prompt autossuficiente da executora foi criado somente depois desse primeiro aceite; o novo HEAD deve ser revalidado externamente no PR antes da entrega.
+- [x] Trabalho documental parou antes de aplicação, merge, tag ou release.

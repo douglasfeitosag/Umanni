@@ -10,13 +10,13 @@ Entrada: [spec](spec.md), [plano](plan.md) e [contrato Inertia/Cable](contracts/
 - [x] **P004** Preservar D-019–D-026 e decidir somente lacunas necessárias mediante exatamente três cenários.
 - [x] **P005** Escrever spec, plano, contrato, tarefas e checklist versionados com BDD, TDD, segurança, acessibilidade, arquivos permitidos, aceite e parada.
 - [x] **P006** Validar documentos, diff e rastreabilidade; commitar/publicar e abrir o PR #16 com milestone 0.3.0, label `documentation` e Douglas responsável.
-- [ ] **P007** Iniciar revisora independente `gpt-5.6-luna` high em contexto novo, resolver achados exclusivamente pelo protocolo e obter aceite no HEAD exato.
-- [ ] **P008** Somente após aceite, versionar prompt autossuficiente da executora, atualizar estado/aprendizados permitidos, publicar novo HEAD e obter revalidação da revisora por causa do novo commit.
+- [x] **P007** Iniciar revisora independente `gpt-5.6-luna` high em contexto novo, resolver sete achados exclusivamente pelo protocolo e obter aceite no HEAD `74ef24610333751723e4613e88852613244b043a`.
+- [x] **P008** Somente após o primeiro aceite, versionar `PROMPT-EXEC-013-IDENTITY-ACCESS.md`, atualizar estado e publicar novo HEAD; a revalidação externa desse commit continua obrigatória antes da entrega.
 - [ ] **P009** Entregar PR revisado a Douglas e parar antes de implementação/merge/tag/release.
 
 ## Execução futura — branch/PR da entrega 0.3.0
 
-- [ ] **E001 — gate** Confirmar spec 013 aceita e integrada, base remota, milestone/Backlog, branch/PR e allowlist; parar em qualquer divergência.
+- [ ] **E001 — gate** Confirmar spec 013 aceita no HEAD exato do PR #16, base remota, milestone/Backlog, branch/PR e allowlist; parar em qualquer divergência.
 - [ ] **E002 — gerador** Executar `bin/rails generate authentication` em cópia temporária, registrar inventário/diff e incorporar somente a autenticação nativa necessária, sem Devise.
 - [ ] **E003 — modelo RED/GREEN** Criar testes falhando para normalização/unicidade, papéis, senha D-027, sessões e strong parameters; implementar schema/models mínimos e obter GREEN.
 - [ ] **E004 — bootstrap RED/GREEN** Provar allowlist FR-015, variáveis, segredo, idempotência e duas execuções PostgreSQL concorrentes em RED; implementar comando local com advisory transaction lock D-031 e obter GREEN.
