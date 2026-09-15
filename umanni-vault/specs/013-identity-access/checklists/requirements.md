@@ -1,0 +1,22 @@
+# Checklist 013 — Identidade e acesso 0.3.0
+
+- [x] Base, merge do PR #15, release 0.2.1, Backlog, issue #9 e ausência inicial do milestone 0.3.0 foram revalidados.
+- [x] Milestone 0.3.0 tem escopo exclusivo de identidade e acesso; B003–B006/#9 não foram movidos.
+- [x] D-019–D-026 foram preservadas sem reabertura.
+- [x] Cada nova decisão necessária compara exatamente três cenários independentes.
+- [x] Cadastro regular, login/destino por papel, perfil próprio e logout por exclusão têm BDD verificável.
+- [x] Negações server-side, CRUD admin e proteção concorrente do último admin têm BDD verificável.
+- [x] Avatar JPEG/PNG/WebP <=5 MiB e rejeições seguras têm BDD verificável.
+- [x] Primeiro admin local, seguro e idempotente tem BDD verificável.
+- [x] Bootstrap tem allowlist operacional exata e serialização concorrente PostgreSQL verificável.
+- [x] Total e totais por papel via Solid Cable, partial reload e reload/reconexão têm contrato verificável.
+- [x] Conexão Cable já aberta é revogada após logout, exclusão ou rebaixamento.
+- [x] RSpec, Vitest/RTL, Playwright, RED/GREEN/refatoração, execução paralela e cobertura >=90% por linguagem estão definidos.
+- [x] Segurança, acessibilidade, responsividade, contratos Inertia/Cable, arquivos permitidos, aceite e parada estão definidos.
+- [x] Props camelCase, requests/errors snake_case, multipart e mapeamento de strong params estão explícitos.
+- [x] Cada um dos 21 cenários possui ID e linha própria na matriz cenário/teste/tarefa/evidência.
+- [x] Protótipo foi tratado como referência, não como regra ou implementação reutilizável.
+- [x] PR #16 publicado com `documentation`, milestone 0.3.0 e Douglas responsável.
+- [x] Revisão independente Luna high aceitou o HEAD `74ef24610333751723e4613e88852613244b043a` com `review-ledger=success`, `spec-reviewed` e zero threads abertas.
+- [x] Prompt autossuficiente da executora foi criado somente depois desse primeiro aceite; o novo HEAD deve ser revalidado externamente no PR antes da entrega.
+- [x] Trabalho documental parou antes de aplicação, merge, tag ou release.
