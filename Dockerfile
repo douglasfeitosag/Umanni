@@ -29,7 +29,7 @@ RUN SECRET_KEY_BASE_DUMMY=1 bundle exec vite build && bundle exec ruby -rvite_ru
 
 FROM base AS production
 ENV RAILS_ENV=production BUNDLE_WITHOUT=development:test THRUSTER_HTTP_PORT=3000 THRUSTER_TARGET_PORT=3001
-RUN gem uninstall --all --executables --ignore-dependencies debug minitest power_assert test-unit typeprof
+RUN gem uninstall --install-dir /usr/local/lib/ruby/gems/4.0.0 --all --executables --ignore-dependencies debug minitest power_assert test-unit typeprof
 RUN groupadd --gid 1000 rails && useradd --uid 1000 --gid 1000 --create-home --shell /bin/bash rails
 COPY --from=build /usr/local/bundle /usr/local/bundle
 COPY --from=build /rails/Gemfile /rails/Gemfile.lock /rails/Rakefile /rails/config.ru ./
@@ -40,7 +40,7 @@ COPY --from=build /rails/config ./config
 COPY --from=build /rails/db ./db
 COPY --from=build /rails/public ./public
 COPY --from=build /rails/bin/rails /rails/bin/rake /rails/bin/thrust /rails/bin/docker-entrypoint ./bin/
-RUN mkdir -p tmp/pids log lib && chown -R rails:rails tmp log
+RUN rm -rf /usr/local/bundle/ruby/*/cache /usr/local/lib/ruby/gems/*/cache && mkdir -p tmp/pids log lib && chown -R rails:rails tmp log
 USER 1000:1000
 EXPOSE 3000
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
