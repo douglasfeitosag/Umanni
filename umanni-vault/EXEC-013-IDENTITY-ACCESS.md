@@ -1,6 +1,6 @@
 # EXEC-013 — Identidade e acesso 0.3.0
 
-**Estado**: bloqueado por expansão necessária da allowlist antes do gate de Compose
+**Estado**: execução retomada após autorização explícita da expansão mínima da allowlist
 
 **Papel/modelo**: EXECUTORA Codex, GPT-5 (variante de execução não exposta)
 
@@ -35,15 +35,15 @@
 
 Commits coesos produzidos: `ae28bc9`, `0bd07c9`, `83471a3`, `0f874ff`, `5239221` e `5805b25`.
 
-## Bloqueio verificável
+## Bloqueio verificado e resolução autorizada
 
 O `Dockerfile` de `29103fbe` monta a imagem final copiando apenas `app/controllers`, `app/models` e `app/views`. A implementação exigida pela spec possui classes autorizadas em `app/services/`, `app/queries/` e `app/channels/`, além do task local em `lib/tasks/`. Esses caminhos não entram na imagem de produção atual. Portanto, o gate obrigatório de Compose limpo não pode representar a entrega: controllers referenciam classes ausentes e o endpoint Cable não tem seus canais.
 
-O plano 013 permite alterar as pastas acima, mas não inclui `Dockerfile` na seção “Arquivos permitidos para a futura execução”; a mesma seção determina parada para qualquer arquivo necessário fora da lista. Nenhuma alteração foi feita no `Dockerfile`.
+O plano 013 permite alterar as pastas acima, mas não incluía `Dockerfile` na seção “Arquivos permitidos para a futura execução”; a mesma seção determinava parada para qualquer arquivo necessário fora da lista. A execução parou e pediu autorização antes de alterar esse arquivo.
 
-## Pergunta concreta à CONDUTORA
+## Decisão de desbloqueio
 
-Douglas autoriza acrescentar `Dockerfile` à allowlist da execução 013, exclusivamente para copiar `app/services`, `app/queries`, `app/channels` e `lib/tasks` para a imagem final (sem mudar stack, deploy, Kamal ou demais estágios), e então retomar E011–E018 e todos os gates/revisão?
+Douglas respondeu “Sim” e autorizou acrescentar `Dockerfile` à allowlist exclusivamente para copiar `app/services`, `app/queries`, `app/channels` e `lib/tasks` para a imagem final. A alteração não muda stack, deploy, Kamal ou os demais estágios. E011–E018 e os gates/revisão foram retomados sob esse limite.
 
 ## Limites preservados
 
