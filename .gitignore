@@ -13,6 +13,10 @@ vendor/bundle/
 log/
 tmp/
 coverage/
+/config/master.key
+/config/credentials/*.key
+/.bundle/
+/public/vite*/
 test-results/
 playwright-report/
 # Spec Kit generated tooling: regenerate using umanni-vault/TOOLING.md.

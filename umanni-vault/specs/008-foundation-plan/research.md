@@ -67,3 +67,7 @@ A inspeção do [tarball React3.7.1](https://registry.npmjs.org/@inertiajs/react
 ## CLI versionado conferido
 
 O pacote [railties8.1.3.1](https://rubygems.org/downloads/railties-8.1.3.1.gem), arquivos `app_base.rb` e `app_generator.rb`, declara todas as flags da receita quickstart, inclusive --name. --skip-solid sozinho não retira ActiveJob/Cable; por isso a receita acrescenta --skip-active-job, --skip-action-cable, --skip-action-mailer e --skip-kamal. --skip-git também omite .gitignore/.gitattributes: adaptar o arquivo existente conscientemente. O pacote [vite_ruby3.10.5](https://rubygems.org/downloads/vite_ruby-3.10.5.gem), exe/vite e cli/build.rb, confirma `bundle exec vite build`. Leitura de código upstream, sem executar gerador.
+
+## Ajuste autorizado durante EXEC-009 — 2026-09-15
+
+Douglas autorizou fixar `json = 2.21.2` após a resolução transitiva selecionar 3.0.2. ActiveSupport 8.1.3.1 chama `JSON.parse(json, options)` com argumentos posicionais, incompatíveis com JSON 3.0.2. A regressão apareceu ao reler o cookie na segunda navegação. JSON 2.21.2 mantém essa assinatura; instalação congelada, reprodução mínima e request spec passaram após a restrição. As versões centrais desta matriz permanecem iguais. Ver [EXEC-009](../../EXEC-009-FOUNDATION-APP.md) para RED/GREEN e validação; o ajuste integra a revisão independente da implementação, sem alterar o checkbox histórico de aceite do plano.

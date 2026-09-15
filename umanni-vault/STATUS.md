@@ -1,6 +1,6 @@
 # Estado vigente
 
-Atualizado: 2026-09-14. Projeto: `/Users/douglas/Projects/Umanni`. O vault é a subpasta `umanni-vault/` do repositório; registros da conversa foram preservados aqui. Use este índice para distinguir estado atual de propostas históricas.
+Atualizado: 2026-09-15. Projeto: `/Users/douglas/Projects/Umanni`. O vault é a subpasta `umanni-vault/` do repositório; registros da conversa foram preservados aqui. Use este índice para distinguir estado atual de propostas históricas.
 
 ## Decidido
 
@@ -10,7 +10,7 @@ Branding: reprodução avaliativa da identidade pública da Umanni, sem autoriza
 
 ## Entrega documental e versão
 
-Spec Kit 1.0.6 inicializado localmente para Codex. Constituição, README, protocolo, índices e specs/planos/tarefas documentais estão no vault. A entrega visual estática foi implementada, validada, revisada e integrada pelos PRs 3–5 e 8; o protótipo navegável foi integrado pelo PR 6 e a governança de revisão automática pelo PR 7. O milestone `0.1.0` reúne os PRs 1–8 e a preparação da release; a issue 9 permanece no milestone `Backlog`. A preparação foi integrada pelo PR #10; a tag anotada `v0.1.0` e a GitHub Release estão publicadas no commit `87e8c51894faa5794e9759b9caa5df4871d350e7`, e o milestone `0.1.0` está fechado (estado relido em 2026-09-14). Ainda não existe aplicação Rails, Docker Compose, CI de aplicação ou runner de produção.
+Spec Kit 1.0.6 inicializado localmente para Codex. Constituição, README, protocolo, índices e specs/planos/tarefas documentais estão no vault. A entrega visual estática foi implementada, validada, revisada e integrada pelos PRs 3–5 e 8; o protótipo navegável foi integrado pelo PR 6 e a governança de revisão automática pelo PR 7. O milestone `0.1.0` reúne os PRs 1–8 e a preparação da release; a issue 9 permanece no milestone `Backlog`. A preparação foi integrada pelo PR #10; a tag anotada `v0.1.0` e a GitHub Release estão publicadas no commit `87e8c51894faa5794e9759b9caa5df4871d350e7`, e o milestone `0.1.0` está fechado (estado relido em 2026-09-14). Na base 0.1.0 não existia aplicação Rails. A execução 009 abaixo acrescenta a fundação; CI automático e runner continuam fora do escopo.
 
 ## Planejamento de branding
 
@@ -20,13 +20,17 @@ Briefing, pesquisa, spec, plano, contratos, tarefas e critérios preparados na b
 
 A feature 005 foi integrada na `main` pelo PR 6, merge commit `0cd4c4142be8833401a5721c5e7cc637ea40b161`, depois de duas revisões finais Luna high no mesmo HEAD e gate bem-sucedido. O protótipo em `branding/prototype/` usa somente HTML/CSS/ES modules, dados fictícios reiniciáveis e os assets/licenças já preservados; não implementa autenticação, persistência, upload, fila ou regras de produção. A matriz nativa passou em 1440×1024 e 390×844, os 28 testes centrais passaram com 100% de linhas/funções e 92,12% de ramos, e oito PNGs finais foram inspecionados.
 
-## Próxima tarefa
+## Fundação 0.2.0 — execução e revisão
 
-PROMPT-COND-006: planejamento da fundação em `codex/008-foundation-plan`, feature `specs/008-foundation-plan/`, versão-alvo `0.2.0` (milestone 3), base imutável `v0.1.0`. Spec, pesquisa, contratos, plano e tarefas preparados; revisão independente será vinculada ao HEAD do PR. Somente depois de `review-ledger=success`, `spec-reviewed` e todas as threads resolvidas pela revisora será entregue prompt autossuficiente à executora. O estado final do aceite é verificado no PR, não pressuposto por este arquivo. Nenhuma aplicação implementada nesta sessão; sem merge, tag ou release autorizados. Ver [[COND-006-FOUNDATION-PLAN]].
+O planejamento PROMPT-COND-006 foi aceito no PR #11, HEAD d1f3a3a349ed4a7610c4da7b170d4d2976c56691, e já estava integrado quando o gate inicial da execução foi conferido. O checkbox histórico do plano não foi alterado para presumir aceite.
+
+A execução PROMPT-EXEC-009 entregou a fundação em `codex/009-foundation-app`, [PR #12](https://github.com/douglasfeitosag/Umanni/pull/12), milestone0.2.0, Douglas responsável. Página Rails–Inertia em português, PostgreSQL, testes e Docker/Compose implementados. Douglas autorizou json2.21.2 após conflito transitivo. Clean-room passou 9 exemplos RSpec, 2 testes Vitest, 12 cenários Playwright, Ruby7/7 e TS1/1; imagem final sem root/ferramentas de teste/caches e perfil dev com HMR comprovados.
+
+A revisão independente encontrou FOUNDATION-REVIEW-001, corrigido em b66492faafaab7815a1a16e401a0ce18cbb45b33. A revisora revalidou, resolveu a thread e publicou review-ledger=success/code-reviewed; foundation-checks também success nesse SHA. Convocação configurada Luna high/contexto novo; autodescrição da revisora GPT-5/variante não exposta. A consolidação documental mantém revisão e validação obrigatórias no próprio HEAD; consultar os registros por SHA no PR. T001–T018 concluídas, T019 para a condutora. Ver [[EXEC-009-FOUNDATION-APP]]. Sem merge, tag, release ou fechamento0.2.0.
 
 ## Pendências e momento de resolução
 
-- Proteção de `main`: configurada e relida pela API em 2026-09-14 com PR obrigatório, zero aprovações nativas, `review-ledger` obrigatório e estrito por SHA, conversas resolvidas, aplicação a administradores e bloqueio de force-push/exclusão. Labels `review-pending`, `changes-requested`, `spec-reviewed` e `code-reviewed` existem. Checks de entrega, automação do ledger e runner isolado ainda permanecem pendentes; o status manual do ledger não deve ser apresentado como workflow automatizado.
+- Proteção de `main`: configurada e relida pela API em 2026-09-14 com PR obrigatório, zero aprovações nativas, `review-ledger` obrigatório e estrito por SHA, conversas resolvidas, aplicação a administradores e bloqueio de force-push/exclusão. Labels `review-pending`, `changes-requested`, `spec-reviewed` e `code-reviewed` existem. foundation-checks foi adicionado como obrigatório na execução009, preservando as demais proteções; automação do ledger e runner isolado permanecem pendentes; o status manual do ledger não deve ser apresentado como workflow automatizado.
 - Antes da estrutura de aplicação: versões compatíveis fixadas, Vite/gerenciador de pacotes, contratos Inertia, policy de cobertura e configuração do ambiente de testes; escolher skills/plugins estritamente úteis, conforme a etapa posterior ao branding.
 - Antes dos fluxos de usuário: cadastro/ativação/senha inicial, importação CSV/XLSX (colunas, duplicidade, erros, limites e repetição), avatar, último administrador e matriz de autorização. Ver 05-LEITURA-DO-TESTE.
 - Antes de instalar runner: runtime/isolamento, recursos, isolamento por PR e proteção da máquina em repositório público. Runner permanece no Mac.
