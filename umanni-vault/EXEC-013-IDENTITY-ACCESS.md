@@ -1,6 +1,6 @@
 # EXEC-013 — Identidade e acesso 0.3.0
 
-**Estado**: bloqueada no gate Compose limpo por nova divergência de allowlist
+**Estado**: gate Compose limpo retomado após autorização explícita da inclusão mínima de assets no contexto Docker
 
 **Papel/modelo**: EXECUTORA Codex, GPT-5 (variante de execução não exposta)
 
@@ -76,6 +76,8 @@ O `bin/check` foi ajustado, conforme allowlist do plano, de `spec/requests spec/
 No HEAD `7683bf83d95b35b0d9da654ca0d46ebacd09defb`, a execução começou com remoção exclusiva dos recursos do projeto `umanni-foundation`, reconstrução `--no-cache` da imagem `verify` e três bancos novos. `verification:prepare` e `zeitwerk:check` passaram. O primeiro `vite build` falhou porque `AppLayout.tsx` e o CSS importam o logo e as fontes aprovados de `branding/assets/`, enquanto `.dockerignore` permite somente `app/**`, `public/**` e outras superfícies enumeradas; portanto esses arquivos não existem no contexto da imagem.
 
 Erro determinante: `Could not resolve "../../../branding/assets/logo/umanni-horizontal.svg" from "app/frontend/components/AppLayout.tsx"`. Os avisos anteriores também registraram que Montserrat e Roboto não seriam resolvidas no build. A spec exige o logo horizontal e os tokens aprovados, mas `.dockerignore` está fora da allowlist e a autorização anterior de Douglas limitou `Dockerfile` a channels/queries/services/tasks. A parte dependente parou sem copiar, modificar ou duplicar assets oficiais.
+
+Douglas autorizou permissões desse tipo. A allowlist operacional foi ampliada somente em `.dockerignore` para os três arquivos existentes exigidos pelo build: `branding/assets/logo/umanni-horizontal.svg`, `branding/assets/fonts/montserrat-variable.ttf` e `branding/assets/fonts/roboto-variable.ttf`. Nenhum byte dos assets foi modificado, duplicado ou incluído na imagem final além dos artefatos Vite gerados; a permissão não autoriza expansão de produto, merge, tag ou release.
 
 ## Matriz de rastreabilidade
 
