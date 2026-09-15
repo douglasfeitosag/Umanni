@@ -1,6 +1,6 @@
 # EXEC-013 — Identidade e acesso 0.3.0
 
-**Estado**: gate Compose limpo retomado após autorização explícita da inclusão mínima de assets no contexto Docker
+**Estado**: gates técnicos aprovados; publicação do PR e revisão final independente pendentes
 
 **Papel/modelo**: EXECUTORA Codex, GPT-5 (variante de execução não exposta)
 
@@ -78,6 +78,21 @@ No HEAD `7683bf83d95b35b0d9da654ca0d46ebacd09defb`, a execução começou com re
 Erro determinante: `Could not resolve "../../../branding/assets/logo/umanni-horizontal.svg" from "app/frontend/components/AppLayout.tsx"`. Os avisos anteriores também registraram que Montserrat e Roboto não seriam resolvidas no build. A spec exige o logo horizontal e os tokens aprovados, mas `.dockerignore` está fora da allowlist e a autorização anterior de Douglas limitou `Dockerfile` a channels/queries/services/tasks. A parte dependente parou sem copiar, modificar ou duplicar assets oficiais.
 
 Douglas autorizou permissões desse tipo. A allowlist operacional foi ampliada somente em `.dockerignore` para os três arquivos existentes exigidos pelo build: `branding/assets/logo/umanni-horizontal.svg`, `branding/assets/fonts/montserrat-variable.ttf` e `branding/assets/fonts/roboto-variable.ttf`. Nenhum byte dos assets foi modificado, duplicado ou incluído na imagem final além dos artefatos Vite gerados; a permissão não autoriza expansão de produto, merge, tag ou release.
+
+## Gate limpo aprovado
+
+No HEAD `8d2de607cb4d7d8979e00ac05d07b6b151394a2b`, após remover recursos e volume apenas do projeto Compose, a imagem `verify` foi reconstruída com `--no-cache`. `bin/check` passou integralmente:
+
+- dois shards Ruby nos bancos independentes `umanni_test` e `umanni_test2`: 27 + 24 exemplos, 0 falhas; cobertura de linhas Ruby 320/346 (92,48%);
+- `zeitwerk:check`, TypeScript e ESLint: sucesso; RuboCop: 63 arquivos, zero infrações; Brakeman: zero alertas;
+- Vitest: 12 testes, 100% das linhas TypeScript, 94,87% statements, 83,17% branches e 90% functions;
+- Playwright: 54/54 cenários nos perfis Chromium, Firefox e WebKit, desktop e mobile, incluindo fluxos US1–US5/US7, teclado, reduced motion, janela curta e 200%.
+
+Firefox trata uma navegação 403 sem corpo como `NS_ERROR_NET_EMPTY_RESPONSE`; o teste foi tornado cross-engine ao verificar a mesma resposta 403 por request no contexto autenticado. A conexão Cable, os fluxos e a negação continuam exercitados pelo browser. A alteração foi validada em 18/18 cenários Firefox antes do gate integral.
+
+## Imagem de entrega aprovada
+
+No mesmo HEAD, `docker compose --profile delivery build --no-cache web`, `db:prepare`, `up --wait web`, `GET /up` e `GET /sign-in` passaram. A auditoria física dentro de `umanni-foundation-web-1` confirmou UID/GID `1000:1000` e ausência de `node_modules`, `spec`, `branding`, cache de gems, gems Brakeman/RSpec e `config/master.key`. Os três assets de identidade entram somente no estágio de build e são emitidos pelo Vite como artefatos versionados em `public/vite`; não permanecem como fontes no runtime.
 
 ## Matriz de rastreabilidade
 
