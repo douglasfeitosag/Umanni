@@ -1,6 +1,6 @@
 # EXEC-013 — Identidade e acesso 0.3.0
 
-**Estado**: implementação concluída; gate Compose limpo, publicação e revisão final ainda pendentes
+**Estado**: bloqueada no gate Compose limpo por nova divergência de allowlist
 
 **Papel/modelo**: EXECUTORA Codex, GPT-5 (variante de execução não exposta)
 
@@ -70,6 +70,12 @@ Douglas respondeu “Sim” e autorizou acrescentar `Dockerfile` à allowlist ex
 | Cable revogado | Playwright US2/US7 com WebSocket real | sockets encerrados em logout, rebaixamento e exclusão; acesso seguinte negado |
 
 O `bin/check` foi ajustado, conforme allowlist do plano, de `spec/requests spec/integration` para `spec`, para que a agregação paralela inclua models, services, queries, channels e a task desta entrega. Resultados definitivos do Compose limpo e os percentuais Ruby serão registrados no HEAD exato após a execução do gate.
+
+## Segundo bloqueio do gate limpo
+
+No HEAD `7683bf83d95b35b0d9da654ca0d46ebacd09defb`, a execução começou com remoção exclusiva dos recursos do projeto `umanni-foundation`, reconstrução `--no-cache` da imagem `verify` e três bancos novos. `verification:prepare` e `zeitwerk:check` passaram. O primeiro `vite build` falhou porque `AppLayout.tsx` e o CSS importam o logo e as fontes aprovados de `branding/assets/`, enquanto `.dockerignore` permite somente `app/**`, `public/**` e outras superfícies enumeradas; portanto esses arquivos não existem no contexto da imagem.
+
+Erro determinante: `Could not resolve "../../../branding/assets/logo/umanni-horizontal.svg" from "app/frontend/components/AppLayout.tsx"`. Os avisos anteriores também registraram que Montserrat e Roboto não seriam resolvidas no build. A spec exige o logo horizontal e os tokens aprovados, mas `.dockerignore` está fora da allowlist e a autorização anterior de Douglas limitou `Dockerfile` a channels/queries/services/tasks. A parte dependente parou sem copiar, modificar ou duplicar assets oficiais.
 
 ## Matriz de rastreabilidade
 
