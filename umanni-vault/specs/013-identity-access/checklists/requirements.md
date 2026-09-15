@@ -12,7 +12,7 @@
 - [x] RSpec, Vitest/RTL, Playwright, RED/GREEN/refatoração, execução paralela e cobertura >=90% por linguagem estão definidos.
 - [x] Segurança, acessibilidade, responsividade, contratos Inertia/Cable, arquivos permitidos, aceite e parada estão definidos.
 - [x] Protótipo foi tratado como referência, não como regra ou implementação reutilizável.
-- [ ] PR publicado com `documentation`, milestone 0.3.0 e Douglas responsável.
+- [x] PR #16 publicado com `documentation`, milestone 0.3.0 e Douglas responsável.
 - [ ] Revisão independente Luna high aceitou o HEAD exato com `review-ledger=success`, `spec-reviewed` e zero threads abertas.
 - [ ] Prompt autossuficiente da executora foi criado somente depois do primeiro aceite e revalidado no novo HEAD.
 - [ ] Trabalho parou antes de aplicação, merge, tag ou release.
