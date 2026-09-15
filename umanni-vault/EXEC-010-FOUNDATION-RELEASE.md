@@ -184,6 +184,22 @@ Depois dos commits, o diff deve ser revalidado com `git diff --check origin/main
 - URL/data/alvo da GitHub Release: inexistentes antes da publicação autorizada.
 - Fechamento do milestone 3: pendente até verificação de tag e release.
 
+## Revisão final — rodada 1 no HEAD 7ceb043
+
+A revisora independente foi iniciada automaticamente em contexto novo, com configuração solicitada `gpt-5.6-luna`/`high`; declarou runtime GPT-5, variante exata não exposta. Ela confirmou o HEAD remoto `7ceb043acf13f4429a29742bb9cb0c7aa0248e5f`, executou inspeções read-only do diff completo e do delta desde `5c961ba`, `git diff --check`, escopo, sintaxe dos seis blocos shell, links, evidência do PR #12, probes reais de tag/release, milestone, issue #9 e threads. Não publicou aceite.
+
+Foram abertos três achados Sev2 em threads individuais: `FND-REL-006`, porque o gate não falhava executavelmente para checkout sujo; `FND-REL-007`, porque `foundation-checks=success` era exigido apenas indiretamente pela proteção corrente; e `FND-REL-008`, porque a verificação final imprimia milestone/issue #9 sem validar os estados nem a enumeração. A revisora publicou `review-ledger=failure`, removeu `spec-reviewed`/`review-pending`, aplicou `changes-requested` e manteve as três threads abertas.
+
+Correção focalizada preparada para o novo HEAD:
+
+- o gate exige checkout limpo antes de trocar de branch, depois do fast-forward, imediatamente antes da publicação e na verificação final;
+- o status agregado precisa conter diretamente `review-ledger=success` e `foundation-checks=success` no `reviewed_head`, além de todos os contexts exigidos pela proteção;
+- o retorno do PATCH de fechamento precisa comprovar milestone 3/0.2.0 fechado com `closed_at`; a verificação final repete essa prova, enumera exatamente #11–#13 fechados e confirma issue #9 aberta no Backlog.
+
+O novo HEAD será validado, respondido nas três threads e devolvido à mesma revisora. Somente ela pode resolver os achados e publicar o ledger de sucesso.
+
+Validação corretiva antes do commit: `git diff --check` e `sh -n` dos seis blocos passaram; fixtures aceitaram checkout limpo e bloquearam checkout sujo, aceitaram os dois statuses diretos e bloquearam a ausência de `foundation-checks`, aceitaram milestone fechado/itens #11–#13 fechados/issue #9 no Backlog e bloquearam milestone aberto, item #13 aberto e issue em destino divergente. `check-prerequisites.sh` com feature/diretório absolutos passou. Nenhuma fixture realizou mutação externa.
+
 ## Limites e parada
 
 Nenhum arquivo de aplicação, lock, branding ou runtime foi alterado. Nenhuma tag, GitHub Release, alteração de milestone ou merge foi executado. O próximo gate é publicar os registros documentais no PR #13, invalidar o aceite do planejamento e obter revisão final independente no novo HEAD exato. Um achado, novo commit, divergência da principal, tag/release inesperada ou item aberto sem destino interrompe o trabalho dependente.

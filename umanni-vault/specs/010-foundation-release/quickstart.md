@@ -221,11 +221,13 @@ reviewed_head=$(printf '%s\n' "$release_pr_json" | \
 merge_sha=$(printf '%s\n' "$release_pr_json" | \
   jq -er '.mergeCommit.oid | select(type == "string" and length == 40)')
 
+test -z "$(git status --porcelain=v1)"
 git fetch --prune origin
 git switch main
 git merge --ff-only origin/main
 test "$(git rev-parse HEAD)" = "$merge_sha"
 test "$(git rev-parse origin/main)" = "$merge_sha"
+test -z "$(git status --porcelain=v1)"
 
 # Revalidate the exact reviewed head and every review/check gate before mutation.
 test "$(printf '%s\n' "$release_pr_json" | jq -r '.mergeCommit.oid')" = "$merge_sha"
@@ -243,7 +245,8 @@ review_status_json=$(gh api \
   "repos/douglasfeitosag/Umanni/commits/$reviewed_head/status")
 printf '%s\n' "$review_status_json" | jq -e --arg head "$reviewed_head" '
   .sha == $head and
-  ([.statuses[] | select(.context == "review-ledger")][0].state == "success")
+  ([.statuses[] | select(.context == "review-ledger")][0].state == "success") and
+  ([.statuses[] | select(.context == "foundation-checks")][0].state == "success")
 ' >/dev/null
 
 required_checks_json=$(gh api \
@@ -325,6 +328,7 @@ test "$(printf '%s\n' "$remote_main_probe" | awk '{ print $1 }')" = "$merge_sha"
 git fetch --prune origin
 test "$(git rev-parse HEAD)" = "$merge_sha"
 test "$(git rev-parse origin/main)" = "$merge_sha"
+test -z "$(git status --porcelain=v1)"
 ```
 
 Any empty, paginated beyond the validated page, malformed or divergent result stops here, before `git tag`, `git push`, `gh release create` or milestone closure. The milestone item enumeration is authoritative for this gate; its aggregate `open_issues` counter is not used as proof.
@@ -360,7 +364,12 @@ printf '%s\n' "$published_release_json" | jq -e --arg merge_sha "$merge_sha" '
 ' >/dev/null
 require_remote_annotated_tag "$merge_sha"
 
-gh api --method PATCH repos/douglasfeitosag/Umanni/milestones/3 -f state=closed
+closed_milestone_json=$(gh api --method PATCH \
+  repos/douglasfeitosag/Umanni/milestones/3 -f state=closed)
+printf '%s\n' "$closed_milestone_json" | jq -e '
+  .number == 3 and .title == "0.2.0" and .state == "closed" and
+  (.closed_at | type == "string" and length > 0)
+' >/dev/null
 ```
 
 Never use force, auto-merge or administrative bypass.
@@ -386,8 +395,30 @@ printf '%s\n' "$final_release_json" | jq -e --arg merge_sha "$merge_sha" '
   (.url | type == "string" and length > 0) and
   (.publishedAt | type == "string" and length > 0)
 ' >/dev/null
-gh api repos/douglasfeitosag/Umanni/milestones/3
-gh issue view 9 --repo douglasfeitosag/Umanni --json state,milestone
+final_milestone_json=$(gh api repos/douglasfeitosag/Umanni/milestones/3)
+printf '%s\n' "$final_milestone_json" | jq -e '
+  .number == 3 and .title == "0.2.0" and .state == "closed" and
+  (.closed_at | type == "string" and length > 0)
+' >/dev/null
+
+final_milestone_items_json=$(gh api --paginate --slurp \
+  'repos/douglasfeitosag/Umanni/issues?milestone=3&state=all&per_page=100')
+printf '%s\n' "$final_milestone_items_json" | jq -e '
+  flatten as $items |
+  ($items | map(.number) | sort) == [11, 12, 13] and
+  all($items[]; has("pull_request") and .state == "closed")
+' >/dev/null
+printf '%s\n' "$final_milestone_items_json" | jq -r '
+  flatten[] | "milestone item #\(.number): \(.state) — \(.title)"
+'
+
+final_issue_9_json=$(gh issue view 9 --repo douglasfeitosag/Umanni \
+  --json state,milestone)
+printf '%s\n' "$final_issue_9_json" | jq -e '
+  .state == "OPEN" and .milestone.number == 2 and
+  .milestone.title == "Backlog"
+' >/dev/null
+test -z "$(git status --porcelain=v1)"
 git status --short --branch
 ```
 
