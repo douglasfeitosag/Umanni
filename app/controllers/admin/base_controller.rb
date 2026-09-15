@@ -4,6 +4,6 @@ class Admin::BaseController < ApplicationController
   private
 
   def require_admin
-    head :forbidden unless Current.user&.admin?
+    head :forbidden unless UserPolicy.new(Current.user).administer?
   end
 end
