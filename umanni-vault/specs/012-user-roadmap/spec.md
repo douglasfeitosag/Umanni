@@ -20,16 +20,16 @@ O teste requer cadastro de visitante como usuário comum, autenticação Rails 8
 
 Cada decisão comparou três cenários: segurança, complexidade e prática de mercado. A alternativa escolhida é a menor que preserva segurança razoável e o requisito do teste.
 
-| ID | Cenário A | Cenário B | Cenário C e decisão |
-| --- | --- | --- | --- |
-| D-019 — provisionamento | Convite com e-mail e ativação: padrão forte, mas requer entrega de e-mail e ciclo de token. | Senha em cada linha importada: simples de codar, mas expõe segredo em planilhas. | **Escolhido:** visitante define a própria senha; administrador define a senha inicial no formulário; importação nunca recebe senha e cria registros sem credencial até configuração administrativa posterior. |
-| D-020 — ativação | Verificar e-mail antes de qualquer login: maior garantia de posse, mas não é pedido. | Liberar qualquer registro, inclusive importado sem senha: falha na autenticação e confunde estado. | **Escolhido:** cadastro e criação administrativa ficam utilizáveis ao salvar senha válida; usuário importado não autentica enquanto `password_digest` estiver ausente, sem estado de ativação ou e-mail adicional. |
-| D-021 — primeiro administrador | Promover o primeiro visitante: inseguro. | Versionar credencial de seed: inseguro e incompatível com repositório público. | **Escolhido:** tarefa local idempotente cria o primeiro administrador a partir de variáveis de ambiente não versionadas; recusa substituir administrador existente. |
-| D-022 — autorização | Esconder controles apenas no React: não protege requisições forjadas. | Biblioteca de autorização ampla: capacidade além do escopo. | **Escolhido:** políticas Ruby pequenas e verificadas no servidor; usuário comum só alcança o próprio perfil; criação, listagem, edição e exclusão administrativa exigem administrador. |
-| D-023 — último administrador | Permitir remoção/rebaixamento e deixar o sistema sem administração. | Exigir fluxo de transferência completo: útil, mas não pedido. | **Escolhido:** bloquear no servidor exclusão, rebaixamento e alteração do próprio papel que deixariam zero administradores; mensagens claras orientam criar/promover outro administrador antes. |
-| D-024 — avatar | URL remota: pouco código, mas acrescenta validação de URL, disponibilidade externa e risco de origem. | Aceitar qualquer arquivo: inseguro. | **Escolhido:** um anexo Active Storage opcional, JPEG/PNG/WebP, até 5 MiB; sem SVG e sem URL remota. A ausência mostra o fallback visual já projetado. |
-| D-025 — semântica da importação | Transação única: simples, mas um erro perde todas as linhas válidas e dificulta progresso útil. | Upsert que altera usuários existentes: inesperado e arriscado. | **Escolhido:** lote persiste linhas válidas novas; inválidas ou duplicadas são rejeitadas por linha; nunca atualiza um usuário existente; relatório persistido resume cada falha sem senhas ou conteúdo sensível. |
-| D-026 — repetição e volume | Sem limite/repetição: expõe a aplicação a trabalho ilimitado. | Reprocessar e atualizar registros: quebra previsibilidade. | **Escolhido:** máximo configurável inicialmente de 10 MiB e 10.000 linhas; cada reenvio cria lote novo, e a restrição única de e-mail impede duplicar usuários. |
+| ID | Cenário A | Cenário B | Cenário C | Decisão e justificativa |
+| --- | --- | --- | --- | --- |
+| D-019 — provisionamento | Convite por e-mail e ativação; é o padrão mais seguro, mas requer serviço de e-mail e ciclo de token. | Senha em cada linha importada; é pouco código, mas expõe segredo em planilhas. | Credencial local separada por origem: cadastro escolhe senha, criação administrativa recebe senha, importação não recebe senha. | **C.** Evita segredos em arquivo e e-mail não pedido, com complexidade menor que convite; registros importados aguardam configuração administrativa. |
+| D-020 — ativação | Verificar e-mail antes de todo login; confirma posse, mas não é pedido e depende de entrega. | Liberar registro importado sem senha; é simples, mas autenticação falha de modo confuso. | Cadastro e criação administrativa ficam utilizáveis após senha válida; importado sem `password_digest` não autentica, sem estado adicional. | **C.** Estado derivado simples, sem e-mail, preserva a segurança de não autenticar sem credencial. |
+| D-021 — primeiro administrador | Promover o primeiro visitante; reduz setup, mas permite escalada pública. | Seed com credencial versionada; facilita demonstração, mas vaza segredo em repositório público. | Tarefa local idempotente lê variáveis de ambiente não versionadas e recusa substituir administrador existente. | **C.** Mantém bootstrap reproduzível sem conta pública privilegiada nem segredo versionado. |
+| D-022 — autorização | Esconder controles no React; tem pouca complexidade, mas não protege requisição forjada. | Instalar biblioteca de autorização abrangente; é comum, mas acrescenta uma camada não necessária. | Políticas Ruby pequenas no servidor, por ator e recurso, com controles React apenas como reflexo. | **C.** Protege no ponto de autoridade e mantém a superfície mínima do monólito. |
+| D-023 — último administrador | Permitir remoção/rebaixamento e deixar zero administradores; é simples, mas indisponibiliza gestão. | Exigir fluxo de transferência de titularidade; é robusto, mas não é pedido. | Bloquear exclusão, rebaixamento e autoalteração que deixariam zero administradores. | **C.** Impede perda administrativa com uma regra única e mensagem de recuperação clara. |
+| D-024 — avatar | URL remota; reduz upload, mas exige validação de origem e disponibilidade externa. | Aceitar qualquer arquivo; reduz validação, mas permite formatos inseguros. | Active Storage opcional para JPEG/PNG/WebP até 5 MiB, com SVG e URL remota excluídos. | **C.** Usa mecanismo Rails aceito no teste e limita risco/complexidade de arquivos e rede. |
+| D-025 — semântica da importação | Transação única; é consistente, mas um erro descarta todas as linhas válidas e reduz utilidade do progresso. | Upsert de e-mail existente; parece conveniente, mas altera usuários sem confirmação. | Lote cria linhas novas válidas e rejeita inválidas/duplicadas por linha, sem atualização existente. | **C.** É previsível, auditável e compatível com relatório/progresso sem mutação surpresa. |
+| D-026 — repetição e volume | Sem limite e sem contrato de repetição; é pouco código, mas permite trabalho ilimitado/duplicação. | Reenviar o mesmo arquivo atualiza registros existentes; reduz registros de lote, mas viola D-025. | Limitar a 10 MiB/10.000 linhas, criar lote novo por reenvio e usar unicidade de e-mail como autoridade. | **C.** Limita custo e torna repetição segura sem implementar deduplicação distribuída. |
 
 ## Roteiro de versões e branches
 
@@ -54,7 +54,7 @@ As branches futuras são nomes reservados no roteiro, não refs Git prematuras: 
 
 ### US2 — Proteger os limites de acesso (P1)
 
-**Dado** usuário comum, administrador e visitante, **quando** acessam uma rota ou enviam uma mutação direta, **então** a futura especificação 0.3.0 exige autorização no servidor, destino correto após login e proteção do último administrador.
+**Dado** usuário comum, administrador e visitante, **quando** acessam uma rota ou enviam uma mutação direta, **então** a futura especificação 0.3.0 exige autorização no servidor, destino correto após login, perfil próprio editável/excluível, dashboard com contagens total/por papel em tempo real e proteção do último administrador.
 
 ### US3 — Importar sem alterar usuários existentes (P1)
 
@@ -67,7 +67,7 @@ As branches futuras são nomes reservados no roteiro, não refs Git prematuras: 
 ## Critérios de sucesso
 
 - **SC-001**: cada B001–B007 possui um destino, uma branch prevista e uma razão de dependência.
-- **SC-002**: 0.3.0 cobre todos os fluxos não relacionados à importação exigidos pelo teste, sem convite, e-mail ou recuperação de senha.
+- **SC-002**: 0.3.0 cobre todos os fluxos não relacionados à importação exigidos pelo teste, inclusive perfil próprio positivo e dashboard com totais total/por papel atualizados ao vivo, sem convite, e-mail ou recuperação de senha.
 - **SC-003**: 0.4.0 cobre CSV e XLSX com Solid Queue e Solid Cable, sem upsert e sem segredos em arquivos ou relatórios.
 - **SC-004**: cada decisão funcional documenta três cenários e uma escolha explícita baseada em segurança, complexidade e prática de mercado.
 - **SC-005**: planejamento, plano e tarefas recebem revisão independente antes de qualquer prompt de execução.

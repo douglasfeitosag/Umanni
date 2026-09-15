@@ -14,14 +14,14 @@ Entrada: [spec](spec.md) e [plano](plan.md). Este documento é um ledger de plan
 ## Bloco I — Identidade e acesso — `0.3.0`, `codex/013-identity-access`
 
 - [ ] I001 Revalidar a base integrada do roadmap, criar a branch 013 e abrir PR com milestone 0.3.0, label coerente e Douglas responsável.
-- [ ] I002 Escrever os testes RED dos sete BDDs de identidade/acesso antes de gerar ou copiar código de autenticação.
+- [ ] I002 Escrever os testes RED dos nove BDDs de identidade/acesso antes de gerar ou copiar código de autenticação.
 - [ ] I003 Executar o gerador nativo Rails de autenticação somente em diretório temporário, revisar o inventário e incorporar a superfície mínima; não instalar Devise ou substituto.
 - [ ] I004 Criar schema/migrations de `User`, índices de unicidade, papéis, validações e o comando seguro/idempotente do primeiro administrador; obter GREEN focalizado.
 - [ ] I005 Implementar registro regular, sessão, logout e redirecionamento por papel, preservando CSRF e sem e-mail, convite ou recuperação de senha.
-- [ ] I006 Implementar políticas/escopos no servidor, perfil próprio, exclusão própria, CRUD administrativo, alteração de papel e proteção do último administrador; provar tentativas forjadas.
+- [ ] I006 Implementar políticas/escopos no servidor, consulta/edição/exclusão do próprio perfil com encerramento de sessão, CRUD administrativo, alteração de papel e proteção do último administrador; provar tentativas forjadas.
 - [ ] I007 Implementar avatar Active Storage e suas validações, fallback visual e mensagens interativas, sem URL remota ou SVG.
-- [ ] I008 Implementar páginas Inertia/React responsivas de login, cadastro, perfil, dashboard e usuários usando a identidade visual aprovada; não migrar o protótipo nem copiar seus dados fictícios.
-- [ ] I009 Adicionar testes RSpec, Vitest/RTL e Playwright para os BDDs, entradas inválidas, XSS, XSRF, SQLi, enumeração, upload e breakpoints; executar ciclos RED/GREEN reais.
+- [ ] I008 Implementar páginas Inertia/React responsivas de login, cadastro, perfil, dashboard e usuários usando a identidade visual aprovada; no dashboard, total geral e totais por papel atualizam ao vivo por Solid Cable; não migrar o protótipo nem copiar seus dados fictícios.
+- [ ] I009 Adicionar testes RSpec, Vitest/RTL e Playwright para os BDDs, inclusive perfil regular positivo, exclusão/sessão, contagens total/por papel ao vivo, entradas inválidas, XSS, XSRF, SQLi, enumeração, upload e breakpoints; executar ciclos RED/GREEN reais.
 - [ ] I010 Atualizar README em inglês, STATUS, EXEC e evidências; executar `bin/check`, prova Compose limpa e registrar resultados reais no SHA testado.
 - [ ] I011 Publicar commits coesos/PR, iniciar automaticamente a revisora Luna high em contexto novo após validação, responder achados, obter novo review do HEAD final e parar antes de merge.
 
@@ -50,9 +50,10 @@ Entrada: [spec](spec.md) e [plano](plan.md). Este documento é um ledger de plan
 | RF-03, RF-04, RF-05, RF-08, RF-09 | I002, I004, I006–I009 |
 | RF-06, RF-07 | M002–M008 |
 | B001 | I003–I005 |
-| B002 e B007 | I004, I006–I009 |
+| B002 | I004, I006–I009 |
 | B003 | M001–M008 |
 | B004–B006 | bloco B |
+| B007 | I008–I009; páginas funcionais usam a identidade visual aprovada, preservam os BDDs de interface e não migram o protótipo fictício |
 
 ## Condição de parada
 

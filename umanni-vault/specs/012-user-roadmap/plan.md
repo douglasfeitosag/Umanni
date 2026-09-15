@@ -21,22 +21,25 @@ O roadmap separa o que o teste pede em dois incrementos funcionais. A versão 0.
 - Autorização é verificável no Rails, inclusive contra URLs e IDs forjados. A interface apenas reflete a decisão do servidor.
 - Exclusão/rebaixamento/autoalteração não podem remover o último administrador. Usuário regular não vê nem envia controles administrativos.
 - O avatar é um arquivo opcional, com validação de tamanho e tipo no servidor. Arquivos em formato SVG e URLs remotas ficam fora do escopo.
+- O dashboard administrativo expõe total geral e totais `admin`/`regular` de uma consulta autorizada. Depois de criação, exclusão ou mudança de papel confirmada, Solid Cable transmite o novo resumo apenas a dashboards administrativos autorizados; ao recarregar, a mesma consulta persistida reconstrói os totais.
 
 ### Arquitetura mínima
 
 Usar `bin/rails generate authentication` como exigido pelo teste em uma cópia temporária primeiro; comparar o inventário gerado antes de incorporar apenas os arquivos necessários. Preservar a sessão/autenticação nativa e a proteção CSRF. Não instalar Devise, Pundit, CanCanCan, biblioteca de formulários, API REST paralela ou estado global React.
 
-Extrair somente políticas pequenas de usuário quando houver regra de ator/recurso. Controllers mantêm autenticação, parâmetros e resposta Inertia; modelos preservam validações e invariantes; consultas de dashboard expõem somente totais autorizados. O comando de bootstrap coordena exclusivamente o primeiro administrador.
+Extrair somente políticas pequenas de usuário quando houver regra de ator/recurso. Controllers mantêm autenticação, parâmetros e resposta Inertia; modelos preservam validações e invariantes; consultas de dashboard expõem somente totais autorizados. Uma emissão de Cable é disparada somente depois da persistência bem-sucedida de mutação administrativa. O comando de bootstrap coordena exclusivamente o primeiro administrador.
 
 ### BDD obrigatório
 
 1. Dado visitante com nome, e-mail e senha válidos, quando se cadastra, então recebe papel regular e chega ao próprio perfil.
 2. Dado usuário autenticado, quando inicia sessão, então administrador chega ao dashboard e regular ao perfil.
 3. Dado usuário regular, quando tenta rota, ID ou mutação administrativa, então o servidor nega o acesso e nenhum dado de terceiros é exposto.
-4. Dado administrador, quando cria, edita, exclui ou muda o papel de outro usuário, então a alteração persistida respeita validações, atualiza os totais e nunca revela senha.
-5. Dado o único administrador, quando tenta se excluir, se rebaixar ou editar o próprio papel, então o servidor bloqueia a operação sem alterar dados.
-6. Dado avatar JPEG/PNG/WebP até 5 MiB, quando é enviado, então fica associado ao perfil; tipo não permitido, arquivo maior ou SVG retorna erro seguro.
-7. Dado comando de bootstrap e nenhum administrador, quando variáveis válidas são fornecidas, então existe exatamente um administrador; se já houver administrador, o comando não cria nem substitui outro.
+4. Dado usuário regular autenticado, quando consulta, altera nome/e-mail/avatar ou exclui o próprio perfil, então somente seu registro é mostrado/mutado, validações retornam feedback interativo e a exclusão encerra a sessão e chega a uma tela de entrada recuperável.
+5. Dado administrador, quando cria, edita, exclui ou muda o papel de outro usuário, então a alteração persistida respeita validações, atualiza os totais e nunca revela senha.
+6. Dado dashboard administrativo aberto, quando uma criação, exclusão ou mudança de papel é confirmada, então total geral e totais `admin`/`regular` mudam ao vivo via Solid Cable; recarregar a página retorna os mesmos valores persistidos.
+7. Dado o único administrador, quando tenta se excluir, se rebaixar ou editar o próprio papel, então o servidor bloqueia a operação sem alterar dados.
+8. Dado avatar JPEG/PNG/WebP até 5 MiB, quando é enviado, então fica associado ao perfil; tipo não permitido, arquivo maior ou SVG retorna erro seguro.
+9. Dado comando de bootstrap e nenhum administrador, quando variáveis válidas são fornecidas, então existe exatamente um administrador; se já houver administrador, o comando não cria nem substitui outro.
 
 ### Validação e segurança
 
