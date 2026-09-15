@@ -11,7 +11,7 @@
 - Spec: `umanni-vault/specs/010-foundation-release/`.
 - PR de preparação: [#13](https://github.com/douglasfeitosag/Umanni/pull/13), base `main`, label `documentation`, Douglas responsável, milestone 0.2.0.
 - Commit inicial de planejamento: `13b5784` (`docs: plan foundation 0.2.0 release`).
-- Estado atual: a primeira revisão independente do planejamento encontrou três lacunas fail-safe no quickstart e reclassificou o achado histórico do PR #12 como falso positivo. A revisão do HEAD corretivo `310520e3ceedf47c922aae80d72a34cde54bda53` aceitou e resolveu exclusivamente as quatro threads originais, mas abriu `FND-REL-005`; a segunda correção está preparada para novo HEAD e nova revisão independente, sem herdar aceite. Não existem tag/release `v0.2.0`; milestone 0.2.0 permanece aberto e inclui este PR em andamento.
+- Estado atual: o planejamento foi aceito no HEAD `5c961ba65b70adb391066085d5dcc8ef7a6e7ac2`, com `review-ledger=success`, `spec-reviewed` e as cinco threads resolvidas exclusivamente pela revisora. A prontidão foi reconsultada, os registros públicos foram preparados e validados sem mudar aplicação/runtime/branding. O novo HEAD documental ainda precisa de revisão final independente e não herda esse aceite de planejamento. Não existem tag/release `v0.2.0`; o milestone 0.2.0 permanece aberto e inclui este PR em andamento.
 
 ## Resultado do gate inicial
 
@@ -65,11 +65,13 @@ O conteúdo integrado da Foundation é tecnicamente elegível. A publicação im
 | T001 | concluída | gate inicial e tabela de SHAs/estado acima |
 | T002 | concluída | Spec Kit, checklist, análise cruzada e diff sem erros |
 | T003 | concluída | commit `13b5784`, branch remota e PR #13 com metadados obrigatórios |
-| T004 | concluída na primeira rodada | revisora independente publicou quatro threads no HEAD `cabe5ce`; três achados acionáveis e um posteriormente reclassificado como falso positivo |
-| T005 | em correção/revisão | quickstart corrigido e validado localmente; novo HEAD exige reconsideração e resolução exclusiva pela revisora |
-| T006–T007 | bloqueadas por revisão | evidência de prontidão pós-aceite |
-| T008–T013 | bloqueadas por revisão | registros públicos e validação documental |
-| T014–T016 | bloqueadas pela preparação | revisão final e handoff de merge |
+| T004 | concluída | revisora independente publicou cinco threads ao longo das rodadas, com ledger por HEAD |
+| T005 | concluída | quatro correções aceitas e um falso positivo formalmente reclassificado; 5/5 threads resolvidas exclusivamente pela revisora no planejamento aceito `5c961ba` |
+| T006 | concluída | mapa reproduzível dos PRs #11–#13, checks, árvores, milestone, issue #9 e refs abaixo |
+| T007 | concluída | helpers reais e fixtures fail-safe executados sem mutações externas; resultados abaixo |
+| T008–T012 | concluídas na preparação | release notes, changelog, prompt, status, ledger da Foundation e este EXEC atualizados sem prever fatos pós-merge |
+| T013 | concluída antes da publicação do HEAD | validação documental, Spec Kit, snippets e escopo descritos abaixo; deve ser repetida no commit final |
+| T014–T016 | pendentes no registro versionado | publicar o novo HEAD, obter revisão final e entregar o handoff; os resultados exatos devem ficar no PR/handoff para não criar um commit autorreferencial |
 | T017–T019 | bloqueadas pelo merge de Douglas | publicação e evidência final |
 
 ## Revisão do planejamento — rodada corretiva no HEAD cabe5ce
@@ -111,6 +113,77 @@ A revisora independente foi convocada em contexto novo com configuração `gpt-5
 
 `FND-REL-005` identificou que `targetCommitish` era coletado, mas não comparado ao `merge_sha` antes do fechamento do milestone. A correção acrescenta `--target "$merge_sha"` à criação da release e exige executavelmente `targetCommitish == merge_sha` na validação imediatamente anterior ao fechamento. A mesma asserção é repetida na verificação final. Fixtures JSON com alvo igual e divergente confirmaram, respectivamente, aceite e bloqueio; sintaxe shell, `setup-plan`, `setup-tasks`, `check-prerequisites`, análise cruzada, `git diff --check` e escopo documental foram revalidados antes da publicação do novo HEAD.
 
+## Aceite do planejamento — 5c961ba
+
+Em 2026-09-15, a revisora independente reconsiderou `FND-REL-005` no HEAD remoto exato `5c961ba65b70adb391066085d5dcc8ef7a6e7ac2`, aceitou a correção e resolveu exclusivamente a quinta thread. A releitura posterior confirmou PR #13 aberto/não draft, base `665da839ab2efdd08c94664f842d9d17fcf3023c`, `documentation`, Douglas, milestone 3/0.2.0, `spec-reviewed`, `review-ledger=success` criado em `2026-09-15T10:28:24Z`, cinco threads resolvidas e nenhuma página adicional. A configuração solicitada à revisora foi `gpt-5.6-luna`/`high`; ela declarou runtime GPT-5, variante exata não exposta.
+
+## T006 — mapa de prontidão observado
+
+As consultas foram repetidas em 2026-09-15, após `git fetch --prune origin`, com checkout limpo e HEAD local/remoto do PR #13 exatamente iguais a `5c961ba65b70adb391066085d5dcc8ef7a6e7ac2`.
+
+| Item | Estado e identificadores observados |
+| --- | --- |
+| PR #11 — planejamento | `MERGED` em `2026-09-14T22:38:37Z`; HEAD `d1f3a3a349ed4a7610c4da7b170d4d2976c56691`; merge `f9a817cc6972c2438230f12d7dafedf0abc2d5b0`; `review-ledger=success` em `2026-09-14T22:16:56Z`; `spec-reviewed`; Douglas; milestone 3; 3/3 threads resolvidas, sem próxima página. |
+| PR #12 — implementação | `MERGED` em `2026-09-15T07:01:35Z`; HEAD `988282f8b9212e1f018cbbd327758d7d2aefce80`; merge `665da839ab2efdd08c94664f842d9d17fcf3023c`; árvore comum `706043ac58cfaa15f2f0f2170e6c12042d4f9a86`; `foundation-checks=success` em `2026-09-15T06:51:30Z`; `review-ledger=success` em `2026-09-15T06:52:04Z`; `code-reviewed`; Douglas; milestone 3; 1/1 thread resolvida, sem próxima página. |
+| PR #13 — preparação | `OPEN`, não draft; criado em `2026-09-15T07:33:53Z`; HEAD/base `5c961ba65b70adb391066085d5dcc8ef7a6e7ac2`/`665da839ab2efdd08c94664f842d9d17fcf3023c`; `review-ledger=success`; `documentation` + `spec-reviewed`; Douglas; milestone 3; 5/5 threads resolvidas, sem próxima página. |
+| Milestone 3 | `0.2.0`, aberto; enumeração autoritativa: PR #11 fechado, PR #12 fechado e PR #13 aberto. O contador agregado informou zero abertos, mas não foi usado como prova porque diverge da enumeração do PR #13. O estado esperado nesta preparação é o PR #13 aberto até o merge de Douglas. |
+| Issue #9 | `OPEN`, criada em `2026-09-14T20:09:07Z`, atualizada em `2026-09-14T21:17:30Z`, milestone 2 `Backlog`. |
+| Refs | `origin/main=665da839ab2efdd08c94664f842d9d17fcf3023c`; `origin/codex/009-foundation-app=988282f8b9212e1f018cbbd327758d7d2aefce80`; `HEAD=origin/codex/010-foundation-release=5c961ba65b70adb391066085d5dcc8ef7a6e7ac2` antes da preparação. |
+| Publicação | tag local ausente; consulta remota `git ls-remote --exit-code` retornou 2 com resultado vazio; consulta autenticada da release retornou HTTP 404, corpo `status=404` e saída 1. |
+
+Nenhum item do milestone está sem decisão: #11/#12 estão integrados e #13 é a preparação deliberadamente aberta que deve ser mesclada somente por Douglas. A publicação continua bloqueada até esse merge e a reexecução integral do gate pós-merge.
+
+## T007 — probes fail-safe sem mutação
+
+Os três helpers do `quickstart.md` foram carregados e executados contra o estado real. `require_remote_tag_absent` aceitou somente saída 2/vazio; `require_release_absent` aceitou somente a resposta autenticada HTTP 404 coerente. `sh -n` aceitou a concatenação de todos os blocos shell.
+
+Fixtures controladas observaram os seguintes resultados:
+
+| Cenário | Resultado esperado/observado |
+| --- | --- |
+| Release HTTP 404 coerente | aceita / aceita (0) |
+| Release HTTP 200 existente | bloqueia / bloqueou (1) |
+| Resposta ausente | bloqueia / bloqueou (1) |
+| HTTP 401, 403, 429 e 500 | bloqueiam / todos bloquearam (1) |
+| Tag remota ausente, saída 2/vazio | aceita / aceita (0) |
+| Consulta remota operacionalmente inconclusiva, saída 128 | bloqueia / bloqueou (1) |
+| Tag anotada com objeto e peeled target esperados | aceita / aceita (0) |
+| Peeled target divergente | bloqueia / bloqueou (1) |
+
+Uma primeira tentativa do harness local usou `source` com process substitution, não carregou as funções neste ambiente e retornou 127; foi descartada sem inferir resultado do produto ou mutar arquivos. A repetição válida usou o mesmo texto dos helpers via `eval`, confirmou que as três funções existiam e produziu a matriz acima.
+
+## T008–T013 — registros e validação documental
+
+- `umanni-vault/releases/0.2.0.md`: notas finais em português com PRs #11–#13, escopo, evidência observada, limitações e issue #9 no Backlog.
+- `CHANGELOG.md`: seção inglesa datada 0.2.0 adicionada sem reescrever a seção histórica 0.1.0.
+- `umanni-vault/PROMPT-COND-007-FOUNDATION-CLOSURE.md`: handoff autocontido; não prevê SHA final, exige descobri-lo no PR e proíbe T017–T019 sem autorização explícita e merge de Douglas.
+- `umanni-vault/STATUS.md` e `umanni-vault/specs/008-foundation-plan/tasks.md`: merge real do PR #12, preparação do PR #13 e T019 da execução anterior consolidados sem alegar publicação.
+- Este EXEC separa evidência observada, resultados herdados por SHA e placeholders pós-merge.
+
+Validações executadas antes dos commits:
+
+| Verificação | Resultado observado |
+| --- | --- |
+| `setup-plan.sh --json` | 0; plano existente preservado e paths absolutos corretos |
+| `setup-tasks.sh --json` | 0; diretório e documentos disponíveis corretos |
+| `check-prerequisites.sh --json --require-spec --require-tasks --include-tasks` | 0 |
+| Sintaxe de todos os blocos `sh` do quickstart | `sh -n`: 0 |
+| Helpers reais e fixtures fail-safe | matriz acima; ausência pública real comprovada sem mutação |
+| Estado Git inicial | branch/HEAD remoto exatos e checkout limpo antes da edição |
+| Links Markdown locais dos nove documentos afetados | primeira chamada por `ruby` parou porque o rbenv local não tem Ruby 4.0.6; repetição explícita com `/usr/bin/ruby`, sob `set -eu`, resolveu todos os caminhos (0) |
+
+O primeiro uso estrito do filtro de escopo revelou que a alternativa aceita para `specs/010-foundation-release/` terminava na barra e, portanto, rejeitava os próprios arquivos permitidos dentro do diretório. O regex foi corrigido de forma focalizada para `specs/010-foundation-release/.*`; ele continua recusando qualquer caminho fora da lista e será reexecutado no diff commitado. Nenhum arquivo adicional foi autorizado por essa correção.
+
+Depois dos commits, o diff deve ser revalidado com `git diff --check origin/main...HEAD`, escopo estrito, presença/termos dos registros, refs/GitHub novamente consultados e HEAD local/remoto igual antes da revisão final.
+
+## Placeholders pós-merge — não preenchidos por previsão
+
+- HEAD final revisado do PR #13: obter de `headRefOid` depois do aceite final e confirmar novamente após o merge.
+- Merge SHA do PR #13: indisponível enquanto o PR está aberto.
+- Objeto/peeled target da tag `v0.2.0`: inexistentes antes da publicação autorizada.
+- URL/data/alvo da GitHub Release: inexistentes antes da publicação autorizada.
+- Fechamento do milestone 3: pendente até verificação de tag e release.
+
 ## Limites e parada
 
-Nenhum arquivo de aplicação, lock, branding ou runtime foi alterado. Nenhuma tag, GitHub Release, alteração de milestone ou merge foi executado. O próximo gate é publicar somente o planejamento no PR e obter revisão independente no HEAD exato. Um achado, novo commit, divergência da principal, tag/release inesperada ou item aberto sem destino interrompe o trabalho dependente.
+Nenhum arquivo de aplicação, lock, branding ou runtime foi alterado. Nenhuma tag, GitHub Release, alteração de milestone ou merge foi executado. O próximo gate é publicar os registros documentais no PR #13, invalidar o aceite do planejamento e obter revisão final independente no novo HEAD exato. Um achado, novo commit, divergência da principal, tag/release inesperada ou item aberto sem destino interrompe o trabalho dependente.

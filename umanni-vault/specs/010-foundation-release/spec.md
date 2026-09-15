@@ -4,7 +4,7 @@
 
 **Created**: 2026-09-15
 
-**Status**: Draft
+**Status**: Planning accepted; release preparation in progress
 
 **Input**: User description: "The Foundation merge is complete. Update local branches and publish the release before the next task, if every release gate is satisfied."
 

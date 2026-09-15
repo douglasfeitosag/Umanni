@@ -43,7 +43,7 @@ Objetivo: clean-room e entrega auditável. Teste independente: BDD08–09.
 - [x] T016 Iniciar automaticamente revisora Luna high em contexto novo com PR/HEAD, `spec.md`, `plan.md`, `tasks.md` e EXEC; somente a revisora publica findings/ledger/labels e resolve threads; registrar identidade/modelo no PR. FR008.
 - [x] T017 Responder cada achado na mesma thread com tag EXECUTORA, corrigir somente escopo autorizado, atualizar `umanni-vault/EXEC-009-FOUNDATION-APP.md`, publicar novo HEAD e solicitar nova revisão; nenhum sucesso herdado. FR008.
 - [x] T018 Confirmar foundation-checks/review-ledger success no HEAD, code-reviewed, zero threads pendentes, metadados corretos e diff restrito; entregar relatório a Douglas em `umanni-vault/EXEC-009-FOUNDATION-APP.md` e parar antes de integrar. FR008.
-- [ ] T019 Após execução/revisão, a condutora prepara tarefa futura de fechamento em `umanni-vault/PROMPT-COND-007-FOUNDATION-CLOSURE.md`, com itens restantes do milestone; merge/tag/release requerem autorização específica posterior. Não fechar0.2.0 com o PR documental. FR008.
+- [x] T019 Após execução/revisão, a condutora prepara tarefa futura de fechamento em `umanni-vault/PROMPT-COND-007-FOUNDATION-CLOSURE.md`, com itens restantes do milestone; merge/tag/release requerem autorização específica posterior. Prompt criado no PR #13, sem antecipar integração ou publicação. Não fechar 0.2.0 com o PR documental. FR008.
 
 ## Backlog — não executar por este prompt
 

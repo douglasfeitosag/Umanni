@@ -185,7 +185,7 @@ Expected: PR #12 merged with reviewed head `988282f`, merge `665da83`, equal tre
 git diff --check origin/main...HEAD
 git diff --name-only origin/main...HEAD
 
-if git diff --name-only origin/main...HEAD | rg -v '^(CHANGELOG\.md|umanni-vault/(EXEC-010-FOUNDATION-RELEASE\.md|PROMPT-COND-007-FOUNDATION-CLOSURE\.md|STATUS\.md|releases/0\.2\.0\.md|specs/008-foundation-plan/tasks\.md|specs/010-foundation-release/))$'; then
+if git diff --name-only origin/main...HEAD | rg -v '^(CHANGELOG\.md|umanni-vault/(EXEC-010-FOUNDATION-RELEASE\.md|PROMPT-COND-007-FOUNDATION-CLOSURE\.md|STATUS\.md|releases/0\.2\.0\.md|specs/008-foundation-plan/tasks\.md|specs/010-foundation-release/.*))$'; then
   printf '%s\n' 'ERROR: non-release file entered the preparation diff; stop.' >&2
   exit 1
 fi
