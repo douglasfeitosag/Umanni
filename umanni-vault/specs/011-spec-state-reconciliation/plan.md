@@ -21,7 +21,8 @@ Executar um patch estritamente documental que separa três camadas: estado vigen
 | Estado vigente | substituir claim obsoleto por resultado comprovado e referências exatas |
 | Tarefas concluídas | marcar somente com evidência externa ou EXEC reproduzível |
 | Backlog | manter aberto e com destino explícito |
-| Fotografia histórica | preservar o texto original; acrescentar nota de fechamento quando necessário |
+| Fotografia histórica | preservar o corpo original; acrescentar seção de fechamento quando necessário |
+| `tasks.md` | ledger vivo: atualizar checkbox com evidência posterior, sem reescrever a descrição |
 | Evidência inconclusiva | não marcar; registrar bloqueio e parar a parte dependente |
 
 ## Fases
@@ -38,7 +39,29 @@ Executar um patch estritamente documental que separa três camadas: estado vigen
 
 Novos: os artefatos deste diretório e `umanni-vault/EXEC-011-SPEC-STATE-RECONCILIATION.md`.
 
-Existentes: `README.md`, `AGENTS.md`, `umanni-vault/STATUS.md`, `umanni-vault/MEMORIA-PROJETO.md`, campos de estado e ledgers dos specs concluídos, `umanni-vault/EXEC-006-RELEASE-0-1-0.md` e `umanni-vault/EXEC-010-FOUNDATION-RELEASE.md`. Um arquivo candidato só entra no diff se a auditoria demonstrar correção necessária.
+Existentes permitidos, sem expansão implícita:
+
+- `README.md`
+- `AGENTS.md`
+- `umanni-vault/STATUS.md`
+- `umanni-vault/MEMORIA-PROJETO.md`
+- `umanni-vault/EXEC-006-RELEASE-0-1-0.md`
+- `umanni-vault/EXEC-010-FOUNDATION-RELEASE.md`
+- `umanni-vault/specs/000-documentation/spec.md`
+- `umanni-vault/specs/001-branding/spec.md`
+- `umanni-vault/specs/001-branding/plan.md`
+- `umanni-vault/specs/001-branding/tasks.md`
+- `umanni-vault/specs/002-organize-vault/spec.md`
+- `umanni-vault/specs/004-branding-hub/spec.md`
+- `umanni-vault/specs/005-visual-prototype/spec.md`
+- `umanni-vault/specs/006-release-0-1-0/spec.md`
+- `umanni-vault/specs/006-release-0-1-0/plan.md`
+- `umanni-vault/specs/006-release-0-1-0/tasks.md`
+- `umanni-vault/specs/008-foundation-plan/spec.md`
+- `umanni-vault/specs/010-foundation-release/spec.md`
+- `umanni-vault/specs/010-foundation-release/tasks.md`
+
+Os seis arquivos novos desta entrega também integram a allowlist: `umanni-vault/EXEC-011-SPEC-STATE-RECONCILIATION.md` e os cinco arquivos versionados sob `umanni-vault/specs/011-spec-state-reconciliation/`. Qualquer outro caminho bloqueia T012.
 
 ## Validação
 
@@ -48,7 +71,7 @@ Existentes: `README.md`, `AGENTS.md`, `umanni-vault/STATUS.md`, `umanni-vault/ME
 - estados, checks e threads dos PRs usados como evidência;
 - busca negativa de claims vigentes obsoletos;
 - validação de links Markdown locais;
-- `git diff --check` e allowlist estrita;
+- `git diff --check` e comparação de `git diff --name-only origin/main...HEAD` com a allowlist exata acima;
 - confirmação de que nenhum arquivo funcional, lock, runtime ou branding mudou.
 
 ## Aceite e parada

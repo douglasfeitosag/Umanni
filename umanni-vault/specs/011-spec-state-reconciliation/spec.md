@@ -17,7 +17,7 @@ Reconciliar os documentos de estado corrente com as entregas já comprovadas em 
 
 ### US2 — Preservar a cronologia (P1)
 
-**Dado** um plano, checklist, quickstart, prompt ou EXEC escrito antes de uma integração, **quando** ele contém fatos verdadeiros daquele momento, **então** o texto permanece como fotografia histórica e qualquer desfecho posterior é acrescentado separadamente.
+**Dado** um plano, checklist explicitamente histórico, quickstart, prompt ou EXEC escrito antes de uma integração, **quando** ele contém fatos verdadeiros daquele momento, **então** o corpo original permanece como fotografia histórica e qualquer desfecho posterior é acrescentado em seção separada. Arquivos `tasks.md` são ledgers vivos: seus checkboxes podem ser atualizados com evidência posterior, mas a descrição original das tarefas permanece preservada.
 
 ### US3 — Distinguir trabalho concluído de Backlog (P1)
 
@@ -26,11 +26,11 @@ Reconciliar os documentos de estado corrente com as entregas já comprovadas em 
 ## Requisitos
 
 - **FR-001**: revalidar `main`, `origin/main`, tags anotadas, releases, milestones, PRs, statuses e threads antes de editar claims dependentes.
-- **FR-002**: atualizar os estados dos specs concluídos sem transformar condições originais de planejamento em alegações de execução retroativa.
-- **FR-003**: marcar tarefas concluídas somente quando um EXEC, PR, commit, status ou comentário final comprovar o resultado.
+- **FR-002**: atualizar os campos de estado dos specs concluídos; preservar o corpo pré-integração de planos, quickstarts, prompts, checklists históricos e EXECs, acrescentando seções de fechamento separadas.
+- **FR-003**: tratar `tasks.md` como ledger vivo, marcando tarefas concluídas somente quando um EXEC, PR, commit, status ou comentário final comprovar o resultado; preservar a descrição original e acrescentar uma nota de evidência de fechamento.
 - **FR-004**: preservar desmarcados os itens explicitamente destinados ao Backlog e os checklists que declaram ser fotografias do HEAD enviado.
 - **FR-005**: reconciliar `README.md`, `AGENTS.md`, `STATUS.md` e `MEMORIA-PROJETO.md` com a Foundation 0.2.0 integrada e publicada.
-- **FR-006**: acrescentar fechamentos pós-publicação aos EXECs 006 e 010, preservando as rodadas e limitações registradas antes da publicação.
+- **FR-006**: acrescentar seções `Fechamento posterior verificado` aos EXECs 006 e 010, preservando integralmente as rodadas e limitações registradas antes da publicação.
 - **FR-007**: não alterar tags ou releases 0.1.0/0.2.0, milestones fechados, aplicação, locks, runtime, testes, assets ou comportamento.
 - **FR-008**: publicar a correção como patch documental 0.2.1 somente após revisão final do HEAD exato, merge autorizado por Douglas e nova autorização específica para tag/release.
 
@@ -39,7 +39,7 @@ Reconciliar os documentos de estado corrente com as entregas já comprovadas em 
 - **SC-001**: zero claim vigente afirma que 0.2.0 aguarda integração, tag, release ou fechamento de milestone.
 - **SC-002**: T001–T031 do spec 001, T001–T019 do 006 e T001–T019 do 010 refletem a evidência GitHub; o ledger 008 continua com T001–T019 concluídas e B001–B007 no Backlog.
 - **SC-003**: specs 000, 002, 004 e 005 também possuem estado final inequívoco ou são confirmados como já coerentes.
-- **SC-004**: quickstarts, prompts e checklists históricos não são atualizados mecanicamente para simular que os fatos futuros já existiam no momento de sua autoria.
+- **SC-004**: planos, quickstarts, prompts, checklists históricos e corpos originais de EXECs não são atualizados mecanicamente para simular que fatos futuros já existiam; `tasks.md` alterados conservam as descrições e recebem nota de evidência posterior.
 - **SC-005**: links locais, Markdown, whitespace e allowlist passam; o diff contém somente documentação autorizada.
 - **SC-006**: PR final possui `review-ledger=success`, `code-reviewed`, zero threads não resolvidas, label `documentation`, milestone 0.2.1 e Douglas responsável.
 
