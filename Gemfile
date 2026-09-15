@@ -3,11 +3,13 @@ source "https://rubygems.org"
 ruby "4.0.6"
 
 gem "inertia_rails", "3.22.0"
+gem "bcrypt", "3.1.22"
 # Rails 8.1 passes positional options to JSON.parse.
 gem "json", "2.21.2"
 gem "pg", "1.6.3"
 gem "puma", "8.0.2"
 gem "rails", "8.1.3.1"
+gem "solid_cable", "4.0.2"
 gem "thruster", "0.1.26", require: false
 gem "vite_rails", "3.11.1"
 gem "vite_ruby", "3.10.5"

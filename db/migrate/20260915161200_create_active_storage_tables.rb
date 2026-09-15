@@ -1,0 +1,43 @@
+class CreateActiveStorageTables < ActiveRecord::Migration[8.1]
+  def change
+    primary_key_type, foreign_key_type = primary_and_foreign_key_types
+
+    create_table :active_storage_blobs, id: primary_key_type do |table|
+      table.string :key, null: false
+      table.string :filename, null: false
+      table.string :content_type
+      table.text :metadata
+      table.string :service_name, null: false
+      table.bigint :byte_size, null: false
+      table.string :checksum
+      table.timestamps precision: 6, null: false
+      table.index [:key], unique: true
+    end
+
+    create_table :active_storage_attachments, id: primary_key_type do |table|
+      table.string :name, null: false
+      table.references :record, null: false, polymorphic: true, index: false, type: foreign_key_type
+      table.references :blob, null: false, type: foreign_key_type
+      table.timestamps precision: 6, null: false
+      table.index [:record_type, :record_id, :name, :blob_id], unique: true, name: :index_active_storage_attachments_uniqueness
+      table.foreign_key :active_storage_blobs, column: :blob_id
+    end
+
+    create_table :active_storage_variant_records, id: primary_key_type do |table|
+      table.belongs_to :blob, null: false, index: false, type: foreign_key_type
+      table.string :variation_digest, null: false
+      table.index [:blob_id, :variation_digest], unique: true, name: :index_active_storage_variant_records_uniqueness
+      table.foreign_key :active_storage_blobs, column: :blob_id
+    end
+  end
+
+  private
+
+  def primary_and_foreign_key_types
+    config = Rails.application.config.generators
+    setting = config.options[config.orm][:primary_key_type]
+    primary_key_type = setting || :primary_key
+    foreign_key_type = setting || :bigint
+    [primary_key_type, foreign_key_type]
+  end
+end
