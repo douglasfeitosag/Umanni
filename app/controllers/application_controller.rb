@@ -18,4 +18,18 @@ class ApplicationController < ActionController::Base
       avatarUrl: user.avatar_url
     }
   end
+
+  def avatar_upload_error(upload)
+    return if upload.blank?
+    return "deve ter no máximo 5 MiB" if upload.size > User::MAX_AVATAR_SIZE
+
+    upload.tempfile.rewind
+    detected_type = Marcel::MimeType.for(upload.tempfile, declared_type: nil)
+    upload.tempfile.rewind
+    return if User::ALLOWED_AVATAR_TYPES.include?(detected_type)
+
+    "deve ser um JPEG, PNG ou WebP válido"
+  rescue IOError, SystemCallError
+    "não pôde ser validado"
+  end
 end

@@ -11,13 +11,20 @@ class ProfilesController < ApplicationController
   end
 
   def update
-    if Current.user.update(profile_params)
+    attributes, remove_avatar = profile_update
+    return render_profile_edit(errors: { avatar: "não pode ser enviado junto com remoção" }) if attributes.nil?
+    if (upload_error = avatar_upload_error(attributes[:avatar]))
+      return render_profile_edit(errors: { avatar: upload_error })
+    end
+
+    if Current.user.update(attributes)
+      Current.user.avatar.purge if remove_avatar
       redirect_to profile_path, notice: "Perfil atualizado."
     else
-      render inertia: "Profile/Edit", props: { profile: user_props(Current.user), errors: Current.user.errors.to_hash }, status: :unprocessable_content
+      render_profile_edit(errors: Current.user.errors.to_hash)
     end
   rescue ActiveRecord::RecordNotUnique
-    render inertia: "Profile/Edit", props: { profile: user_props(Current.user), errors: { email: ["já está em uso"] } }, status: :unprocessable_content
+    render_profile_edit(errors: { email: ["já está em uso"] })
   end
 
   def destroy
@@ -43,11 +50,12 @@ class ProfilesController < ApplicationController
     !Current.user.admin? || User.where(role: :admin).where.not(id: Current.user.id).exists?
   end
 
-  def profile_params
-    params.expect(profile: %i[full_name email avatar remove_avatar]).tap do |permitted|
-      permitted.delete(:avatar) if permitted[:remove_avatar] == "1"
-      Current.user.avatar.purge if permitted.delete(:remove_avatar) == "1"
-    end
+  def profile_update
+    permitted = params.expect(profile: %i[full_name email avatar remove_avatar])
+    remove_avatar = permitted.delete(:remove_avatar) == "1"
+    return [nil, false] if remove_avatar && permitted[:avatar].present?
+
+    [permitted, remove_avatar]
   end
 
   def deletion_params
@@ -58,5 +66,9 @@ class ProfilesController < ApplicationController
     render inertia: "Profile/Show", props: {
       profile: user_props(Current.user), permissions: { edit: true, destroy: false }, errors: { confirmation: message }
     }, status: :unprocessable_content
+  end
+
+  def render_profile_edit(errors:)
+    render inertia: "Profile/Edit", props: { profile: user_props(Current.user), errors: }, status: :unprocessable_content
   end
 end

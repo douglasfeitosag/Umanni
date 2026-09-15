@@ -21,7 +21,7 @@ class User < ApplicationRecord
   validate :avatar_is_safe
 
   def avatar_url
-    Rails.application.routes.url_helpers.rails_blob_path(avatar, only_path: true) if avatar.attached?
+    Rails.application.routes.url_helpers.rails_blob_path(avatar.blob, only_path: true) if avatar.attached? && avatar.blob.persisted?
   end
 
   private

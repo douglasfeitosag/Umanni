@@ -20,6 +20,9 @@ class Admin::UsersController < Admin::BaseController
 
   def create
     user = User.new(create_params)
+    if (upload_error = avatar_upload_error(create_params[:avatar]))
+      return render inertia: "Admin/Users/New", props: { roleOptions: role_options, errors: { avatar: upload_error } }, status: :unprocessable_content
+    end
     user.password_required = true
     if user.save
       redirect_to admin_users_path, notice: "Usuário criado."
@@ -31,7 +34,12 @@ class Admin::UsersController < Admin::BaseController
   end
 
   def update
-    result = LastAdminMutation.update(@user, update_params.to_h.symbolize_keys)
+    attributes, remove_avatar = admin_update
+    return render_edit(errors: { avatar: "não pode ser enviado junto com remoção" }) if attributes.nil?
+    return render_edit(errors: { avatar: avatar_upload_error(attributes[:avatar]) }) if avatar_upload_error(attributes[:avatar])
+
+    result = LastAdminMutation.update(@user, attributes.to_h.symbolize_keys)
+    @user.avatar.purge if result.success? && remove_avatar
     return redirect_to(admin_users_path, notice: "Usuário atualizado.") if result.success?
 
     render_edit(errors: { role: result.error })
@@ -67,14 +75,12 @@ class Admin::UsersController < Admin::BaseController
     params.expect(admin_user: %i[full_name email role password password_confirmation avatar])
   end
 
-  def update_params
+  def admin_update
     permitted = params.expect(admin_user: %i[full_name email role avatar remove_avatar])
-    if permitted[:avatar].present? && permitted[:remove_avatar] == "1"
-      @user.errors.add(:avatar, "não pode ser enviado junto com remoção")
-      return ActionController::Parameters.new
-    end
-    @user.avatar.purge if permitted.delete(:remove_avatar) == "1"
-    permitted
+    remove_avatar = permitted.delete(:remove_avatar) == "1"
+    return [nil, false] if remove_avatar && permitted[:avatar].present?
+
+    [permitted, remove_avatar]
   end
 
   def deletion_params
