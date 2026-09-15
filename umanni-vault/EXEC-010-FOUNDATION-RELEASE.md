@@ -11,7 +11,7 @@
 - Spec: `umanni-vault/specs/010-foundation-release/`.
 - PR de preparação: [#13](https://github.com/douglasfeitosag/Umanni/pull/13), base `main`, label `documentation`, Douglas responsável, milestone 0.2.0.
 - Commit inicial de planejamento: `13b5784` (`docs: plan foundation 0.2.0 release`).
-- Estado atual: a primeira revisão independente do planejamento encontrou três lacunas fail-safe no quickstart e reclassificou o achado histórico do PR #12 como falso positivo. A correção documental está preparada para novo HEAD e nova revisão independente; o aceite não será herdado. Não existem tag/release `v0.2.0`; milestone 0.2.0 permanece aberto e inclui este PR em andamento.
+- Estado atual: a primeira revisão independente do planejamento encontrou três lacunas fail-safe no quickstart e reclassificou o achado histórico do PR #12 como falso positivo. A revisão do HEAD corretivo `310520e3ceedf47c922aae80d72a34cde54bda53` aceitou e resolveu exclusivamente as quatro threads originais, mas abriu `FND-REL-005`; a segunda correção está preparada para novo HEAD e nova revisão independente, sem herdar aceite. Não existem tag/release `v0.2.0`; milestone 0.2.0 permanece aberto e inclui este PR em andamento.
 
 ## Resultado do gate inicial
 
@@ -104,6 +104,12 @@ Validações não mutantes executadas sobre o quickstart corretivo:
 | Whitespace e escopo | `git diff --check`: 0; somente quickstart e este EXEC |
 
 A nova revisão deve acontecer no HEAD remoto produzido por esta correção. O resultado final, os replies e as resoluções ficam registrados no PR para não criar um commit autorreferencial depois do aceite.
+
+## Revisão do HEAD 310520e e FND-REL-005
+
+A revisora independente foi convocada em contexto novo com configuração `gpt-5.6-luna`/`high`; seu runtime declarou GPT-5, variante exata não exposta. Ela reconfirmou o HEAD remoto `310520e3ceedf47c922aae80d72a34cde54bda53`, aceitou formalmente `FOUNDATION-REVIEW-001` como falso positivo, aceitou as correções `FND-REL-002`/`003`/`004` e resolveu exclusivamente essas quatro threads. Em seguida publicou [FND-REL-005](https://github.com/douglasfeitosag/Umanni/pull/13#discussion_r4014508091), `review-ledger=failure` no HEAD exato e manteve `changes-requested`; `spec-reviewed` não foi aplicado.
+
+`FND-REL-005` identificou que `targetCommitish` era coletado, mas não comparado ao `merge_sha` antes do fechamento do milestone. A correção acrescenta `--target "$merge_sha"` à criação da release e exige executavelmente `targetCommitish == merge_sha` na validação imediatamente anterior ao fechamento. A mesma asserção é repetida na verificação final. Fixtures JSON com alvo igual e divergente confirmaram, respectivamente, aceite e bloqueio; sintaxe shell, `setup-plan`, `setup-tasks`, `check-prerequisites`, análise cruzada, `git diff --check` e escopo documental foram revalidados antes da publicação do novo HEAD.
 
 ## Limites e parada
 

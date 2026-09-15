@@ -345,14 +345,16 @@ require_remote_annotated_tag "$merge_sha"
 require_release_absent
 
 gh release create v0.2.0 --repo douglasfeitosag/Umanni --verify-tag \
-  --title "Umanni 0.2.0" --notes-file umanni-vault/releases/0.2.0.md
+  --target "$merge_sha" --title "Umanni 0.2.0" \
+  --notes-file umanni-vault/releases/0.2.0.md
 
 published_release_json=$(gh release view v0.2.0 \
   --repo douglasfeitosag/Umanni \
   --json name,tagName,isDraft,isPrerelease,targetCommitish,url,publishedAt)
-printf '%s\n' "$published_release_json" | jq -e '
+printf '%s\n' "$published_release_json" | jq -e --arg merge_sha "$merge_sha" '
   .name == "Umanni 0.2.0" and .tagName == "v0.2.0" and
   .isDraft == false and .isPrerelease == false and
+  .targetCommitish == $merge_sha and
   (.url | type == "string" and length > 0) and
   (.publishedAt | type == "string" and length > 0)
 ' >/dev/null
@@ -374,8 +376,16 @@ test "$(git rev-parse HEAD)" = "$merge_sha"
 test "$(git rev-parse origin/main)" = "$merge_sha"
 require_remote_annotated_tag "$merge_sha"
 
-gh release view v0.2.0 --repo douglasfeitosag/Umanni \
+final_release_json=$(gh release view v0.2.0 --repo douglasfeitosag/Umanni \
   --json name,tagName,isDraft,isPrerelease,targetCommitish,url,publishedAt
+)
+printf '%s\n' "$final_release_json" | jq -e --arg merge_sha "$merge_sha" '
+  .name == "Umanni 0.2.0" and .tagName == "v0.2.0" and
+  .isDraft == false and .isPrerelease == false and
+  .targetCommitish == $merge_sha and
+  (.url | type == "string" and length > 0) and
+  (.publishedAt | type == "string" and length > 0)
+' >/dev/null
 gh api repos/douglasfeitosag/Umanni/milestones/3
 gh issue view 9 --repo douglasfeitosag/Umanni --json state,milestone
 git status --short --branch
