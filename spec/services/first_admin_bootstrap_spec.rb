@@ -26,7 +26,8 @@ RSpec.describe FirstAdminBootstrap do
   end
 
   it "US6.2 leaves an existing administrator untouched without credential variables" do
-    admin = User.create!(full_name: "Existing Admin", email: "admin@example.com", role: :admin, password: "uma frase segura")
+    admin = User.create!(full_name: "Existing Admin", email: "admin@example.com", role: :admin,
+                         password: "uma frase segura")
     env = valid_env.except("UMANNI_BOOTSTRAP_FULL_NAME", "UMANNI_BOOTSTRAP_EMAIL", "UMANNI_BOOTSTRAP_PASSWORD")
 
     expect(described_class.call(env:, environment: "development")).to eq(:already_exists)
@@ -40,8 +41,8 @@ RSpec.describe FirstAdminBootstrap do
     error = begin
       described_class.call(env: valid_env, environment: "production")
       nil
-    rescue FirstAdminBootstrap::ConfigurationError => exception
-      exception
+    rescue FirstAdminBootstrap::ConfigurationError => e
+      e
     end
     expect(error.message).to include("development")
     expect(error.message).not_to include(password)

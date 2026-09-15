@@ -34,6 +34,16 @@ RSpec.describe LastAdminMutation do
     expect(User.admin.count).to eq(1)
   end
 
+  it "returns validation errors under their original fields without mutating the user" do
+    user = create_admin("one@example.com")
+
+    result = described_class.update(user, email: "invalid")
+
+    expect(result).to be_failure
+    expect(result.errors).to include(email: include("não é válido"))
+    expect(user.reload.email).to eq("one@example.com")
+  end
+
   private
 
   def create_admin(email)

@@ -22,7 +22,9 @@ RSpec.describe "Avatar uploads", type: :request do
     sign_in(user)
 
     valid_images.each do |filename, content_type, bytes|
-      patch "/profile", params: { profile: { full_name: user.full_name, email: user.email, avatar: upload(filename, content_type, bytes) } }, headers: inertia_headers
+      profile = { full_name: user.full_name, email: user.email, avatar: upload(filename, content_type, bytes) }
+      patch "/profile",
+            params: { profile: }, headers: inertia_headers
       expect(response).to redirect_to("/profile")
       expect(user.reload.avatar).to be_attached
       expect(user.avatar.filename.to_s).to eq(filename)
@@ -39,11 +41,12 @@ RSpec.describe "Avatar uploads", type: :request do
       upload("avatar.svg", "image/svg+xml", "<svg><script>alert(1)</script></svg>"),
       upload("avatar.png", "image/png", "not an image"),
       upload("avatar.jpg", "image/jpeg", "malformed"),
-      upload("large.png", "image/png", "\x89PNG\r\n\x1A\n" + ("a" * (5.megabytes + 1)))
+      upload("large.png", "image/png", "\x89PNG\r\n\x1A\n#{'a' * (5.megabytes + 1)}")
     ]
 
     invalid_files.each do |file|
-      patch "/profile", params: { profile: { full_name: user.full_name, email: user.email, avatar: file } }, headers: inertia_headers
+      patch "/profile", params: { profile: { full_name: user.full_name, email: user.email, avatar: file } },
+                        headers: inertia_headers
       expect(response).to have_http_status(:unprocessable_content)
       expect(user.reload.avatar.blob.id).to eq(original_blob_id)
     end
@@ -55,7 +58,9 @@ RSpec.describe "Avatar uploads", type: :request do
     original_blob_id = user.avatar.blob.id
     sign_in(user)
 
-    patch "/profile", params: { profile: { full_name: user.full_name, email: user.email, avatar: upload("new.png", "image/png", valid_images.fetch(1).last), remove_avatar: "1" } }, headers: inertia_headers
+    profile = { full_name: user.full_name, email: user.email,
+                avatar: upload("new.png", "image/png", valid_images.fetch(1).last), remove_avatar: "1" }
+    patch "/profile", params: { profile: }, headers: inertia_headers
 
     expect(response).to have_http_status(:unprocessable_content)
     expect(user.reload.avatar.blob.id).to eq(original_blob_id)
@@ -66,7 +71,8 @@ RSpec.describe "Avatar uploads", type: :request do
   def valid_images
     [
       ["avatar.jpg", "image/jpeg", "\xFF\xD8\xFF\xE0\x00\x10JFIF\x00\x01\xFF\xD9".b],
-      ["avatar.png", "image/png", Base64.decode64("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAusB9Wl2nWQAAAAASUVORK5CYII=")],
+      ["avatar.png", "image/png",
+       Base64.decode64("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAusB9Wl2nWQAAAAASUVORK5CYII=")],
       ["avatar.webp", "image/webp", "RIFF\x16\x00\x00\x00WEBPVP8 \x0A\x00\x00\x00\x2F\x00\x00\x00\x00\x00\x00\x00".b]
     ]
   end

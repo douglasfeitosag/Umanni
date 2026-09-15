@@ -11,6 +11,7 @@ if (e2eDatabaseUrl.pathname !== '/umanni_test') throw new Error('Expected dedica
 e2eDatabaseUrl.pathname = '/umanni_e2e'
 
 export default defineConfig({
+  globalSetup: './spec/e2e/global-setup.ts',
   testDir: './spec/e2e',
   fullyParallel: true,
   forbidOnly: true,

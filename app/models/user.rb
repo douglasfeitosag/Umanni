@@ -7,6 +7,7 @@ class User < ApplicationRecord
 
   has_secure_password validations: false
   attr_accessor :password_required
+
   has_many :sessions, dependent: :destroy
   has_one_attached :avatar
 
@@ -17,6 +18,7 @@ class User < ApplicationRecord
   validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }, uniqueness: { case_sensitive: false }
   validates :password, confirmation: true, if: -> { password.present? }
   validates :password, presence: true, if: :password_required
+  validates :password_confirmation, presence: true, if: :password_required
   validate :password_policy, if: -> { password.present? }
   validate :avatar_is_safe
 
@@ -25,7 +27,10 @@ class User < ApplicationRecord
   after_destroy_commit :disconnect_and_invalidate
 
   def avatar_url
-    Rails.application.routes.url_helpers.rails_blob_path(avatar.blob, only_path: true) if avatar.attached? && avatar.blob.persisted?
+    return unless avatar.attached? && avatar.blob.persisted?
+
+    Rails.application.routes.url_helpers.rails_blob_path(avatar.blob,
+                                                         only_path: true)
   end
 
   private

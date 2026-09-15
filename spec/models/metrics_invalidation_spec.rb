@@ -14,7 +14,8 @@ RSpec.describe "Metrics invalidation", type: :model do
       user.update!(full_name: "Renamed")
       user.update!(role: :admin)
       user.destroy!
-    end.to have_broadcasted_to("dashboard_metrics").with(type: "dashboard.metrics.changed", schemaVersion: 1).exactly(3).times
+    end.to have_broadcasted_to("dashboard_metrics").with(type: "dashboard.metrics.changed",
+                                                         schemaVersion: 1).exactly(3).times
   end
 
   it "does not broadcast a rolled-back creation" do

@@ -5,7 +5,7 @@ import { createConsumer } from '@rails/actioncable'
 import { useDashboardMetrics } from './useDashboardMetrics'
 
 const unsubscribe = vi.fn()
-let callbacks: { connected?: () => void; received?: (payload: unknown) => void } = {}
+let callbacks: { connected?: () => void; received?: (payload: unknown) => void; rejected?: () => void } = {}
 
 vi.mock('@rails/actioncable', () => ({
   createConsumer: vi.fn(() => ({
@@ -34,6 +34,7 @@ describe('useDashboardMetrics', () => {
     act(() => finish?.())
     act(() => callbacks.received?.({ type: 'unknown', schemaVersion: 1 }))
     expect(router.reload).toHaveBeenCalledTimes(2)
+    act(() => callbacks.rejected?.())
 
     unmount()
     expect(unsubscribe).toHaveBeenCalledOnce()

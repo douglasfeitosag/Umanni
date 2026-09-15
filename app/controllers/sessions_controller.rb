@@ -14,12 +14,13 @@ class SessionsController < ApplicationController
       start_new_session_for(user)
       redirect_to(user.admin? ? admin_dashboard_path : profile_path)
     else
-      render inertia: "Auth/SignIn", props: { errors: { credentials: "E-mail ou senha inválidos." } }, status: :unprocessable_content
+      render inertia: "Auth/SignIn", props: { errors: { credentials: "E-mail ou senha inválidos." } },
+             status: :unprocessable_content
     end
   end
 
   def destroy
     terminate_session
-    redirect_to sign_in_path, status: :see_other, notice: "Sessão encerrada."
+    redirect_to sign_in_path, status: :see_other, notice: t("notices.session_destroyed")
   end
 end

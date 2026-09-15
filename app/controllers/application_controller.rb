@@ -32,4 +32,8 @@ class ApplicationController < ActionController::Base
   rescue IOError, SystemCallError
     "não pôde ser validado"
   end
+
+  def error_props(record)
+    record.errors.to_hash(true).transform_values(&:to_sentence)
+  end
 end

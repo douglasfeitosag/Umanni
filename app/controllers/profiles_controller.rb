@@ -17,14 +17,11 @@ class ProfilesController < ApplicationController
       return render_profile_edit(errors: { avatar: upload_error })
     end
 
-    if Current.user.update(attributes)
-      Current.user.avatar.purge if remove_avatar
-      redirect_to profile_path, notice: "Perfil atualizado."
-    else
-      render_profile_edit(errors: Current.user.errors.to_hash)
-    end
+    return finish_update(remove_avatar) if Current.user.update(attributes)
+
+    render_profile_edit(errors: error_props(Current.user))
   rescue ActiveRecord::RecordNotUnique
-    render_profile_edit(errors: { email: ["já está em uso"] })
+    render_profile_edit(errors: { email: "já está em uso" })
   end
 
   def destroy
@@ -38,10 +35,7 @@ class ProfilesController < ApplicationController
     result = LastAdminMutation.destroy(Current.user)
     return render_last_admin_error(result.error) if result.failure?
 
-    Current.session = nil
-    reset_session
-    cookies.delete(:session_id)
-    redirect_to sign_in_path, status: :see_other, notice: "Conta excluída."
+    finish_destroy
   end
 
   private
@@ -69,6 +63,19 @@ class ProfilesController < ApplicationController
   end
 
   def render_profile_edit(errors:)
-    render inertia: "Profile/Edit", props: { profile: user_props(Current.user), errors: }, status: :unprocessable_content
+    render inertia: "Profile/Edit", props: { profile: user_props(Current.user), errors: },
+           status: :unprocessable_content
+  end
+
+  def finish_update(remove_avatar)
+    Current.user.avatar.purge if remove_avatar
+    redirect_to profile_path, notice: t("notices.profile_updated")
+  end
+
+  def finish_destroy
+    Current.session = nil
+    reset_session
+    cookies.delete(:session_id)
+    redirect_to sign_in_path, status: :see_other, notice: t("notices.account_deleted")
   end
 end

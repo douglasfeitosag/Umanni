@@ -1,9 +1,11 @@
-class Admin::BaseController < ApplicationController
-  before_action :require_admin
+module Admin
+  class BaseController < ApplicationController
+    before_action :require_admin
 
-  private
+    private
 
-  def require_admin
-    head :forbidden unless UserPolicy.new(Current.user).administer?
+    def require_admin
+      head :forbidden unless UserPolicy.new(Current.user).administer?
+    end
   end
 end

@@ -15,7 +15,8 @@ RSpec.describe "Identity access security", type: :request do
 
   it "treats SQL injection text as inert credentials and uses a neutral response" do
     without_forgery_protection do
-      post "/session", params: { session: { email: "' OR 1=1 --", password: "uma frase segura" } }, headers: inertia_headers
+      post "/session", params: { session: { email: "' OR 1=1 --", password: "uma frase segura" } },
+                       headers: inertia_headers
     end
 
     expect(response).to have_http_status(:unprocessable_content)
@@ -61,9 +62,14 @@ RSpec.describe "Identity access security", type: :request do
         -> { get "/admin/users/new", headers: inertia_headers },
         -> { get "/admin/users/#{target.id}", headers: inertia_headers },
         -> { get "/admin/users/#{target.id}/edit", headers: inertia_headers },
-        -> { post "/admin/users", params: { admin_user: valid_registration.merge(role: "admin") }, headers: inertia_headers },
+        lambda {
+          post "/admin/users", params: { admin_user: valid_registration.merge(role: "admin") }, headers: inertia_headers
+        },
         -> { patch "/admin/users/#{target.id}", params: { admin_user: { role: "admin" } }, headers: inertia_headers },
-        -> { delete "/admin/users/#{target.id}", params: { deletion: { confirmation: "EXCLUIR" } }, headers: inertia_headers }
+        lambda {
+          delete "/admin/users/#{target.id}", params: { deletion: { confirmation: "EXCLUIR" } },
+                                              headers: inertia_headers
+        }
       ]
       requests.each do |request|
         request.call
@@ -78,7 +84,8 @@ RSpec.describe "Identity access security", type: :request do
   private
 
   def valid_registration
-    { full_name: "New User", email: "new@example.com", password: "uma frase segura", password_confirmation: "uma frase segura" }
+    { full_name: "New User", email: "new@example.com", password: "uma frase segura",
+      password_confirmation: "uma frase segura" }
   end
 
   def create_user(full_name: "Ana Silva", email: "ana@example.com")

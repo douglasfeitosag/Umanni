@@ -5,7 +5,7 @@ test('opens the sign-in page and performs an Inertia visit', async ({ page }) =>
   page.on('pageerror', error => errors.push(error.message))
   page.on('console', message => { if (message.type() === 'error') errors.push(message.text()) })
   await page.goto('/')
-  await expect(page).toHaveTitle('Umanni')
+  await expect(page).toHaveTitle('Entrar · Umanni')
   await expect(page.locator('html')).toHaveAttribute('lang', 'pt-BR')
   await expect(page.getByRole('heading', { name: 'Entre na sua conta', level: 1 })).toBeVisible()
   const visit = page.waitForResponse(response => response.request().headers()['x-inertia'] === 'true')

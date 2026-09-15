@@ -18,7 +18,9 @@ RSpec.describe "Profile and administration", type: :request do
     user = create_user
     sign_in(user)
 
-    patch "/profile", params: { profile: { full_name: "Ana Atualizada", email: "nova@example.com", role: "admin", password: "senha substituta" } }, headers: inertia_headers
+    profile = { full_name: "Ana Atualizada", email: "nova@example.com",
+                role: "admin", password: "senha substituta" }
+    patch "/profile", params: { profile: }, headers: inertia_headers
 
     expect(response).to redirect_to("/profile")
     expect(user.reload).to have_attributes(full_name: "Ana Atualizada", email: "nova@example.com", role: "regular")
@@ -43,11 +45,14 @@ RSpec.describe "Profile and administration", type: :request do
     admin = create_user(email: "admin@example.com", role: :admin)
     sign_in(admin)
 
-    post "/admin/users", params: { admin_user: { full_name: "Bruno Lima", email: "bruno@example.com", role: "regular", password: "senha inicial segura", password_confirmation: "senha inicial segura" } }, headers: inertia_headers
+    admin_user = { full_name: "Bruno Lima", email: "bruno@example.com", role: "regular",
+                   password: "senha inicial segura", password_confirmation: "senha inicial segura" }
+    post "/admin/users", params: { admin_user: }, headers: inertia_headers
     created = User.find_by!(email: "bruno@example.com")
     expect(response).to redirect_to("/admin/users")
 
-    patch "/admin/users/#{created.id}", params: { admin_user: { full_name: "Bruno Novo", role: "admin", password: "senha forjada nova" } }, headers: inertia_headers
+    admin_user = { full_name: "Bruno Novo", role: "admin", password: "senha forjada nova" }
+    patch "/admin/users/#{created.id}", params: { admin_user: }, headers: inertia_headers
     expect(response).to redirect_to("/admin/users")
     expect(created.reload).to have_attributes(full_name: "Bruno Novo", role: "admin")
     expect(created.authenticate("senha inicial segura")).to be_truthy
@@ -65,7 +70,9 @@ RSpec.describe "Profile and administration", type: :request do
     expect(response).to have_http_status(:forbidden)
     get "/admin/users", headers: inertia_headers
     expect(response).to have_http_status(:forbidden)
-    post "/admin/users", params: { admin_user: { full_name: "Forged", email: "forged@example.com", role: "admin", password: "senha forjada segura" } }, headers: inertia_headers
+    admin_user = { full_name: "Forged", email: "forged@example.com",
+                   role: "admin", password: "senha forjada segura" }
+    post "/admin/users", params: { admin_user: }, headers: inertia_headers
     expect(response).to have_http_status(:forbidden)
     patch "/admin/users/#{target.id}", params: { admin_user: { role: "admin" } }, headers: inertia_headers
     expect(response).to have_http_status(:forbidden)
@@ -73,6 +80,36 @@ RSpec.describe "Profile and administration", type: :request do
     expect(response).to have_http_status(:forbidden)
     expect(target.reload).to be_regular
     expect(User.where(email: "forged@example.com")).not_to exist
+  end
+
+  it "US4.3 renders the last-admin invariant as a recoverable field error" do
+    admin = create_user(email: "admin@example.com", role: :admin)
+    sign_in(admin)
+
+    admin_user = { full_name: admin.full_name, email: admin.email, role: "regular" }
+    patch "/admin/users/#{admin.id}", params: { admin_user: }, headers: inertia_headers
+    expect(response).to have_http_status(:unprocessable_content)
+    expect(response.parsed_body.dig("props", "errors", "role")).to include("administrador")
+    expect(admin.reload).to be_admin
+
+    delete "/profile", params: { deletion: { confirmation: "EXCLUIR" } }, headers: inertia_headers
+    expect(response).to have_http_status(:unprocessable_content)
+    expect(response.parsed_body.dig("props", "errors", "confirmation")).to include("administrador")
+    expect(admin.reload).to be_persisted
+  end
+
+  it "keeps administrative validation errors attached to their original field" do
+    admin = create_user(email: "admin@example.com", role: :admin)
+    target = create_user(email: "target@example.com")
+    sign_in(admin)
+
+    admin_user = { full_name: target.full_name, email: "invalid", role: target.role }
+    patch "/admin/users/#{target.id}", params: { admin_user: }, headers: inertia_headers
+
+    expect(response).to have_http_status(:unprocessable_content)
+    expect(response.parsed_body.dig("props", "errors", "email")).to include("não é válido")
+    expect(response.parsed_body.dig("props", "errors")).not_to have_key("role")
+    expect(target.reload.email).to eq("target@example.com")
   end
 
   private
