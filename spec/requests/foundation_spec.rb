@@ -21,9 +21,9 @@ RSpec.describe "Foundation", type: :request do
     expect(response).to have_http_status(:ok)
     expect(response.headers["X-Inertia"]).to eq("true")
     expect(response.headers["Vary"]).to include("X-Inertia")
-    expect(response.parsed_body).to include("component" => "Foundation/Show", "url" => "/")
+    expect(response.parsed_body).to include("component" => "Auth/SignIn", "url" => "/")
     expect(response.parsed_body.fetch("props")).to eq(
-      "app" => { "name" => "Umanni", "version" => "0.2.0" }, "errors" => {}
+      "auth" => { "user" => nil }, "errors" => {}, "flash" => {}
     )
     expect(response.parsed_body.fetch("version")).to be_present
   end
@@ -56,6 +56,6 @@ RSpec.describe "Foundation", type: :request do
     get "/"
 
     expect(response).to have_http_status(:ok)
-    expect(response.body).to include('lang="pt-BR"', "Umanni", "data-page", "/vite-test/")
+    expect(response.body).to include('lang="pt-BR"', "Auth/SignIn", "data-page", "/vite-test/")
   end
 end

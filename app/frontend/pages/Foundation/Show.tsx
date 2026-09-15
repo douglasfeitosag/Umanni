@@ -1,5 +1,5 @@
 import { Link } from '@inertiajs/react'
-import type { FoundationPageProps } from '../../types/foundation'
+import type { FoundationPageProps } from '../../types'
 
 export default function Show({ app }: FoundationPageProps) {
   return (
