@@ -1,8 +1,11 @@
 # Plano 013 — Identidade e acesso 0.3.0
 
-**Spec**: [spec.md](spec.md)  
-**Branch documental**: `codex/013-identity-access`  
-**Versão-alvo**: milestone `0.3.0`  
+**Spec**: [spec.md](spec.md)
+
+**Branch documental**: `codex/013-identity-access`
+
+**Versão-alvo**: milestone `0.3.0`
+
 **Base**: `4265a46a7ca5ba8e6c1af68dd3b412a7cbf536b8`
 
 ## Estratégia

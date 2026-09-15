@@ -1,9 +1,13 @@
 # Especificação 013 — Identidade e acesso 0.3.0
 
-**Branch documental**: `codex/013-identity-access`  
-**Versão-alvo**: `0.3.0` (milestone GitHub #5)  
-**Base verificada**: `origin/main` / merge do PR #15 / `4265a46a7ca5ba8e6c1af68dd3b412a7cbf536b8`  
-**Autoria da condução**: Codex, GPT-5 (variante de execução não exposta)  
+**Branch documental**: `codex/013-identity-access`
+
+**Versão-alvo**: `0.3.0` (milestone GitHub #5)
+
+**Base verificada**: `origin/main` / merge do PR #15 / `4265a46a7ca5ba8e6c1af68dd3b412a7cbf536b8`
+
+**Autoria da condução**: Codex, GPT-5 (variante de execução não exposta)
+
 **Estado**: pronto para revisão independente de planejamento
 
 ## Objetivo e valor entregue
