@@ -9,7 +9,7 @@
 - Base imutável: v0.1.0, `87e8c51894faa5794e9759b9caa5df4871d350e7`.
 - Planejamento aceito: [PR #11](https://github.com/douglasfeitosag/Umanni/pull/11), SHA `d1f3a3a349ed4a7610c4da7b170d4d2976c56691`. Branch de execução nasceu diretamente desse SHA.
 - Commits de implementação: `0738bd2` (aplicação/gates) e `90f07adc9256fb1baa1486138f71484ad8598d8b` (empacotamento/evidências). Este relatório acrescenta a correção focalizada do hostname Vite e consolida os resultados.
-- Estado: fundação implementada e validada localmente; revalidação do HEAD com correção Vite e revisão independente pendentes. **Sem aceite final ou autorização de integração.**
+- Estado: fundação implementada; código corrigido passou todos os perfis em clean-room no SHA 1cbbf83. Revisão independente pendente. **Sem aceite final ou autorização de integração.**
 
 GET `/` apresenta a página técnica Rails–Inertia/React em português, versão 0.2.0 e aviso explícito de indisponibilidade de cadastro, login e gestão de usuários. `/up`, 404, PostgreSQL primary, assets compilados, isolamento, cobertura por linguagem e Compose estão implementados. Nenhum fluxo de usuário, importação, job, Redis, e-mail, SSR, deploy, profiling, CI automático ou runner foi criado.
 
@@ -153,7 +153,7 @@ Essas mutações não foram adicionadas à aplicação nem ao protótipo. Result
 
 Proteção relida antes/depois via API: foundation-checks adicionado a review-ledger, strict=true; comparação estrutural confirmou todos os outros campos preservados, incluindo enforce_admins, conversas resolvidas e bloqueios de force-push/exclusão. São **statuses manuais por SHA**, sem workflow/runner. Primeiro SHA publicado recebeu failure pelo smoke dev; novo HEAD precisa de nova validação e nova revisão.
 
-T001–T012 concluídas. T013 tem clean-room/test/delivery comprovados e correção dev a revalidar no novo HEAD. T014 documentação consolidada. T015 PR/metadados/proteção preparados, sucesso final pendente. T016–T018 aguardam revalidação/revisora independente Luna high, que será iniciada automaticamente com contexto novo. Nenhuma revisão/aceite atribuído antes de ocorrer. T019 pertence à condutora; B001–B007 não executadas.
+T001–T015 concluídas, com validação integral de 1cbbf83 e status manual publicado. T016–T018 aguardam revisora independente Luna high, que será iniciada automaticamente com contexto novo após revalidação deste ajuste documental. Nenhuma revisão/aceite atribuído antes de ocorrer. T019 pertence à condutora; B001–B007 não executadas.
 
 Arquivos: manifestos/locks/versões, boot Rails/config/bin/db/public, frontend/contrato, specs/harness/E2E, quality configs/lib/tasks, Dockerfile/Compose/ignore/env example e README/STATUS/EXEC/research/tasks. Listagem exata no diff do PR. Branding/AGENTS/constituição/checkbox histórico preservados.
 
@@ -168,3 +168,38 @@ Somente Linux arm64 foi testado. /up verifica boot, não banco. Não há autenti
 O pipeline limpo do HEAD 70e98e4 passou (0), mas a inspeção adicional de todas as gems da imagem base encontrou debug, minitest, power_assert, test-unit e typeprof herdadas de Ruby. O teste anterior verificava somente as gems carregadas pelo bundle e era insuficiente para essa parte do contrato. A asserção de inventário completo falhou (1); essas ferramentas foram removidas exclusivamente no stage production. foundation-checks desse HEAD recebeu failure até revalidação. Nenhuma versão central alterada.
 
 A primeira remoção das gems herdadas falhou no build de 6ceb4e7 (1): elas ficam em /usr/local/lib/ruby/gems/4.0.0, não em GEM_HOME. Corrigido --install-dir explicitamente. Também foram removidos os caches de arquivos .gem (112 entradas observadas antes). Build corrigido **0**, inventário de todas as gems herdadas **0**, caches **0 entradas**, UID1000, boot saudável e smoke desktop/mobile **0**. Imagem local `sha256:91115f3af4c22191563854872dd9ab1d5d30b995d04187d6f8ff4983d21e28c5`. Próximo HEAD será validado em cópia limpa antes de foundation-checks=success.
+
+## Resultado integral de 1cbbf83 — 2026-09-15
+
+SHA `1cbbf83f3a09763239d04e150a8d1d173fc6d639`, checkout separado limpo, projeto umanni-exec009-1cbbf83. Repetida integralmente a sequência Compose de test/delivery/dev: config, build, banco novo, bin/check, db:prepare production, boot/health, curls, smoke navegador e inventário completo. Todos **0**. Imagem `sha256:55544f04cb9d8778646ac4b80816db937c030c8214476ab91b5ac86fe3537fc0`, Linux arm64, UID1000. As ferramentas herdadas e caches de gems agora estão ausentes, comprovados por inventário antes de Bundler e do bundle de produção; o boot continua válido.
+
+9 exemplos RSpec/2 processos, 2 testes Vitest, 12 cenários Playwright; mesmos denominadores Ruby7/7 e TS1/1. Dev: Vite client/entrypoint200, h1/aviso/Link no navegador do Mac e nenhum log error/warn. A cópia permaneceu com git status --porcelain vazio. foundation-checks=success publicado **somente nesse SHA**, com comentário de evidência no [PR12](https://github.com/douglasfeitosag/Umanni/pull/12).
+
+Observações completas dessa execução:
+
+```json
+[
+  {
+    "run_id": "13730230-a57d-4a53-82e6-acc4d0820be2",
+    "sha": "1cbbf83f3a09763239d04e150a8d1d173fc6d639",
+    "worker": "2",
+    "test_env_number": "2",
+    "expected_marker": "13730230-a57d-4a53-82e6-acc4d0820be2:2:b2804c336d89754b69a6cbc6",
+    "database": "umanni_test2",
+    "observed_marker": "13730230-a57d-4a53-82e6-acc4d0820be2:2:b2804c336d89754b69a6cbc6",
+    "success": true
+  },
+  {
+    "run_id": "13730230-a57d-4a53-82e6-acc4d0820be2",
+    "sha": "1cbbf83f3a09763239d04e150a8d1d173fc6d639",
+    "worker": "1",
+    "test_env_number": "",
+    "expected_marker": "13730230-a57d-4a53-82e6-acc4d0820be2:1:a59cee2cc55ec02d10174957",
+    "database": "umanni_test",
+    "observed_marker": "13730230-a57d-4a53-82e6-acc4d0820be2:1:a59cee2cc55ec02d10174957",
+    "success": true
+  }
+]
+```
+
+Este commit documental será novamente validado; o registro por SHA no PR complementa o relatório sem presumir herança de status. Revisora ainda não publicou aceite.

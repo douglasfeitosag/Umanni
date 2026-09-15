@@ -34,9 +34,9 @@ Objetivo: qualidade e isolamento comprovados. Teste independente: BDD05–07.
 Objetivo: clean-room e entrega auditável. Teste independente: BDD08–09.
 
 - [x] T012 [US3] Criar `Dockerfile`, `compose.yaml`, `.dockerignore`, `.env.example` e ajustes dirigidos em `.gitignore` conforme environment.md; stages tooling/build/production, digests fixados, dev/vite/verify/web/db, usuário não root, Thruster/Puma e readiness; nenhuma chave embutida. FR004/007.
-- [ ] T013 [US3] Executar BDD08 em cópia limpa do SHA, executar `bin/check` via tooling, build/run da imagem final, verificar /up, página/assets/404, db:prepare e non-root; registrar comandos, versões, arquitetura, contagens e cobertura em `umanni-vault/EXEC-009-FOUNDATION-APP.md`. FR003/005/006/007.
-- [ ] T014 [US3] Atualizar `README.md` em inglês com build/seed(no-op)/run/check comprovados, configuração local e IA efetivamente usada; atualizar `umanni-vault/STATUS.md` e EXEC sem chamar a fundação de gestão de usuários concluída. FR008.
-- [ ] T015 [US3] Publicar commits coesos/PR no milestone0.2.0 com label e Douglas responsável; confirmar SHA testado, publicar foundation-checks e preservar/provar proteção conforme `contracts/quality.md`; registrar BDD09 e metadados no PR/EXEC. FR008.
+- [x] T013 [US3] Executar BDD08 em cópia limpa do SHA, executar `bin/check` via tooling, build/run da imagem final, verificar /up, página/assets/404, db:prepare e non-root; registrar comandos, versões, arquitetura, contagens e cobertura em `umanni-vault/EXEC-009-FOUNDATION-APP.md`. FR003/005/006/007.
+- [x] T014 [US3] Atualizar `README.md` em inglês com build/seed(no-op)/run/check comprovados, configuração local e IA efetivamente usada; atualizar `umanni-vault/STATUS.md` e EXEC sem chamar a fundação de gestão de usuários concluída. FR008.
+- [x] T015 [US3] Publicar commits coesos/PR no milestone0.2.0 com label e Douglas responsável; confirmar SHA testado, publicar foundation-checks e preservar/provar proteção conforme `contracts/quality.md`; registrar BDD09 e metadados no PR/EXEC. FR008.
 
 ## Fase 6 — Revisão / destino 0.2.0
 
