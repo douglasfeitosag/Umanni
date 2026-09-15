@@ -1,5 +1,7 @@
 ### AI Usage Disclosure
 
+The identity and access implementation for the 0.3.0 candidate used Codex, identified as GPT-5 without an exposed exact runtime variant. Its independent final review is not credited here until it is actually completed and recorded on the implementation pull request.
+
 The foundation implementation used Codex, identified as GPT-6 without an exposed exact runtime variant. Independent implementation review was dispatched in a fresh context with `gpt-5.6-luna`/high configured. The reviewer reported a GPT-5 runtime identity without an exposed exact variant; the corrected implementation was independently accepted; exact review and validation SHAs are recorded on PR #12.
 
 Foundation planning used Codex, identified by its environment as GPT-6 without an exposed exact runtime variant, including a separate read-only research agent. Review identities are recorded on the planning PR. The documentation baseline used Codex, identified in that session as based on GPT-6; its precise runtime variant was not exposed. Branding planning and prototype coordination used `gpt-5.6-sol` with medium reasoning, as configured for those sessions. A delegated `gpt-5.6-terra` high-reasoning executor implemented the prototype state core and tests. Exact final-review identities and contributions are recorded in the corresponding execution reports and pull requests; no unperformed reviewer is credited.
@@ -10,7 +12,7 @@ A user-management application being prepared for the [Umanni Fullstack Developer
 
 ## Delivery status
 
-The initial documentation and static branding archive are available, together with a browser-only visual prototype using fictional data. Open [the visual archive](branding/hub/index.html) or follow [the prototype run instructions](branding/prototype/README.md). The **0.2.0 foundation** was implemented in [PR #12](https://github.com/douglasfeitosag/Umanni/pull/12), integrated through the reviewed closure in [PR #13](https://github.com/douglasfeitosag/Umanni/pull/13), and published as [Umanni 0.2.0](https://github.com/douglasfeitosag/Umanni/releases/tag/v0.2.0). It includes the technical page, isolated tests, development profile and production image. An explicitly approved json 2.21.2 pin resolves the Rails 8.1.3.1 session compatibility issue. Signup, login and user management remain unavailable. See the [execution report](umanni-vault/EXEC-009-FOUNDATION-APP.md) and the PR's exact-SHA statuses for validation results and limitations. No application CI workflow or production runner has been implemented.
+The initial documentation and static branding archive are available, together with a browser-only visual prototype using fictional data. Open [the visual archive](branding/hub/index.html) or follow [the prototype run instructions](branding/prototype/README.md). The **0.2.0 foundation** was implemented in [PR #12](https://github.com/douglasfeitosag/Umanni/pull/12), integrated through the reviewed closure in [PR #13](https://github.com/douglasfeitosag/Umanni/pull/13), and published as [Umanni 0.2.0](https://github.com/douglasfeitosag/Umanni/releases/tag/v0.2.0). The current **0.3.0 candidate branch** adds registration, role-aware sessions, self-service profiles, administrator user management, guarded avatar uploads, first-administrator bootstrap and live dashboard totals. It is not released or merged. See [EXEC-013](umanni-vault/EXEC-013-IDENTITY-ACCESS.md) for its evidence and current review state. No application CI workflow or production runner has been implemented.
 
 The first documented project milestone is version **0.1.0**. See the [changelog](CHANGELOG.md) and the [0.1.0 release notes](umanni-vault/releases/0.1.0.md) for its exact contents and exclusions. This is a pre-application release: it packages the governed documentation, verified static identity, visual reference hub and disposable prototype, not a production-ready system.
 
@@ -38,7 +40,7 @@ The original target date was September 11, 2026, end of day in America/Sao_Paulo
 
 The exact versions and coverage policy used by 0.2.0 are recorded in the [foundation plan](umanni-vault/specs/008-foundation-plan/plan.md), with [research](umanni-vault/specs/008-foundation-plan/research.md), [contracts](umanni-vault/specs/008-foundation-plan/contracts/quality.md) and [tasks](umanni-vault/specs/008-foundation-plan/tasks.md). Planning was independently accepted at PR #11 HEAD `d1f3a3a349ed4a7610c4da7b170d4d2976c56691`; implementation and review are recorded in PR #12, and the integrated release closure is recorded in PR #13. The architecture is a Rails MVC monolith organized by feature, with application services for multi-step operations; see [ADR-001](umanni-vault/08-ARQUITETURA-PROPOSTA.md).
 
-## Run the foundation locally
+## Run the application locally
 
 Requirements: a local Docker Engine with Compose. The verified target is Linux arm64 on macOS; amd64 is declared by the image manifests but has not been tested. Host Ruby and Node are not used. Edit files on the Mac; run the pinned tooling in containers.
 
@@ -66,7 +68,7 @@ curl --fail http://127.0.0.1:3030/up
 curl --fail http://127.0.0.1:3030/
 ```
 
-Open <http://localhost:3030>. The page is in Portuguese and states that signup, login, and user management are unavailable. `/up` checks application boot; it does not check database connectivity. The schema has no business tables and `db:seed` is intentionally a no-op. Production assets are compiled into the non-root image; no Vite development server is needed.
+Open <http://localhost:3030>. The interface is in Portuguese. Visitors can register as regular users and then manage their own profile. Administrators can manage users and roles and see live totals. `/up` checks application boot; it does not check database connectivity. Production assets are compiled into the non-root image; no Vite development server is needed.
 
 For local development, stop delivery first because both profiles publish port 3030:
 
@@ -78,6 +80,20 @@ docker compose -p umanni-foundation --profile dev up dev vite
 ```
 
 Use <http://localhost:3030> for the development profile; its Vite/HMR origin is `localhost:3036`. Only the checkout is bind-mounted. Dependencies and database storage stay in Docker. Stop this project's resources with `docker compose -p umanni-foundation --profile dev --profile test --profile delivery down`; the database volume is retained. Do not use a global Docker cleanup.
+
+Create the first local administrator only after the development database is prepared. The command accepts only a local PostgreSQL host, requires the exact database name and confirmation phrase, is idempotent, and never prints the password:
+
+```sh
+docker compose -p umanni-foundation --profile dev run --rm \
+  -e UMANNI_BOOTSTRAP_CONFIRM=CREATE_FIRST_ADMIN \
+  -e UMANNI_BOOTSTRAP_DATABASE=umanni_development \
+  -e UMANNI_BOOTSTRAP_FULL_NAME="Local Administrator" \
+  -e UMANNI_BOOTSTRAP_EMAIL="admin@example.test" \
+  -e UMANNI_BOOTSTRAP_PASSWORD="choose-a-local-password-of-at-least-12-characters" \
+  dev bin/rails umanni:bootstrap_admin
+```
+
+These values are examples for local development. Do not commit real credentials. Re-running the command leaves an existing administrator unchanged.
 
 Validation records and limitations are in [EXEC-009](umanni-vault/EXEC-009-FOUNDATION-APP.md). `foundation-checks` and `review-ledger` are manual statuses for an exact commit, not automatic CI. Integration remains Douglas's decision.
 

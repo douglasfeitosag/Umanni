@@ -1,6 +1,6 @@
 # EXEC-013 — Identidade e acesso 0.3.0
 
-**Estado**: execução retomada após autorização explícita da expansão mínima da allowlist
+**Estado**: implementação concluída; gate Compose limpo, publicação e revisão final ainda pendentes
 
 **Papel/modelo**: EXECUTORA Codex, GPT-5 (variante de execução não exposta)
 
@@ -22,7 +22,7 @@
 
 `bin/rails generate authentication` foi executado numa cópia criada por `mktemp -d`, usando Ruby 4.0.6/Rails 8.1.3.1 da imagem de tooling. O gerador propôs `User`, `Session`, `Current`, concern/controller de sessão, `PasswordsController`, views ERB de sessão/recuperação, rotas e bcrypt. A geração interrompeu a migration porque o lockfile estava congelado. Foram incorporados somente os conceitos nativos de usuário, sessão, current e cookie assinado. Recuperação de senha, e-mail, `PasswordsController` e views ERB foram descartados por D-019/D-020 e pelo fora de escopo.
 
-## Ciclos TDD executados até o bloqueio
+## Ciclos TDD executados
 
 | Incremento | RED observado | GREEN focalizado |
 | --- | --- | --- |
@@ -31,9 +31,11 @@
 | Perfil/admin/invariante | `LastAdminMutation` ausente | 6 exemplos, 0 falhas; exclusão concorrente manteve um admin |
 | Avatar | substituição inválida e combinação ambígua não eram rejeitadas | 3 exemplos, 0 falhas para JPEG/PNG/WebP, spoof/malformado/SVG/excesso e preservação |
 | Métricas/Cable | query/conexão/canal ausentes | 7 exemplos, 0 falhas para snapshot, autorização, after-commit e revogação |
-| Frontend | páginas e hook ausentes | 5 testes Vitest totais passando; TypeScript e ESLint focalizados passaram antes do bloqueio |
+| Frontend | páginas e hook ausentes | 12 testes Vitest, 0 falhas; 100% de linhas TS, TypeScript e ESLint verdes |
+| Erros administrativos | validação de e-mail aparecia incorretamente no campo de papel | 9 exemplos de serviço/request, 0 falhas; erros preservam o campo original |
+| Task pública | task sem cobertura direta | 3 exemplos, 0 falhas para criação, no-op e falha segura |
 
-Commits coesos produzidos: `ae28bc9`, `0bd07c9`, `83471a3`, `0f874ff`, `5239221` e `5805b25`.
+Commits coesos produzidos antes da consolidação final: `ae28bc9`, `0bd07c9`, `83471a3`, `0f874ff`, `5239221`, `5805b25`, `8210d44`, `9a204a3`, `0fd3df5` e `4b6a05e`.
 
 ## Bloqueio verificado e resolução autorizada
 
@@ -45,6 +47,41 @@ O plano 013 permite alterar as pastas acima, mas não incluía `Dockerfile` na s
 
 Douglas respondeu “Sim” e autorizou acrescentar `Dockerfile` à allowlist exclusivamente para copiar `app/services`, `app/queries`, `app/channels` e `lib/tasks` para a imagem final. A alteração não muda stack, deploy, Kamal ou os demais estágios. E011–E018 e os gates/revisão foram retomados sob esse limite.
 
+## Implementação resultante
+
+- `User`, `Session` e `Current` seguem o núcleo da autenticação nativa do Rails; cookie de sessão assinado, rotação de sessão e revogação no banco protegem as rotas privadas.
+- Cadastro força `regular` no servidor. Login usa resposta neutra. Perfil nunca aceita papel ou senha. A policy do servidor nega toda a superfície `/admin` a usuários regulares.
+- `LastAdminMutation` bloqueia pessimisticamente os administradores na mesma transação antes de excluir ou rebaixar; as falhas retornam ao campo correto sem mutação parcial.
+- `FirstAdminBootstrap` funciona somente em development/PostgreSQL local, exige confirmação e banco exatos, recebe segredo apenas por ambiente e usa advisory transaction lock `130013`.
+- Active Storage aceita somente JPEG/PNG/WebP detectados, até 5 MiB; SVG, spoof, conteúdo malformado, excesso e upload+remoção ambíguos são recusados com preservação do avatar anterior.
+- `DashboardMetricsQuery` calcula total e papéis numa agregação. O payload Cable é somente `{type: "dashboard.metrics.changed", schemaVersion: 1}`; o cliente refaz partial reload autorizado, coalesce rajadas e recupera após reconnect.
+- Logout, exclusão e rebaixamento administrativo chamam `remote_connections.where(current_user: ...).disconnect`, invalidando sockets já abertos.
+- A interface React/Inertia em português usa a identidade aprovada, tema claro, foco visível, alvos de 44 px, diálogo destrutivo com retorno de foco, tabela/cartões responsivos e fallback de avatar.
+
+## Evidência focalizada antes do gate limpo
+
+| Superfície | Comando | Resultado |
+| --- | --- | --- |
+| Ruby completo | `bundle exec rspec` | 48 exemplos, 0 falhas antes da adição da task; task isolada 3 exemplos, 0 falhas |
+| Qualidade Ruby | `bundle exec rubocop` / `bundle exec brakeman --no-pager` | 63 arquivos sem infrações; 0 alertas de segurança |
+| TypeScript | `npm exec tsc -- --noEmit` / ESLint | sucesso, zero warnings |
+| Frontend | `npm exec vitest -- run --coverage` | 12 testes; 100% linhas, 94,87% statements, 83,17% branches, 90% functions |
+| Sistema Chromium | `npm exec playwright -- test --project=chromium-desktop --workers=1` | 9 testes, 0 falhas; US1–US5, US7 e NFR combinados |
+| Cable revogado | Playwright US2/US7 com WebSocket real | sockets encerrados em logout, rebaixamento e exclusão; acesso seguinte negado |
+
+O `bin/check` foi ajustado, conforme allowlist do plano, de `spec/requests spec/integration` para `spec`, para que a agregação paralela inclua models, services, queries, channels e a task desta entrega. Resultados definitivos do Compose limpo e os percentuais Ruby serão registrados no HEAD exato após a execução do gate.
+
+## Matriz de rastreabilidade
+
+- US1.1–US1.3: `spec/requests/authentication_spec.rb`, `spec/models/user_spec.rb`, `app/frontend/pages/Auth/SignUp.test.tsx` e Playwright US1.
+- US2.1–US2.3: `spec/requests/authentication_spec.rb`, `spec/models/session_spec.rb` e Playwright US2.
+- US3.1–US3.3: `spec/requests/profile_and_admin_spec.rb`, testes de avatar/interface e Playwright US3.
+- US4.1–US4.3: requests, `spec/services/last_admin_mutation_spec.rb` concorrente e Playwright US4.
+- US5.1–US5.3: `spec/requests/avatar_spec.rb`, componentes/fallback e Playwright US5.
+- US6.1–US6.3: `spec/services/first_admin_bootstrap_spec.rb` concorrente e `spec/tasks/bootstrap_spec.rb`.
+- US7.1–US7.3: specs de query/model/channel, teste do hook e Playwright US7 com contextos e sockets reais.
+- NFR-002/NFR-003: Playwright cobre teclado, foco, janela curta, texto a 200% e reduced motion; inspeção final multibrowser permanece no gate.
+
 ## Limites preservados
 
-Nenhum merge, fechamento de PR, auto-merge, tag, release, fechamento de milestone, importação, CI/runner, e-mail, recuperação de senha ou início de 0.4.0 foi realizado. A revisão Luna final não foi iniciada porque a implementação e os gates ainda não estão completos.
+Nenhum merge, fechamento de PR, auto-merge, tag, release, fechamento de milestone, importação, CI/runner, e-mail, recuperação de senha ou início de 0.4.0 foi realizado. A revisão Luna final não foi iniciada porque o gate limpo e a publicação ainda não estão completos.
