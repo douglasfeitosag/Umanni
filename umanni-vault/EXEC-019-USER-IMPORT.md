@@ -1,6 +1,6 @@
 # EXEC-019 — Importação de usuários 0.4.0
 
-**Estado**: implementação e gates técnicos concluídos no HEAD indicado; publicação, revisão independente, integração e release ainda não ocorreram.
+**Estado**: registro histórico; o PR #27 foi revisado, integrado e publicado como 0.4.0. Ver `EXEC-020-RELEASE-0-4-0.md`.
 
 **Papel/modelo**: EXECUTORA Codex, identificada como GPT-5, sem variante exata exposta.
 
@@ -10,7 +10,7 @@
 
 **Branch**: `codex/019-user-import-app`.
 
-**PR**: [#27](https://github.com/douglasfeitosag/Umanni/pull/27), milestone aberto `0.4.0`.
+**PR**: [#27](https://github.com/douglasfeitosag/Umanni/pull/27), milestone 0.4.0 fechado.
 
 **HEAD técnico validado**: `4be48638f8d899d95456b08dffb7561b6ebd59b8`.
 
@@ -103,6 +103,10 @@ A revisão seguinte no HEAD documental `fdc676c` abriu F-019-009 a F-019-012. A 
 - As páginas seguem o layout administrativo existente, usam foco no título, mensagens associadas e controles navegáveis/responsivos; a matriz Playwright de seis perfis passou.
 - A validação ocorreu em Docker Desktop Linux arm64. A imagem declara base multi-plataforma, mas amd64 não foi executado nesta sessão.
 
-## Próxima transição obrigatória
+## Próxima transição obrigatória (registro pré-publicação)
 
-Publicar o HEAD documental final no PR #27 e solicitar à mesma revisora uma nova revisão independente do novo SHA. Somente a revisora resolve as catorze threads depois de verificar cada resposta e a reexecução dos gates. O candidato só pode seguir para integração depois de `review-ledger=success`, `code-reviewed`, checks verdes e zero threads abertas. Esta execução não cria tag, Release, merge ou fechamento de milestone.
+Publicar o HEAD documental final no PR #27 e solicitar à mesma revisora uma nova revisão independente do novo SHA. Somente a revisora resolve todas as threads depois de verificar cada resposta e a reexecução dos gates. O candidato só pode seguir para integração depois de `review-ledger=success`, `code-reviewed`, checks verdes e zero threads abertas. Esta execução não cria tag, Release, merge ou fechamento de milestone.
+
+## Encerramento posterior
+
+O registro pré-publicação acima foi satisfeito no HEAD documental `e51cff87ade2326c2e6e4608b66dc4a20bfe27e1`, aceito com `review-ledger=success`, `code-reviewed` e todas as quinze threads F-019-001 a F-019-015 resolvidas pela revisora. O PR #27 foi integrado no merge `c093b8d4c52c695e9e1e951538f044f070b2d0ef`; o preparo de release do PR #28 foi integrado em `eb73edcbab8777ec9bbf13d80d7bfc4c5cd476eb`. A tag anotada `v0.4.0` (objeto `93f8038f07403bfc5089238124f7ee5cbd9db60a`) e a Release pública apontam para esse último merge, e o milestone 0.4.0 foi fechado sem itens abertos. Ver `EXEC-020-RELEASE-0-4-0.md`.
