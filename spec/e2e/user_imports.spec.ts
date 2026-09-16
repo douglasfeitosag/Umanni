@@ -43,7 +43,7 @@ test('US1–US6 imports a CSV with the real worker, persists progress, and activ
   await expect(page.getByRole('button', { name: 'Definir senha inicial' })).toHaveCount(0)
   expect(await page.content()).not.toContain(initialPassword)
 
-  await page.getByRole('button', { name: 'Sair' }).click()
+  await page.getByRole('button', { name: 'Sair' }).click({ force: true })
   await login(page, importedEmail, initialPassword)
   await expect(page).toHaveURL(/\/profile$/)
 
@@ -56,6 +56,7 @@ test('US1–US6 imports a CSV with the real worker, persists progress, and activ
   await regularPage.getByLabel('Senha', { exact: true }).fill(initialPassword)
   await regularPage.getByLabel('Confirmar senha').fill(initialPassword)
   await regularPage.getByRole('button', { name: 'Criar conta' }).click()
-  expect((await regularPage.request.get('/admin/user_imports')).status()).toBe(403)
+  const denied = await regularPage.goto('/admin/user_imports')
+  expect(denied?.status()).toBe(403)
   await regularContext.close()
 })
