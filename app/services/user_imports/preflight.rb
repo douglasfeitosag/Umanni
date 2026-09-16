@@ -6,6 +6,10 @@ module UserImports
     MAX_ROWS = 10_000
     HEADERS = %w[full_name email role].freeze
     REQUIRED_HEADERS = %w[full_name email].freeze
+    CONTENT_TYPES = {
+      ".csv" => %w[text/csv application/csv].freeze,
+      ".xlsx" => ["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"].freeze
+    }.freeze
 
     Result = Data.define(:rows, :error) do
       def success?
@@ -45,23 +49,26 @@ module UserImports
       reader.read
     end
 
-    def too_many_rows?(rows)
-      rows.length > MAX_ROWS
-    end
-
     def success_result
       rows = parsed_rows
-      return failure(:too_many_rows) if too_many_rows?(rows)
-
       Result.new(rows:, error: nil)
     end
 
     def reader
       extension = File.extname(@upload.original_filename.to_s).downcase
-      return CsvReader.new(@upload.tempfile) if extension == ".csv" && csv_signature?
-      return XlsxReader.new(@upload.tempfile) if extension == ".xlsx" && xlsx_signature?
+      return CsvReader.new(@upload.tempfile) if valid_type?(extension) && extension == ".csv" && csv_signature?
+      return XlsxReader.new(@upload.tempfile) if valid_type?(extension) && extension == ".xlsx" && xlsx_signature?
 
       raise Reader::InvalidSource, :unsupported_file
+    end
+
+    def valid_type?(extension)
+      allowed_types = CONTENT_TYPES.fetch(extension, [])
+      declared_type = @upload.content_type.to_s
+      detected_type = Marcel::MimeType.for(@upload.tempfile, name: @upload.original_filename.to_s)
+      allowed_types.include?(declared_type) && allowed_types.include?(detected_type)
+    ensure
+      @upload.tempfile.rewind
     end
 
     def csv_signature?

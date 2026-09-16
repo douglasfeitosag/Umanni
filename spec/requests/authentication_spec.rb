@@ -110,6 +110,17 @@ RSpec.describe "Authentication", type: :request do
     expect(Session.count).to eq(0)
   end
 
+  it "US2.3 disconnects the user's open Cable connections on logout" do
+    user = create_user
+    remote = instance_double(ActionCable::RemoteConnections::RemoteConnection, disconnect: true)
+    allow(ActionCable.server.remote_connections).to receive(:where).with(current_user: user).and_return(remote)
+    post_with_csrf "/session", params: { session: { email: user.email, password: "uma frase segura" } }
+
+    delete_with_csrf "/session"
+
+    expect(remote).to have_received(:disconnect).once
+  end
+
   private
 
   def create_user(email: "ana@example.com", role: :regular)

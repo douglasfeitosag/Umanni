@@ -112,6 +112,27 @@ RSpec.describe "Profile and administration", type: :request do
     expect(target.reload.email).to eq("target@example.com")
   end
 
+  it "lets an admin set an imported user's initial password only when it is valid" do
+    admin = create_user(email: "admin@example.com", role: :admin)
+    imported = User.create!(full_name: "Importada", email: "importada@example.com")
+    sign_in(admin)
+
+    post "/admin/users/#{imported.id}/initial_password", params: {
+      initial_password: { password: "uma frase segura", password_confirmation: "uma frase segura" }
+    }, headers: inertia_headers
+
+    expect(response).to redirect_to("/admin/users/#{imported.id}/edit")
+    expect(imported.reload.authenticate("uma frase segura")).to eq(imported)
+
+    another_imported = User.create!(full_name: "Outra", email: "outra@example.com")
+    post "/admin/users/#{another_imported.id}/initial_password", params: {
+      initial_password: { password: "curta", password_confirmation: "curta" }
+    }, headers: inertia_headers
+
+    expect(response).to have_http_status(:unprocessable_content)
+    expect(another_imported.reload.password_digest).to be_nil
+  end
+
   private
 
   def create_user(email: "ana@example.com", role: :regular)

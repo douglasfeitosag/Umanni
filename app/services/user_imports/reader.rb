@@ -20,12 +20,12 @@ module UserImports
       normalized
     end
 
-    def row_from(number, values, headers)
+    def row_from(number, values, headers, error_code: nil)
       values = values.map { |value| value.nil? ? "" : value.to_s }
       return if values.all?(&:blank?)
 
       mapped = headers.zip(values).to_h
-      error_code = row_error(values, mapped)
+      error_code ||= row_error(values, mapped)
 
       Row.new(number:, full_name: mapped["full_name"], email: mapped["email"], role: mapped["role"], error_code:)
     end

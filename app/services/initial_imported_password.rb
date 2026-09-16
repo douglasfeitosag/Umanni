@@ -13,9 +13,10 @@ class InitialImportedPassword
 
   def call
     User.transaction do
-      @user.lock!
+      @user.reload(lock: true)
       return Result.new(success?: false, error: "credencial já configurada") if @user.password_digest.present?
 
+      @user.password_required = true
       @user.assign_attributes(password: @password, password_confirmation: @password_confirmation)
       return Result.new(success?: false, error: @user.errors.full_messages.to_sentence) unless @user.save
 

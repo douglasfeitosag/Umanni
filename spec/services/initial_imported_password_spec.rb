@@ -17,4 +17,15 @@ RSpec.describe InitialImportedPassword do
     expect(user.reload.authenticate("uma frase segura")).to eq(user)
     expect(user.authenticate("outra frase segura")).to be_falsey
   end
+
+  it "rejects empty, mismatched and short credentials without activating the account" do
+    user = User.create!(full_name: "Importada", email: "importada@example.com", role: :regular)
+
+    empty = described_class.call(user:, password: "", password_confirmation: "")
+    mismatched = described_class.call(user:, password: "uma frase segura", password_confirmation: "diferente")
+    short = described_class.call(user:, password: "curta", password_confirmation: "curta")
+
+    expect([empty, mismatched, short]).to all(have_attributes(success?: false))
+    expect(user.reload.password_digest).to be_nil
+  end
 end

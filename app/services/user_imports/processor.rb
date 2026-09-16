@@ -11,13 +11,10 @@ module UserImports
     end
 
     def call
-      @user_import.with_lock do
-        return if @user_import.completed? || @user_import.completed_with_errors? || @user_import.failed?
+      return unless start!
 
-        start!
-        process_rows(read_rows)
-        finish!
-      end
+      process_rows(read_rows)
+      finish!
     rescue Reader::InvalidSource
       fail_as_unreadable!
     end
@@ -35,7 +32,12 @@ module UserImports
     end
 
     def start!
-      @user_import.update!(status: :processing, started_at: @user_import.started_at || Time.current)
+      @user_import.with_lock do
+        next false if @user_import.completed? || @user_import.completed_with_errors? || @user_import.failed?
+
+        @user_import.update!(status: :processing, started_at: @user_import.started_at || Time.current)
+        true
+      end
     end
 
     def process_rows(rows)
@@ -62,8 +64,8 @@ module UserImports
     end
 
     def process_batch_transaction(rows, duplicate_emails)
-      Current.suppress_dashboard_metrics = true
-      ActiveRecord::Base.transaction do
+      @user_import.with_lock do
+        Current.suppress_dashboard_metrics = true
         persist_batch(rows, duplicate_emails)
       ensure
         Current.suppress_dashboard_metrics = false
@@ -91,10 +93,14 @@ module UserImports
     end
 
     def finish!
-      @user_import.reload
-      @user_import.update!(status: @user_import.rejected_count.positive? ? :completed_with_errors : :completed,
-                           finished_at: Time.current)
-      broadcast_change
+      finished = @user_import.with_lock do
+        next false if @user_import.completed? || @user_import.completed_with_errors? || @user_import.failed?
+
+        @user_import.update!(status: @user_import.rejected_count.positive? ? :completed_with_errors : :completed,
+                             finished_at: Time.current)
+        true
+      end
+      broadcast_change if finished
     end
 
     def broadcast_change

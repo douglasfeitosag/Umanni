@@ -82,6 +82,31 @@ RSpec.describe UserImports::Processor do
     expect(User.where.not(id: admin.id)).not_to exist
   end
 
+  it "commits each batch before observing progress or a later batch failure" do
+    rows = (1..101).map { |number| "Pessoa #{number},person#{number}@example.com,regular" }.join("\n")
+    user_import = create_import("full_name,email,role\n#{rows}\n")
+    processor = described_class.new(user_import)
+    calls = 0
+
+    allow(processor).to receive(:process_batch).and_wrap_original do |method, batch, duplicate_emails|
+      calls += 1
+      if calls == 2
+        observed_count = Thread.new do
+          ActiveRecord::Base.connection_pool.with_connection do
+            UserImport.find(user_import.id).processed_count
+          end
+        end.value
+        expect(observed_count).to eq(100)
+        raise "interrupt after committed batch"
+      end
+
+      method.call(batch, duplicate_emails)
+    end
+
+    expect { processor.call }.to raise_error("interrupt after committed batch")
+    expect(user_import.reload).to have_attributes(status: "processing", processed_count: 100, created_count: 100)
+  end
+
   def duplicate_and_missing_name_csv
     <<~CSV
       full_name,email,role

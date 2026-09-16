@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   namespace :admin do
     resource :dashboard, only: :show
     resources :users do
-      post :initial_password, on: :member
+      post :set_initial_password, on: :member, path: :initial_password
     end
     resources :user_imports, only: %i[index show create]
   end

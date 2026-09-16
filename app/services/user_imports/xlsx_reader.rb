@@ -24,13 +24,32 @@ module UserImports
     end
 
     def rows_from(sheet, headers)
-      (2..sheet.last_row).filter_map { |number| row_from(number, row_values(sheet, number), headers) }
+      rows = []
+      (2..sheet.last_row).each do |number|
+        values, malformed = row_values(sheet, number)
+        parsed = row_from(number, values, headers, error_code: malformed ? "malformed_row" : nil)
+        next unless parsed
+        raise InvalidSource, :too_many_rows if rows.length >= Preflight::MAX_ROWS
+
+        rows << parsed
+      end
+      rows
     end
 
     def row_values(sheet, number)
-      sheet.row(number).each_with_index.map do |value, index|
-        sheet.celltype(number, index + 1) == :formula ? "=" : value
-      end
+      cells = sheet.row(number).each_with_index.map { |value, index| [value, sheet.celltype(number, index + 1)] }
+      [cells.map { |value, type| safe_cell_value(value, type) }, cells.any? { |_value, type| malformed_type?(type) }]
+    end
+
+    def safe_cell_value(value, type)
+      return value if type.in?(%i[string empty])
+      return "=" if type == :formula
+
+      nil
+    end
+
+    def malformed_type?(type)
+      !type.in?(%i[string empty formula])
     end
   end
 end
