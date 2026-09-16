@@ -1,6 +1,6 @@
 module Admin
   class UsersController < BaseController
-    before_action :set_user, only: %i[show edit update destroy]
+    before_action :set_user, only: %i[show edit update destroy set_initial_password]
 
     def index
       users = User.order(:full_name, :id).map { |user| user_props(user).merge(permissions: permissions_for(user)) }
@@ -61,6 +61,13 @@ module Admin
       redirect_to admin_users_path, notice: t("notices.user_deleted")
     end
 
+    def set_initial_password
+      result = InitialImportedPassword.call(user: @user, **initial_password_params.to_h.symbolize_keys)
+      return redirect_to(edit_admin_user_path(@user), notice: t("notices.initial_password_set")) if result.success?
+
+      render_edit(errors: { password: result.error })
+    end
+
     private
 
     def set_user
@@ -87,9 +94,14 @@ module Admin
       params.expect(deletion: [:confirmation])
     end
 
+    def initial_password_params
+      params.expect(initial_password: %i[password password_confirmation])
+    end
+
     def render_edit(errors: {})
       render inertia: "Admin/Users/Edit", props: {
-        user: user_props(@user), roleOptions: role_options, permissions: permissions_for(@user), errors:
+        user: user_props(@user).merge(passwordConfigured: @user.password_digest.present?), roleOptions: role_options,
+        permissions: permissions_for(@user), errors:
       }, status: errors.empty? ? :ok : :unprocessable_content
     end
 

@@ -44,7 +44,7 @@ echo "Building delivery and verification images"
 docker compose --profile delivery --profile test build web verify
 
 echo "Starting an isolated delivery project with an empty database"
-DELIVERY_TEST_PORT="$delivery_port" "${delivery_compose[@]}" --profile delivery up -d --wait web
+DELIVERY_TEST_PORT="$delivery_port" "${delivery_compose[@]}" --profile delivery up -d --wait web worker
 
 base_url="http://127.0.0.1:${delivery_port}"
 test "$(curl --fail --silent "${base_url}/ready")" = "ready"
@@ -53,6 +53,11 @@ curl --fail --silent "${base_url}/up" >/dev/null
   'abort "pending migration was not applied" unless ActiveRecord::Base.connection.table_exists?(:delivery_gate_probes)'
 
 echo "Proving restart idempotence"
+"${delivery_compose[@]}" exec -T web sh -lc 'printf worker-storage-probe > /rails/storage/import-probe'
+"${delivery_compose[@]}" exec -T worker sh -lc 'test "$(cat /rails/storage/import-probe)" = worker-storage-probe'
+"${delivery_compose[@]}" restart worker >/dev/null
+DELIVERY_TEST_PORT="$delivery_port" "${delivery_compose[@]}" --profile delivery up -d --wait worker >/dev/null
+"${delivery_compose[@]}" exec -T worker sh -lc 'test "$(cat /rails/storage/import-probe)" = worker-storage-probe'
 "${delivery_compose[@]}" restart web >/dev/null
 DELIVERY_TEST_PORT="$delivery_port" "${delivery_compose[@]}" --profile delivery up -d --wait web >/dev/null
 test "$(curl --fail --silent "${base_url}/ready")" = "ready"

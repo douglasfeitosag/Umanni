@@ -7,7 +7,10 @@ Rails.application.routes.draw do
   resource :profile, only: %i[show edit update destroy]
   namespace :admin do
     resource :dashboard, only: :show
-    resources :users
+    resources :users do
+      post :set_initial_password, on: :member, path: :initial_password
+    end
+    resources :user_imports, only: %i[index show create]
   end
   root "sessions#new"
   get "up" => "rails/health#show", as: :rails_health_check

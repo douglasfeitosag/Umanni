@@ -1,4 +1,4 @@
 services:
   web:
     volumes:
-      - ./spec/support/20260916090000_delivery_pending_migration.rb:/rails/db/migrate/20260916090000_delivery_pending_migration.rb:ro
+      - ./spec/support/20260916150000_delivery_pending_migration.rb:/rails/db/migrate/20260916150000_delivery_pending_migration.rb:ro

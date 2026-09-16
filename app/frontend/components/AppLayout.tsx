@@ -32,6 +32,7 @@ export default function AppLayout({ children }: PropsWithChildren) {
           <nav aria-label="Navegação principal">
             {auth.user.role === 'admin' && <Link href="/admin/dashboard">Visão geral</Link>}
             {auth.user.role === 'admin' && <Link href="/admin/users">Pessoas</Link>}
+            {auth.user.role === 'admin' && <Link href="/admin/user_imports">Importações</Link>}
             <Link href="/profile">Meu perfil</Link>
             <Link as="button" href="/session" method="delete" className="quiet-button">Sair</Link>
           </nav>

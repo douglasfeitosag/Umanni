@@ -58,6 +58,17 @@ services:
     ports: ["127.0.0.1:3036:3036"]
     command: ["bundle", "exec", "vite", "dev"]
 
+  jobs:
+    <<: *tooling
+    profiles: [dev]
+    environment:
+      RAILS_ENV: development
+      DATABASE_URL: ${DATABASE_URL:-postgresql://umanni:umanni-local@db:5432/umanni_development}
+    volumes:
+      - .:/rails
+      - node_modules:/rails/node_modules
+    command: ["bin/jobs"]
+
   web:
     profiles: [delivery]
     build:
@@ -71,6 +82,8 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    volumes:
+      - storage:/rails/storage
     ports: ["127.0.0.1:3030:3000"]
     healthcheck:
       test: ["CMD", "ruby", "-rnet/http", "-e", "exit(Net::HTTP.get_response(URI('http://127.0.0.1:3000/ready')).code == '200' ? 0 : 1)"]
@@ -78,6 +91,22 @@ services:
       timeout: 5s
       retries: 20
 
+  worker:
+    profiles: [delivery]
+    build:
+      context: .
+      target: production
+    environment:
+      DATABASE_URL: ${DELIVERY_DATABASE_URL:-postgresql://umanni:umanni-local@db:5432/umanni_production}
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE:-}
+    depends_on:
+      web:
+        condition: service_healthy
+    volumes:
+      - storage:/rails/storage
+    command: ["bin/jobs"]
+
 volumes:
   database:
   node_modules:
+  storage:
