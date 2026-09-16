@@ -18,6 +18,7 @@ const patch = vi.fn()
 const destroy = vi.fn()
 const transform = vi.fn()
 const setData = vi.fn()
+const reset = vi.fn()
 let formErrors: Record<string, string> = {}
 let pageProps: SharedProps
 
@@ -28,7 +29,7 @@ vi.mock('@inertiajs/react', () => ({
     return as === 'button' ? <button {...props as React.ButtonHTMLAttributes<HTMLButtonElement>}>{children}</button> : <a {...props}>{children}</a>
   },
   usePage: () => ({ props: pageProps }),
-  useForm: (data: Record<string, unknown>) => ({ data, setData, post, patch, delete: destroy, transform, processing: false, errors: formErrors }),
+  useForm: (data: Record<string, unknown>) => ({ data, setData, reset, post, patch, delete: destroy, transform, processing: false, errors: formErrors }),
 }))
 
 const regular: UserView = { id: '1', fullName: 'Ana Silva', email: 'ana@example.com', role: 'regular', avatarUrl: null }
@@ -75,9 +76,13 @@ describe('identity interfaces', () => {
     render(<DeletionDialog action="/profile" label="Excluir minha conta" />)
     fireEvent.click(screen.getByRole('button', { name: 'Excluir minha conta' }))
     expect(screen.getByRole('dialog')).toHaveAttribute('open')
+    expect(screen.getByRole('button', { name: 'Excluir' })).toBeDisabled()
     fireEvent.change(screen.getByLabelText('Confirmação'), { target: { value: 'EXCLUIR' } })
+    expect(screen.getByRole('button', { name: 'Excluir' })).toBeEnabled()
     fireEvent.click(screen.getByRole('button', { name: 'Cancelar' }))
     fireEvent.click(screen.getByRole('button', { name: 'Excluir minha conta' }))
+    expect(screen.getByRole('button', { name: 'Excluir' })).toBeDisabled()
+    fireEvent.change(screen.getByLabelText('Confirmação'), { target: { value: 'EXCLUIR' } })
     fireEvent.submit(screen.getByRole('button', { name: 'Excluir' }).closest('form')!)
     expect(transform).toHaveBeenCalled()
     expect(destroy).toHaveBeenCalledWith('/profile', expect.any(Object))

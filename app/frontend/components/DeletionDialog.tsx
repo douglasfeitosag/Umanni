@@ -6,16 +6,21 @@ export default function DeletionDialog({ action, label }: { action: string; labe
   const dialog = useRef<HTMLDialogElement>(null)
   const trigger = useRef<HTMLButtonElement>(null)
   const [open, setOpen] = useState(false)
+  const [confirmation, setConfirmation] = useState('')
   const form = useForm({ confirmation: '' })
   const identifier = useId().replace(/:/g, '')
   const titleId = `delete-title-${identifier}`
   const confirmationId = `confirmation-${identifier}`
 
   function close() {
-    dialog.current?.close()
+    if (dialog.current?.open) dialog.current.close()
+    form.reset()
+    setConfirmation('')
     setOpen(false)
     trigger.current?.focus()
   }
+
+  const confirmationMatches = confirmation.trim() === 'EXCLUIR'
 
   return (
     <>
@@ -28,10 +33,10 @@ export default function DeletionDialog({ action, label }: { action: string; labe
         }}>
           <h2 id={titleId}>Confirmar exclusão</h2>
           <p>Esta ação não pode ser desfeita. Digite <strong>EXCLUIR</strong>.</p>
-          <Field id={confirmationId} label="Confirmação" name="confirmation" value={form.data.confirmation} onChange={event => form.setData('confirmation', event.target.value)} error={form.errors.confirmation} autoFocus />
+          <Field id={confirmationId} label="Confirmação" name="confirmation" value={confirmation} onChange={event => { setConfirmation(event.target.value); form.setData('confirmation', event.target.value) }} error={form.errors.confirmation} autoFocus />
           <div className="dialog-actions">
             <button type="button" className="secondary-button" onClick={close}>Cancelar</button>
-            <button type="submit" className="danger-button" disabled={form.processing}>Excluir</button>
+            <button type="submit" className="danger-button" disabled={form.processing || !confirmationMatches}>Excluir</button>
           </div>
         </form>}
       </dialog>
