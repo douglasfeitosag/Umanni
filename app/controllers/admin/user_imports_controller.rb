@@ -8,10 +8,11 @@ module Admin
 
     def show
       user_import = UserImport.find(params.expect(:id))
-      page = [params.fetch(:page, 1).to_i, 1].max
+      requested_page = [params.fetch(:page, 1).to_i, 1].max
       relation = user_import.rows.order(:row_number)
       total_items = relation.count
       total_pages = [1, (total_items.to_f / PAGE_SIZE).ceil].max
+      page = [requested_page, total_pages].min
       results = relation.offset((page - 1) * PAGE_SIZE).limit(PAGE_SIZE)
       render inertia: "Admin/UserImports/Show", props: {
         userImport: import_props(user_import, detail: true),
@@ -21,7 +22,7 @@ module Admin
     end
 
     def create
-      upload = params.expect(user_import: :source_file).fetch(:source_file)
+      upload = params.require(:user_import).fetch(:source_file)
       preflight = UserImports::Preflight.call(upload)
       return render_index_error(preflight.error) unless preflight.success?
 
