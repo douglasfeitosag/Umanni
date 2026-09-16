@@ -11,4 +11,5 @@ Rails.application.routes.draw do
   end
   root "sessions#new"
   get "up" => "rails/health#show", as: :rails_health_check
+  get "ready" => "delivery_readiness#show", as: :delivery_readiness
 end
