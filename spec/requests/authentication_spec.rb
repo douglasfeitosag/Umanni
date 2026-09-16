@@ -49,6 +49,21 @@ RSpec.describe "Authentication", type: :request do
     expect(response.body).not_to include('"password":"short"', '"password_confirmation":"different"')
   end
 
+  it "US1.3 joins multiple field errors with the Portuguese connector" do
+    post_with_csrf "/sign-up", params: {
+      registration: {
+        full_name: "Ana Silva",
+        email: "",
+        password: "uma frase segura",
+        password_confirmation: "uma frase segura"
+      }
+    }
+
+    expect(response).to have_http_status(:unprocessable_content)
+    expected_error = "E-mail não pode ficar em branco e E-mail não é válido"
+    expect(response.parsed_body.dig("props", "errors", "email")).to eq(expected_error)
+  end
+
   it "US2.1 redirects valid credentials according to the persisted role" do
     regular = create_user(email: "regular@example.com")
     admin = create_user(email: "admin@example.com", role: :admin)

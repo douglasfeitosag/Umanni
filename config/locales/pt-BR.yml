@@ -1,4 +1,9 @@
 pt-BR:
+  support:
+    array:
+      words_connector: ", "
+      two_words_connector: " e "
+      last_word_connector: " e "
   notices:
     account_deleted: "Conta excluída."
     profile_updated: "Perfil atualizado."
