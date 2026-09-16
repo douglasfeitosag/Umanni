@@ -6,10 +6,10 @@
 
 ## Estratégia
 
-1. Capturar e validar o merge integrado, os checks por SHA, as threads, o milestone e a ausência da publicação.
+1. Capturar e validar o merge integrado, os checks por SHA, as threads, as issues de produto fechadas, o próprio PR de preparação como único item aberto do milestone durante a revisão e a ausência da publicação.
 2. Revisar o planejamento no HEAD documental exato.
 3. Preparar notas, changelog, README, STATUS, memória, EXEC e prompt de encerramento; validar e revisar novamente o HEAD documental.
-4. Integrar o preparo revisado, recapturar o merge e publicar a tag anotada, a Release final e o fechamento do milestone em ordem serial.
+4. Integrar o preparo revisado, recapturar o merge, exigir zero issues ou pull requests abertos no milestone e publicar a tag anotada, a Release final e o fechamento do milestone em ordem serial.
 5. Registrar os fatos pós-publicação em um segundo PR documental revisado, sem alterar a publicação imutável.
 
 ## Allowlist
@@ -20,7 +20,7 @@ Reconciliação: somente os registros anteriores cujo estado pós-publicação p
 
 ## Validação
 
-Usar `git diff --check`, links Markdown, consultas `gh`/API, `git ls-remote`, inspeção de objeto de tag, comparação exata de SHA e árvore. Os gates de aplicação são herdados somente do HEAD `6f92fba8ca3cdb6f1d196f87f558214b8175d430` já validado; a preparação documental não os substitui.
+Usar `git diff --check`, links Markdown, consultas `gh`/API, `git ls-remote`, inspeção de objeto de tag, comparação exata de SHA e árvore. Para o milestone, não confiar apenas em `open_issues`: listar issues e pull requests abertos; durante a revisão o único resultado admissível é o próprio PR de preparação, e depois de seu merge o resultado deve ser vazio. Os gates de aplicação são herdados somente do HEAD `6f92fba8ca3cdb6f1d196f87f558214b8175d430` já validado; a preparação documental não os substitui.
 
 ## Recuperação de publicação parcial
 

@@ -11,7 +11,7 @@ Inclui somente registros de release, validações Git/GitHub, tag anotada, GitHu
 ## Requisitos funcionais
 
 - FR-001: a preparação deve partir de `main` integrado no merge do PR #23 e registrar o SHA capturado.
-- FR-002: antes de publicar, deve comprovar PR #23 merged, checks `foundation-checks` e `review-ledger` verdes no HEAD revisado, zero threads abertas e milestone sem itens abertos.
+- FR-002: durante a preparação, deve comprovar PR #23 merged, checks `foundation-checks` e `review-ledger` verdes no HEAD revisado, zero threads abertas, issues de produto fechadas e nenhum item aberto no milestone além do próprio PR de preparação. Depois do merge desse PR e antes de publicar, a listagem completa de issues e pull requests do milestone deve ter zero itens abertos.
 - FR-003: `v0.3.1` e sua GitHub Release devem estar ausentes antes da publicação.
 - FR-004: as notas versionadas e o changelog devem descrever somente o hardening de startup, readiness, fallback 5xx e sua validação real.
 - FR-005: a tag deve ser anotada, criada no SHA integrado do preparo documental, enviada sem força e ter alvo remoto idêntico.
@@ -21,7 +21,7 @@ Inclui somente registros de release, validações Git/GitHub, tag anotada, GitHu
 
 ## Cenários BDD
 
-1. **US1** — Dado o PR #23 integrado e o milestone 0.3.1 sem itens abertos, quando a prontidão é consultada, então o SHA, checks, threads e ausência de tag/Release concordam.
+1. **US1** — Dado o PR #23 integrado, as issues de produto fechadas e somente o PR de preparação ainda aberto no milestone 0.3.1, quando a prontidão é consultada, então o SHA, checks, threads, itens do milestone e ausência de tag/Release concordam; após o merge do preparo, a listagem completa chega a zero itens abertos antes da publicação.
 2. **US2** — Dado a prontidão confirmada, quando os registros públicos são preparados, então changelog, notas, STATUS, memória e EXEC concordam sem alegar publicação antes do fato.
 3. **US3** — Dado o preparo revisado e integrado, quando a publicação ocorre, então tag anotada, Release final e milestone fechado resolvem para o SHA capturado, nessa ordem.
 4. **US4** — Dado a publicação verificada, quando a reconciliação é versionada, então ela registra os identificadores reais sem mover tag, editar Release ou reabrir escopo.
