@@ -17,6 +17,7 @@ describe('UserImportShow', () => {
     expect(screen.getByRole('link', { name: 'Voltar ao histórico' })).toHaveAttribute('href', '/admin/user_imports')
     expect(screen.getByText('2')).toBeVisible()
     expect(screen.getByRole('table', { name: 'Resultados por linha' })).toHaveTextContent('E-mail inválido.')
+    expect(screen.getByText('Concluída com erros')).toBeVisible()
     expect(screen.getByRole('status')).toHaveTextContent('Importação atualizada')
   })
 

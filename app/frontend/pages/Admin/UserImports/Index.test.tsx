@@ -32,4 +32,15 @@ describe('UserImportsIndex', () => {
     expect(screen.getByText('Use os cabeçalhos full_name, email e role.')).toBeVisible()
     expect(screen.getByLabelText('Arquivo de importação')).toHaveAttribute('aria-invalid', 'true')
   })
+
+  it('translates every persisted import status for the Portuguese interface', () => {
+    const imports = ['queued', 'processing', 'completed', 'completed_with_errors', 'failed'].map((status, index) => ({ id: String(index), filename: `${status}.csv`, status, totalCount: 1, processedCount: 1, createdCount: 1, rejectedCount: 0, createdAt: '2026-09-16T12:00:00Z' }))
+    render(<UserImportsIndex imports={imports} />)
+
+    expect(screen.getByRole('table', { name: 'Importações' })).toHaveTextContent('Na fila')
+    expect(screen.getByRole('table', { name: 'Importações' })).toHaveTextContent('Processando')
+    expect(screen.getByRole('table', { name: 'Importações' })).toHaveTextContent('Concluída')
+    expect(screen.getByRole('table', { name: 'Importações' })).toHaveTextContent('Concluída com erros')
+    expect(screen.getByRole('table', { name: 'Importações' })).toHaveTextContent('Falhou')
+  })
 })

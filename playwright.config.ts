@@ -23,11 +23,19 @@ export default defineConfig({
     name: `${browserName}-${name}`,
     use: { browserName, viewport: { width, height } },
   }))),
-  webServer: {
-    command: 'bundle exec rails server -b 127.0.0.1 -p 3101',
-    url: 'http://127.0.0.1:3101/up',
-    reuseExistingServer: false,
-    timeout: 30000,
-    env: { RAILS_ENV: 'test', TEST_DATABASE_URL: e2eDatabaseUrl.toString(), TEST_ENV_NUMBER: '', VITE_RUBY_AUTO_BUILD: 'false', CABLE_ADAPTER: 'solid_cable' },
-  },
+  webServer: [
+    {
+      command: 'bundle exec rails server -b 127.0.0.1 -p 3101',
+      url: 'http://127.0.0.1:3101/up',
+      reuseExistingServer: false,
+      timeout: 30000,
+      env: { RAILS_ENV: 'test', TEST_DATABASE_URL: e2eDatabaseUrl.toString(), TEST_ENV_NUMBER: '', VITE_RUBY_AUTO_BUILD: 'false', CABLE_ADAPTER: 'solid_cable' },
+    },
+    {
+      command: 'bin/jobs',
+      reuseExistingServer: false,
+      timeout: 30000,
+      env: { RAILS_ENV: 'test', TEST_DATABASE_URL: e2eDatabaseUrl.toString(), TEST_ENV_NUMBER: '', CABLE_ADAPTER: 'solid_cable' },
+    },
+  ],
 })

@@ -100,7 +100,8 @@ module Admin
 
     def render_edit(errors: {})
       render inertia: "Admin/Users/Edit", props: {
-        user: user_props(@user), roleOptions: role_options, permissions: permissions_for(@user), errors:
+        user: user_props(@user).merge(passwordConfigured: @user.password_digest.present?), roleOptions: role_options,
+        permissions: permissions_for(@user), errors:
       }, status: errors.empty? ? :ok : :unprocessable_content
     end
 
