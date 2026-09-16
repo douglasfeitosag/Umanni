@@ -105,4 +105,4 @@ A revisão seguinte no HEAD documental `fdc676c` abriu F-019-009 a F-019-012. A 
 
 ## Próxima transição obrigatória
 
-Publicar o HEAD documental final no PR #27 e solicitar à mesma revisora uma nova revisão independente do novo SHA. Somente a revisora resolve as doze threads depois de verificar cada resposta e a reexecução dos gates. O candidato só pode seguir para integração depois de `review-ledger=success`, `code-reviewed`, checks verdes e zero threads abertas. Esta execução não cria tag, Release, merge ou fechamento de milestone.
+Publicar o HEAD documental final no PR #27 e solicitar à mesma revisora uma nova revisão independente do novo SHA. Somente a revisora resolve as catorze threads depois de verificar cada resposta e a reexecução dos gates. O candidato só pode seguir para integração depois de `review-ledger=success`, `code-reviewed`, checks verdes e zero threads abertas. Esta execução não cria tag, Release, merge ou fechamento de milestone.
