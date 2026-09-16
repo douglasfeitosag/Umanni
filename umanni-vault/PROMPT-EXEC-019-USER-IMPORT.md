@@ -38,7 +38,7 @@ Entregar a importação administrativa CSV/XLSX 0.4.0 em segundo plano: lote/arq
 
 ## Decisões obrigatórias
 
-Preserve D-019/D-020/D-025/D-026/D-028/D-029 e implemente D-036–D-046 exatamente como aceitas. Fixe `solid_queue 1.7.0` e `roo 3.0.0`; qualquer incompatibilidade real exige parada, não substituição silenciosa. Use PostgreSQL primário, fila `imports`, processo worker separado, storage `/rails/storage` compartilhado e enqueue após commit com `pending_enqueue`. Cable transporta apenas invalidação versionada.
+Preserve D-019/D-020/D-025/D-026/D-028/D-029 e implemente D-036–D-046 exatamente como aceitas. Fixe `solid_queue 1.7.0` e `roo 3.0.0`; qualquer incompatibilidade real exige parada, não substituição silenciosa. Use a mesma conexão PostgreSQL `primary`, fila `imports`, processo worker separado, storage `/rails/storage` compartilhado e lote/job atômicos com `enqueue_after_transaction_commit = false`. Cable transporta apenas invalidação versionada.
 
 ## Ordem obrigatória
 
@@ -59,7 +59,8 @@ Rastreie US1.1–US6.3 e NFR-001–NFR-008. Em especial:
 
 - rejeição estrutural ou limite de campo/linha não cria lote/job;
 - a request válida não cria usuários;
-- falha de enqueue termina em `failed/enqueue_failed` e não finge `queued`;
+- falha/retorno falso/crash antes do commit reverte lote, attachment e job; depois do commit ambos existem;
+- códigos de lote e linha obedecem às listas exaustivas e cross-constraints do modelo;
 - todas as ocorrências de e-mail duplicado no arquivo falham;
 - usuário existente nunca é alterado;
 - retry do mesmo job preserva resultados/contadores;

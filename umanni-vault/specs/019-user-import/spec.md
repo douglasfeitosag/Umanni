@@ -115,9 +115,9 @@ A pesquisa isolada comprovou resolução e carregamento de `roo 3.0.0` com Ruby 
 | --- | --- | --- | --- |
 | Adapter assíncrono em memória | perde trabalho no restart e não atende o enunciado | baixa | Rejeitada |
 | Solid Queue em banco lógico separado | isola polling e segue o default atual da gem | amplia preparo, readiness e bancos paralelos para uma entrega local limitada | Rejeitada para 0.4.0 |
-| Solid Queue nas tabelas do PostgreSQL primário | persistente, sem serviço externo e compatível com o limite de 10.000 linhas | compartilha recursos com a aplicação | **Adotar**, sem depender de atomicidade implícita |
+| Solid Queue nas tabelas do PostgreSQL primário | persistente, sem serviço externo e permite enqueue atômico com o lote | compartilha recursos com a aplicação e acopla a garantia ao backend | **Adotar**, com atomicidade explícita em D-043 |
 
-O enqueue usa o mecanismo Rails de adiamento até commit. Web e worker usam a mesma aplicação e banco, mas processos distintos. O worker consome apenas a fila exata `imports`, com concorrência um na entrega local. Nenhum comportamento depende de uma transação distribuída entre modelos de domínio e infraestrutura da fila.
+Web e worker usam a mesma aplicação, conexão lógica `primary` e banco, mas processos distintos. O worker consome apenas a fila exata `imports`, com concorrência um na entrega local. D-043 torna o acoplamento transacional explícito; mover Solid Queue para outra conexão/backend exige antes substituir essa garantia por outbox/reconciliador.
 
 ### D-038 — representação do relatório e retomada
 
@@ -169,15 +169,17 @@ O histórico e cada stream são autorizados no servidor para qualquer administra
 
 `production_local` passa de `tmp/storage` para `/rails/storage`. Web e worker do perfil delivery montam o mesmo volume nomeado nesse caminho; a imagem cria o diretório com UID/GID `1000:1000` antes de executar como usuário não-root. Em dev, os dois processos usam o bind mount vigente e o mesmo diretório `storage/`. Volumes dos gates usam nomes de projeto efêmeros e cleanup por trap; o volume normal da pessoa usuária nunca é removido pelo teste. Restart do worker deve provar leitura do arquivo já enviado.
 
-### D-043 — falha de enqueue depois do commit
+### D-043 — atomicidade do enqueue e janela de crash
 
 | Alternativa | Consequência | Decisão |
 | --- | --- | --- |
-| chamar o lote de `queued` antes de Solid Queue aceitar | apresenta estado falso | Rejeitada |
-| reconciliador/recorrência para reenfileirar | acrescenta scheduler e política de retry fora do mínimo | Rejeitada |
-| estado `pending_enqueue`, transição condicional e falha terminal observável | representa exatamente o que ocorreu e permite novo envio | **Adotar** |
+| enqueue depois do commit sem reconciliador | existe janela de crash com lote pendente indefinido | Rejeitada |
+| outbox/reconciliador recorrente | desacopla backend, mas acrescenta scheduler e novo protocolo | Rejeitada para 0.4.0 |
+| lote e execução Solid Queue na mesma transação PostgreSQL | ambos ficam visíveis ou ambos sofrem rollback | **Adotar** |
 
-A transação cria lote/arquivo em `pending_enqueue`; somente depois do commit o controller chama `perform_later`. Sucesso muda condicionalmente `pending_enqueue -> queued`; se o worker já iniciou, a atualização não regride `processing`. Exceção de enqueue muda `pending_enqueue -> failed`, grava `failure_code=enqueue_failed`, finaliza o lote e apresenta orientação para criar um novo lote. Não existe retry do mesmo lote pela interface. Falhas transitórias durante execução usam `retry_on` apenas para erros enumerados de I/O/conexão, `wait: :polynomially_longer`, máximo de três tentativas totais; o estado fica `processing` entre tentativas e só vira `failed` quando elas se esgotam. Erros não enumerados falham imediatamente. O detalhe nunca exibe a exceção.
+`ProcessUserImportJob` declara `self.enqueue_after_transaction_commit = false` (booleano do Rails 8.1). Dentro de uma única transação na conexão `primary`, o serviço cria lote `queued`, associa o arquivo e chama `perform_later`; retorno falso ou erro de enqueue levanta exceção e reverte lote, attachment e execução. O worker não vê registros não confirmados. Crash antes do commit produz rollback; depois do commit, lote e job já estão ambos persistidos. O controller remove artefato temporário/unattached seguro no rescue e mostra erro de envio, sem criar estado falso. Um teste com falha injetada e outro processo consultando o banco provam atomicidade; a configuração também prova que Solid Queue não usa conexão separada.
+
+Falhas transitórias durante execução usam `retry_on` apenas para erros enumerados de I/O/conexão, `wait: :polynomially_longer`, máximo de três tentativas totais; o estado fica `processing` entre tentativas e só vira `failed/retry_exhausted` quando elas se esgotam. Erros não enumerados falham imediatamente como `failed/technical_failure`. O detalhe nunca exibe a exceção.
 
 ### D-044 — concorrência da senha inicial
 
@@ -211,10 +213,9 @@ O processador executa cada bloco de até 100 linhas dentro de um contexto `Curre
 
 ## Modelo de estado
 
-Estados permitidos: `pending_enqueue`, `queued`, `processing`, `completed`, `completed_with_errors` e `failed`.
+Estados permitidos: `queued`, `processing`, `completed`, `completed_with_errors` e `failed`.
 
-- `pending_enqueue`: lote e arquivo persistiram, mas Solid Queue ainda não confirmou o enqueue;
-- `queued`: o job foi aceito por Solid Queue e ainda não iniciou;
+- `queued`: lote, arquivo e job foram confirmados atomicamente e o processamento ainda não iniciou;
 - `processing`: preflight assíncrono terminou e linhas estão sendo aplicadas;
 - `completed`: todas as linhas de dados foram criadas;
 - `completed_with_errors`: ao menos uma linha foi rejeitada e o job terminou de forma controlada;
@@ -226,8 +227,8 @@ Não existe estado cancelado nesta versão. Estados terminais não voltam a esta
 
 - **FR-001**: somente administrador autenticado consulta, envia ou assina importações; visitante/regular não recebe props, arquivo ou relatório.
 - **FR-002**: upload aceita exclusivamente D-040/D-045, no máximo 10 MiB e 10.000 linhas de dados; falha estrutural interativa não cria lote nem agenda job.
-- **FR-003**: envio válido persiste lote/arquivo em `pending_enqueue`, tenta enqueue somente após commit e responde com redirect ao detalhe sem processar usuários na requisição.
-- **FR-004**: enqueue usa a fila `imports` e aplica D-043; o detalhe distingue `pending_enqueue`, `queued` e `failed/enqueue_failed` sem fingir execução.
+- **FR-003**: envio válido persiste lote/arquivo/job atomicamente em `queued` conforme D-043 e responde com redirect ao detalhe sem processar usuários na requisição.
+- **FR-004**: falha de enqueue reverte lote/attachment/job, remove artefato temporário seguro e retorna erro interativo; nenhum `UserImport` órfão é apresentado.
 - **FR-005**: job registra `processing`, aplica D-025/D-026/D-028/D-039 e cria `User` sem senha nem avatar.
 - **FR-006**: `role` vazio/ausente vira `regular`; valores válidos são somente `regular` e `admin`; qualquer outro valor rejeita a linha.
 - **FR-007**: repetição do mesmo job não recria resultado final nem usuário; índice único do resultado `(user_import_id, row_number)` e índice único de e-mail no banco são autoridades concorrentes.
@@ -242,10 +243,10 @@ Não existe estado cancelado nesta versão. Estados terminais não voltam a esta
 
 ### US1 — Enviar um arquivo válido
 
-1. **US1.1** — **Dado** administrador e CSV UTF-8 válido dentro dos limites, **quando** envia, **então** lote/arquivo persistem em `pending_enqueue`, a resposta redireciona ao detalhe e nenhum usuário é criado na requisição.
+1. **US1.1** — **Dado** administrador e CSV UTF-8 válido dentro dos limites, **quando** envia, **então** lote/arquivo/job persistem atomicamente em `queued`, a resposta redireciona ao detalhe e nenhum usuário é criado na requisição.
 2. **US1.2** — **Dado** XLSX válido com uma planilha, **quando** envia, **então** o mesmo contrato canônico é normalizado e um job `imports` é enfileirado depois do commit.
 3. **US1.3** — **Dado** visitante ou regular, **quando** força upload/rota/ID, **então** o servidor nega e não persiste arquivo, lote ou job.
-4. **US1.4** — **Dado** lote persistido e falha ao inserir o job, **quando** o enqueue pós-commit retorna erro, **então** o lote termina `failed/enqueue_failed`, não há job órfão e a interface orienta novo envio sem expor exceção.
+4. **US1.4** — **Dado** falha ou crash antes do commit que inclui o enqueue, **quando** o envio termina, **então** lote, attachment e job não persistem, o temporário seguro é removido e a interface permite novo envio sem expor exceção; crash depois do commit encontra lote e job juntos.
 
 ### US2 — Rejeitar estrutura inválida antes da fila
 

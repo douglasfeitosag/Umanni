@@ -39,7 +39,7 @@ Não criar camada genérica de importação, event bus, repository, API paralela
 
 1. **Gate e dependências**: revalidar PR/HEAD da spec, milestone, base e locks. Em cópia temporária, repetir resolução das gems e inventariar o gerador `solid_queue:install` antes de incorporar a superfície mínima.
 2. **Preflight RED/GREEN**: requests e leitores para autorização, bytes por arquivo/campo/linha, MIME/assinatura, encoding, planilha, cabeçalhos, 10.000 linhas e conteúdo malicioso; nenhuma persistência/job na rejeição.
-3. **Lote e enqueue RED/GREEN**: migrations/modelos/constraints/attachment, `pending_enqueue`, create autorizado, enqueue depois do commit, corrida worker/controller e `failed/enqueue_failed`.
+3. **Lote e enqueue RED/GREEN**: migrations/modelos/constraints/attachment, conexão `primary`, `enqueue_after_transaction_commit = false`, lote/job atômicos, retorno falso/erro/crash pré-commit com rollback e visibilidade conjunta pós-commit.
 4. **Processamento RED/GREEN**: linhas válidas/invalidas, defaults, todas as duplicatas internas, corrida externa, conta sem senha, resultados e contadores.
 5. **Repetição RED/GREEN**: lock por lote, skip de resultado terminal, falha entre blocos, retry automático limitado e terminal `failed`.
 6. **Senha inicial RED/GREEN**: lock pessimista, duas conexões concorrentes, exatamente uma transição ausente→presente, confirmação/política, conflito neutro, segredo filtrado e login antes/depois.
@@ -50,7 +50,7 @@ Não criar camada genérica de importação, event bus, repository, API paralela
 
 ## Estratégia de testes
 
-- **RSpec model/service/job**: invariantes, readers, limites por campo/linha, preflight, processor, retry/enqueue failure, contagem de broadcasts, contexto restaurado e concorrência da senha inicial.
+- **RSpec model/service/job**: listas exaustivas/cross-constraints de códigos, invariantes, readers, limites por campo/linha, preflight, processor, retry, enqueue atômico/crash, contagem de broadcasts, contexto restaurado e concorrência da senha inicial.
 - **RSpec request/channel**: autorização, props exatas, upload, nenhum enqueue em rollback, detalhe/paginação e assinatura.
 - **Vitest/RTL**: formulário, erros, estados, progresso acessível, coalescing/reconnect e relatório.
 - **Playwright**: CSV/XLSX reais, admin/regular/visitante, progresso com worker real, reload, senha inicial e breakpoints.

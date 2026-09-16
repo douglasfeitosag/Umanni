@@ -5,10 +5,10 @@
 Representa um envio imutável e sua execução.
 
 - `imported_by_id`: FK exigida na criação e anulada por `ON DELETE SET NULL` se o importador for removido; o lote permanece e a interface mostra “Usuário removido”.
-- `status`: enum `pending_enqueue`, `queued`, `processing`, `completed`, `completed_with_errors`, `failed`.
+- `status`: enum `queued`, `processing`, `completed`, `completed_with_errors`, `failed`.
 - `total_count`, `processed_count`, `created_count`, `rejected_count`: inteiros não negativos.
 - `started_at`, `finished_at`: opcionais conforme transição.
-- `failure_code`: código enumerado opcional; nunca mensagem técnica livre.
+- `failure_code`: opcional e restrito a `source_unreadable`, `retry_exhausted` ou `technical_failure`; nunca mensagem técnica livre.
 - `created_at`, `updated_at`.
 - `has_one_attached :source_file` com nome lógico próprio.
 
@@ -16,12 +16,13 @@ Invariantes:
 
 - `processed_count = created_count + rejected_count`;
 - `processed_count <= total_count <= 10_000`;
-- `pending_enqueue` e `queued` não possuem `started_at`/`finished_at`;
+- `queued` não possui `started_at`/`finished_at`;
 - `processing` possui `started_at` e não possui `finished_at`;
 - estados terminais possuem `finished_at`;
 - `completed` exige `rejected_count = 0` e contadores fechados;
 - `completed_with_errors` exige `rejected_count > 0` e contadores fechados;
 - `failed` pode ter progresso parcial confirmado.
+- `failed` exige `failure_code`; qualquer outro estado exige `failure_code = NULL`.
 
 ## `UserImportRow`
 
@@ -43,11 +44,14 @@ Representa o resultado seguro e idempotente de uma linha de dados.
 - constraints para status/códigos/contadores quando PostgreSQL puder expressá-las sem duplicar regra instável;
 - nenhuma deleção em cascata de `User` deve apagar a evidência da linha; `user_id` pode ficar nulo conforme a FK escolhida.
 
-Códigos públicos iniciais:
+Códigos exaustivos de `UserImportRow.error_code`:
 
-- `missing_full_name`, `invalid_email`, `invalid_role`, `formula_not_allowed`;
+- `missing_full_name`, `missing_email`, `invalid_email`, `invalid_role`, `formula_not_allowed`;
+- `field_too_long`, `row_too_large`;
 - `duplicate_in_file`, `duplicate_existing`;
-- `malformed_row`, `technical_failure`.
+- `malformed_row`.
+
+Combinações válidas: `created` exige `error_code = NULL` e `user_id` presente; `rejected` exige exatamente um código da lista e `user_id = NULL`. `UserImport.failure_code` usa somente a lista separada no lote e nunca aparece como erro de linha. Constraints PostgreSQL e enums/validações Ruby espelham essas listas; traduções cobrem cada código.
 
 Limites de entrada:
 
@@ -64,13 +68,12 @@ Mensagens em português são traduzidas a partir do código. Não persistir mens
 ## Transições
 
 ```text
-pending_enqueue -> queued -> processing -> completed
-       |                    \-> completed_with_errors
-       |                    \-> failed
-       \----------------------> failed (enqueue_failed)
+queued -> processing -> completed
+                    \-> completed_with_errors
+                    \-> failed (source_unreadable | retry_exhausted | technical_failure)
 ```
 
-O job aceita entrada em `pending_enqueue`, `queued` ou `processing` para tolerar a corrida entre enqueue e atualização de estado, mas nunca regride o estado. Retry automático de execução mantém `processing` e ocorre no máximo três vezes; `failed` é terminal e exige novo lote. Estados `completed` e `completed_with_errors` são no-op para o mesmo job.
+Lote e job nascem atomicamente em `queued`. O job aceita `queued` ou `processing` para retomada idempotente, mas nunca regride o estado. Retry automático mantém `processing` e ocorre no máximo três vezes; `failed` é terminal e exige novo lote. Estados `completed` e `completed_with_errors` são no-op para o mesmo job.
 
 ## Ordem do processamento
 
@@ -93,7 +96,7 @@ Lista:
 
 Detalhe:
 
-- `userImport`: mesmos campos e percentagem derivada quando `totalCount > 0`;
+- `userImport`: mesmos campos, `failureCode`/`failureMessage` opcionais e percentagem derivada quando `totalCount > 0`;
 - `results[]`: rowNumber, status, normalizedEmail opcional, normalizedRole opcional, errorCode/errorMessage e userId opcional;
 - `pagination`: page, pageSize fixo, totalPages/totalItems.
 

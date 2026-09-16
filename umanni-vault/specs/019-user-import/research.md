@@ -23,7 +23,7 @@ Pesquisa realizada em 2026-09-16. Nenhuma dependência foi instalada no reposit�
 
 Fixar `solid_queue 1.7.0`, usar o PostgreSQL primário e executar `bin/jobs` como serviço Compose separado, fila exata `imports`, um processo/uma thread no perfil local. O limite de 10.000 linhas e a ausência de outras filas tornam esta configuração suficiente; aumentar concorrência exige medição e nova decisão.
 
-Não depender da coincidência entre banco da fila e banco de domínio para atomicidade. Configurar o enqueue explícito após commit e testar rollback.
+A garantia D-043 depende explicitamente da mesma conexão lógica `primary`: `ProcessUserImportJob.enqueue_after_transaction_commit = false` e `perform_later` executado dentro da transação persistem lote/job juntos. Rails 8.1 usa booleano nesse atributo; retorno falso/erro deve provocar rollback. A execução prova por teste transacional que Solid Queue não abriu conexão separada. Mudar a topologia exige antes outbox/reconciliador próprio.
 
 ## Biblioteca XLSX
 
@@ -60,7 +60,7 @@ Isso comprova compatibilidade de resolução/carregamento, não parsing, migrati
 | worker ausente | serviço Compose próprio e gate que prova consumo/restart |
 | conta importada inutilizável | ação de senha inicial somente quando `password_digest` estiver ausente |
 | storage local distinto por container | mudar `production_local` para `/rails/storage` e montar o mesmo volume nomeado em web/worker |
-| falha pós-commit antes do enqueue | `pending_enqueue`, transição condicional e `failed/enqueue_failed` observável |
+| crash entre lote e enqueue | lote/attachment/job na mesma transação `primary`; falha/crash pré-commit reverte tudo e pós-commit encontra ambos |
 
 ## Fontes
 

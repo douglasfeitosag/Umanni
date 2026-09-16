@@ -18,7 +18,7 @@ Entrada: [spec](spec.md), [plano](plan.md), [pesquisa](research.md) e [modelo](d
 - [ ] **E001 — gate** Revalidar base, PR documental, HEAD, checks, labels, threads, milestone 0.4.0 e issue #9 no Backlog.
 - [ ] **E002 — dependências** Repetir spike temporário, adicionar/fixar Solid Queue/Roo, inventariar o instalador e configurar fila `imports` mínima.
 - [ ] **E003 — RED preflight** Cobrir US1/US2 para CSV/XLSX, autorização, formato, assinatura, encoding, cabeçalhos, planilhas, bytes por arquivo/campo/linha e entradas maliciosas.
-- [ ] **E004 — GREEN preflight/lote** Implementar readers, preflight, migrations/modelos/constraints, attachment, `pending_enqueue` e falha pós-commit observável, sem processamento síncrono de usuários.
+- [ ] **E004 — GREEN preflight/lote** Implementar readers, preflight, listas/constraints exaustivas, attachment e lote/job atômicos na conexão `primary`, com rollback de enqueue/crash e sem processamento síncrono de usuários.
 - [ ] **E005 — RED processamento** Cobrir US3/US4: linhas mistas, papel default, duplicatas internas/externas/concorrentes, repetição, falhas entre blocos e contagem de broadcasts.
 - [ ] **E006 — GREEN processamento** Implementar job/processador/resultados/contadores em blocos, lock por lote, retry limitado, supressão de métricas com escopo e estados terminais.
 - [ ] **E007 — senha inicial** Cobrir e implementar US3.3 com lock pessimista e duas conexões, somente para conta sem credencial, preservando mensagem neutra e D-027.
