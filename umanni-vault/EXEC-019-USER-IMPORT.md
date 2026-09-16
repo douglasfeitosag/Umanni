@@ -61,6 +61,18 @@ Os commits funcionais coesos incluem `38867f2` (preflight/lote), `4370dc8` (senh
 
 As correções finais do próprio gate foram: ordenar a migration fictícia após o schema atual (`043cba6`) e passar `SECRET_KEY_BASE` ao worker do overlay de entrega (`97261e1`). Ambas foram revalidadas pelo gate de entrega e pelo `bin/check` no HEAD acima.
 
+## Correções da revisão independente — rodada 1
+
+A revisão independente Luna/high no PR #27 analisou `bbba69cd8326869945b11264af7dfc2b37329eab`, publicou a review `5225805017`, abriu F-019-001 a F-019-008 e marcou `review-ledger=failure`. O commit corretivo `6d7d8b45253c1e1091a2d4d36d378f423682bed9` tratou os achados dentro da allowlist:
+
+- batches recebem lock/transação curta cada um; a observação por outra conexão e a interrupção entre o primeiro e o segundo batch comprovam 100 resultados já confirmados antes da falha posterior;
+- a rota aponta para `set_initial_password`, chama o serviço por keyword e o serviço recarrega sob lock, exige senha/confirmação e aplica a política do `User`;
+- a exaustão da terceira tentativa de `ActiveRecord::ConnectionFailed` marca `failed/retry_exhausted` e invalida o stream; o teste prepara a contagem de tentativas do Active Job e exercita o callback real;
+- preflight compara extensão, MIME declarado, MIME detectado e assinatura; CSV interrompe no primeiro dado acima do limite e XLSX classifica números/erros como `malformed_row` usando packages XLSX reais de teste;
+- o logout já destruía a `Session`, cujo callback desconecta `remote_connections` por usuário. O novo request spec cobre a rota de logout com socket aberto, preservando esse contrato existente em vez de duplicar a desconexão.
+
+No mesmo HEAD de código, `bin/check` passou com 48 + 44 = **92 exemplos RSpec**, 766/804 linhas Ruby (**95,27%**), 97 arquivos RuboCop sem infrações, Brakeman sem alertas, Vitest 20/20 e Playwright 60/60. `bin/check-delivery` passou outra vez, incluindo imagem, web/worker, volume compartilhado, restart, migration pendente, 18 cenários production-like e banco indisponível.
+
 ## Segurança, acessibilidade e limites
 
 - Brakeman não reportou alertas; o identificador de stream é convertido estritamente antes da consulta, evitando interpolação de entrada em SQL.
@@ -70,4 +82,4 @@ As correções finais do próprio gate foram: ordenar a migration fictícia apó
 
 ## Próxima transição obrigatória
 
-Publicar o HEAD documental final no PR #27 e iniciar revisão independente `gpt-5.6-luna`/high em contexto novo. Se houver achado, somente a revisora resolve a thread depois da correção e da nova revisão do HEAD. O candidato só pode seguir para integração depois de `review-ledger=success`, `code-reviewed`, checks verdes e zero threads abertas. Esta execução não cria tag, Release, merge ou fechamento de milestone.
+Publicar o HEAD documental final no PR #27 e solicitar à mesma revisora uma nova revisão independente do novo SHA. Somente a revisora resolve as oito threads depois de verificar cada resposta e a reexecução dos gates. O candidato só pode seguir para integração depois de `review-ledger=success`, `code-reviewed`, checks verdes e zero threads abertas. Esta execução não cria tag, Release, merge ou fechamento de milestone.
