@@ -1,7 +1,7 @@
 # Plano 014 — Release 0.3.0
 
-**Branch**: `codex/014-release-0-3-0`  
-**Base**: merge integrado do PR #17 em `main`  
+**Branch**: `codex/014-release-0-3-0`
+**Base**: merge integrado do PR #17 em `main`
 **Versão-alvo**: `0.3.0`
 
 ## Estratégia
@@ -18,6 +18,15 @@
 ## Validação
 
 Usar `git diff --check`, links Markdown, consultas `gh`/API, `git ls-remote`, inspeção de objeto de tag, comparação exata de SHA e árvore. O gate de aplicação é herdado somente do SHA `6ed242d` já validado; a preparação documental não o substitui.
+
+## Recuperação de publicação parcial
+
+| Estado observado | Ação permitida | Ação proibida |
+| --- | --- | --- |
+| Tag criada localmente, ainda não enviada | Confirmar objeto anotado e alvo; enviar somente a ref da tag correta. | Recriar, mover ou forçar a tag. |
+| Tag enviada, Release ausente | Reconsultar o alvo remoto e criar somente a Release no mesmo SHA. | Apagar ou substituir a tag. |
+| Release publicada, milestone aberto | Revalidar tag, `targetCommitish`, `main` e itens; fechar somente o milestone. | Editar a release para mascarar divergência. |
+| Tag/Release/alvo divergente ou `main` avançou | Parar e escalar a Douglas com os identificadores observados. | Qualquer publicação corretiva, força ou fechamento. |
 
 ## Gates constitucionais
 
