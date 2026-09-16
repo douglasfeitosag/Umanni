@@ -66,12 +66,14 @@ services:
     environment:
       DATABASE_URL: ${DELIVERY_DATABASE_URL:-postgresql://umanni:umanni-local@db:5432/umanni_production}
       SECRET_KEY_BASE: ${SECRET_KEY_BASE:-}
+      THRUSTER_LOG_REQUESTS: "false"
+      UMANNI_DELIVERY_PREPARE_DATABASE: "1"
     depends_on:
       db:
         condition: service_healthy
     ports: ["127.0.0.1:3030:3000"]
     healthcheck:
-      test: ["CMD", "ruby", "-rnet/http", "-e", "exit(Net::HTTP.get_response(URI('http://127.0.0.1:3000/up')).code == '200' ? 0 : 1)"]
+      test: ["CMD", "ruby", "-rnet/http", "-e", "exit(Net::HTTP.get_response(URI('http://127.0.0.1:3000/ready')).code == '200' ? 0 : 1)"]
       interval: 5s
       timeout: 5s
       retries: 20

@@ -1,0 +1,124 @@
+#!/bin/bash
+set -euo pipefail
+
+cd "$(dirname "$0")/.."
+
+delivery_port="${DELIVERY_TEST_PORT:-3131}"
+failure_port="${DELIVERY_FAILURE_PORT:-3132}"
+run_suffix="${PPID}-$$"
+delivery_project="umanni-delivery-${run_suffix}"
+failure_project="umanni-delivery-failure-${run_suffix}"
+artifacts_dir="$(mktemp -d)"
+
+delivery_compose=(
+  docker compose
+  --project-name "$delivery_project"
+  -f compose.yaml
+  -f spec/support/compose.delivery-test.yaml
+  -f spec/support/compose.delivery-error-probe.yaml
+  -f spec/support/compose.delivery-pending-migration.yaml
+)
+failure_compose=(
+  docker compose
+  --project-name "$failure_project"
+  -f compose.yaml
+  -f spec/support/compose.delivery-test.yaml
+)
+
+cleanup() {
+  "${delivery_compose[@]}" --profile delivery down --volumes --remove-orphans >/dev/null 2>&1 || true
+  DELIVERY_TEST_PORT="$failure_port" "${failure_compose[@]}" --profile delivery down --volumes --remove-orphans >/dev/null 2>&1 || true
+}
+trap cleanup EXIT INT TERM
+
+assert_absent() {
+  local pattern="$1"
+  shift
+  if rg -n "$pattern" "$@"; then
+    echo "Sensitive or technical detail found" >&2
+    exit 1
+  fi
+}
+
+echo "Building delivery and verification images"
+docker compose --profile delivery --profile test build web verify
+
+echo "Starting an isolated delivery project with an empty database"
+DELIVERY_TEST_PORT="$delivery_port" "${delivery_compose[@]}" --profile delivery up -d --wait web
+
+base_url="http://127.0.0.1:${delivery_port}"
+test "$(curl --fail --silent "${base_url}/ready")" = "ready"
+curl --fail --silent "${base_url}/up" >/dev/null
+"${delivery_compose[@]}" exec -T web bin/rails runner \
+  'abort "pending migration was not applied" unless ActiveRecord::Base.connection.table_exists?(:delivery_gate_probes)'
+
+echo "Proving restart idempotence"
+"${delivery_compose[@]}" restart web >/dev/null
+DELIVERY_TEST_PORT="$delivery_port" "${delivery_compose[@]}" --profile delivery up -d --wait web >/dev/null
+test "$(curl --fail --silent "${base_url}/ready")" = "ready"
+
+echo "Checking HTML, Inertia, invalid MIME, and negative security probes"
+curl --silent --show-error \
+  -D "$artifacts_dir/html.headers" \
+  -o "$artifacts_dir/html.body" \
+  -H 'Accept: text/html' \
+  -H 'Authorization: Bearer sensitive-token-sentinel' \
+  -H 'Cookie: session=sensitive-cookie-sentinel' \
+  "${base_url}/__delivery_error_probe__?secret=sensitive-query-sentinel" \
+  -w '%{http_code}' | grep -qx '500'
+curl --silent --show-error \
+  -D "$artifacts_dir/inertia.headers" \
+  -o "$artifacts_dir/inertia.body" \
+  -H 'Accept: text/html, application/xhtml+xml' \
+  -H 'X-Inertia: true' \
+  -H 'Cookie: session=sensitive-cookie-sentinel' \
+  "${base_url}/__delivery_error_probe__?secret=sensitive-query-sentinel" \
+  -w '%{http_code}' | grep -qx '500'
+curl --silent --show-error \
+  -D "$artifacts_dir/invalid-mime.headers" \
+  -o "$artifacts_dir/invalid-mime.body" \
+  -H 'Accept: invalid/type; broken' \
+  "${base_url}/__delivery_error_probe__" \
+  -w '%{http_code}' | grep -qx '500'
+
+grep -qi '^content-type: text/html' "$artifacts_dir/html.headers"
+grep -qi '^content-type: text/html' "$artifacts_dir/invalid-mime.headers"
+grep -qi '^content-type: application/json' "$artifacts_dir/inertia.headers"
+grep -qi '^x-inertia: true' "$artifacts_dir/inertia.headers"
+assert_absent 'sensitive-|RuntimeError|DeliveryErrorProbeController|backtrace|stacktrace' "$artifacts_dir"
+
+echo "Running the production-like accessibility and Inertia matrix"
+docker compose --profile test run --rm --no-deps \
+  -e "DELIVERY_BASE_URL=http://host.docker.internal:${delivery_port}" \
+  verify npm exec playwright -- test --config=playwright.delivery.config.ts --workers=2
+
+"${delivery_compose[@]}" logs --no-color web >"$artifacts_dir/delivery.log"
+assert_absent 'sensitive-(delivery|query|cookie|token|password|environment)|RuntimeError|backtrace|stacktrace' "$artifacts_dir/delivery.log"
+
+startup_events="$(sed -n 's/^.*\(delivery\.startup\.[a-z_]*\).*$/\1/p' "$artifacts_dir/delivery.log")"
+unexpected_events="$(printf '%s\n' "$startup_events" | grep -Ev '^delivery\.startup\.database_prepare_(started|succeeded)$' || true)"
+test -z "$unexpected_events"
+test "$(printf '%s\n' "$startup_events" | grep -c '^delivery.startup.database_prepare_started$')" -ge 2
+test "$(printf '%s\n' "$startup_events" | grep -c '^delivery.startup.database_prepare_succeeded$')" -ge 2
+
+image_id="$("${delivery_compose[@]}" images -q web)"
+docker run --rm --entrypoint sh "$image_id" -c \
+  'test ! -e /rails/config/initializers/delivery_error_probe.rb && test ! -e /rails/db/migrate/20260916090000_delivery_pending_migration.rb'
+
+echo "Proving a database failure keeps the application unavailable"
+failure_database_url='postgresql://umanni:sensitive-database-sentinel@127.0.0.1:1/umanni_production'
+if DELIVERY_TEST_PORT="$failure_port" DELIVERY_DATABASE_URL="$failure_database_url" \
+  "${failure_compose[@]}" --profile delivery up -d --wait web; then
+  echo "Web unexpectedly became ready with an unreachable database" >&2
+  exit 1
+fi
+if curl --silent --show-error --connect-timeout 1 "http://127.0.0.1:${failure_port}/ready" >/dev/null 2>&1; then
+  echo "Web accepted traffic after database preparation failed" >&2
+  exit 1
+fi
+DELIVERY_TEST_PORT="$failure_port" "${failure_compose[@]}" logs --no-color web >"$artifacts_dir/failure.log"
+assert_absent 'sensitive-database-sentinel|postgresql://' "$artifacts_dir/failure.log"
+grep -q 'delivery.startup.database_prepare_started' "$artifacts_dir/failure.log"
+grep -q 'delivery.startup.database_prepare_failed' "$artifacts_dir/failure.log"
+
+echo "Delivery checks passed"

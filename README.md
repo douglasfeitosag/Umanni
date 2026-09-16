@@ -1,5 +1,7 @@
 ### AI Usage Disclosure
 
+The 0.3.1 local-delivery hardening was implemented with Codex, identified as GPT-5 without an exposed exact runtime variant. Its independent exact-HEAD review evidence is recorded on the corresponding pull request; no review is credited here before it is actually completed.
+
 The identity and access implementation for the 0.3.0 candidate used Codex, identified as GPT-5 without an exposed exact runtime variant. Independent implementation reviews were performed in fresh `gpt-5.6-luna`/high contexts and recorded on PR #17; their acceptance remains SHA-specific and must be checked on the current pull request head.
 
 The foundation implementation used Codex, identified as GPT-6 without an exposed exact runtime variant. Independent implementation review was dispatched in a fresh context with `gpt-5.6-luna`/high configured. The reviewer reported a GPT-5 runtime identity without an exposed exact variant; the corrected implementation was independently accepted; exact review and validation SHAs are recorded on PR #12.
@@ -62,13 +64,21 @@ Run the packaged application:
 
 ```sh
 docker compose -p umanni-foundation --profile delivery build web
-docker compose -p umanni-foundation --profile delivery run --rm web bin/rails db:prepare
 docker compose -p umanni-foundation --profile delivery up -d --wait web
+curl --fail http://127.0.0.1:3030/ready
 curl --fail http://127.0.0.1:3030/up
 curl --fail http://127.0.0.1:3030/
 ```
 
-Open <http://localhost:3030>. The interface is in Portuguese. Visitors can register as regular users and then manage their own profile. Administrators can manage users and roles and see live totals. `/up` checks application boot; it does not check database connectivity. Production assets are compiled into the non-root image; no Vite development server is needed.
+The delivery profile runs `db:prepare` before starting the server and fails closed if preparation cannot complete. `/ready` checks the application database connection and pending migrations; `/up` remains a separate boot/liveness check. Open <http://localhost:3030>. The interface is in Portuguese. Visitors can register as regular users and then manage their own profile. Administrators can manage users and roles and see live totals. Unexpected production 5xx responses use a generic Portuguese fallback for both HTML and Inertia visits. Production assets are compiled into the non-root image; no Vite development server is needed.
+
+Run the isolated delivery gate after `bin/check` when changing startup, health, production error handling, or the delivery image:
+
+```sh
+bin/check-delivery
+```
+
+It uses temporary Compose project names and volumes, tests a fresh database, a pending migration, restart idempotence, an unreachable database, safe HTML/Inertia failures, and 18 production-like browser scenarios. Its trap removes only the resources it creates.
 
 For local development, stop delivery first because both profiles publish port 3030:
 
