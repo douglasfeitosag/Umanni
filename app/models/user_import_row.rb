@@ -17,7 +17,6 @@ class UserImportRow < ApplicationRecord
   def result_is_consistent
     if created?
       errors.add(:error_code, "must be blank for created rows") if error_code.present?
-      errors.add(:user, "is required for created rows") if user.nil?
     elsif rejected?
       errors.add(:error_code, "is required for rejected rows") if error_code.blank?
       errors.add(:user, "must be blank for rejected rows") if user.present?

@@ -7,7 +7,9 @@ Rails.application.routes.draw do
   resource :profile, only: %i[show edit update destroy]
   namespace :admin do
     resource :dashboard, only: :show
-    resources :users
+    resources :users do
+      post :initial_password, on: :member
+    end
     resources :user_imports, only: %i[index show create]
   end
   root "sessions#new"

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_16_140100) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_16_140200) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -228,7 +228,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_16_140100) do
     t.index ["user_import_id", "status", "row_number"], name: "idx_on_user_import_id_status_row_number_6550ececfa"
     t.index ["user_import_id"], name: "index_user_import_rows_on_user_import_id"
     t.check_constraint "error_code IS NULL OR (error_code::text = ANY (ARRAY['missing_full_name'::character varying, 'missing_email'::character varying, 'invalid_email'::character varying, 'invalid_role'::character varying, 'formula_not_allowed'::character varying, 'field_too_long'::character varying, 'row_too_large'::character varying, 'duplicate_in_file'::character varying, 'duplicate_existing'::character varying, 'malformed_row'::character varying]::text[]))", name: "user_import_rows_error_code_allowed"
-    t.check_constraint "status::text = 'created'::text AND error_code IS NULL AND user_id IS NOT NULL OR status::text = 'rejected'::text AND error_code IS NOT NULL AND user_id IS NULL", name: "user_import_rows_result_consistent"
+    t.check_constraint "status::text = 'created'::text AND error_code IS NULL OR status::text = 'rejected'::text AND error_code IS NOT NULL AND user_id IS NULL", name: "user_import_rows_result_consistent"
     t.check_constraint "status::text = ANY (ARRAY['created'::character varying, 'rejected'::character varying]::text[])", name: "user_import_rows_status_allowed"
   end
 
