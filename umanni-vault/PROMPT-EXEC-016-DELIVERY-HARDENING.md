@@ -39,7 +39,7 @@ Entregar #18 e #19 como patch 0.3.1: impedir que o serviço Compose `delivery` a
 ## Decisões obrigatórias
 
 - D-032: `db:prepare` opt-in somente no `web` do perfil Compose `delivery`; nunca política genérica implícita.
-- D-033: preservar `/up` como liveness e usar readiness separada que prova HTTP, `SELECT 1` e ausência de migrations pendentes.
+- D-033: preservar `/up` como liveness e usar readiness separada cuja própria resposta prova HTTP/Rails atendendo e cuja ação prova `SELECT 1` e ausência de migrations pendentes, sem GET interno a `/up`.
 - D-034: exceptions app 5xx dedicada e independente de sessão/banco, com HTML e Inertia válidos; status não-5xx delegados ao comportamento atual.
 - D-035: oferecer apenas `Voltar ao início`; nenhum replay/retry automático de operação desconhecida.
 
@@ -50,7 +50,7 @@ Não reabra decisões de identidade/acesso da 0.3.0. Nova decisão material ou n
 1. Revalidar gate, base, milestone, #18/#19, branch/PR, labels/responsável e arquivos permitidos.
 2. Criar reprodução automatizada em projeto Compose efêmero, com cleanup por trap, e registrar o RED do banco inexistente.
 3. Implementar E003–E005 para #18 com RED/GREEN/refatoração: entrypoint opt-in, readiness e Compose limpo.
-4. Implementar E006–E010 para #19: requests HTML/Inertia, serviço 5xx, página acessível, sistema e busca negativa.
+4. Implementar E006–E010 para #19: requests HTML/Inertia, serviço 5xx, página acessível e Playwright contra imagem final em `RAILS_ENV=production` com probe montado somente por overlay efêmero; confirmar que o probe não integra a imagem normal.
 5. Executar E011–E012: regressões, cobertura, `bin/check`, Compose, inventário e diff no mesmo SHA.
 6. Atualizar README/STATUS/memória/EXEC apenas com evidência real e modelos efetivamente usados.
 7. Fazer commits coesos, push e abrir/atualizar PR de execução com milestone 0.3.1, labels coerentes e Douglas responsável.
@@ -68,6 +68,7 @@ Rastreie individualmente US1.1–US4.3 conforme `tasks.md`. Preserve:
 - dev/test sem gate delivery;
 - status 5xx, headers Inertia válidos e HTML íntegro;
 - fallback sem auth/flash/banco, sem detalhe técnico e sem replay;
+- eventos próprios de startup/readiness exatamente iguais à allowlist constante, sem interpolar exceção/request/env;
 - teclado, foco no `h1`, 44×44, desktop/mobile, 200% e reduced motion;
 - projeto/volume Compose de teste isolados e removidos mesmo após falha.
 

@@ -10,17 +10,17 @@
 | imagem sem opt-in | não executa implicitamente | executa comando original | nenhuma política externa inferida |
 | `dev`/`test` | fluxo atual | fluxo atual | isolamento preservado |
 
-O entrypoint não imprime `DATABASE_URL` nem valores de ambiente. A mensagem pode identificar somente a etapa (`preparing delivery database`, `failed`) e o código de saída.
+O entrypoint não imprime `DATABASE_URL`, saída bruta de `db:prepare` nem valores de ambiente. Os únicos eventos próprios permitidos são linhas constantes `delivery.startup.database_prepare_started`, `delivery.startup.database_prepare_succeeded` e `delivery.startup.database_prepare_failed`; não incluem código de saída, `exception.message`, backtrace, request ou env. O teste compara as linhas próprias com essa allowlist exata e busca sentinelas em toda a saída capturada.
 
 ## Sondas
 
 | Sonda | Finalidade | Sucesso | Falha |
 | --- | --- | --- | --- |
 | `/up` | liveness Rails | aplicação bootou | boot falhou |
-| readiness da entrega | dependências necessárias ao tráfego | HTTP interno acessível, `SELECT 1` executa e nenhuma migration está pendente | 503 genérico |
+| readiness da entrega | servidor Rails atendendo e dependências necessárias ao tráfego | a própria resposta HTTP chega, `SELECT 1` executa e nenhuma migration está pendente | 503 genérico |
 | healthcheck Compose `web` | decisão operacional local | readiness retorna 200 | container permanece starting/unhealthy |
 
-A readiness não executa migration, não cria banco e não expõe contagem, versão, host, database name ou erro do adapter. Preparação pertence exclusivamente ao gate anterior ao servidor.
+A readiness não chama `/up` internamente, não executa migration, não cria banco e não expõe contagem, versão, host, database name ou erro do adapter. Preparação pertence exclusivamente ao gate anterior ao servidor. Em falha, seu único evento próprio é a linha constante `delivery.readiness.unavailable`, sem interpolação; sucesso não registra conteúdo de dependência.
 
 ## Contrato de resposta 5xx
 
@@ -55,4 +55,4 @@ A readiness não executa migration, não cria banco e não expõe contagem, vers
 
 ## Probes de segurança
 
-Os testes usam valores sentinela fictícios para exceção, parâmetro, cookie, URL e variável de banco. Corpo HTML, JSON Inertia e logs capturados devem falhar se contiverem qualquer sentinela ou termos de stacktrace. O teste não injeta credencial real.
+Os testes usam valores sentinela fictícios para exceção, parâmetro, cookie, URL e variável de banco. Corpo HTML, JSON Inertia e logs capturados devem falhar se contiverem qualquer sentinela ou termos de stacktrace. Além da busca negativa, eventos próprios de startup/readiness são comparados por igualdade à allowlist constante acima. O teste não injeta credencial real.

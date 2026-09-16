@@ -5,7 +5,7 @@
 - [x] #19 depende explicitamente da conclusão de #18.
 - [x] Cada decisão D-032–D-035 compara exatamente três cenários.
 - [x] Startup ausente/pending/falha possui BDD verificável e falha fechada.
-- [x] Readiness prova HTTP, banco e migrations sem redefinir `/up`.
+- [x] A própria resposta HTTP da readiness prova Rails atendendo; banco/migrations são verificados sem GET interno nem redefinição de `/up`.
 - [x] Perfis `dev`/`test` e `bin/check` permanecem isolados.
 - [x] HTML e Inertia 5xx preservam status e não expõem detalhe técnico.
 - [x] 403, 404 e 422 permanecem fora do fallback.
@@ -15,7 +15,9 @@
 - [x] Reprodução Compose usa projeto/volume isolados e cleanup obrigatório.
 - [x] RSpec, RTL, Playwright, Compose, RED/GREEN, cobertura e gates estão rastreados.
 - [x] Segurança inclui sentinelas e busca negativa em corpo/headers/logs.
+- [x] Logs próprios usam allowlist de eventos constantes, sem interpolar exceção/request/env.
+- [x] Playwright 5xx usa imagem final em `RAILS_ENV=production` com probe montado apenas por overlay efêmero e ausente da imagem normal.
 - [x] Allowlist, exclusões, aceite e condição de parada estão explícitos.
-- [ ] PR documental publicado com milestone 0.3.1, label `documentation` e Douglas responsável.
+- [x] PR documental publicado como #22 com milestone 0.3.1, label `documentation` e Douglas responsável.
 - [ ] Revisão independente aceita o HEAD exato com ledger verde, `spec-reviewed` e zero threads abertas.
 - [ ] Entrega para antes de aplicação, merge, tag ou Release.

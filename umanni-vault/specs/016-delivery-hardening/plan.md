@@ -20,6 +20,8 @@ Entrada: [spec](spec.md), [pesquisa](research.md), [contrato](contracts/delivery
 
 O gate não identifica comandos por substring, não altera `dev`/`test` e não se torna política implícita para toda execução da imagem. Valores fora da allowlist booleana falham de modo explícito em vez de serem tratados como verdadeiros.
 
+O wrapper não repassa a saída bruta de falha de `db:prepare`: emite somente os eventos constantes definidos no contrato, sem status interpolado, mensagem/backtrace da exceção ou ambiente. Os testes com dublê de comando verificam igualdade da saída própria e o gate Compose procura sentinelas no stream completo capturado.
+
 ### 2. Readiness separada
 
 Adicionar endpoint/controlador mínimo que não herda shares ou autenticação do `ApplicationController`. Ele:
@@ -28,9 +30,9 @@ Adicionar endpoint/controlador mínimo que não herda shares ou autenticação d
 2. executa consulta constante `SELECT 1` sem interpolação;
 3. verifica migrations pendentes pela API Rails compatível com 8.1;
 4. retorna 200 somente se ambas passarem;
-5. captura apenas falhas de dependência esperadas, registra mensagem sanitizada e retorna 503 sem detalhe.
+5. captura apenas falhas de dependência esperadas, emite exatamente `delivery.readiness.unavailable` sem interpolação e retorna 503 sem detalhe.
 
-O endpoint não prepara banco. O healthcheck Compose de `web` usa esse endpoint, provando também que o servidor HTTP já está aceitando conexões. `/up` permanece inalterado.
+O endpoint não prepara banco nem chama `/up`. O healthcheck Compose de `web` usa esse endpoint; receber sua resposta já prova que o servidor Rails está aceitando HTTP, enquanto o corpo da ação prova banco/schema. `/up` permanece inalterado como sonda separada de liveness.
 
 ### 3. Serviço de exceções 5xx
 
@@ -68,7 +70,7 @@ Cada incremento começa com um teste que falha pelo motivo comportamental certo,
 7. refatoração com suites focalizadas verdes;
 8. matriz final no mesmo SHA.
 
-Quando um teste exige exceção deliberada, a rota/controlador de probe existe somente no ambiente de teste e não entra nas rotas de produção. Não adicionar endpoint secreto ou token de debug ao artefato entregue.
+Quando um teste unitário exige exceção deliberada, a rota/controlador de probe existe somente no ambiente de teste. Para o aceite end-to-end, um overlay Compose exclusivo do harness monta em modo read-only um initializer de probe armazenado em `spec/support/` sobre a imagem final já construída e inicia `RAILS_ENV=production`. O initializer montado define a rota/controlador que lança a sentinela somente nesse container efêmero; ele não é copiado para a imagem, não integra as rotas versionadas de produção e o script confirma por inventário que o arquivo/rota não existem na imagem sem overlay. O Playwright usa configuração/baseURL dedicada contra esse container production-like e não altera o contrato do ambiente `test`. Não adicionar endpoint secreto, flag de debug ou token de probe ao artefato entregue.
 
 ## Plano de testes
 
@@ -80,10 +82,11 @@ Quando um teste exige exceção deliberada, a rota/controlador de probe existe s
 - banco já pronto reinicia sem seed/conta duplicada;
 - conexão/migration falha não abre a aplicação;
 - cleanup remove somente recursos isolados do teste.
+- eventos próprios do gate são exatamente a allowlist constante e o stream capturado não contém sentinelas.
 
 ### RSpec
 
-- readiness 200 com conexão/schema prontos e 503 para falha/pending, sem detalhe;
+- readiness 200 com conexão/schema prontos e 503 para falha/pending, sem detalhe e sem GET interno a `/up`;
 - `/up` continua com contrato de liveness;
 - exceptions app preserva 500/503 em HTML e Inertia;
 - Inertia possui somente props permitidas e headers válidos;
@@ -100,8 +103,8 @@ Quando um teste exige exceção deliberada, a rota/controlador de probe existe s
 
 ### Playwright
 
-- exceção deliberada por fixture/rota somente de teste produz página, não modal;
-- visita HTML e Inertia;
+- servidor `RAILS_ENV=production` na imagem final com initializer/rota de probe montado somente pelo overlay efêmero produz página, não modal;
+- visita HTML e Inertia por configuração Playwright dedicada ao baseURL production-like;
 - Chromium, Firefox e WebKit nos projetos já existentes;
 - desktop 1440×1024, mobile 390×844, teclado, texto/zoom 200% e reduced motion;
 - alvo >=44×44 CSS px, foco no `h1`, zero overflow horizontal e ação funcional.
@@ -132,7 +135,7 @@ Somente caminhos necessários dentro destas superfícies:
 - `config/application.rb`, `config/environments/production.rb` e `config/routes.rb` para exceptions app/readiness;
 - `public/` somente se a resposta HTML isolada exigir asset estático versionado;
 - `Dockerfile` apenas se a imagem final não contiver um arquivo obrigatório já autorizado; registrar antes/depois no EXEC;
-- `spec/`, config Vitest/Playwright e fixtures exclusivamente para os cenários 016;
+- `spec/`, inclusive initializer/overlay efêmeros sob `spec/support/`, config Vitest/Playwright e fixtures exclusivamente para os cenários 016; o probe não pode ser copiado à imagem final;
 - `README.md`, `umanni-vault/STATUS.md`, `umanni-vault/MEMORIA-PROJETO.md` e `umanni-vault/EXEC-016-DELIVERY-HARDENING.md`.
 
 Ficam proibidos: migrations/schema/seeds, models e regras de domínio, fluxos de identidade, Cable/métricas, branding original, protótipo, dependências/lockfiles, workflows/runner, deploy, importação e specs aceitas. Necessidade fora da lista aciona parada.

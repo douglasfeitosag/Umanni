@@ -73,7 +73,7 @@ Não há outro ajuste confirmado no milestone. Qualquer regressão adicional exi
 
 ### US2 — Readiness verificável
 
-1. **US2.1** — **Dado** servidor iniciado, PostgreSQL consultável e schema atualizado, **quando** o healthcheck de `web` executa, **então** valida HTTP e dependências locais e marca o serviço healthy.
+1. **US2.1** — **Dado** servidor iniciado, PostgreSQL consultável e schema atualizado, **quando** o healthcheck de `web` chama a readiness por HTTP, **então** a própria resposta da readiness prova que o Rails está atendendo e só retorna sucesso depois de validar banco/schema, marcando o serviço healthy.
 2. **US2.2** — **Dado** aplicação bootada mas banco indisponível ou migration pendente, **quando** a readiness é consultada, **então** retorna indisponível sem detalhes técnicos e o Compose não anuncia prontidão.
 3. **US2.3** — **Dado** os perfis `dev` e `test`, **quando** seus serviços/comandos iniciam, **então** não executam o gate de entrega nem herdam o healthcheck de readiness do perfil `delivery`; `/up` continua sendo apenas liveness de boot.
 
@@ -94,7 +94,7 @@ Não há outro ajuste confirmado no milestone. Qualquer regressão adicional exi
 - **FR-001**: o gate de startup só executa quando o serviço Compose `delivery` o habilita explicitamente; executar a imagem fora desse perfil não presume autorização para preparar banco.
 - **FR-002**: o gate executa `db:prepare` de forma idempotente antes do comando do servidor e propaga código de saída diferente de zero, sem iniciar o servidor após falha.
 - **FR-003**: o entrypoint termina com `exec` do comando original para preservar sinais e código de saída.
-- **FR-004**: a readiness retorna sucesso somente depois de uma resposta HTTP de liveness, uma consulta real ao banco configurado e a comprovação de que não há migrations pendentes.
+- **FR-004**: a chamada HTTP à readiness prova por si que o Rails está atendendo; dentro da mesma resposta, ela só retorna sucesso depois de uma consulta real ao banco configurado e da comprovação de que não há migrations pendentes. Ela não faz uma segunda chamada interna a `/up`.
 - **FR-005**: indisponibilidade de dependência retorna estado não saudável/503 com corpo genérico e sem material sensível.
 - **FR-006**: `/up` preserva o contrato Rails de liveness e não passa a alegar conectividade com banco.
 - **FR-007**: o serviço de exceções trata somente respostas 5xx inesperadas no ambiente de entrega/produção; 403, 404 e 422 continuam nos caminhos atuais.
@@ -106,7 +106,7 @@ Não há outro ajuste confirmado no milestone. Qualquer regressão adicional exi
 
 ## Requisitos não funcionais
 
-- **NFR-001 — Segurança**: nenhuma resposta/log de erro expõe stacktrace, classe/mensagem da exceção, `DATABASE_URL`, senha, cookie, token, params ou PII.
+- **NFR-001 — Segurança**: nenhuma resposta/log controlado por esta entrega expõe stacktrace, classe/mensagem da exceção, `DATABASE_URL`, senha, cookie, token, params ou PII. Os logs próprios usam somente os códigos constantes definidos no contrato, sem interpolar exceção/request/env.
 - **NFR-002 — Acessibilidade**: WCAG 2.2 AA para contraste relevante, foco visível, semântica, teclado, reflow a 200% e alvo mínimo de 44×44 CSS px.
 - **NFR-003 — Isolamento**: perfis `dev` e `test`, `bin/check` e seus bancos permanecem funcionais e não são preparados pelo gate `delivery`.
 - **NFR-004 — Compatibilidade**: não adicionar dependência Ruby/npm nem alterar versões fixadas sem bloqueio e decisão explícita.
@@ -118,7 +118,7 @@ Não há outro ajuste confirmado no milestone. Qualquer regressão adicional exi
 
 - **SC-001**: projeto Compose novo, sem banco de produção, chega a `up --wait web` saudável e o primeiro cadastro inválido retorna 422 com erros de campo, nunca 500 por banco inexistente.
 - **SC-002**: migration pendente bloqueia a escuta até concluir; migration/conexão com falha impede servidor healthy.
-- **SC-003**: readiness prova HTTP, consulta PostgreSQL e schema atualizado; `/up` continua liveness.
+- **SC-003**: a resposta HTTP da readiness prova servidor Rails atendendo, consulta PostgreSQL e schema atualizado, sem GET interno redundante; `/up` continua sendo a sonda separada de liveness.
 - **SC-004**: uma exceção 5xx deliberada em teste produz fallback íntegro em HTML e Inertia, com status preservado e sem resposta inválida/modal.
 - **SC-005**: 403/404/422 e validações de cadastro mantêm seus contratos anteriores.
 - **SC-006**: página de contingência passa RTL e Playwright em desktop/mobile, teclado, 200% e reduced motion, com foco no `h1` e ação segura.

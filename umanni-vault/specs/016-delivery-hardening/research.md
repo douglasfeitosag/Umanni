@@ -38,7 +38,7 @@ Consulta realizada em 2026-09-16. Fontes primárias e documentação das ferrame
 | B. Transformar `/up` em verificação de banco | prova dependência | muda contrato global em dev/test | mistura liveness e readiness |
 | C. Preservar `/up` e criar readiness exclusiva usada pelo healthcheck `delivery` | prova boot, consulta e migrations separadamente | não altera dev/test | duas sondas com responsabilidades claras |
 
-**Decisão: C.** A readiness executa consulta mínima real e verifica migrations pendentes. Sucesso é 200; dependência indisponível é 503 genérico. O healthcheck do `web` usa a readiness; `/up` permanece liveness.
+**Decisão: C.** A própria resposta HTTP da readiness prova que o Rails está atendendo; a ação executa consulta mínima real e verifica migrations pendentes, sem chamar `/up` internamente. Sucesso é 200; dependência indisponível é 503 genérico. O healthcheck do `web` usa a readiness; `/up` permanece a sonda separada de liveness.
 
 ### D-034 — fronteira do fallback 5xx
 
