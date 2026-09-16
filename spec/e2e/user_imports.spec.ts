@@ -29,9 +29,9 @@ test('US1–US6 imports a CSV with the real worker, persists progress, and activ
   await expect(page).toHaveURL(/\/admin\/user_imports\/\d+$/)
   await expect.poll(async () => {
     await page.reload()
-    return page.getByText('1 de 1 linhas processadas.').isVisible()
+    return (await page.getByText('1 de 1 linhas processadas.').isVisible()) &&
+      (await page.getByText('Concluída').isVisible())
   }).toBe(true)
-  await expect(page.getByText('Concluída')).toBeVisible()
   await expect(page.getByRole('table', { name: 'Resultados por linha' })).toContainText(importedEmail)
 
   await page.getByRole('link', { name: 'Pessoas' }).click()
@@ -57,7 +57,7 @@ test('US1–US6 imports a CSV with the real worker, persists progress, and activ
   await regularPage.getByLabel('Confirmar senha').fill(initialPassword)
   await regularPage.getByRole('button', { name: 'Criar conta' }).click()
   await expect(regularPage).toHaveURL(/\/profile$/)
-  const denied = await regularPage.goto('/admin/user_imports')
+  const denied = await regularPage.request.get('/admin/user_imports')
   expect(denied?.status()).toBe(403)
   await regularContext.close()
 })
