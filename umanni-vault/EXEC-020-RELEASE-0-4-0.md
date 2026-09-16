@@ -10,3 +10,10 @@
 ## Preparo
 
 Este PR atualiza somente notas, changelog, estado, memória e registros de release. Não cria tag, Release ou fecha milestone. A transição serial posterior exige merge deste preparo, nova conferência de `main`, lista vazia do milestone, tag anotada, Release pública e só então fechamento.
+
+## Publicação verificada
+
+- PR #28 integrado em `eb73edcbab8777ec9bbf13d80d7bfc4c5cd476eb`.
+- `v0.4.0` é tag anotada, objeto `93f8038f07403bfc5089238124f7ee5cbd9db60a`, com alvo remoto `eb73edcbab8777ec9bbf13d80d7bfc4c5cd476eb`.
+- A Release pública [Umanni 0.4.0](https://github.com/douglasfeitosag/Umanni/releases/tag/v0.4.0) não é draft/nem prerelease e aponta para o mesmo commit.
+- O milestone 0.4.0 foi fechado em 2026-09-16 com zero itens abertos, depois da tag e da Release.
