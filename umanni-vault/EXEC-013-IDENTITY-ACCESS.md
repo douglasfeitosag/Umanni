@@ -114,3 +114,14 @@ Nenhum merge, fechamento de PR, auto-merge, tag, release, fechamento de mileston
 A primeira revisão independente do PR de execução identificou cinco achados no HEAD documental `fd51cf4`: associação programática do erro de papel, IDs únicos para múltiplos diálogos destrutivos, propagação de `permissions.changeRole`, foco no `h1` após navegação Inertia e alvos de navegação móvel de no mínimo 44 × 44 px. A correção mantém a proteção autoritativa no servidor, torna o papel somente leitura quando a policy já nega a mudança, gera IDs por instância com `useId` e direciona o foco ao título da rota (com fallback para `main`). RTL cobre os dois primeiros contratos e Playwright cobre foco de rota e dimensões móveis.
 
 No HEAD corretivo histórico `bcfc99387665143ed41fec6ce91c2bb2a1540fff`, o Compose foi reconstruído sem cache e `bin/check` passou: RSpec em dois shards (27 + 24 exemplos), Ruby 92,48% de linhas, TypeScript/ESLint/RuboCop sem infrações, Brakeman sem alertas, Vitest 14/14 e Playwright 60/60 nos seis perfis Chromium, Firefox e WebKit. As cinco threads dessa rodada foram resolvidas e o status `review-ledger=success` foi publicado para aquele SHA. Esse aceite não é transferido para commits posteriores: antes de merge, tag, release ou fechamento de milestone, consultar o HEAD e os metadados vigentes no PR #17.
+
+## Correções incrementais após o gate histórico
+
+Os quatro ajustes abaixo permaneceram dentro de E011/E013 e foram publicados no mesmo PR #17, cada um com revisão independente `gpt-5.6-luna`/high no HEAD correspondente:
+
+- `ce5bac9ae1f8ead7d749c586ed6a3a0ef22b3e83`: aplica espaçamento próprio ao hint de avatar e verifica sua posição no fluxo browser.
+- `5420f95c80fbbedf7b225a955d6651e88a6b8ade`: configura os conectores `support.array` de `pt-BR`, eliminando o `and` entre erros em português.
+- `a83a4f831de2b5ce20713e8d1293458eabd11ab1`: centraliza explicitamente o diálogo destrutivo, pinta sua ação de confirmação de vermelho e só a habilita após `EXCLUIR` com `trim`; cancelar, Escape e sucesso limpam a confirmação e retornam o foco.
+- `4c9c8cb895ba86ebab3b2d0fba2f3cc3e5c397b8`: fecha o diálogo quando o clique ocorre no backdrop, sem tratar controles internos como backdrop; Playwright fecha, verifica foco restaurado, reabre e conclui a exclusão.
+
+No último HEAD funcional acima, o `bin/check` em imagem Compose passou integralmente: 52 exemplos RSpec em dois shards, 92,48% de linhas Ruby, TypeScript/ESLint/RuboCop/Brakeman sem falhas, Vitest 14/14 e Playwright 60/60 nos perfis Chromium, Firefox e WebKit, desktop e mobile. A execução direta do Vitest nesta worktree continuou indisponível por uma dependência opcional local ausente (`@rollup/rollup-darwin-arm64`); a imagem de verificação usa `npm ci` e fornece a evidência reprodutível. As revisões finais sem achados foram `5218409001`, `5218441534`, `5218468889` e `5218500723`. O ledger precisa ser novamente publicado para qualquer HEAD documental posterior.

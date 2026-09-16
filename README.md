@@ -1,6 +1,6 @@
 ### AI Usage Disclosure
 
-The identity and access implementation for the 0.3.0 candidate used Codex, identified as GPT-5 without an exposed exact runtime variant. Its independent final review is not credited here until it is actually completed and recorded on the implementation pull request.
+The identity and access implementation for the 0.3.0 candidate used Codex, identified as GPT-5 without an exposed exact runtime variant. Independent implementation reviews were performed in fresh `gpt-5.6-luna`/high contexts and recorded on PR #17; their acceptance remains SHA-specific and must be checked on the current pull request head.
 
 The foundation implementation used Codex, identified as GPT-6 without an exposed exact runtime variant. Independent implementation review was dispatched in a fresh context with `gpt-5.6-luna`/high configured. The reviewer reported a GPT-5 runtime identity without an exposed exact variant; the corrected implementation was independently accepted; exact review and validation SHAs are recorded on PR #12.
 
