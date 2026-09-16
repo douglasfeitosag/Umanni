@@ -2,6 +2,25 @@
 
 All notable project milestones are documented in this file. This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.3.1] - 2026-09-16
+
+### Fixed
+
+- Made local delivery prepare the application database and schema before the server starts, failing closed when preparation cannot complete.
+- Added database-aware `/ready` readiness while retaining `/up` as the separate boot/liveness endpoint.
+- Added safe, accessible production 5xx fallbacks for HTML and Inertia visits without exposing exception details.
+
+### Validation
+
+- The reviewed PR #23 head passed the manual `foundation-checks` and `review-ledger` statuses with no open review threads.
+- `bin/check` recorded 64 RSpec examples, 15 Vitest tests and 60 Playwright scenarios; `bin/check-delivery` added 18 production-like browser scenarios plus startup, readiness, failure and image-isolation checks.
+- Observed line coverage was 93.22% for Ruby and 94.53% for TypeScript; RuboCop and Brakeman passed.
+
+### Known limitations
+
+- CSV/XLSX imports, password recovery, email, hosted deployment, automated CI and runner installation remain outside this patch.
+- `/ready` documents the local Compose delivery contract, not a universal external-orchestrator policy.
+
 ## [0.3.0] - 2026-09-16
 
 ### Added
@@ -90,3 +109,4 @@ All notable project milestones are documented in this file. This project follows
 [0.2.0]: https://github.com/douglasfeitosag/Umanni/releases/tag/v0.2.0
 [0.2.1]: https://github.com/douglasfeitosag/Umanni/releases/tag/v0.2.1
 [0.3.0]: https://github.com/douglasfeitosag/Umanni/releases/tag/v0.3.0
+[0.3.1]: https://github.com/douglasfeitosag/Umanni/releases/tag/v0.3.1
