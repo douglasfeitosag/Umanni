@@ -20,12 +20,19 @@ export default function DeletionDialog({ action, label }: { action: string; labe
     trigger.current?.focus()
   }
 
+  function closeOnBackdropClick(event: React.MouseEvent<HTMLDialogElement>) {
+    const { bottom, left, right, top } = event.currentTarget.getBoundingClientRect()
+    const clickedOutsideDialog = event.clientX < left || event.clientX > right || event.clientY < top || event.clientY > bottom
+
+    if (clickedOutsideDialog) close()
+  }
+
   const confirmationMatches = confirmation.trim() === 'EXCLUIR'
 
   return (
     <>
       <button ref={trigger} className="danger-button" type="button" onClick={() => { setOpen(true); dialog.current?.showModal() }}>{label}</button>
-      <dialog ref={dialog} onClose={close} aria-labelledby={titleId}>
+      <dialog ref={dialog} onClick={closeOnBackdropClick} onClose={close} aria-labelledby={titleId}>
         {open && <form onSubmit={event => {
           event.preventDefault()
           form.transform(data => ({ deletion: data }))
