@@ -1,0 +1,4 @@
+services:
+  web:
+    volumes:
+      - ./spec/support/delivery_error_probe.rb:/rails/config/initializers/delivery_error_probe.rb:ro
