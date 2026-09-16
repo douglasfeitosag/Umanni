@@ -14,6 +14,7 @@ Este repositório é também o vault Obsidian do projeto. Abra a pasta `/Users/d
 - [[05-LEITURA-DO-TESTE|Requisitos e questões em aberto]]
 - [[TOOLING|Ferramentas de planejamento]]
 - [[PROMPT-COND-001-BRANDING|Prompt para a próxima condutora]]
+- [Planejamento 0.4.0](specs/019-user-import/spec.md) — importação CSV/XLSX assíncrona, progresso persistido/ao vivo e relatório seguro.
 - [Planejamento 0.3.1](specs/016-delivery-hardening/spec.md) — startup/readiness da entrega e fallback 5xx seguro.
 
 Especificação do bootstrap: [spec](specs/000-documentation/spec.md), [plano](specs/000-documentation/plan.md), [tarefas](specs/000-documentation/tasks.md). Constituição: [regras vigentes](CONSTITUICAO.md).
