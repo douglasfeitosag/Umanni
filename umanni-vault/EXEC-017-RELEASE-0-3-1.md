@@ -24,6 +24,9 @@ Nenhuma tag, Release ou fechamento de milestone foi feito nesta etapa de prepara
 - Estado: README, STATUS e memória curta distinguem a integração do PR #23 da publicação ainda pendente.
 - Limite: esta preparação não cria tag, Release nem fecha o milestone; o PR #24 precisa de revisão independente final e integração antes da transição serial.
 
-## Publicação e encerramento
+## Publicação e encerramento verificados
 
-Pendente. Depois da revisão e integração do preparo, registrar em reconciliação separada o merge, o objeto e alvo da tag anotada, a Release final, o milestone fechado e o comentário `[CONDUTORA]` do PR #24.
+- PR #24 integrado em `59a05d8e616291f10195f44a130321a0aa5d42db`; sua árvore é equivalente ao HEAD revisado `1d2ae5ccf1fd8771a2d70bcceb47ebefb0f1edf6`.
+- `v0.3.1` é uma tag anotada: objeto `7bcc6cb678804efc9f3272998725ccad2f6bd43b`, com alvo local e remoto `59a05d8e616291f10195f44a130321a0aa5d42db`.
+- A Release `Umanni 0.3.1` é pública, não draft/nem prerelease e possui `targetCommitish` igual ao merge: https://github.com/douglasfeitosag/Umanni/releases/tag/v0.3.1.
+- O milestone 0.3.1 foi fechado com zero itens abertos em `2026-09-16T11:36:29Z`. O comentário `[CONDUTORA]` no PR #24 preserva os identificadores e a ordem da transição.
