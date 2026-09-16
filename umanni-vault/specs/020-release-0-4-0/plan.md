@@ -1,7 +1,8 @@
 # Plano 020 — Release 0.4.0
 
-**Branch**: `codex/020-release-0-4-0`  
-**Base**: `c093b8d4c52c695e9e1e951538f044f070b2d0ef` (merge do PR #27)  
+**Branch**: `codex/020-release-0-4-0`
+
+**Base**: `c093b8d4c52c695e9e1e951538f044f070b2d0ef` (merge do PR #27)
 **Versão-alvo**: `0.4.0`
 
 ## Estratégia
