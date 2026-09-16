@@ -1,0 +1,23 @@
+# Checklist 019 — Importação de usuários
+
+- [x] 0.4.0 e milestone #7 estão explícitos; Backlog não foi absorvido.
+- [x] CSV e XLSX possuem contrato canônico, limites e pré-validação.
+- [x] D-019/D-020/D-025/D-026/D-028/D-029 foram preservadas.
+- [x] Solid Queue e Roo foram comparados/fixados sem instalação nesta branch.
+- [x] Lote/job usam o mesmo pool `primary`, sem `connects_to`/role/schema separado; falha/crash pré-commit reverte ambos.
+- [x] Retry de execução, worker separado e restart têm critérios verificáveis.
+- [x] Web/worker compartilham `/rails/storage` com ownership e prova Compose.
+- [x] Estados, contadores, resultados por linha e idempotência possuem invariantes.
+- [x] `error_code` e `failure_code` possuem listas exaustivas e combinações válidas.
+- [x] Limites numéricos por campo/linha e constraints contra bypass estão definidos.
+- [x] Duplicidade no arquivo, no banco e concorrente tem resultado definido.
+- [x] Progresso persistido é fonte da verdade; Cable apenas invalida.
+- [x] Autorização cobre rotas, IDs, props e streams.
+- [x] Conta importada sem senha possui caminho local mínimo de ativação sem e-mail.
+- [x] Senha inicial usa lock pessimista e exatamente uma definição concorrente vence.
+- [x] Callback de métricas é suprimido somente no processor e reposto por bloco confirmado.
+- [x] Relatório/props/eventos/logs excluem conteúdo bruto e segredos.
+- [x] BDD, TDD, segurança, acessibilidade, cobertura e Compose estão rastreados.
+- [x] Allowlist, exclusões, sucesso e parada estão explícitos.
+- [x] PR documental #26 possui milestone 0.4.0, label `documentation` e Douglas responsável.
+- [ ] Revisão independente aceita o HEAD exato com ledger verde e zero threads abertas.

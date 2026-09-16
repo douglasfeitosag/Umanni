@@ -46,14 +46,20 @@ O planejamento 016 foi integrado pelo PR #22. A implementação foi aceita no HE
 
 A spec 017 governou a publicação. Seu planejamento foi aceito no HEAD `2701c3f5ab874506a22b1d680a012458788c03cf` depois da correção R-017-001; o preparo final foi aceito no HEAD `1d2ae5ccf1fd8771a2d70bcceb47ebefb0f1edf6` e integrado pelo PR #24 em `59a05d8e616291f10195f44a130321a0aa5d42db`. A tag anotada `v0.3.1` (objeto `7bcc6cb678804efc9f3272998725ccad2f6bd43b`) e a Release final apontam para esse merge. O milestone 0.3.1 está fechado com zero itens abertos.
 
+## Planejamento de importação 0.4.0
+
+A entrega documental 019 parte de `origin/main` em `9d3191f6013fc400b6f5181bdb577cb5728537ec`, depois da reconciliação do PR #25, e está na branch `codex/019-user-import`, [PR #26](https://github.com/douglasfeitosag/Umanni/pull/26). O milestone aberto `0.4.0` #7 destina-se exclusivamente à importação administrativa CSV/XLSX assíncrona, ao progresso persistido/ao vivo e à configuração local da senha inicial de contas importadas sem credencial. A numeração substitui a reserva histórica `015-user-import`, já consumida pelo registro pós-0.3.0; não altera decisões de produto.
+
+O inventário confirmou Active Storage e Solid Cable existentes, mas Solid Queue/worker e parser XLSX ausentes. O plano fixa, sujeito ao gate de execução, `solid_queue 1.7.0` e `roo 3.0.0`; uma prova isolada resolveu e carregou ambas com Ruby 4.0.6/Rails 8.1.3.1 sem alterar o lock do repositório. A feature continua sem implementação até o planejamento receber revisão independente no HEAD exato.
+
 ## Pendências e momento de resolução
 
 - A spec 013, a execução e o fechamento formal 014 foram concluídos e publicados como 0.3.0. A reconciliação pós-publicação foi integrada pelo PR #21 em `a3b53ee00e5009d7d52485c22171acb3d41329d5`; ela não alterou o alvo imutável de `v0.3.0`.
 - O ciclo 0.3.1, limitado às regressões #18 e #19, está concluído e publicado. A reconciliação pós-publicação registra o estado sem alterar o alvo imutável da tag. Ver [[EXEC-016-DELIVERY-HARDENING]] e [[EXEC-017-RELEASE-0-3-1]].
-- Importação CSV/XLSX permanece para 0.4.0; CI/runner, extras e issue #9 preservam destino Backlog.
+- Importação CSV/XLSX está planejada documentalmente para 0.4.0 na spec 019; CI/runner, extras e issue #9 preservam destino Backlog.
 - Proteção de `main`: configurada e relida pela API em 2026-09-14 com PR obrigatório, zero aprovações nativas, `review-ledger` obrigatório e estrito por SHA, conversas resolvidas, aplicação a administradores e bloqueio de force-push/exclusão. Labels `review-pending`, `changes-requested`, `spec-reviewed` e `code-reviewed` existem. foundation-checks foi adicionado como obrigatório na execução009, preservando as demais proteções; automação do ledger e runner isolado permanecem pendentes; o status manual do ledger não deve ser apresentado como workflow automatizado.
 - A fundação fixou versões compatíveis, Vite/npm, contratos Inertia, política de cobertura e ambientes de teste; qualquer ampliação futura desses contratos exige nova especificação e evidência própria.
-- Antes dos fluxos de usuário: cadastro/ativação/senha inicial, importação CSV/XLSX (colunas, duplicidade, erros, limites e repetição), avatar, último administrador e matriz de autorização. Ver 05-LEITURA-DO-TESTE.
+- Antes da execução 019: revalidar o gate do planejamento e implementar somente o contrato fechado de colunas, duplicidade, erros, limites, repetição, worker e senha inicial da conta importada. Os demais fluxos de identidade/acesso já pertencem à 0.3.0 publicada.
 - Antes de instalar runner: runtime/isolamento, recursos, isolamento por PR e proteção da máquina em repositório público. Runner permanece no Mac.
 - Antes da submissão: reconciliar modelos realmente usados no README, verificar todos os requisitos, confirmar instruções adicionais do avaliador e testar Compose do zero.
 
