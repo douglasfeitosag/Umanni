@@ -5,6 +5,7 @@
 
 Rails.application.configure do
   config.active_storage.service = :test
+  config.active_job.queue_adapter = :solid_queue
   # Settings specified here will take precedence over those in config/application.rb.
 
   # While tests run files are not watched, reloading is not necessary.

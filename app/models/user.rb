@@ -15,7 +15,9 @@ class User < ApplicationRecord
   normalizes :email, with: ->(email) { email.strip.downcase }
 
   validates :full_name, presence: true
+  validates :full_name, length: { maximum: 200 }
   validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }, uniqueness: { case_sensitive: false }
+  validates :email, length: { maximum: 254 }
   validates :password, confirmation: true, if: -> { password.present? }
   validates :password, presence: true, if: :password_required
   validates :password_confirmation, presence: true, if: :password_required
@@ -31,6 +33,10 @@ class User < ApplicationRecord
 
     Rails.application.routes.url_helpers.rails_blob_path(avatar.blob,
                                                          only_path: true)
+  end
+
+  def self.invalidate_dashboard_metrics!
+    ActionCable.server.broadcast("dashboard_metrics", { type: "dashboard.metrics.changed", schemaVersion: 1 })
   end
 
   private
@@ -64,6 +70,6 @@ class User < ApplicationRecord
   end
 
   def invalidate_dashboard_metrics
-    ActionCable.server.broadcast("dashboard_metrics", { type: "dashboard.metrics.changed", schemaVersion: 1 })
+    self.class.invalidate_dashboard_metrics! unless Current.suppress_dashboard_metrics
   end
 end

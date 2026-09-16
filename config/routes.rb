@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   namespace :admin do
     resource :dashboard, only: :show
     resources :users
+    resources :user_imports, only: %i[index show create]
   end
   root "sessions#new"
   get "up" => "rails/health#show", as: :rails_health_check

@@ -10,9 +10,11 @@ gem "pg", "1.6.3"
 gem "puma", "8.0.2"
 gem "rails", "8.1.3.1"
 gem "solid_cable", "4.0.2"
+gem "solid_queue", "1.7.0"
 gem "thruster", "0.1.26", require: false
 gem "vite_rails", "3.11.1"
 gem "vite_ruby", "3.10.5"
+gem "roo", "3.0.0"
 
 group :development, :test do
   gem "brakeman", "8.0.6", require: false

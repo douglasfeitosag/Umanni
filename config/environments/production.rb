@@ -2,6 +2,7 @@ require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
   config.active_storage.service = :production_local
+  config.active_job.queue_adapter = :solid_queue
   config.exceptions_app = ->(env) { DeliveryExceptionsApp.call(env) }
   # Settings specified here will take precedence over those in config/application.rb.
 
