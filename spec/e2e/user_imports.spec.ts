@@ -56,6 +56,7 @@ test('US1–US6 imports a CSV with the real worker, persists progress, and activ
   await regularPage.getByLabel('Senha', { exact: true }).fill(initialPassword)
   await regularPage.getByLabel('Confirmar senha').fill(initialPassword)
   await regularPage.getByRole('button', { name: 'Criar conta' }).click()
+  await expect(regularPage).toHaveURL(/\/profile$/)
   const denied = await regularPage.goto('/admin/user_imports')
   expect(denied?.status()).toBe(403)
   await regularContext.close()
