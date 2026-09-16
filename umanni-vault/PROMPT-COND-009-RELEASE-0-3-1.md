@@ -1,0 +1,3 @@
+# Fechamento pós-merge — Release 0.3.1
+
+Depois da integração do PR #24, capturar o SHA de `origin/main`, confirmar que sua árvore contém as notas `0.3.1`, que a listagem completa do milestone não tem issues nem pull requests abertos e que tag/Release estão ausentes. Criar `v0.3.1` anotada no SHA capturado, verificar objeto e alvo local/remoto, publicar `Umanni 0.3.1` usando `umanni-vault/releases/0.3.1.md` com `--target <sha>`, conferir `targetCommitish`, fechar o milestone e publicar comentário `[CONDUTORA]` com toda a evidência. Não usar força, não mover tag e parar em qualquer divergência. Depois, criar um PR documental separado para reconciliar os fatos verificados, sem alterar a publicação.
