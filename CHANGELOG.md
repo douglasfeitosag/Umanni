@@ -2,6 +2,24 @@
 
 All notable project milestones are documented in this file. This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.3.0] - 2026-09-16
+
+### Added
+
+- Regular-user registration, role-aware sessions, self-service profiles and guarded avatar uploads.
+- Administrator user and role management, last-administrator protection and local first-administrator bootstrap.
+- Live administrator dashboard totals through authenticated Solid Cable invalidation and Inertia partial reloads.
+- Accessible Portuguese interface validation, destructive-confirmation safeguards and responsive browser coverage.
+
+### Validation
+
+- The reviewed PR #17 head passed the manual `foundation-checks` and `review-ledger` statuses.
+- Compose verification recorded 52 RSpec examples, 14 Vitest tests and 60 Playwright scenarios across Chromium, Firefox and WebKit at desktop and mobile viewports.
+
+### Known limitations
+
+- CSV/XLSX imports, password recovery, email, hosted deployment, automated CI and runner installation remain outside this version.
+
 ## [0.2.1] - 2026-09-15
 
 ### Changed
@@ -71,3 +89,4 @@ All notable project milestones are documented in this file. This project follows
 [0.1.0]: https://github.com/douglasfeitosag/Umanni/releases/tag/v0.1.0
 [0.2.0]: https://github.com/douglasfeitosag/Umanni/releases/tag/v0.2.0
 [0.2.1]: https://github.com/douglasfeitosag/Umanni/releases/tag/v0.2.1
+[0.3.0]: https://github.com/douglasfeitosag/Umanni/releases/tag/v0.3.0

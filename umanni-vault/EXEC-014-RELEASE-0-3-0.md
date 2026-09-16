@@ -15,3 +15,10 @@
 - A tag e a Release `v0.3.0` estavam ausentes antes desta preparação.
 
 Nenhuma tag, Release ou fechamento de milestone foi feito nesta etapa de planejamento. Os fatos pós-publicação serão registrados somente depois de verificados.
+
+## Preparação de registros públicos
+
+- Notas versionadas: `umanni-vault/releases/0.3.0.md`.
+- Histórico público: entrada 0.3.0 em `CHANGELOG.md`.
+- Estado: STATUS e memória curta agora distinguem a integração do PR #17 da publicação ainda pendente.
+- Limite: esta preparação não cria tag, Release nem fecha o milestone; o PR de preparação precisa de revisão independente final e integração antes da transição serial.
