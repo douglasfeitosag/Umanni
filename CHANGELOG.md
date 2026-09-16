@@ -2,6 +2,23 @@
 
 All notable project milestones are documented in this file. This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.4.0] - 2026-09-16
+
+### Added
+
+- Administrative CSV/XLSX imports processed asynchronously by a dedicated Solid Queue worker.
+- Persisted import progress, safe line-level reports and private Solid Cable invalidation.
+- One-time, accessible initial-password activation for imported accounts without credentials.
+
+### Validation
+
+- PR #27 merged after exact-HEAD independent review, manual foundation-checks and review-ledger success.
+- The technical head passed 92 RSpec examples, 23 Vitest tests, 66 Playwright scenarios, RuboCop, Brakeman and 18 production-like delivery checks.
+
+### Known limitations
+
+- Email, invitations, password recovery, manual retry, cancellation, export, Redis, automated CI, runner and deployment remain out of scope.
+
 ## [0.3.1] - 2026-09-16
 
 ### Fixed
@@ -110,3 +127,4 @@ All notable project milestones are documented in this file. This project follows
 [0.2.1]: https://github.com/douglasfeitosag/Umanni/releases/tag/v0.2.1
 [0.3.0]: https://github.com/douglasfeitosag/Umanni/releases/tag/v0.3.0
 [0.3.1]: https://github.com/douglasfeitosag/Umanni/releases/tag/v0.3.1
+[0.4.0]: https://github.com/douglasfeitosag/Umanni/releases/tag/v0.4.0
