@@ -21,6 +21,9 @@
 !lib/**
 !public/**
 !spec/**
+!branding/assets/logo/umanni-horizontal.svg
+!branding/assets/fonts/montserrat-variable.ttf
+!branding/assets/fonts/roboto-variable.ttf
 config/master.key
 config/credentials*
 config/credentials/**

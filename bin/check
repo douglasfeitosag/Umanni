@@ -26,7 +26,7 @@ bundle exec rake verification:prepare
 bundle exec rails zeitwerk:check
 # Request specs render real asset tags on a fresh checkout.
 bundle exec vite build
-bundle exec parallel_rspec -n 2 spec/requests spec/integration
+bundle exec parallel_rspec -n 2 spec
 bundle exec rake coverage:verify
 npm exec tsc -- --noEmit
 npm exec eslint -- app/frontend spec/e2e '*.config.ts' --max-warnings=0

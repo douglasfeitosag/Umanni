@@ -34,10 +34,14 @@ RUN groupadd --gid 1000 rails && useradd --uid 1000 --gid 1000 --create-home --s
 COPY --from=build /usr/local/bundle /usr/local/bundle
 COPY --from=build /rails/Gemfile /rails/Gemfile.lock /rails/Rakefile /rails/config.ru ./
 COPY --from=build /rails/app/controllers ./app/controllers
+COPY --from=build /rails/app/channels ./app/channels
 COPY --from=build /rails/app/models ./app/models
+COPY --from=build /rails/app/queries ./app/queries
+COPY --from=build /rails/app/services ./app/services
 COPY --from=build /rails/app/views ./app/views
 COPY --from=build /rails/config ./config
 COPY --from=build /rails/db ./db
+COPY --from=build /rails/lib/tasks ./lib/tasks
 COPY --from=build /rails/public ./public
 COPY --from=build /rails/bin/rails /rails/bin/rake /rails/bin/thrust /rails/bin/docker-entrypoint ./bin/
 RUN rm -rf /usr/local/bundle/ruby/*/cache /usr/local/lib/ruby/gems/*/cache && mkdir -p tmp/pids log lib && chown -R rails:rails tmp log
