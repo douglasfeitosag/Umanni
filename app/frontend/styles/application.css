@@ -45,6 +45,7 @@ form { margin-top: 2rem; }
 .field input[aria-invalid="true"], .field select[aria-invalid="true"] { border-color: var(--danger); box-shadow: 0 0 0 1px var(--danger); }
 .field-error { margin: .35rem 0 0; color: var(--danger); font-size: .9rem; font-weight: 600; }
 .field-hint { margin: -.55rem 0 .8rem; color: var(--muted); font-size: .88rem; }
+.avatar-field .field-hint { margin: .35rem 0 .8rem; }
 .form-summary { padding: .75rem 1rem; border-left: 4px solid; }
 .primary-button, .secondary-button, .danger-button, .text-button { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; padding: .62rem 1rem; border-radius: 7px; font-family: Montserrat, sans-serif; font-weight: 700; text-decoration: none; cursor: pointer; }
 .primary-button { border: 1px solid var(--navy); background: var(--navy); color: var(--white); }
