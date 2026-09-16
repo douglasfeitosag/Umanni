@@ -5,3 +5,6 @@ services:
       SECRET_KEY_BASE: delivery-test-secret-key-base-not-for-production
     ports: !override
       - "127.0.0.1:${DELIVERY_TEST_PORT:-3131}:3000"
+  worker:
+    environment:
+      SECRET_KEY_BASE: delivery-test-secret-key-base-not-for-production
