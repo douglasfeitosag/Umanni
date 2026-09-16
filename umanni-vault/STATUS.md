@@ -42,7 +42,9 @@ A execução foi integrada pelo PR #17 no merge `0df73fe060b5a4b3fd9942955f405f6
 
 ## Pendências e momento de resolução
 
-- A spec 013, a execução e o fechamento formal 014 foram concluídos e publicados como 0.3.0. Importação CSV/XLSX permanece para 0.4.0; CI/runner, extras e issue #9 preservam destino Backlog.
+- A spec 013, a execução e o fechamento formal 014 foram concluídos e publicados como 0.3.0. A reconciliação pós-publicação foi integrada pelo PR #21 em `a3b53ee00e5009d7d52485c22171acb3d41329d5`; ela não alterou o alvo imutável de `v0.3.0`.
+- O milestone aberto `0.3.1` contém exclusivamente as regressões #18 (startup/readiness do perfil `delivery`) e #19 (fallback 5xx seguro e acessível, dependente de #18). O planejamento documental 016 parte de `a3b53ee`, preserva `/up`, 403/404/422 e dev/test, e para antes de aplicação, merge, tag ou Release. Ver `specs/016-delivery-hardening/`.
+- Importação CSV/XLSX permanece para 0.4.0; CI/runner, extras e issue #9 preservam destino Backlog.
 - Proteção de `main`: configurada e relida pela API em 2026-09-14 com PR obrigatório, zero aprovações nativas, `review-ledger` obrigatório e estrito por SHA, conversas resolvidas, aplicação a administradores e bloqueio de force-push/exclusão. Labels `review-pending`, `changes-requested`, `spec-reviewed` e `code-reviewed` existem. foundation-checks foi adicionado como obrigatório na execução009, preservando as demais proteções; automação do ledger e runner isolado permanecem pendentes; o status manual do ledger não deve ser apresentado como workflow automatizado.
 - A fundação fixou versões compatíveis, Vite/npm, contratos Inertia, política de cobertura e ambientes de teste; qualquer ampliação futura desses contratos exige nova especificação e evidência própria.
 - Antes dos fluxos de usuário: cadastro/ativação/senha inicial, importação CSV/XLSX (colunas, duplicidade, erros, limites e repetição), avatar, último administrador e matriz de autorização. Ver 05-LEITURA-DO-TESTE.
