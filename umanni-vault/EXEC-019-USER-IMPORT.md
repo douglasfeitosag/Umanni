@@ -12,7 +12,7 @@
 
 **PR**: [#27](https://github.com/douglasfeitosag/Umanni/pull/27), milestone aberto `0.4.0`.
 
-**HEAD técnico validado**: `02da120ce69f9d3fc9bfb752e92c26baad17c5d9`.
+**HEAD técnico validado**: `4be48638f8d899d95456b08dffb7561b6ebd59b8`.
 
 ## Gate inicial e escopo
 
@@ -64,12 +64,12 @@ As correções finais do próprio gate foram: ordenar a migration fictícia apó
 
 ## Evidência de qualidade vigente
 
-`bin/check`, reexecutado com `VERIFICATION_SHA=02da120ce69f9d3fc9bfb752e92c26baad17c5d9`, passou integralmente:
+`bin/check`, reexecutado com `VERIFICATION_SHA=4be48638f8d899d95456b08dffb7561b6ebd59b8`, passou integralmente:
 
 - RSpec paralelo: 48 + 44 = **92 exemplos**, zero falhas, em `umanni_test` e `umanni_test2` isolados;
 - cobertura Ruby: 766/804 linhas, **95,27%**;
 - RuboCop: 97 arquivos, zero infrações; Brakeman 8.0.6: zero alertas;
-- Vitest: **23/23**, cobertura TypeScript de linhas **95,85%** (89,94% statements);
+- Vitest: **23/23**, cobertura TypeScript de linhas **95,90%** (90,04% statements);
 - Playwright: **66/66** nos seis perfis Chromium/Firefox/WebKit e desktop/mobile, incluindo envio CSV, worker real, estado terminal persistido, configuração única de senha inicial sem exposição do segredo, login da conta importada e negação HTTP 403 para conta regular.
 
 `bin/check-delivery` passou novamente no mesmo HEAD: a imagem de produção contém os componentes de importação necessários, o web e o worker executam sem root, o volume de Active Storage é compartilhado e continua legível após restart, migrations pendentes são aplicadas, `/ready` e `/up` respondem conforme contrato e a indisponibilidade deliberada do PostgreSQL impede o web de servir porta. Os 18 cenários production-like passaram e os recursos isolados foram removidos pelo cleanup do gate.
@@ -88,12 +88,13 @@ No mesmo HEAD de código, `bin/check` passou com 48 + 44 = **92 exemplos RSpec**
 
 ## Correções da revisão independente — rodada 2
 
-A revisão seguinte no HEAD documental `fdc676c` abriu F-019-009 a F-019-012. Esta rodada separa a evidência histórica do estado vigente e fecha os três comportamentos faltantes sem introduzir rotas ou recursos adicionais:
+A revisão seguinte no HEAD documental `fdc676c` abriu F-019-009 a F-019-012. A revisão posterior abriu F-019-013 e F-019-014, corrigidos no HEAD técnico `4be4863`. Esta rodada separa a evidência histórica do estado vigente e fecha os comportamentos faltantes sem introduzir rotas ou recursos adicionais:
 
-- a evidência acima identifica separadamente o HEAD inicial `97261e1`, a correção de código `6d7d8b4` e o HEAD vigente `02da120`;
+- a evidência acima identifica separadamente o HEAD inicial `97261e1`, a correção de código `6d7d8b4` e o HEAD vigente `4be4863`;
 - a tela de edição recebe apenas `passwordConfigured`, derivado de `password_digest` no servidor. Quando esse booleano é falso, mostra campos com rótulos acessíveis para senha inicial e confirmação; o segredo nunca volta em props, HTML, logs ou resultados;
 - os testes de interface cobrem a presença do formulário apenas para contas sem credencial; os testes Playwright exercitam o fluxo administrativo inteiro com o worker real e a negação a conta regular;
-- todos os estados internos do lote são convertidos para texto em português antes da renderização.
+- todos os estados internos do lote e todos os resultados de linha (`created`/`rejected`) são convertidos para texto em português antes da renderização;
+- `STATUS.md` registra o gate de entrega efetivamente concluído, sem deixar confirmação técnica pendente.
 
 ## Segurança, acessibilidade e limites
 
