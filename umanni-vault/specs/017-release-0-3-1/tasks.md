@@ -1,7 +1,7 @@
 # Tarefas 017 — Release 0.3.1
 
 - [x] R001 Validar o merge do PR #23, checks, threads, milestone e ausência de `v0.3.1`/Release.
-- [ ] R002 Criar e publicar o planejamento documental com PR, milestone e responsável.
+- [x] R002 Criar e publicar o planejamento documental com PR, milestone e responsável.
 - [ ] R003 Obter revisão independente Luna high do planejamento no HEAD exato.
 - [ ] R004 Preparar notas, changelog, README, STATUS, memória, EXEC e prompt de encerramento sem publicar a versão.
 - [ ] R005 Validar escopo, links, estados pré-publicação e revisão independente do preparo final.
