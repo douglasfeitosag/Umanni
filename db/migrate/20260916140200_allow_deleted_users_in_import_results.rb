@@ -1,3 +1,4 @@
+# rubocop:disable-next Layout/LineLength
 class AllowDeletedUsersInImportResults < ActiveRecord::Migration[8.1]
   def change
     remove_check_constraint :user_import_rows, name: "user_import_rows_result_consistent"

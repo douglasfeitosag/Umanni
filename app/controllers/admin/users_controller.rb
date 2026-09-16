@@ -63,7 +63,7 @@ module Admin
 
     def set_initial_password
       result = InitialImportedPassword.call(@user, **initial_password_params.to_h.symbolize_keys)
-      return redirect_to(edit_admin_user_path(@user), notice: "Senha inicial definida.") if result.success?
+      return redirect_to(edit_admin_user_path(@user), notice: t("notices.initial_password_set")) if result.success?
 
       render_edit(errors: { password: result.error })
     end

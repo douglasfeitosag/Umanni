@@ -25,13 +25,15 @@ RSpec.describe UserImports::Processor do
   end
 
   it "creates only valid unique users and reports every duplicate in the file" do
-    user_import = create_import("full_name,email,role\nAna,ana@example.com,regular\nOutra Ana, ANA@example.com ,admin\n,missing@example.com,regular\n")
+    user_import = create_import(duplicate_and_missing_name_csv)
 
     described_class.call(user_import.id)
 
-    expect(user_import.reload).to have_attributes(status: "completed_with_errors", total_count: 3, processed_count: 3, created_count: 0, rejected_count: 3)
+    expect(user_import.reload).to have_attributes(status: "completed_with_errors", total_count: 3, processed_count: 3,
+                                                  created_count: 0, rejected_count: 3)
     expect(User.where(email: "ana@example.com")).not_to exist
-    expect(user_import.rows.order(:row_number).pluck(:error_code)).to eq(["duplicate_in_file", "duplicate_in_file", "missing_full_name"])
+    expect(user_import.rows.order(:row_number).pluck(:error_code)).to eq(%w[duplicate_in_file duplicate_in_file
+                                                                            missing_full_name])
   end
 
   it "preserves rows and counters when the same job is performed again" do
@@ -41,7 +43,8 @@ RSpec.describe UserImports::Processor do
     snapshot = user_import.reload.attributes.slice("processed_count", "created_count", "rejected_count", "status")
     described_class.call(user_import.id)
 
-    expect(user_import.reload.attributes.slice("processed_count", "created_count", "rejected_count", "status")).to eq(snapshot)
+    expect(user_import.reload.attributes.slice("processed_count", "created_count", "rejected_count",
+                                               "status")).to eq(snapshot)
     expect(user_import.rows.count).to eq(1)
     expect(User.where(email: "ana@example.com").count).to eq(1)
   end
@@ -57,13 +60,16 @@ RSpec.describe UserImports::Processor do
   end
 
   it "creates valid accounts and records row-level validation failures" do
-    user_import = create_import("full_name,email,role\nAna,ana@example.com,admin\nBia,invalid,regular\nCaio,caio@example.com,owner\nDora,dora@example.com,\n")
+    user_import = create_import(mixed_validity_csv)
 
     described_class.call(user_import.id)
 
-    expect(user_import.reload).to have_attributes(status: "completed_with_errors", processed_count: 4, created_count: 2, rejected_count: 2)
+    expect(user_import.reload).to have_attributes(status: "completed_with_errors", processed_count: 4,
+                                                  created_count: 2, rejected_count: 2)
     expect(User.where(email: %w[ana@example.com dora@example.com]).order(:email).pluck(:role)).to eq(%w[admin regular])
-    expect(user_import.rows.order(:row_number).pluck(:status, :error_code)).to eq([[ "created", nil ], [ "rejected", "invalid_email" ], [ "rejected", "invalid_role" ], [ "created", nil ]])
+    expect(user_import.rows.order(:row_number).pluck(:status, :error_code)).to eq(
+      [["created", nil], %w[rejected invalid_email], %w[rejected invalid_role], ["created", nil]]
+    )
   end
 
   it "marks an unattached queued import as unreadable instead of creating accounts" do
@@ -74,5 +80,24 @@ RSpec.describe UserImports::Processor do
 
     expect(user_import.reload).to have_attributes(status: "failed", failure_code: "source_unreadable")
     expect(User.where.not(id: admin.id)).not_to exist
+  end
+
+  def duplicate_and_missing_name_csv
+    <<~CSV
+      full_name,email,role
+      Ana,ana@example.com,regular
+      Outra Ana, ANA@example.com ,admin
+      ,missing@example.com,regular
+    CSV
+  end
+
+  def mixed_validity_csv
+    <<~CSV
+      full_name,email,role
+      Ana,ana@example.com,admin
+      Bia,invalid,regular
+      Caio,caio@example.com,owner
+      Dora,dora@example.com,
+    CSV
   end
 end

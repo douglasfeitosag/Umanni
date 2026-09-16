@@ -1,5 +1,6 @@
 class UserImportRow < ApplicationRecord
-  ERROR_CODES = %w[missing_full_name missing_email invalid_email invalid_role formula_not_allowed field_too_long row_too_large duplicate_in_file duplicate_existing malformed_row].freeze
+  ERROR_CODES = %w[missing_full_name missing_email invalid_email invalid_role formula_not_allowed field_too_long
+                   row_too_large duplicate_in_file duplicate_existing malformed_row].freeze
 
   belongs_to :user_import
   belongs_to :user, optional: true

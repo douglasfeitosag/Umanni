@@ -8,8 +8,18 @@ class ProcessUserImportJob < ApplicationJob
     UserImports::Processor.call(user_import_id)
   rescue ActiveRecord::ConnectionFailed
     raise
-  rescue StandardError => error
-    Rails.logger.error("user_import.failed class=#{error.class}")
-    UserImport.where(id: user_import_id).where.not(status: %w[completed completed_with_errors]).update_all(status: "failed", failure_code: "technical_failure", finished_at: Time.current)
+  rescue StandardError => e
+    Rails.logger.error("user_import.failed class=#{e.class}")
+    pending_imports(user_import_id).find_each { |user_import| fail_import(user_import) }
+  end
+
+  private
+
+  def pending_imports(user_import_id)
+    UserImport.where(id: user_import_id).where.not(status: %w[completed completed_with_errors])
+  end
+
+  def fail_import(user_import)
+    user_import.update!(status: :failed, failure_code: "technical_failure", finished_at: Time.current)
   end
 end

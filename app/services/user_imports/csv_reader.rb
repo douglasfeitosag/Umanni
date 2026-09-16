@@ -1,6 +1,7 @@
 module UserImports
   class CsvReader < Reader
     def initialize(io)
+      super()
       @io = io
     end
 

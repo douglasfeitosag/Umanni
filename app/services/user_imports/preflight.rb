@@ -23,21 +23,38 @@ module UserImports
 
     def call
       return failure(:missing_file) if @upload.blank?
-      return failure(:file_too_large) if @upload.size > MAX_FILE_BYTES
 
-      rows = reader.read
-      return failure(:too_many_rows) if rows.length > MAX_ROWS
+      return failure(:file_too_large) if too_large?
 
-      Result.new(rows:, error: nil)
-    rescue UserImports::Reader::InvalidSource => error
-      failure(error.code)
+      success_result
+    rescue UserImports::Reader::InvalidSource => e
+      failure(e.code)
     rescue CSV::MalformedCSVError, Encoding::InvalidByteSequenceError, Encoding::UndefinedConversionError
       failure(:invalid_file)
     ensure
-      @upload.tempfile.rewind if @upload&.tempfile
+      @upload&.tempfile&.rewind
     end
 
     private
+
+    def too_large?
+      @upload.size > MAX_FILE_BYTES
+    end
+
+    def parsed_rows
+      reader.read
+    end
+
+    def too_many_rows?(rows)
+      rows.length > MAX_ROWS
+    end
+
+    def success_result
+      rows = parsed_rows
+      return failure(:too_many_rows) if too_many_rows?(rows)
+
+      Result.new(rows:, error: nil)
+    end
 
     def reader
       extension = File.extname(@upload.original_filename.to_s).downcase

@@ -1,3 +1,5 @@
+# Declarative checks stay adjacent to the schema they protect.
+# rubocop:disable-next Metrics/AbcSize, Metrics/MethodLength, Layout/LineLength
 class CreateUserImports < ActiveRecord::Migration[8.1]
   def change
     create_table :user_imports do |t|

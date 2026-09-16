@@ -2,7 +2,10 @@ require "rails_helper"
 
 RSpec.describe UserImports::Enqueue do
   def upload
-    ActionDispatch::Http::UploadedFile.new(tempfile: Tempfile.new([ "people", ".csv" ]).tap { |file| file.write("full_name,email\nAna,ana@example.com\n"); file.rewind }, filename: "people.csv", type: "text/csv")
+    ActionDispatch::Http::UploadedFile.new(tempfile: Tempfile.new(["people", ".csv"]).tap do |file|
+      file.write("full_name,email\nAna,ana@example.com\n")
+      file.rewind
+    end, filename: "people.csv", type: "text/csv")
   end
 
   before do

@@ -38,7 +38,10 @@ RSpec.describe "User imports", type: :request do
     admin = create_user(email: "admin@example.com", role: :admin)
     sign_in(admin)
 
-    expect { post "/admin/user_imports", params: { user_import: { source_file: csv_upload } }, headers: inertia_headers }.to change(UserImport, :count).by(1).and change(SolidQueue::Job, :count).by(1)
+    expect do
+      post "/admin/user_imports", params: { user_import: { source_file: csv_upload } },
+                                  headers: inertia_headers
+    end.to change(UserImport, :count).by(1).and change(SolidQueue::Job, :count).by(1)
 
     user_import = UserImport.last
     expect(response).to redirect_to("/admin/user_imports/#{user_import.id}")
@@ -50,7 +53,10 @@ RSpec.describe "User imports", type: :request do
     regular = create_user(email: "regular@example.com")
     sign_in(regular)
 
-    expect { post "/admin/user_imports", params: { user_import: { source_file: csv_upload } }, headers: inertia_headers }.not_to change(UserImport, :count)
+    expect do
+      post "/admin/user_imports", params: { user_import: { source_file: csv_upload } },
+                                  headers: inertia_headers
+    end.not_to change(UserImport, :count)
     expect(response).to have_http_status(:forbidden)
     get "/admin/user_imports", headers: inertia_headers
     expect(response).to have_http_status(:forbidden)
@@ -60,24 +66,39 @@ RSpec.describe "User imports", type: :request do
     admin = create_user(email: "admin@example.com", role: :admin)
     sign_in(admin)
 
-    expect { post "/admin/user_imports", params: { user_import: { source_file: csv_upload("full_name,email,unknown\nAna,ana@example.com,nope\n") } }, headers: inertia_headers }.not_to change(UserImport, :count)
+    expect do
+      post "/admin/user_imports",
+           params: { user_import: { source_file: csv_upload(invalid_headers_csv) } }, headers: inertia_headers
+    end.not_to change(UserImport, :count)
 
     expect(response).to have_http_status(:unprocessable_content)
-    expect(response.parsed_body.dig("props", "errors", "sourceFile")).to eq("Use os cabeçalhos full_name, email e role.")
+    expect(response.parsed_body.dig("props", "errors",
+                                    "sourceFile")).to eq("Use os cabeçalhos full_name, email e role.")
+  end
+
+  def invalid_headers_csv
+    "full_name,email,unknown\nAna,ana@example.com,nope\n"
   end
 
   it "lists imports and exposes paginated row results without a storage key" do
     admin = create_user(email: "admin@example.com", role: :admin)
     user_import = UserImport.create!(imported_by: admin, total_count: 1)
-    UserImportRow.create!(user_import:, row_number: 2, status: :rejected, normalized_email: "ana@example.com", normalized_role: "regular", error_code: "invalid_email")
+    UserImportRow.create!(user_import:, row_number: 2, status: :rejected, normalized_email: "ana@example.com",
+                          normalized_role: "regular", error_code: "invalid_email")
     sign_in(admin)
 
     get "/admin/user_imports", headers: inertia_headers
-    expect(response.parsed_body.dig("props", "imports", 0)).to include("id" => user_import.id.to_s, "filename" => "Arquivo indisponível", "totalCount" => 1)
+    expect(response.parsed_body.dig("props", "imports",
+                                    0)).to include("id" => user_import.id.to_s, "filename" => "Arquivo indisponível",
+                                                   "totalCount" => 1)
 
     get "/admin/user_imports/#{user_import.id}", params: { page: 9 }, headers: inertia_headers
-    expect(response.parsed_body.dig("props", "results", 0)).to include("rowNumber" => 2, "errorCode" => "invalid_email", "errorMessage" => "E-mail inválido.")
-    expect(response.parsed_body.dig("props", "pagination")).to eq("page" => 1, "pageSize" => 50, "totalPages" => 1, "totalItems" => 1)
+    expect(response.parsed_body.dig("props", "results",
+                                    0)).to include("rowNumber" => 2, "errorCode" => "invalid_email",
+                                                   "errorMessage" => "E-mail inválido.")
+    expect(response.parsed_body.dig("props",
+                                    "pagination")).to eq("page" => 1, "pageSize" => 50, "totalPages" => 1,
+                                                         "totalItems" => 1)
     expect(response.body).not_to include("key")
   end
 end

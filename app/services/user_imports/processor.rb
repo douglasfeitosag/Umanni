@@ -14,15 +14,12 @@ module UserImports
       @user_import.with_lock do
         return if @user_import.completed? || @user_import.completed_with_errors? || @user_import.failed?
 
-        @user_import.update!(status: :processing, started_at: @user_import.started_at || Time.current)
-        rows = read_rows
-        duplicate_emails = rows.filter_map { |row| normalize_email(row.email) }.tally.select { |_email, count| count > 1 }.keys
-        rows.each_slice(BATCH_SIZE) { |batch| process_batch(batch, duplicate_emails) }
+        start!
+        process_rows(read_rows)
         finish!
       end
     rescue Reader::InvalidSource
-      @user_import.update!(status: :failed, failure_code: :source_unreadable, finished_at: Time.current)
-      broadcast_change
+      fail_as_unreadable!
     end
 
     private
@@ -37,51 +34,50 @@ module UserImports
       end
     end
 
-    def process_batch(rows, duplicate_emails)
-      created_count = 0
-      ActiveRecord::Base.transaction do
-        Current.suppress_dashboard_metrics = true
-        rows.each do |row|
-          next if @user_import.rows.exists?(row_number: row.number)
+    def start!
+      @user_import.update!(status: :processing, started_at: @user_import.started_at || Time.current)
+    end
 
-          created_count += 1 if process_row(row, duplicate_emails)
-        end
-        refresh_counts!
-      ensure
-        Current.suppress_dashboard_metrics = false
-      end
+    def process_rows(rows)
+      duplicate_emails = duplicate_emails_in(rows)
+      rows.each_slice(BATCH_SIZE) { |batch| process_batch(batch, duplicate_emails) }
+    end
+
+    def duplicate_emails_in(rows)
+      rows.filter_map { |row| normalize_email(row.email) }
+          .tally
+          .select { |_email, count| count > 1 }
+          .keys
+    end
+
+    def fail_as_unreadable!
+      @user_import.update!(status: :failed, failure_code: :source_unreadable, finished_at: Time.current)
+      broadcast_change
+    end
+
+    def process_batch(rows, duplicate_emails)
+      created_count = process_batch_transaction(rows, duplicate_emails)
       User.invalidate_dashboard_metrics! if created_count.positive?
       broadcast_change
     end
 
-    def process_row(row, duplicate_emails)
-      email = normalize_email(row.email)
-      role = row.role.to_s.strip.presence || "regular"
-      error = row.error_code || validation_error(row, email, role)
-      error ||= "duplicate_in_file" if email.present? && duplicate_emails.include?(email)
-      if error
-        @user_import.rows.create!(row_number: row.number, status: :rejected, normalized_email: email, normalized_role: role.in?(User::ROLES.values) ? role : nil, error_code: error)
-        return false
+    def process_batch_transaction(rows, duplicate_emails)
+      Current.suppress_dashboard_metrics = true
+      ActiveRecord::Base.transaction do
+        persist_batch(rows, duplicate_emails)
+      ensure
+        Current.suppress_dashboard_metrics = false
       end
-
-      user = User.new(full_name: row.full_name.to_s.strip, email:, role:)
-      if user.save
-        @user_import.rows.create!(row_number: row.number, status: :created, normalized_email: email, normalized_role: role, user:)
-        true
-      else
-        @user_import.rows.create!(row_number: row.number, status: :rejected, normalized_email: email, normalized_role: role, error_code: "duplicate_existing")
-        false
-      end
-    rescue ActiveRecord::RecordNotUnique
-      @user_import.rows.create!(row_number: row.number, status: :rejected, normalized_email: email, normalized_role: role, error_code: "duplicate_existing")
-      false
     end
 
-    def validation_error(row, email, role)
-      return "missing_full_name" if row.full_name.to_s.strip.blank?
-      return "missing_email" if email.blank?
-      return "invalid_email" unless email.match?(URI::MailTo::EMAIL_REGEXP)
-      return "invalid_role" unless role.in?(User::ROLES.values)
+    def persist_batch(rows, duplicate_emails)
+      created_count = rows.count do |row|
+        next false if @user_import.rows.exists?(row_number: row.number)
+
+        RowProcessor.new(@user_import, row, duplicate_emails).call
+      end
+      refresh_counts!
+      created_count
     end
 
     def normalize_email(value)
@@ -96,12 +92,14 @@ module UserImports
 
     def finish!
       @user_import.reload
-      @user_import.update!(status: @user_import.rejected_count.positive? ? :completed_with_errors : :completed, finished_at: Time.current)
+      @user_import.update!(status: @user_import.rejected_count.positive? ? :completed_with_errors : :completed,
+                           finished_at: Time.current)
       broadcast_change
     end
 
     def broadcast_change
-      ActionCable.server.broadcast("user_import:#{@user_import.id}", { type: "user_import.changed", schemaVersion: 1, importId: @user_import.id.to_s })
+      ActionCable.server.broadcast("user_import:#{@user_import.id}",
+                                   { type: "user_import.changed", schemaVersion: 1, importId: @user_import.id.to_s })
     end
   end
 end
