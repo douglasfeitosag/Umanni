@@ -2,6 +2,7 @@ require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
   config.active_storage.service = :production_local
+  config.exceptions_app = ->(env) { DeliveryExceptionsApp.call(env) }
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.
@@ -12,6 +13,9 @@ Rails.application.configure do
 
   # Full error reports are disabled.
   config.consider_all_requests_local = false
+
+  # The delivery fallback records one constant event without exception details.
+  config.action_dispatch.debug_exception_log_level = :debug
 
   # Turn on fragment caching in view templates.
   config.action_controller.perform_caching = true
@@ -39,7 +43,7 @@ Rails.application.configure do
   config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "info")
 
   # Prevent health checks from clogging up the logs.
-  config.silence_healthcheck_path = "/up"
+  config.silence_healthcheck_path = %r{\A/(?:up|ready)\z}
 
   # Don't log any deprecations.
   config.active_support.report_deprecations = false
