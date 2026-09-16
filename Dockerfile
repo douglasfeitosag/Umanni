@@ -44,7 +44,7 @@ COPY --from=build /rails/config ./config
 COPY --from=build /rails/db ./db
 COPY --from=build /rails/lib/tasks ./lib/tasks
 COPY --from=build /rails/public ./public
-COPY --from=build /rails/bin/rails /rails/bin/rake /rails/bin/thrust /rails/bin/docker-entrypoint ./bin/
+COPY --from=build /rails/bin/rails /rails/bin/rake /rails/bin/thrust /rails/bin/jobs /rails/bin/docker-entrypoint ./bin/
 RUN rm -rf /usr/local/bundle/ruby/*/cache /usr/local/lib/ruby/gems/*/cache && mkdir -p tmp/pids log lib storage && chown -R rails:rails tmp log storage
 USER 1000:1000
 EXPOSE 3000

@@ -100,7 +100,7 @@ services:
       DATABASE_URL: ${DELIVERY_DATABASE_URL:-postgresql://umanni:umanni-local@db:5432/umanni_production}
       SECRET_KEY_BASE: ${SECRET_KEY_BASE:-}
     depends_on:
-      db:
+      web:
         condition: service_healthy
     volumes:
       - storage:/rails/storage
