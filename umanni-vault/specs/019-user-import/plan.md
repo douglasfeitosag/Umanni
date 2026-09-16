@@ -37,9 +37,9 @@ Não criar camada genérica de importação, event bus, repository, API paralela
 
 ## Sequência TDD
 
-1. **Gate e dependências**: revalidar PR/HEAD da spec, milestone, base e locks. Em cópia temporária, repetir resolução das gems e inventariar o gerador `solid_queue:install` antes de incorporar a superfície mínima.
+1. **Gate e dependências**: revalidar PR/HEAD da spec, milestone, base e locks. Em cópia temporária, repetir resolução das gems e inventariar `solid_queue:install`; na aplicação, converter `db/queue_schema.rb` em migrations normais de `primary`, remover o schema separado e qualquer `config.solid_queue.connects_to`/role/database/path `queue`, preservando somente o adapter.
 2. **Preflight RED/GREEN**: requests e leitores para autorização, bytes por arquivo/campo/linha, MIME/assinatura, encoding, planilha, cabeçalhos, 10.000 linhas e conteúdo malicioso; nenhuma persistência/job na rejeição.
-3. **Lote e enqueue RED/GREEN**: migrations/modelos/constraints/attachment, conexão `primary`, `enqueue_after_transaction_commit = false`, lote/job atômicos, retorno falso/erro/crash pré-commit com rollback e visibilidade conjunta pós-commit.
+3. **Lote e enqueue RED/GREEN**: migrations/modelos/constraints/attachment, identidade de `connection_pool`/`db_config` entre `SolidQueue::Record` e `ApplicationRecord`, `enqueue_after_transaction_commit = false`, lote/job atômicos, retorno falso/erro/crash pré-commit com rollback e visibilidade conjunta pós-commit.
 4. **Processamento RED/GREEN**: linhas válidas/invalidas, defaults, todas as duplicatas internas, corrida externa, conta sem senha, resultados e contadores.
 5. **Repetição RED/GREEN**: lock por lote, skip de resultado terminal, falha entre blocos, retry automático limitado e terminal `failed`.
 6. **Senha inicial RED/GREEN**: lock pessimista, duas conexões concorrentes, exatamente uma transição ausente→presente, confirmação/política, conflito neutro, segredo filtrado e login antes/depois.
@@ -66,8 +66,8 @@ Fixtures devem ser mínimas, sintéticas e versionadas somente em `spec/fixtures
 - `app/models/user_import.rb`, `app/models/user_import_row.rb` e ajustes mínimos em `user.rb` e `current.rb`;
 - `app/jobs/**`, `app/services/user_imports/**`, serviço mínimo de senha inicial, `app/channels/user_import_channel.rb` e conexão Cable somente se necessária para revogação vigente;
 - `app/frontend/pages/Admin/UserImports/**`, hooks/componentes/tipos diretamente necessários e estilos da feature;
-- `config/routes.rb`, `config/storage.yml`, environments/initializers estritamente ligados a Active Job/Solid Queue, `config/queue.yml` e arquivos de schema/migration gerados necessários;
-- `db/migrate/**`, `db/schema.rb` e schema da fila se a instalação comprovadamente o exigir;
+- `config/routes.rb`, `config/storage.yml`, `config/database.yml` somente para impedir/remover role `queue`, environments/initializers estritamente ligados a Active Job/Solid Queue e `config/queue.yml`;
+- `db/migrate/**` e `db/schema.rb`; `db/queue_schema.rb` pode existir apenas no inventário temporário do instalador e não integra o commit;
 - `bin/jobs`, `bin/check`, `bin/check-delivery` ou novo gate `bin/check-imports`;
 - `Dockerfile`, `.dockerignore`, `compose.yaml` e overlays de teste necessários ao worker;
 - specs/tests/fixtures diretamente rastreados aos BDDs;

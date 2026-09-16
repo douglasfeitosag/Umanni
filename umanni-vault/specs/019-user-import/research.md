@@ -23,7 +23,7 @@ Pesquisa realizada em 2026-09-16. Nenhuma dependência foi instalada no reposit�
 
 Fixar `solid_queue 1.7.0`, usar o PostgreSQL primário e executar `bin/jobs` como serviço Compose separado, fila exata `imports`, um processo/uma thread no perfil local. O limite de 10.000 linhas e a ausência de outras filas tornam esta configuração suficiente; aumentar concorrência exige medição e nova decisão.
 
-A garantia D-043 depende explicitamente da mesma conexão lógica `primary`: `ProcessUserImportJob.enqueue_after_transaction_commit = false` e `perform_later` executado dentro da transação persistem lote/job juntos. Rails 8.1 usa booleano nesse atributo; retorno falso/erro deve provocar rollback. A execução prova por teste transacional que Solid Queue não abriu conexão separada. Mudar a topologia exige antes outbox/reconciliador próprio.
+A garantia D-043 depende explicitamente do mesmo connection pool `primary`: a execução converte `db/queue_schema.rb` gerado em migrations normais e o remove, não mantém `config.solid_queue.connects_to`, não cria role/database/migrations path `queue` e configura somente o adapter. `ProcessUserImportJob.enqueue_after_transaction_commit = false` e `perform_later` executado dentro da transação persistem lote/job juntos. Rails 8.1 usa booleano nesse atributo; retorno falso/erro deve provocar rollback. Testes comparam pool/db_config de `SolidQueue::Record` e `ApplicationRecord`, além de provar rollback e visibilidade entre processos. Mudar a topologia exige antes outbox/reconciliador próprio.
 
 ## Biblioteca XLSX
 
@@ -65,6 +65,7 @@ Isso comprova compatibilidade de resolução/carregamento, não parsing, migrati
 ## Fontes
 
 - Solid Queue: <https://github.com/rails/solid_queue>
+- Configuração single-database do Solid Queue: <https://github.com/rails/solid_queue#single-database-configuration>
 - Roo: <https://github.com/roo-rb/roo> e <https://rubygems.org/gems/roo>
 - Creek: <https://github.com/pythonicrubyist/creek> e <https://rubygems.org/gems/creek>
 - rubyXL: <https://github.com/weshatheleopard/rubyXL> e <https://rubygems.org/gems/rubyXL>

@@ -38,7 +38,7 @@ Entregar a importação administrativa CSV/XLSX 0.4.0 em segundo plano: lote/arq
 
 ## Decisões obrigatórias
 
-Preserve D-019/D-020/D-025/D-026/D-028/D-029 e implemente D-036–D-046 exatamente como aceitas. Fixe `solid_queue 1.7.0` e `roo 3.0.0`; qualquer incompatibilidade real exige parada, não substituição silenciosa. Use a mesma conexão PostgreSQL `primary`, fila `imports`, processo worker separado, storage `/rails/storage` compartilhado e lote/job atômicos com `enqueue_after_transaction_commit = false`. Cable transporta apenas invalidação versionada.
+Preserve D-019/D-020/D-025/D-026/D-028/D-029 e implemente D-036–D-046 exatamente como aceitas. Fixe `solid_queue 1.7.0` e `roo 3.0.0`; qualquer incompatibilidade real exige parada, não substituição silenciosa. Configure Solid Queue single-database: copie o schema gerado para migrations normais de `primary`, remova `db/queue_schema.rb`, não mantenha `config.solid_queue.connects_to` nem role/database/path `queue`, e prove que `SolidQueue::Record`/`ApplicationRecord` usam o mesmo pool/db_config. Use fila `imports`, processo worker separado, storage `/rails/storage` compartilhado e lote/job atômicos com `enqueue_after_transaction_commit = false`. Cable transporta apenas invalidação versionada.
 
 ## Ordem obrigatória
 

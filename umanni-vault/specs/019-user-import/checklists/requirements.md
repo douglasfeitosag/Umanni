@@ -4,7 +4,7 @@
 - [x] CSV e XLSX possuem contrato canônico, limites e pré-validação.
 - [x] D-019/D-020/D-025/D-026/D-028/D-029 foram preservadas.
 - [x] Solid Queue e Roo foram comparados/fixados sem instalação nesta branch.
-- [x] Lote/job usam enqueue atômico na conexão `primary`; falha/crash pré-commit reverte ambos.
+- [x] Lote/job usam o mesmo pool `primary`, sem `connects_to`/role/schema separado; falha/crash pré-commit reverte ambos.
 - [x] Retry de execução, worker separado e restart têm critérios verificáveis.
 - [x] Web/worker compartilham `/rails/storage` com ownership e prova Compose.
 - [x] Estados, contadores, resultados por linha e idempotência possuem invariantes.

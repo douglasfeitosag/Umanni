@@ -117,7 +117,7 @@ A pesquisa isolada comprovou resolução e carregamento de `roo 3.0.0` com Ruby 
 | Solid Queue em banco lógico separado | isola polling e segue o default atual da gem | amplia preparo, readiness e bancos paralelos para uma entrega local limitada | Rejeitada para 0.4.0 |
 | Solid Queue nas tabelas do PostgreSQL primário | persistente, sem serviço externo e permite enqueue atômico com o lote | compartilha recursos com a aplicação e acopla a garantia ao backend | **Adotar**, com atomicidade explícita em D-043 |
 
-Web e worker usam a mesma aplicação, conexão lógica `primary` e banco, mas processos distintos. O worker consome apenas a fila exata `imports`, com concorrência um na entrega local. D-043 torna o acoplamento transacional explícito; mover Solid Queue para outra conexão/backend exige antes substituir essa garantia por outbox/reconciliador.
+Web e worker usam a mesma aplicação, connection pool Active Record `primary` e banco, mas processos distintos. A instalação single-database copia `db/queue_schema.rb` para migrations normais de `primary` e remove o arquivo separado; não conserva nem cria `config.solid_queue.connects_to`, role/database `queue` ou `migrations_paths` de fila em `database.yml`. `config.active_job.queue_adapter = :solid_queue` seleciona o adapter sem trocar a conexão. O worker consome apenas a fila exata `imports`, com concorrência um na entrega local. Teste de configuração exige que `SolidQueue::Record` e `ApplicationRecord` resolvam o mesmo `connection_pool`/`db_config`. D-043 torna o acoplamento transacional explícito; mover Solid Queue para outra conexão/backend exige antes substituir essa garantia por outbox/reconciliador.
 
 ### D-038 — representação do relatório e retomada
 
@@ -219,7 +219,7 @@ Estados permitidos: `queued`, `processing`, `completed`, `completed_with_errors`
 - `processing`: preflight assíncrono terminou e linhas estão sendo aplicadas;
 - `completed`: todas as linhas de dados foram criadas;
 - `completed_with_errors`: ao menos uma linha foi rejeitada e o job terminou de forma controlada;
-- `failed`: enqueue falhou, uma falha não recuperável ocorreu ou as três tentativas se esgotaram; resultados confirmados permanecem e o lote não é reativado.
+- `failed`: o arquivo persistido ficou ilegível, uma falha técnica não recuperável ocorreu ou as três tentativas de execução se esgotaram; resultados confirmados permanecem e o lote não é reativado. Falha de enqueue pertence à request e não deixa `UserImport` persistido.
 
 Não existe estado cancelado nesta versão. Estados terminais não voltam a estado ativo. `processed_count = created_count + rejected_count`; `processed_count <= total_count`; em estado terminal controlado, a igualdade é obrigatória.
 
@@ -244,7 +244,7 @@ Não existe estado cancelado nesta versão. Estados terminais não voltam a esta
 ### US1 — Enviar um arquivo válido
 
 1. **US1.1** — **Dado** administrador e CSV UTF-8 válido dentro dos limites, **quando** envia, **então** lote/arquivo/job persistem atomicamente em `queued`, a resposta redireciona ao detalhe e nenhum usuário é criado na requisição.
-2. **US1.2** — **Dado** XLSX válido com uma planilha, **quando** envia, **então** o mesmo contrato canônico é normalizado e um job `imports` é enfileirado depois do commit.
+2. **US1.2** — **Dado** XLSX válido com uma planilha, **quando** envia, **então** o mesmo contrato canônico é normalizado e `perform_later` insere o job `imports` dentro da mesma transação/pool `primary`; somente após o commit o worker observa lote e job juntos.
 3. **US1.3** — **Dado** visitante ou regular, **quando** força upload/rota/ID, **então** o servidor nega e não persiste arquivo, lote ou job.
 4. **US1.4** — **Dado** falha ou crash antes do commit que inclui o enqueue, **quando** o envio termina, **então** lote, attachment e job não persistem, o temporário seguro é removido e a interface permite novo envio sem expor exceção; crash depois do commit encontra lote e job juntos.
 
