@@ -38,7 +38,7 @@ Entregar a importação administrativa CSV/XLSX 0.4.0 em segundo plano: lote/arq
 
 ## Decisões obrigatórias
 
-Preserve D-019/D-020/D-025/D-026/D-028/D-029 e implemente D-036–D-041 exatamente como aceitas. Fixe `solid_queue 1.7.0` e `roo 3.0.0`; qualquer incompatibilidade real exige parada, não substituição silenciosa. Use PostgreSQL primário, fila `imports`, processo worker separado e enqueue após commit. Cable transporta apenas invalidação versionada.
+Preserve D-019/D-020/D-025/D-026/D-028/D-029 e implemente D-036–D-046 exatamente como aceitas. Fixe `solid_queue 1.7.0` e `roo 3.0.0`; qualquer incompatibilidade real exige parada, não substituição silenciosa. Use PostgreSQL primário, fila `imports`, processo worker separado, storage `/rails/storage` compartilhado e enqueue após commit com `pending_enqueue`. Cable transporta apenas invalidação versionada.
 
 ## Ordem obrigatória
 
@@ -57,12 +57,15 @@ Preserve D-019/D-020/D-025/D-026/D-028/D-029 e implemente D-036–D-041 exatamen
 
 Rastreie US1.1–US6.3 e NFR-001–NFR-008. Em especial:
 
-- rejeição estrutural não cria lote/job;
+- rejeição estrutural ou limite de campo/linha não cria lote/job;
 - a request válida não cria usuários;
+- falha de enqueue termina em `failed/enqueue_failed` e não finge `queued`;
 - todas as ocorrências de e-mail duplicado no arquivo falham;
 - usuário existente nunca é alterado;
 - retry do mesmo job preserva resultados/contadores;
-- conta importada permanece sem login até senha inicial local;
+- conta importada permanece sem login até uma única senha inicial local sob lock concorrente;
+- o worker lê os mesmos bytes gravados pelo web, inclusive após restart;
+- callbacks de métricas são agregados por bloco, restaurados após exceção e limitados a 100 eventos em 10.000 linhas;
 - payload Cable não contém dados;
 - reload/reconnect recupera a verdade persistida;
 - visitante/regular não consulta, envia ou assina;
@@ -74,7 +77,7 @@ Obedeça integralmente “Arquivos permitidos para a futura execução” no pla
 
 ## Entrega e EXEC
 
-`umanni-vault/EXEC-019-USER-IMPORT.md` registra papel/modelo real, pedido, spec, base, branch, PR/SHAs, dependências, arquivos, RED/GREEN/refatoração, matriz BDD/NFR, comandos/resultados, cobertura, Compose/restart/cleanup, inventário de imagem, segurança/acessibilidade, limitações e revisão independente.
+`umanni-vault/EXEC-019-USER-IMPORT.md` registra papel/modelo real, pedido, spec, base, branch, PR/SHAs, dependências, arquivos, RED/GREEN/refatoração, matriz BDD/NFR, comandos/resultados, cobertura, falha de enqueue, concorrência da senha, contagem de broadcasts, Compose/storage/restart/cleanup, inventário de imagem, segurança/acessibilidade, limitações e revisão independente.
 
 ## Sucesso e parada
 

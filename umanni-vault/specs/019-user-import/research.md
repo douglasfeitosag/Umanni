@@ -7,6 +7,7 @@ Pesquisa realizada em 2026-09-16. Nenhuma dependência foi instalada no reposit�
 - Ruby 4.0.6, Rails 8.1.3.1 e PostgreSQL 18.6 estão fixados.
 - Active Job está carregado, mas `solid_queue` não está no Gemfile/lock e não existem `config/queue.yml`, tabelas de fila ou `bin/jobs`.
 - Active Storage e Solid Cable 4.0.2 já estão presentes e exercitados.
+- `production_local` usa hoje `tmp/storage`; containers web/worker separados não compartilhariam esses bytes sem mudança explícita.
 - Compose possui `db`, `verify`, `dev`, `vite` e `web`; não possui worker.
 - O `User` aceita `password_digest` ausente, mas a edição administrativa atual não define senha. Portanto D-019 depende de uma ação nova, limitada a contas sem credencial.
 
@@ -43,6 +44,7 @@ Isso comprova compatibilidade de resolução/carregamento, não parsing, migrati
 - CSV: biblioteca padrão `CSV`, UTF-8 estrito, BOM opcional, vírgula e cabeçalhos canônicos.
 - XLSX: `Roo::Excelx`; exatamente uma planilha não vazia; nenhuma macro, XLS ou fórmula aceita.
 - O preflight lê no máximo a linha 10.001 e encerra; nunca percorre trabalho ilimitado na request.
+- Antes de normalizar, aplica limites de 200 caracteres/800 bytes para nome, 254 bytes para e-mail, 7 bytes para papel e 1.100 bytes por linha.
 - A aplicação não confia em extensão ou `content_type` informado pelo cliente: confronta extensão, MIME detectado e assinatura/conteúdo parseável.
 
 ## Riscos e mitigação
@@ -53,10 +55,12 @@ Isso comprova compatibilidade de resolução/carregamento, não parsing, migrati
 | fórmula ou conteúdo ativo | rejeitar células de fórmula/erro e nunca renderizar valores brutos |
 | corrida de e-mail entre lotes | índice único atual + `RecordNotUnique` convertido em resultado seguro |
 | job repetido | resultado único por lote/linha e skip de resultado terminal |
-| excesso de broadcasts | invalidar por transição e por bloco de até 100 linhas, sem payload de dados |
+| excesso de broadcasts | contexto de supressão restrito ao processor, seguido de no máximo um evento de métricas e um de importação por bloco de até 100 linhas |
 | vazamento por relatório | códigos enumerados e campos normalizados mínimos; paginação server-side |
 | worker ausente | serviço Compose próprio e gate que prova consumo/restart |
 | conta importada inutilizável | ação de senha inicial somente quando `password_digest` estiver ausente |
+| storage local distinto por container | mudar `production_local` para `/rails/storage` e montar o mesmo volume nomeado em web/worker |
+| falha pós-commit antes do enqueue | `pending_enqueue`, transição condicional e `failed/enqueue_failed` observável |
 
 ## Fontes
 

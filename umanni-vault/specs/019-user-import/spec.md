@@ -71,6 +71,7 @@ As reservas antigas de branch 015–019 no roadmap 012 foram consumidas por entr
 - progresso persistido como fonte da verdade e sinais privados por Solid Cable para recarregar props Inertia;
 - histórico administrativo de lotes, detalhe de um lote e relatório paginado;
 - definição administrativa de senha inicial somente para conta ainda sem credencial, completando D-019;
+- volume local compartilhado e persistente para o arquivo Active Storage entre web e worker;
 - interface em português, responsiva e acessível;
 - testes RSpec, Vitest/RTL e Playwright, com ciclos RED/GREEN e gates Compose.
 
@@ -158,31 +159,82 @@ Cabeçalhos são aparados, convertidos para lowercase e devem ser únicos. Somen
 
 O histórico e cada stream são autorizados no servidor para qualquer administrador atual. Eventos não carregam nomes, e-mails, contadores ou erros: `{ type: "user_import.changed", schemaVersion: 1, importId }`. A tela recarrega apenas as props do lote autorizado. O banco é a fonte da verdade após reload/reconnect.
 
+### D-042 — armazenamento compartilhado entre processos
+
+| Alternativa | Consequência | Decisão |
+| --- | --- | --- |
+| disco efêmero próprio de cada container | web grava metadados, mas worker não encontra os bytes | Rejeitada |
+| serviço de objeto externo | compartilha bytes, mas contrata/configura infraestrutura fora da entrega local | Rejeitada |
+| serviço Disk em `/rails/storage` compartilhado | preserva entrega local e permite web/worker lerem o mesmo arquivo | **Adotar** |
+
+`production_local` passa de `tmp/storage` para `/rails/storage`. Web e worker do perfil delivery montam o mesmo volume nomeado nesse caminho; a imagem cria o diretório com UID/GID `1000:1000` antes de executar como usuário não-root. Em dev, os dois processos usam o bind mount vigente e o mesmo diretório `storage/`. Volumes dos gates usam nomes de projeto efêmeros e cleanup por trap; o volume normal da pessoa usuária nunca é removido pelo teste. Restart do worker deve provar leitura do arquivo já enviado.
+
+### D-043 — falha de enqueue depois do commit
+
+| Alternativa | Consequência | Decisão |
+| --- | --- | --- |
+| chamar o lote de `queued` antes de Solid Queue aceitar | apresenta estado falso | Rejeitada |
+| reconciliador/recorrência para reenfileirar | acrescenta scheduler e política de retry fora do mínimo | Rejeitada |
+| estado `pending_enqueue`, transição condicional e falha terminal observável | representa exatamente o que ocorreu e permite novo envio | **Adotar** |
+
+A transação cria lote/arquivo em `pending_enqueue`; somente depois do commit o controller chama `perform_later`. Sucesso muda condicionalmente `pending_enqueue -> queued`; se o worker já iniciou, a atualização não regride `processing`. Exceção de enqueue muda `pending_enqueue -> failed`, grava `failure_code=enqueue_failed`, finaliza o lote e apresenta orientação para criar um novo lote. Não existe retry do mesmo lote pela interface. Falhas transitórias durante execução usam `retry_on` apenas para erros enumerados de I/O/conexão, `wait: :polynomially_longer`, máximo de três tentativas totais; o estado fica `processing` entre tentativas e só vira `failed` quando elas se esgotam. Erros não enumerados falham imediatamente. O detalhe nunca exibe a exceção.
+
+### D-044 — concorrência da senha inicial
+
+| Alternativa | Consequência | Decisão |
+| --- | --- | --- |
+| verificar digest sem lock | dois admins podem sobrescrever a senha recém-definida | Rejeitada |
+| update condicional direto | evita overwrite, mas contorna validações/confirmation do modelo | Rejeitada |
+| lock pessimista da linha e revalidação dentro da transação | preserva validações e garante uma única ativação | **Adotar** |
+
+O serviço de senha inicial bloqueia a linha `User`, reconsulta `password_digest` e só então valida/salva senha e confirmação. Duas conexões concorrentes produzem exatamente um sucesso; a outra recebe conflito neutro “credencial já configurada” sem sobrescrever. Como a transição permitida é somente ausente→presente, não há sessão anterior a invalidar; qualquer digest existente bloqueia a ação.
+
+### D-045 — limites por linha e campo
+
+| Alternativa | Consequência | Decisão |
+| --- | --- | --- |
+| somente 10 MiB/10.000 linhas | uma única célula pode consumir megabytes | Rejeitada |
+| truncar silenciosamente | altera identidade/e-mail e pode criar duplicidade inesperada | Rejeitada |
+| rejeitar acima de limites explícitos | previsível e auditável | **Adotar** |
+
+Após decodificação UTF-8 e antes de normalizar/persistir: `full_name` aceita no máximo 200 caracteres Unicode e 800 bytes; `email`, 254 bytes; `role`, 7 bytes; a soma das três células da linha, 1.100 bytes. Cabeçalho individual acima de 64 bytes é erro estrutural. Valores acima do limite nunca são truncados nem persistidos no relatório. A execução aplica validações equivalentes no `User` e constraints PostgreSQL de `octet_length` para nome/e-mail, após provar que a base não contém violação; preflight e processor repetem os limites para mensagens de linha seguras.
+
+### D-046 — agregação das métricas durante importação
+
+| Alternativa | Consequência | Decisão |
+| --- | --- | --- |
+| callback atual por usuário | até 10.000 broadcasts e tempestade de reloads | Rejeitada |
+| suprimir sem reposição | dashboard fica desatualizado | Rejeitada |
+| supressão com escopo e invalidação por bloco confirmado | limita tráfego e mantém a consulta como verdade | **Adotar** |
+
+O processador executa cada bloco de até 100 linhas dentro de um contexto `Current` específico que suprime somente o callback `dashboard.metrics.changed` das criações daquele bloco; um `ensure` restaura o contexto. Depois do commit, emite no máximo uma invalidação de métricas se o bloco criou algum usuário e uma invalidação do lote. Criações fora do processador preservam o callback vigente. Em 10.000 linhas, o teto é 100 eventos de métricas; testes contam tipo/quantidade, verificam restauração após exceção e confirmam dashboard correto.
+
 ## Modelo de estado
 
-Estados permitidos: `queued`, `processing`, `completed`, `completed_with_errors` e `failed`.
+Estados permitidos: `pending_enqueue`, `queued`, `processing`, `completed`, `completed_with_errors` e `failed`.
 
-- `queued`: lote e arquivo persistiram e o job foi enfileirado depois do commit;
+- `pending_enqueue`: lote e arquivo persistiram, mas Solid Queue ainda não confirmou o enqueue;
+- `queued`: o job foi aceito por Solid Queue e ainda não iniciou;
 - `processing`: preflight assíncrono terminou e linhas estão sendo aplicadas;
 - `completed`: todas as linhas de dados foram criadas;
 - `completed_with_errors`: ao menos uma linha foi rejeitada e o job terminou de forma controlada;
-- `failed`: falha estrutural/técnica impediu terminar; resultados confirmados antes da falha permanecem e a repetição automática pode continuar do ponto seguro.
+- `failed`: enqueue falhou, uma falha não recuperável ocorreu ou as três tentativas se esgotaram; resultados confirmados permanecem e o lote não é reativado.
 
 Não existe estado cancelado nesta versão. Estados terminais não voltam a estado ativo. `processed_count = created_count + rejected_count`; `processed_count <= total_count`; em estado terminal controlado, a igualdade é obrigatória.
 
 ## Requisitos funcionais
 
 - **FR-001**: somente administrador autenticado consulta, envia ou assina importações; visitante/regular não recebe props, arquivo ou relatório.
-- **FR-002**: upload aceita exclusivamente o contrato D-040, no máximo 10 MiB e 10.000 linhas de dados; falha estrutural interativa não cria lote nem agenda job.
-- **FR-003**: envio válido persiste lote/arquivo e responde com redirect ao detalhe em estado `queued`, sem processar usuários na requisição.
-- **FR-004**: enqueue ocorre somente após commit e usa a fila `imports`; falha de enqueue deixa estado recuperável/observável e não finge execução.
+- **FR-002**: upload aceita exclusivamente D-040/D-045, no máximo 10 MiB e 10.000 linhas de dados; falha estrutural interativa não cria lote nem agenda job.
+- **FR-003**: envio válido persiste lote/arquivo em `pending_enqueue`, tenta enqueue somente após commit e responde com redirect ao detalhe sem processar usuários na requisição.
+- **FR-004**: enqueue usa a fila `imports` e aplica D-043; o detalhe distingue `pending_enqueue`, `queued` e `failed/enqueue_failed` sem fingir execução.
 - **FR-005**: job registra `processing`, aplica D-025/D-026/D-028/D-039 e cria `User` sem senha nem avatar.
 - **FR-006**: `role` vazio/ausente vira `regular`; valores válidos são somente `regular` e `admin`; qualquer outro valor rejeita a linha.
 - **FR-007**: repetição do mesmo job não recria resultado final nem usuário; índice único do resultado `(user_import_id, row_number)` e índice único de e-mail no banco são autoridades concorrentes.
-- **FR-008**: progresso e relatório sobrevivem a reload/restart; atualização de contadores ocorre em lotes de no máximo 100 linhas e também em toda transição de estado/terminal.
+- **FR-008**: progresso e relatório sobrevivem a reload/restart; atualização de contadores e broadcasts aplicam D-046 em blocos de no máximo 100 linhas e em transições de estado/terminal.
 - **FR-009**: Cable apenas invalida; a consulta autorizada devolve estado, contadores e página de resultados sem dados brutos.
 - **FR-010**: qualquer administrador atual consulta todos os lotes; perder papel/sessão encerra a conexão e nega a próxima consulta.
-- **FR-011**: conta importada não autentica até receber senha inicial; administrador pode definir senha/confirmação somente se `password_digest` estiver ausente, obedecendo D-027 e sem retorno do segredo.
+- **FR-011**: conta importada não autentica até receber senha inicial; administrador define senha/confirmação somente pela transição concorrente segura D-044, obedecendo D-027 e sem retorno do segredo.
 - **FR-012**: lote novo para o mesmo arquivo mantém histórico separado; não existe atualização implícita de lote anterior.
 - **FR-013**: falha técnica registra código público genérico e detalhe técnico apenas no log filtrado, sem conteúdo de célula, senha, cookie ou stack trace na interface.
 
@@ -190,13 +242,14 @@ Não existe estado cancelado nesta versão. Estados terminais não voltam a esta
 
 ### US1 — Enviar um arquivo válido
 
-1. **US1.1** — **Dado** administrador e CSV UTF-8 válido dentro dos limites, **quando** envia, **então** lote/arquivo persistem, a resposta redireciona para `queued` e nenhum usuário é criado na requisição.
+1. **US1.1** — **Dado** administrador e CSV UTF-8 válido dentro dos limites, **quando** envia, **então** lote/arquivo persistem em `pending_enqueue`, a resposta redireciona ao detalhe e nenhum usuário é criado na requisição.
 2. **US1.2** — **Dado** XLSX válido com uma planilha, **quando** envia, **então** o mesmo contrato canônico é normalizado e um job `imports` é enfileirado depois do commit.
 3. **US1.3** — **Dado** visitante ou regular, **quando** força upload/rota/ID, **então** o servidor nega e não persiste arquivo, lote ou job.
+4. **US1.4** — **Dado** lote persistido e falha ao inserir o job, **quando** o enqueue pós-commit retorna erro, **então** o lote termina `failed/enqueue_failed`, não há job órfão e a interface orienta novo envio sem expor exceção.
 
 ### US2 — Rejeitar estrutura inválida antes da fila
 
-1. **US2.1** — **Dado** arquivo acima de 10 MiB, mais de 10.000 linhas, extensão/MIME/assinatura incompatível ou CSV não UTF-8, **quando** envia, **então** recebe erro de campo e nada é enfileirado.
+1. **US2.1** — **Dado** arquivo acima de 10 MiB, mais de 10.000 linhas, campo/linha acima de D-045, extensão/MIME/assinatura incompatível ou CSV não UTF-8, **quando** envia, **então** recebe erro de campo e nada é enfileirado.
 2. **US2.2** — **Dado** cabeçalho ausente, repetido/desconhecido ou workbook sem exatamente uma planilha não vazia, **quando** envia, **então** a estrutura é recusada sem criar lote.
 3. **US2.3** — **Dado** nome de arquivo, célula ou metadado malicioso, **quando** ocorre rejeição, **então** a interface e logs não executam fórmula/script nem ecoam conteúdo integral.
 
@@ -204,7 +257,7 @@ Não existe estado cancelado nesta versão. Estados terminais não voltam a esta
 
 1. **US3.1** — **Dado** linhas válidas, inválidas e e-mails repetidos, **quando** o job termina, **então** somente linhas válidas e não repetidas criam contas, todas as ocorrências repetidas falham e os contadores fecham.
 2. **US3.2** — **Dado** e-mail já existente ou criado concorrentemente, **quando** a linha é persistida, **então** o usuário existente permanece inalterado e o resultado é `duplicate_existing`.
-3. **US3.3** — **Dado** conta criada pela importação, **quando** tenta login antes da senha inicial, **então** recebe a mesma mensagem neutra vigente; após admin definir senha válida, autentica conforme o papel importado.
+3. **US3.3** — **Dado** conta criada pela importação, **quando** tenta login antes da senha inicial, **então** recebe a mesma mensagem neutra vigente; após um de dois admins concorrentes definir a única senha inicial válida sob lock, autentica conforme o papel importado e a tentativa perdedora não sobrescreve.
 
 ### US4 — Retomar sem duplicar
 
@@ -220,8 +273,8 @@ Não existe estado cancelado nesta versão. Estados terminais não voltam a esta
 
 ### US6 — Operar localmente com fila persistente
 
-1. **US6.1** — **Dado** Compose dev/delivery iniciado, **quando** um lote é enviado, **então** worker separado consome `imports` e web permanece responsivo.
-2. **US6.2** — **Dado** restart do worker com lote pendente, **quando** ele retorna, **então** o trabalho persistido é retomado sem Redis e sem duplicação.
+1. **US6.1** — **Dado** Compose dev/delivery iniciado, **quando** um lote é enviado, **então** worker separado lê o arquivo pelo storage compartilhado, consome `imports` e web permanece responsivo.
+2. **US6.2** — **Dado** restart do worker com lote/arquivo pendente, **quando** ele retorna, **então** encontra os mesmos bytes no volume persistente e retoma sem Redis nem duplicação.
 3. **US6.3** — **Dado** imagem final, **quando** auditada, **então** contém somente gems/runtime/arquivos necessários e não contém fixtures, relatórios, uploads, caches ou ferramentas de teste.
 
 ## Requisitos não funcionais e critérios de aceite
@@ -231,7 +284,7 @@ Não existe estado cancelado nesta versão. Estados terminais não voltam a esta
 - **NFR-003 — acessibilidade**: teclado, foco no primeiro erro e no `h1`, progresso textual com `aria-live` sem anunciar cada linha, tabela/cartões acessíveis, contraste AA, 44×44 px, reduced motion e texto a 200%.
 - **NFR-004 — responsividade**: fluxos Playwright em 1440×1024 e 390×844; inspeção em 1440×640 e texto a 200%.
 - **NFR-005 — qualidade**: `bin/check`, cobertura >=90% de linhas por linguagem, branches reportados, lint/segurança/zeitwerk/build e testes paralelos preservados.
-- **NFR-006 — operação**: prova Compose limpa com web + worker, CSV e XLSX reais de teste, restart durante processamento e auditoria da imagem final.
+- **NFR-006 — operação**: prova Compose limpa com web + worker, volume `/rails/storage` compartilhado e gravável por UID/GID 1000, CSV/XLSX reais de teste, leitura após restart durante processamento, cleanup apenas do projeto efêmero e auditoria da imagem final.
 - **NFR-007 — desempenho limitado**: validar 10.000 linhas e processar incrementalmente sem carregar relatório inteiro em props; não prometer throughput/tempo sem medição.
 - **NFR-008 — evidência**: registrar RED/GREEN/refatoração e resultados reais no SHA publicado; nenhuma validação omitida é descrita como aprovada.
 
