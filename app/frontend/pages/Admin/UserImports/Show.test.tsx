@@ -12,11 +12,15 @@ const userImport = { id: '3', filename: 'people.csv', status: 'completed_with_er
 
 describe('UserImportShow', () => {
   it('renders aggregate counts and safe per-row results', () => {
-    render(<UserImportShow userImport={userImport} results={[{ rowNumber: 4, status: 'rejected', normalizedEmail: 'ana@example.com', errorMessage: 'E-mail inválido.' }]} pagination={{ page: 1, totalPages: 1, totalItems: 1 }} />)
+    render(<UserImportShow userImport={userImport} results={[
+      { rowNumber: 2, status: 'created', normalizedEmail: 'bruno@example.com' },
+      { rowNumber: 4, status: 'rejected', normalizedEmail: 'ana@example.com', errorMessage: 'E-mail inválido.' },
+    ]} pagination={{ page: 1, totalPages: 1, totalItems: 2 }} />)
 
     expect(screen.getByRole('link', { name: 'Voltar ao histórico' })).toHaveAttribute('href', '/admin/user_imports')
-    expect(screen.getByText('2')).toBeVisible()
-    expect(screen.getByRole('table', { name: 'Resultados por linha' })).toHaveTextContent('E-mail inválido.')
+    const table = screen.getByRole('table', { name: 'Resultados por linha' })
+    expect(table).toHaveTextContent('E-mail inválido.')
+    expect(table).toHaveTextContent('Criada')
     expect(screen.getByText('Concluída com erros')).toBeVisible()
     expect(screen.getByRole('status')).toHaveTextContent('Importação atualizada')
   })
