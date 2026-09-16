@@ -13,5 +13,5 @@
 - [x] Relatório/props/eventos/logs excluem conteúdo bruto e segredos.
 - [x] BDD, TDD, segurança, acessibilidade, cobertura e Compose estão rastreados.
 - [x] Allowlist, exclusões, sucesso e parada estão explícitos.
-- [ ] PR documental possui milestone/label/responsável corretos.
+- [x] PR documental #26 possui milestone 0.4.0, label `documentation` e Douglas responsável.
 - [ ] Revisão independente aceita o HEAD exato com ledger verde e zero threads abertas.

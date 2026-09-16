@@ -48,7 +48,7 @@ A spec 017 governou a publicação. Seu planejamento foi aceito no HEAD `2701c3f
 
 ## Planejamento de importação 0.4.0
 
-A entrega documental 019 parte de `origin/main` em `9d3191f6013fc400b6f5181bdb577cb5728537ec`, depois da reconciliação do PR #25, e está na branch `codex/019-user-import`. O milestone aberto `0.4.0` #7 destina-se exclusivamente à importação administrativa CSV/XLSX assíncrona, ao progresso persistido/ao vivo e à configuração local da senha inicial de contas importadas sem credencial. A numeração substitui a reserva histórica `015-user-import`, já consumida pelo registro pós-0.3.0; não altera decisões de produto.
+A entrega documental 019 parte de `origin/main` em `9d3191f6013fc400b6f5181bdb577cb5728537ec`, depois da reconciliação do PR #25, e está na branch `codex/019-user-import`, [PR #26](https://github.com/douglasfeitosag/Umanni/pull/26). O milestone aberto `0.4.0` #7 destina-se exclusivamente à importação administrativa CSV/XLSX assíncrona, ao progresso persistido/ao vivo e à configuração local da senha inicial de contas importadas sem credencial. A numeração substitui a reserva histórica `015-user-import`, já consumida pelo registro pós-0.3.0; não altera decisões de produto.
 
 O inventário confirmou Active Storage e Solid Cable existentes, mas Solid Queue/worker e parser XLSX ausentes. O plano fixa, sujeito ao gate de execução, `solid_queue 1.7.0` e `roo 3.0.0`; uma prova isolada resolveu e carregou ambas com Ruby 4.0.6/Rails 8.1.3.1 sem alterar o lock do repositório. A feature continua sem implementação até o planejamento receber revisão independente no HEAD exato.
 

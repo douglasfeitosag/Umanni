@@ -9,7 +9,7 @@ Entrada: [spec](spec.md), [plano](plan.md), [pesquisa](research.md) e [modelo](d
 - [x] **P003** Confirmar lacunas reais: Solid Queue/worker e parser XLSX ausentes; senha inicial de importado indisponível.
 - [x] **P004** Comparar dependências e decisões D-036–D-041; provar resolução isolada sem alterar o repositório.
 - [x] **P005** Criar spec, pesquisa, modelo, plano, tarefas, checklist e prompt da futura executora.
-- [ ] **P006** Commitar/publicar PR documental com milestone 0.4.0, label, Douglas responsável e HEAD exato.
+- [x] **P006** Commitar/publicar o PR documental #26 com milestone 0.4.0, label `documentation`, Douglas responsável e HEAD exato.
 - [ ] **P007** Iniciar revisora independente Luna/high, responder achados nas threads, corrigir e obter `review-ledger=success`, `spec-reviewed` e zero threads abertas.
 - [ ] **P008** Entregar a Douglas o PR revisado e o prompt; parar sem merge nem execução.
 

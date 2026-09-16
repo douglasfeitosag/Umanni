@@ -4,6 +4,8 @@
 
 **Branch futura de execução**: `codex/019-user-import-app`
 
+**PR documental**: [#26](https://github.com/douglasfeitosag/Umanni/pull/26)
+
 **Versão-alvo**: `0.4.0` (milestone GitHub #7)
 
 **Base verificada**: `origin/main` / merge do PR #25 / `9d3191f6013fc400b6f5181bdb577cb5728537ec`
