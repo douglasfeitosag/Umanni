@@ -33,6 +33,13 @@ describe('UserImportsIndex', () => {
     expect(screen.getByLabelText('Arquivo de importação')).toHaveAttribute('aria-invalid', 'true')
   })
 
+  it('keeps the upload action and import history in separate labelled regions', () => {
+    render(<UserImportsIndex imports={[]} />)
+
+    expect(screen.getByRole('region', { name: 'Enviar arquivo para importação' })).toHaveClass('import-upload')
+    expect(screen.getByRole('heading', { name: 'Histórico' }).closest('section')).toHaveClass('import-history')
+  })
+
   it('translates every persisted import status for the Portuguese interface', () => {
     const imports = ['queued', 'processing', 'completed', 'completed_with_errors', 'failed'].map((status, index) => ({ id: String(index), filename: `${status}.csv`, status, totalCount: 1, processedCount: 1, createdCount: 1, rejectedCount: 0, createdAt: '2026-09-16T12:00:00Z' }))
     render(<UserImportsIndex imports={imports} />)
