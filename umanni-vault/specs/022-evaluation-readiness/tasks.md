@@ -63,7 +63,8 @@
 
 - [x] T017 Create the root-local, ignored `ENTREVISTA-UMANNI-PRIVADO.md` with non-secret decisions, stack, functionality, evidence, limitations, and interview script; do not add it to Git.
 - [x] T018 Update `CHANGELOG.md`, `umanni-vault/releases/1.0.0.md`, `umanni-vault/STATUS.md`, `umanni-vault/MEMORIA-PROJETO.md`, and `umanni-vault/EXEC-021-EVALUATION-READINESS.md` with exact scope, commands, results, limitations, and release steps.
-- [x] T019 Run `git diff --check`, the redacted `.env`/private-guide tracking checks from T006, `bin/check`, and `bin/check-delivery` on the candidate HEAD; record only actual results and stop on failure.
+- [ ] T019 Run `git diff --check`, the redacted `.env`/private-guide tracking checks from T006, `bin/check`, and `bin/check-delivery` on the candidate HEAD; record only actual results and stop on failure.
+- [ ] T019a When the full six-project matrix demonstrates the repeated auxiliary-administrator login race, add a test-only RED/GREEN persistence observation in `spec/e2e/identity.spec.ts` before each independent auxiliary-admin login; retain all browser/viewport concurrency and rerun T019 without a retry.
 - [ ] T020 Publish the final candidate HEAD and automatically start a fresh independent `gpt-5.6-luna`/high reviewer for PR/code/doc/evidence review; provide spec, plan, tasks, scope, and gate evidence.
 - [ ] T021 Respond to any reviewer findings only in their original threads, make only scoped corrections, rerun affected checks, and request exact-HEAD re-review until the reviewer alone leaves `review-ledger=success`, applies `code-reviewed`, and resolves every thread.
 - [ ] T022 Reconfirm PR metadata, checks, review threads, final reviewed HEAD, and Douglas's explicit authorization recorded in this delivery objective; merge only PR #30, fetch `origin/main`, capture the new integrated SHA, verify `HEAD == origin/main == integrated SHA`, and verify its Git tree equals the final reviewed PR-head tree.
@@ -75,7 +76,7 @@
 - T005–T006 establish the allowable documentation-only scope.
 - US1 (T007–T010) is the MVP and must finish before bootstrap or shutdown evidence.
 - US2 (T011–T014) and US3 (T015–T016) depend on the delivery contract from US1 but otherwise touch separate README sections.
-- T017–T023 require all user-story checkpoints.
+- T017–T023 require all user-story checkpoints; T019a blocks T020 whenever T019 observes the specified E2E race.
 
 ## Parallel Opportunities
 

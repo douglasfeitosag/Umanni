@@ -10,7 +10,7 @@ Make the released local-evaluation path executable from the public README: clone
 
 ## Technical Context
 
-**Language/Version**: Markdown and Bash command examples; Ruby 4.0/Rails 8.1 receives one scoped `FirstAdminBootstrap` guard correction with focused RSpec coverage
+**Language/Version**: Markdown and Bash command examples; Ruby 4.0/Rails 8.1 receives one scoped `FirstAdminBootstrap` guard correction with focused RSpec coverage; TypeScript receives one test-only persistence observation in the Cable E2E scenario
 
 **Primary Dependencies**: Docker Engine, Docker Compose, existing Compose profiles and repository gates
 
@@ -26,7 +26,7 @@ Make the released local-evaluation path executable from the public README: clone
 
 **Constraints**: Documentation/reproducibility scope only; no CI/runner, deploy, email, invitation, recovery, parallel API, Redis, platform extras, or issue #9; never commit secrets or the private guide; never modify existing tags/releases
 
-**Scale/Scope**: README, versioned vault records, release notes, one root-local ignored interview guide, and the minimal `FirstAdminBootstrap` environment guard plus focused RSpec coverage required by observed delivery-bootstrap failure
+**Scale/Scope**: README, versioned vault records, release notes, one root-local ignored interview guide, the minimal `FirstAdminBootstrap` environment guard plus focused RSpec coverage required by observed delivery-bootstrap failure, and the minimal Cable E2E persistence observation required by repeated full-matrix failures
 
 ## Constitution Check
 
@@ -47,6 +47,7 @@ Make the released local-evaluation path executable from the public README: clone
 README.md                                      # Public evaluator guide
 app/services/first_admin_bootstrap.rb           # Explicit local-delivery bootstrap guard
 spec/services/first_admin_bootstrap_spec.rb     # RED/GREEN coverage for the guard
+spec/e2e/identity.spec.ts                       # Test-only persistence observation before auxiliary-admin login
 CHANGELOG.md                                   # Versioned release summary
 ENTREVISTA-UMANNI-PRIVADO.md                   # Root-local, ignored interview guide
 umanni-vault/
@@ -64,7 +65,7 @@ umanni-vault/
     └── tasks.md
 ```
 
-**Structure Decision**: This is an evaluator-facing documentation correction with one observed product defect. The only application write allowlist is `FirstAdminBootstrap` and its focused spec, to make the already-promised local first-administrator path work under the local delivery profile only after an explicit opt-in. The private guide is deliberately excluded from version control only through local Git metadata.
+**Structure Decision**: This is an evaluator-facing documentation correction with one observed product defect and one test-only reliability correction. The only application write allowlist is `FirstAdminBootstrap` and its focused spec, to make the already-promised local first-administrator path work under the local delivery profile only after an explicit opt-in. The only additional test allowlist is the Cable E2E scenario's observation that a newly created administrator is visible before its independent login. The private guide is deliberately excluded from version control only through local Git metadata.
 
 ## Complexity Tracking
 

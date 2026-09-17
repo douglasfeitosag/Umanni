@@ -59,6 +59,7 @@ An evaluator can switch between local development and delivery and stop the reso
 - A healthy boot endpoint is not proof that the database and migrations are ready; the guide must distinguish `/up` from `/ready`.
 - An arm64 validation result must not be represented as proof of amd64 validation.
 - The private interview guide must never appear in Git status as a tracked change or be added to the repository ignore rules.
+- The Cable E2E scenario runs concurrently across browser and viewport projects against one dedicated database; it must observe an administrator's completed creation before opening that administrator's independent session.
 
 ## Requirements *(mandatory)*
 
@@ -74,6 +75,7 @@ An evaluator can switch between local development and delivery and stop the reso
 - **FR-008**: A root-level `ENTREVISTA-UMANNI-PRIVADO.md` MUST record non-secret decisions, stack, implemented capabilities, evidence, limitations, and an interview script; it MUST be ignored only through `.git/info/exclude` and never tracked.
 - **FR-009**: The release record MUST preserve the exact commands and observed results, scope limits, review evidence, immutable tag target, Release URL, and milestone result.
 - **FR-010**: The existing first-administrator task MUST allow the local delivery database only when an explicit local-delivery opt-in is supplied, while retaining rejection for production without that opt-in and all existing database-host, database-name, confirmation, password, and idempotence safeguards.
+- **FR-011**: The Cable E2E scenario MUST wait for each newly created administrator to appear in the managing administrator's users view before opening that administrator's independent session; the correction MUST remain test-only and preserve the concurrent browser/viewport matrix.
 
 ### Key Entities
 
@@ -89,6 +91,7 @@ An evaluator can switch between local development and delivery and stop the reso
 - **SC-002**: The delivery startup command leaves exactly the documented web and worker application processes running before health checks are performed.
 - **SC-003**: Both documented health checks return success after local delivery startup, while the guide clearly distinguishes boot liveness from database-and-migration readiness.
 - **SC-004**: The two repository verification gates complete successfully on the final reviewed commit, with their real results recorded.
+- **SC-004a**: The six-project E2E matrix completes its 66 scenarios without a retry after the administrator-persistence observation is added.
 - **SC-005**: The final patch has no whitespace errors, no tracked `.env` or private guide, no open review threads, a successful exact-HEAD review ledger, and an empty 1.0.0 milestone after publication.
 
 ## Assumptions
