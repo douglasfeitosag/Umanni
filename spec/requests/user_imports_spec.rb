@@ -90,6 +90,7 @@ RSpec.describe "User imports", type: :request do
 
   it "treats only the expected enqueue failure as a recoverable field error" do
     admin = create_user(email: "admin@example.com", role: :admin)
+    enqueue_error = "A importação não pôde ser adicionada à fila. Tente novamente."
     sign_in(admin)
     allow(UserImports::Enqueue).to receive(:call).and_raise(UserImports::Enqueue::Failed)
 
@@ -98,13 +99,15 @@ RSpec.describe "User imports", type: :request do
     end.to change(UserImport, :count).by(0).and change(SolidQueue::Job, :count).by(0)
 
     expect(response).to have_http_status(:unprocessable_content)
-    expect(response.parsed_body.dig("props", "errors", "sourceFile")).to eq("A importação não pôde ser adicionada à fila. Tente novamente.")
+    expect(response.parsed_body.dig("props", "errors",
+                                    "sourceFile")).to eq(enqueue_error)
   end
 
   it "does not convert an unexpected database failure into a field error" do
     admin = create_user(email: "admin@example.com", role: :admin)
     sign_in(admin)
-    allow(UserImports::Preflight).to receive(:call).and_raise(ActiveRecord::ConnectionNotEstablished, "connection unavailable")
+    allow(UserImports::Preflight).to receive(:call).and_raise(ActiveRecord::ConnectionNotEstablished,
+                                                              "connection unavailable")
 
     expect do
       post "/admin/user_imports", params: { user_import: { source_file: csv_upload } }, headers: inertia_headers
