@@ -35,7 +35,7 @@ RSpec.describe FirstAdminBootstrap do
     expect(User.admin.count).to eq(1)
   end
 
-  it "US6.3 rejects a forbidden environment before persistence without echoing a password" do
+  it "US6.3 rejects production without explicit local-delivery opt-in before persistence without echoing a password" do
     password = valid_env.fetch("UMANNI_BOOTSTRAP_PASSWORD")
 
     error = begin
@@ -44,9 +44,17 @@ RSpec.describe FirstAdminBootstrap do
     rescue FirstAdminBootstrap::ConfigurationError => e
       e
     end
-    expect(error.message).to include("development")
+    expect(error.message).to include("local delivery")
     expect(error.message).not_to include(password)
     expect(User.count).to eq(0)
+  end
+
+  it "US6.4 allows an explicit local-delivery opt-in while preserving one-time creation" do
+    env = valid_env.merge("UMANNI_BOOTSTRAP_LOCAL_DELIVERY" => "1")
+
+    expect(described_class.call(env:, environment: "production")).to eq(:created)
+    expect(described_class.call(env: env.except("UMANNI_BOOTSTRAP_PASSWORD"), environment: "production")).to eq(:already_exists)
+    expect(User.admin.count).to eq(1)
   end
 
   it "US6.3 rejects mismatched confirmation and database values" do

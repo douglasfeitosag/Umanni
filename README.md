@@ -110,10 +110,11 @@ It uses temporary Compose project names and volumes, tests a fresh database, a p
 
 ### Create the first local administrator
 
-Run this only after `/ready` succeeds. Replace the placeholders with local values; never commit the password. The task accepts only the exact local delivery database and confirmation phrase, does not print the password, and is idempotent: a second run leaves the existing administrator unchanged.
+Run this only after `/ready` succeeds. Replace the placeholders with local values; never commit the password. `UMANNI_BOOTSTRAP_LOCAL_DELIVERY=1` is an explicit opt-in for this local Compose delivery only; without it, the task remains unavailable in production. The task also accepts only the exact local delivery database and confirmation phrase, does not print the password, and is idempotent: a second run leaves the existing administrator unchanged.
 
 ```sh
 docker compose --project-name umanni-evaluation --profile delivery exec -T \
+  -e UMANNI_BOOTSTRAP_LOCAL_DELIVERY=1 \
   -e UMANNI_BOOTSTRAP_CONFIRM=CREATE_FIRST_ADMIN \
   -e UMANNI_BOOTSTRAP_DATABASE=umanni_production \
   -e UMANNI_BOOTSTRAP_FULL_NAME="Local Administrator" \
