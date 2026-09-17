@@ -22,4 +22,5 @@
 ## Pendente antes de revisão
 
 - Executar RSpec e Playwright em ambiente cujo banco `umanni_e2e` seja acessível e registrar os resultados.
-- Executar `git diff --check <base> HEAD` depois do commit e obter revisão independente do HEAD exato.
+- `git diff --check f4afda9ebce52380fce952429c624c607e982ad9 2521ce0` concluiu sem saída.
+- Obter revisão independente do HEAD que contém este registro e o patch.
