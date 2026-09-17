@@ -64,6 +64,8 @@ O ciclo RED observou seis falhas do contrato plaintext; o GREEN focado passou 7 
 
 Os gates `bin/check` (100 RSpec, 23 Vitest e 66 Playwright) e `bin/check-delivery` (18 cenários) passaram. Ainda faltam a publicação do candidato, revisão independente do HEAD exato e a autorização explícita de Douglas. Não há merge, tag `v1.1.0`, GitHub Release ou fechamento de milestone nesta etapa. Ver [[EXEC-022-CREDENTIALS-1-1-0]].
 
+Em 2026-09-17, o teste local revelou quatro falhas de estabilização ainda dentro da candidata: espaçamento da importação, ausência de arquivo, retorno contextual da página segura e superfície 403. A entrega documental 024, em `codex/024-import-error-stabilization`, define os quatro patches 025–028 contra a candidata, sem criar versão ou Release adicional. Os artefatos aguardam revisão independente de planejamento; nenhum patch de código, merge, tag, Release ou fechamento de milestone é inferido deste registro.
+
 ## Pendências e momento de resolução
 
 - A spec 013, a execução e o fechamento formal 014 foram concluídos e publicados como 0.3.0. A reconciliação pós-publicação foi integrada pelo PR #21 em `a3b53ee00e5009d7d52485c22171acb3d41329d5`; ela não alterou o alvo imutável de `v0.3.0`.
