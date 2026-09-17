@@ -144,7 +144,7 @@ Normal shutdown stops and removes only the Compose resources named `umanni-evalu
 docker compose --project-name umanni-evaluation --profile dev --profile test --profile delivery down --remove-orphans
 ```
 
-Validation records and limitations are in [EXEC-009](umanni-vault/EXEC-009-FOUNDATION-APP.md). `foundation-checks` and `review-ledger` are manual statuses for an exact commit, not automatic CI. Integration remains Douglas's decision.
+Validation records and limitations for this delivery are in [EXEC-021](umanni-vault/EXEC-021-EVALUATION-READINESS.md). `foundation-checks` and `review-ledger` are manual statuses for an exact commit, not automatic CI. Integration remains Douglas's decision.
 
 ## Documentation and workflow
 

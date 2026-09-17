@@ -15,7 +15,7 @@
 
 ## Administrator contract
 
-The existing bootstrap task operates only against the exact local database and confirmation phrase. It is idempotent and does not print the password. The public guide supplies placeholders only; the evaluator supplies local secret values.
+The existing bootstrap task operates against the exact local database and confirmation phrase only. In the production delivery profile, it requires the explicit `UMANNI_BOOTSTRAP_LOCAL_DELIVERY=1` opt-in; without it, production bootstrap is rejected. It retains the local-host, exact-database, confirmation, password-validation, locking, no-password-output, and idempotence safeguards. The public guide supplies placeholders only; the evaluator supplies local secret values.
 
 ## Verification and shutdown contract
 

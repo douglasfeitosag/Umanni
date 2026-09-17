@@ -44,7 +44,7 @@
 - [x] T011 [US2] Add a focused RED example in `spec/services/first_admin_bootstrap_spec.rb` proving that production remains rejected without opt-in and local delivery is allowed only with `UMANNI_BOOTSTRAP_LOCAL_DELIVERY=1`, preserving all current safeguards.
 - [x] T012 [US2] Implement the smallest environment guard in `app/services/first_admin_bootstrap.rb` that admits only explicit local delivery and leaves development behavior plus host/database/confirmation/idempotence protections intact.
 - [x] T013 [US2] Run the focused `spec/services/first_admin_bootstrap_spec.rb` RED/GREEN cycle and update the local-administrator section of `README.md` with the explicit opt-in, delivery database, placeholders, idempotence/no-password behavior, and private-secret warning.
-- [x] T014 [US2] Execute the published bootstrap command twice in the isolated delivery environment and record its redacted real outcomes in `umanni-vault/EXEC-021-EVALUATION-READINESS.md`.
+- [x] T014 [US2] Confirm that production rejects bootstrap without `UMANNI_BOOTSTRAP_LOCAL_DELIVERY=1`, then execute the published opted-in bootstrap command twice in the isolated delivery environment and record its redacted real outcomes in `umanni-vault/EXEC-021-EVALUATION-READINESS.md`.
 
 **Checkpoint**: The administrator path is executable against delivery and remains local/private.
 
