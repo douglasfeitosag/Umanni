@@ -1,7 +1,7 @@
 class FirstAdminBootstrap
   FIRST_ADMIN_BOOTSTRAP_LOCK_KEY = 130_013
   ALLOWED_HOSTS = [nil, "", "localhost", "127.0.0.1", "::1", "db"].freeze
-  LOCAL_DELIVERY_OPT_IN = "1"
+  LOCAL_DELIVERY_OPT_IN = "1".freeze
 
   class ConfigurationError < StandardError; end
 

@@ -53,7 +53,9 @@ RSpec.describe FirstAdminBootstrap do
     env = valid_env.merge("UMANNI_BOOTSTRAP_LOCAL_DELIVERY" => "1")
 
     expect(described_class.call(env:, environment: "production")).to eq(:created)
-    expect(described_class.call(env: env.except("UMANNI_BOOTSTRAP_PASSWORD"), environment: "production")).to eq(:already_exists)
+    result = described_class.call(env: env.except("UMANNI_BOOTSTRAP_PASSWORD"), environment: "production")
+
+    expect(result).to eq(:already_exists)
     expect(User.admin.count).to eq(1)
   end
 
