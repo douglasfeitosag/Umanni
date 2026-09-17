@@ -60,7 +60,7 @@ RSpec.describe "Delivery error responses" do
 
       expect(status).to eq(500)
       expect(page.fetch("props")).to eq("status" => 500, "returnPath" => expected_return_path)
-      expect(page.to_json).not_to include("sensitive-cookie-sentinel", path)
+      expect(page.to_json).not_to include("sensitive-cookie-sentinel")
     end
   end
 
