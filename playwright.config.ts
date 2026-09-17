@@ -5,6 +5,14 @@ const viewports = [
   { name: 'desktop', width: 1440, height: 1024 },
   { name: 'mobile', width: 390, height: 844 },
 ]
+const browserProfiles = browsers.flatMap(browserName => viewports.map(({ name, width, height }) => ({
+  name: `${browserName}-${name}`,
+  use: { browserName, viewport: { width, height } },
+})))
+const projects = browserProfiles.map((profile, index) => ({
+  ...profile,
+  ...(index === 0 ? {} : { dependencies: [browserProfiles[index - 1].name] }),
+}))
 const testDatabaseUrl = process.env.TEST_DATABASE_URL ?? 'postgresql://umanni:umanni-local@127.0.0.1:5432/umanni_test'
 const e2eDatabaseUrl = new URL(testDatabaseUrl)
 if (e2eDatabaseUrl.pathname !== '/umanni_test') throw new Error('Expected dedicated test database URL')
@@ -19,10 +27,7 @@ export default defineConfig({
   workers: 2,
   reporter: [['list'], ['html', { open: 'never' }]],
   use: { baseURL: 'http://127.0.0.1:3101', trace: 'retain-on-failure' },
-  projects: browsers.flatMap(browserName => viewports.map(({ name, width, height }) => ({
-    name: `${browserName}-${name}`,
-    use: { browserName, viewport: { width, height } },
-  }))),
+  projects,
   webServer: [
     {
       command: 'bundle exec rails server -b 127.0.0.1 -p 3101',
