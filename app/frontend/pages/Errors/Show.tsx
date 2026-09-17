@@ -2,9 +2,9 @@ import { Head } from '@inertiajs/react'
 import { useEffect, useRef, type ReactNode } from 'react'
 import logoUrl from '../../../../branding/assets/logo/umanni-horizontal.svg'
 
-type ErrorPageProps = { status: number }
+type ErrorPageProps = { status: number; returnPath: string }
 
-function ErrorPage({ status }: ErrorPageProps) {
+function ErrorPage({ status, returnPath }: ErrorPageProps) {
   const headingRef = useRef<HTMLHeadingElement>(null)
 
   useEffect(() => {
@@ -20,7 +20,7 @@ function ErrorPage({ status }: ErrorPageProps) {
           <p className="eyebrow">Algo não saiu como esperado</p>
           <h1 id="error-title" ref={headingRef} tabIndex={-1}>Não foi possível concluir</h1>
           <p className="lede">Não conseguimos concluir esta ação. Volte ao início para continuar com segurança.</p>
-          <a className="primary-button error-action" href="/">Voltar ao início</a>
+          <a className="primary-button error-action" href={returnPath}>Voltar ao início</a>
         </section>
       </main>
     </>
