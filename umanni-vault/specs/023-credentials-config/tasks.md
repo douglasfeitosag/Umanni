@@ -24,9 +24,10 @@
 ## Phase 3: User Story 1 - Private delivery credentials (Priority: P1) 🎯 MVP
 
 - [ ] T008 [US1] Generate `config/credentials.yml.enc` with a non-production local value for `secret_key_base`; ensure `config/master.key` remains ignored and untracked.
-- [ ] T009 [US1] Configure production Rails to resolve `secret_key_base` from `Rails.application.credentials` and fail closed when the credential is missing.
+- [ ] T009 [US1] Configure production Rails to resolve `secret_key_base` from `Rails.application.credentials` and fail closed when the credential is missing, while preserving the build-only `SECRET_KEY_BASE_DUMMY=1` asset-compilation path.
+- [ ] T009a [US1] Add a build-stage regression assertion proving `docker build` succeeds without `RAILS_MASTER_KEY` and that the dummy value is never accepted as a runtime delivery credential.
 - [ ] T010 [US1] Update `compose.yaml` and `spec/support/compose.delivery-test.yaml` so delivery passes `RAILS_MASTER_KEY` to both processes and no longer injects `SECRET_KEY_BASE`.
-- [ ] T011 [US1] Run focused tests GREEN and verify a delivery boot with a valid key and a controlled failure without one.
+- [ ] T011 [US1] Run focused tests GREEN and verify a delivery boot with a valid out-of-band key and a controlled failure without one.
 
 **Checkpoint**: `web` and `worker` boot with credentials only; no plaintext fallback exists.
 
@@ -34,7 +35,7 @@
 
 - [ ] T012 [US2] Update `.env.example` and `README.md` to document private master-key handling, credential editing, delivery commands, and the deliberate database-URL boundary; remove `SECRET_KEY_BASE` generation instructions.
 - [ ] T013 [US2] Run Compose config assertions and the existing database/test safety checks, confirming `DATABASE_URL`, `DELIVERY_DATABASE_URL`, and `TEST_DATABASE_URL` behavior is unchanged.
-- [ ] T014 [US2] Build the production image and audit it for ciphertext presence and absence of `config/master.key`, `.env`, tests, and development tooling.
+- [ ] T014 [US2] Build the production image with no `RAILS_MASTER_KEY` and audit it for ciphertext presence, build-history safety, and absence of `config/master.key`, `.env`, tests, and development tooling.
 
 **Checkpoint**: Existing test/development isolation remains green and the public setup is coherent.
 

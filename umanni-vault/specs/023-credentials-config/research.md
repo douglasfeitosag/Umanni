@@ -23,3 +23,9 @@
 - **Decision**: Test-only support may provide a clearly labeled deterministic secret through the existing isolated delivery overlay; normal test and development runs continue to use their Rails defaults.
 - **Rationale**: The test harness must prove the delivery contract without ever requiring or exposing a real master key.
 - **Rejected**: Reusing a developer's master key or committing `config/master.key` would violate the privacy boundary.
+
+## Decision 5: Keep the Docker build secretless
+
+- **Decision**: Preserve `SECRET_KEY_BASE_DUMMY=1` only in the Dockerfile asset-build command and make runtime production configuration distinguish this build-only value from the credentials-backed path.
+- **Rationale**: Vite compilation must not require a decryption key; BuildKit args or copied key files would risk persistence in context or layers. Rails documents a dummy secret for asset compilation, while delivery still requires the real credentials value.
+- **Verification**: Run `docker build`/the production Compose build with no `RAILS_MASTER_KEY`, inspect image history and filesystem for key material, then boot delivery with the private runtime key.

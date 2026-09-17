@@ -6,7 +6,7 @@
 
 ## Summary
 
-Create and commit the encrypted Rails credentials file, configure production Rails to resolve `secret_key_base` from it, and pass only the private `RAILS_MASTER_KEY` at delivery runtime. Preserve database URL environment semantics and test isolation. Replace the README/.env instructions that currently ask evaluators to generate `SECRET_KEY_BASE`, add focused RED/GREEN coverage, audit the final image and run the repository gates. Record exact evidence for a candidate `1.1.0` release.
+Create and commit the encrypted Rails credentials file, configure production Rails to resolve `secret_key_base` from it, and pass only the private `RAILS_MASTER_KEY` at delivery runtime. Preserve database URL environment semantics and test isolation. Keep the Docker asset-build path secretless by retaining Rails' documented `SECRET_KEY_BASE_DUMMY` build-only escape hatch; never pass a real master key into `docker build`. Replace the README/.env instructions that currently ask evaluators to generate `SECRET_KEY_BASE`, add focused RED/GREEN coverage, audit the final image and run the repository gates. Record exact evidence for a candidate `1.1.0` release.
 
 ## Technical Context
 
@@ -22,7 +22,7 @@ Create and commit the encrypted Rails credentials file, configure production Rai
 
 **Performance Goals**: No new runtime performance target; credentials lookup must not add a network dependency
 
-**Constraints**: No external secret manager, deploy/CI work, database migration, authentication change, or prior-tag mutation; master key and `.env` remain private
+**Constraints**: No external secret manager, deploy/CI work, database migration, authentication change, or prior-tag mutation; master key and `.env` remain private; build must not receive or persist a real key
 
 **Scale/Scope**: `config`, `compose.yaml`, `.env.example`, README, focused specs, Docker image audit, changelog, vault execution/release records, and feature governance artifacts
 
@@ -72,6 +72,10 @@ umanni-vault/
 2. RED/GREEN: focused credential tests fail for the current `SECRET_KEY_BASE`-only behavior, then pass after the minimal configuration change.
 3. Integration: README/.env/Compose contract, image audit, `bin/check`, `bin/check-delivery`, and privacy checks pass on one candidate HEAD.
 4. Final review: fresh independent reviewer confirms code, docs, tests, evidence and exact HEAD; only then ask for/consume explicit integration and release authorization.
+
+## Build and key-distribution decision
+
+The released ciphertext is public, but its decryption key is not. The published quickstart therefore targets `v1.1.0` and explicitly requires the evaluator to obtain `RAILS_MASTER_KEY` through the private delivery channel (or create a replacement credentials file before first use). The key is never placed in GitHub, `.env.example`, Docker build args, image layers, logs, or release notes. Asset compilation remains reproducible without that key through the existing build-only `SECRET_KEY_BASE_DUMMY=1` environment; runtime production boot does not accept that dummy value as its credential source.
 
 ## Complexity Tracking
 
