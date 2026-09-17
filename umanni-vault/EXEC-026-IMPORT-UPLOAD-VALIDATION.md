@@ -14,8 +14,9 @@
 
 ## Contratos ainda a executar
 
-- Os exemplos de request foram adicionados para ausência de parâmetro, falha prevista de enfileiramento e exceção ActiveRecord não recuperável. Eles exigem o banco PostgreSQL de teste; o runtime Ruby/pg local falha durante a conexão, portanto não são declarados como executados.
-- O E2E sem arquivo e a prova de fallback 500 permanecem pendentes do mesmo runtime.
+- `docker run --rm --network umanni-foundation_default ... bundle exec rspec spec/requests/user_imports_spec.rb` passou no banco isolado `umanni_test`, incluindo ausência de parâmetro, `Enqueue::Failed` e exceção ActiveRecord não recuperável.
+- Após `bundle exec vite build` no mesmo container, `npm exec playwright -- test spec/e2e/user_imports.spec.ts --grep US2 --workers=2` passou nos seis projetos: Chromium, Firefox e WebKit em desktop e mobile. O cenário confirma que não há POST sem arquivo e que o erro ARIA é associado ao input.
+- A limitação é somente do Ruby/pg instalado no host macOS; não afeta o runtime de tooling em contêiner.
 
 ## Refatoração pós-GREEN
 
