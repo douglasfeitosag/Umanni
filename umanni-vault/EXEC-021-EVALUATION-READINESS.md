@@ -34,6 +34,13 @@ No candidato de código `55765dc86dd0f594826e6d13e6e6acc15828a192`:
 
 O porto 3030 já era usado por um recurso externo ao escopo desta entrega. Para não afetá-lo, o ensaio isolado usou o overlay de teste na porta 3131; os comandos e a composição publicados foram os mesmos, exceto por esse isolamento de porta.
 
+No HEAD documental final `582a287e5fd4ce2fe74fa633fedb8b838c23e01f`, que não altera o código de `55765dc`, a sequência publicada do README foi repetida com `VERIFICATION_SHA` exportado antes do build da imagem:
+
+- A primeira matriz limpa completou 65/66 cenários; somente `US7.1–US7.3` em WebKit móvel falhou no login de uma conta auxiliar, sem alteração de código durante a execução.
+- Após `docker compose --project-name umanni-evaluation --profile test down --volumes --remove-orphans`, a repetição do mesmo gate passou 66/66, com RSpec paralelo 93 exemplos, Ruby 95,29%, Vitest 23/23, RuboCop sem ofensas e Brakeman sem alertas.
+- `bin/check-delivery` no mesmo HEAD passou 18/18 cenários production-like, incluindo web+worker, volume compartilhado, restart idempotente, saúde, migração pendente, erros seguros e banco indisponível.
+- `git diff --check` não reportou erros; `.env` continuou não rastreado e o guia privado continuou ignorado localmente.
+
 ## Privacidade e guia local
 
 `ENTREVISTA-UMANNI-PRIVADO.md` foi criado na raiz com decisões, stack, capacidades, evidência, limites e roteiro de entrevista, sem segredos. `git check-ignore -v` confirmou a exclusão somente por `.git/info/exclude`; o arquivo não foi adicionado ao Git. Nenhum valor de `.env` ou `SECRET_KEY_BASE` foi registrado neste EXEC, no README, no changelog ou nas notas de release.
