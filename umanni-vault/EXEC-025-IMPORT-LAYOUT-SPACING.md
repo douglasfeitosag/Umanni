@@ -21,5 +21,6 @@
 
 ## Pendente antes de revisão
 
+- `git diff --check 27a06e31ed902d56bc667e9810ec931d2ae40788 6b65b0d` concluiu sem saída.
 - Executar o Playwright em ambiente com o banco `umanni_e2e` acessível e registrar a inspeção nos três tamanhos.
-- Executar `git diff --check <base> HEAD` após o commit e obter revisão independente do HEAD exato.
+- Obter revisão independente do HEAD que contém este registro e o patch.
