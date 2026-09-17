@@ -7,12 +7,12 @@
 
 ## Decisão de entrega
 
-As quatro falhas serão quatro patches coesos, cada um com branch, PR, evidência e revisão próprios. Eles são correções de estabilização da candidata `1.1.0`, ainda não publicada; portanto não é apropriado criar quatro versões ou Releases. Cada patch nasce da mesma base candidata e tem como alvo a branch da candidata. Depois de integrados sob autorização, o HEAD combinado precisa de nova revisão independente antes de qualquer merge final, tag ou Release.
+As quatro falhas serão quatro patches coesos, cada um com branch, PR, evidência e revisão próprios. Eles são correções de estabilização da candidata `1.1.0`, ainda não publicada; portanto não é apropriado criar quatro versões ou Releases. Os patches 025 e 027 nascem da base candidata; 026 e 028 nascem, respectivamente, depois das integrações autorizadas de 025 e 027 para não disputar os mesmos arquivos. Todos têm como alvo a branch da candidata. Depois de integrados sob autorização, o HEAD combinado precisa de nova revisão independente antes de qualquer merge final, tag ou Release.
 
 | Patch | Branch | Limite de mudança | Dependência |
 | --- | --- | --- | --- |
 | P1 | `codex/025-import-layout-spacing` | Layout do formulário/histórico e testes visuais | nenhuma |
-| P2 | `codex/026-import-upload-validation` | Validação cliente/servidor de upload e alertas previstos | nenhuma |
+| P2 | `codex/026-import-upload-validation` | Validação cliente/servidor de upload e alertas previstos | P1 integrado autorizadamente à candidata, pois ambos alteram `UserImports/Index` e seu teste |
 | P3 | `codex/027-error-return-home` | Contrato de destino da tela `Errors/Show` | nenhuma |
 | P4 | `codex/028-authorization-error-view` | Respostas 403 HTML/Inertia e superfície segura | P3 integrado autorizadamente à candidata, pois reutiliza o contrato de erro/destino |
 
@@ -23,7 +23,7 @@ As quatro falhas serão quatro patches coesos, cada um com branch, PR, evidênci
 | Importação | `UserImportsController#create` usa `params.require(:user_import).fetch(:source_file)` | Extrair acesso defensivo ao upload; ausência é erro de domínio/UI 422, não exceção de parâmetros. |
 | Interface | `.field-hint` usa margem superior negativa e a página não tem agrupamento próprio de importação | Criar seletor específico para preservar o ritmo do formulário sem alterar campos não relacionados. |
 | Erro seguro | `Errors/Show` fixa `href="/"`; fallback 5xx não lê sessão por segurança | Derivar prop explícita de retorno do escopo permitido da rota de origem; a rota de destino valida sessão normalmente, sem cookie no fallback. |
-| Autorização | `Admin::BaseController#require_admin` responde `head :forbidden`; `DeliveryExceptionsApp` delega apenas 5xx | Renderizar/serializar 403 com o mesmo contrato visual seguro, mantendo status e indistinguibilidade. |
+| Autorização | `Admin::BaseController#require_admin` responde `head :forbidden`; URL `/admin/*` não casada falha antes do controller | Renderizar/serializar 403 com o mesmo contrato visual seguro e adicionar rota catch-all administrativa: regular recebe 403 seguro, admin preserva 404. |
 
 **Stack**: Rails 8.1.3.1, React/Inertia, TypeScript, CSS, RSpec, Vitest/Testing Library e Playwright.
 **Dados**: nenhum schema ou migração.
@@ -81,8 +81,8 @@ spec/delivery/delivery_errors.spec.ts                 # P3/P4
 ### P2 — upload sem arquivo (`026`)
 
 1. RED no Vitest: submissão sem arquivo não chama `post`, anuncia erro e foca o input. RED no RSpec: corpo sem `user_import` e corpo sem `source_file` retornam o contrato 422 e não persistem nada.
-2. Implementar guard explícito do cliente e extração defensiva no controlador, mantendo a mensagem localizada e associação ARIA.
-3. Classificar apenas falhas previstas de preflight/enfileiramento como erro de formulário; permitir que defeitos imprevistos usem o fallback 5xx seguro.
+2. Implementar guard explícito do cliente com `#source-file-error` e `aria-describedby="source-file-hint source-file-error"` enquanto houver erro, e extração defensiva no controlador.
+3. Classificar somente `UserImports::Enqueue::Failed` como falha de enfileiramento recuperável; resultados do preflight já são valores de domínio. Exceções `ActiveRecord` e não classificadas atravessam para o fallback 5xx seguro.
 
 ### P3 — retorno contextual (`027`)
 
@@ -93,15 +93,16 @@ spec/delivery/delivery_errors.spec.ts                 # P3/P4
 ### P4 — 403 estilizado (`028`)
 
 1. RED para admin negado por HTML e Inertia: status 403, componente/documento seguro e ausência de sentinelas técnicas.
-2. Trocar `head :forbidden` pela superfície de erro prevista, preservando a indistinguibilidade de alvo existente/inexistente.
-3. Integrar ao contrato de P3 sem relaxar o isolamento do fallback 5xx nem alterar autorização server-side.
+2. Trocar `head :forbidden` pela superfície de erro prevista e acrescentar rota catch-all/controle administrativo para que a pessoa regular receba o mesmo 403 em URL casada ou não casada; a administradora preserva 404 para rota inexistente.
+3. Integrar ao contrato de P3 sem relaxar o isolamento do fallback 5xx nem alterar autorização server-side; testar requisições Rails reais HTML e Inertia, não somente chamada isolada do serviço.
 
 ## Checkpoints e ordem
 
 1. Publicar esta documentação e obter revisão independente de spec/plano/tarefas no HEAD exato.
-2. Executar P1, P2 e P3 em paralelo apenas depois do aceite documental; cada um abre PR próprio contra a candidata.
-3. Executar P4 somente depois de P3 ser revisado e integrado autorizadamente à candidata; então criar 028 a partir desse novo HEAD, para evitar contratos concorrentes no mesmo componente de erro.
-4. Para cada patch: RED relevante → implementação mínima → GREEN → checks focados → `bin/check` quando aplicável → documentação/EXEC → revisão independente Luna/high.
+2. Executar P1 e P3 em paralelo apenas depois do aceite documental; cada um abre PR próprio contra a candidata.
+3. Executar P2 somente depois de P1 ser revisado e integrado autorizadamente à candidata; então criar 026 a partir desse novo HEAD, eliminando conflito em `UserImports/Index` e no teste do componente.
+4. Executar P4 somente depois de P3 ser revisado e integrado autorizadamente à candidata; então criar 028 a partir desse novo HEAD, para evitar contratos concorrentes no componente de erro.
+5. Para cada patch: RED relevante → implementação mínima → GREEN → refatoração explícita (nomes, duplicação, contrato e testes) → checks focados → `bin/check` quando aplicável → documentação/EXEC → revisão independente Luna/high.
 5. Após todos os patches revisados e autorizadamente integrados à candidata, reexecutar os gates e obter nova revisão exata do conjunto antes de solicitar autorização de merge/publicação de `1.1.0`.
 
 ## Condições de parada técnicas

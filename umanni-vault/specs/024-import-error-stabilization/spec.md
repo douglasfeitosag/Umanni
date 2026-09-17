@@ -31,7 +31,7 @@ Como administradora, quero receber uma mensagem de validação ao enviar sem arq
 
 **Cenários de aceite**:
 
-1. **Dado** nenhum arquivo selecionado, **quando** a administradora aciona “Enviar para importação”, **então** o cliente não inicia a requisição, informa “Selecione um arquivo CSV ou XLSX.”, marca o campo inválido e posiciona o foco nele.
+1. **Dado** nenhum arquivo selecionado, **quando** a administradora aciona “Enviar para importação”, **então** o cliente não inicia a requisição, informa “Selecione um arquivo CSV ou XLSX.”, marca o campo inválido, associa a mensagem ao controle e posiciona o foco nele.
 2. **Dado** uma requisição sem `user_import` ou sem `source_file` que contorne o cliente, **quando** ela chega ao servidor autenticado, **então** recebe 422 Inertia com `errors.sourceFile`, sem 500, sem criar `UserImport` e sem enfileirar job.
 3. **Dado** uma falha prevista de pré-validação ou de enfileiramento, **quando** ela ocorre no servidor, **então** a tela mantém o histórico e apresenta uma mensagem normal de alerta/erro de formulário, sem detalhes internos e sem resposta 500.
 4. **Dado** uma falha não classificada como prevista, **quando** ela ocorre, **então** ela continua no fallback seguro de erro do sistema; esta correção não converte falhas de programação em sucesso ou 422.
@@ -60,17 +60,17 @@ Como pessoa sem permissão administrativa, quero receber uma página 403 segura 
 1. **Dado** usuário regular autenticado, **quando** acessa rota administrativa não autorizada, **então** recebe HTTP 403 e a página segura estilizada pela Umanni.
 2. **Dado** navegação Inertia não autorizada, **quando** a resposta chega ao cliente, **então** ela tem o contrato Inertia da página de erro e não abre diálogo de resposta inválida.
 3. **Dado** navegação HTML não autorizada, **quando** a resposta chega ao navegador, **então** ela renderiza o documento de erro acessível em português, sem cookie/detalhes de exceção no conteúdo.
-4. **Dado** uma rota administrativa existente ou inexistente, **quando** a pessoa sem permissão a solicita, **então** ambas continuam indistinguíveis no status e no conteúdo seguro.
+4. **Dado** uma rota administrativa casada e uma URL administrativa não casada, **quando** a pessoa regular as solicita, **então** ambas retornam 403 com conteúdo seguro indistinguível. Uma administradora que acessa a URL não casada preserva a resposta 404 normal, pois não há negação de permissão.
 
 ## Requisitos funcionais
 
 - **FR-001**: A interface de importação DEVE manter espaçamento positivo e legível entre label, controle, dica, mensagem de erro, botão e histórico nas larguras suportadas.
-- **FR-002**: O cliente DEVE interceptar a submissão sem arquivo, mostrar a mensagem localizada de arquivo ausente, associá-la ao campo e mover o foco para o controle.
+- **FR-002**: O cliente DEVE interceptar a submissão sem arquivo, mostrar a mensagem localizada em elemento `#source-file-error`, incluir `source-file-hint source-file-error` em `aria-describedby` enquanto o erro existir, marcar o campo inválido e mover o foco para o controle.
 - **FR-003**: O endpoint `POST /admin/user_imports` DEVE tratar parâmetros de upload ausentes como 422 Inertia com `errors.sourceFile`; não pode depender de `params.require` para esse caso.
-- **FR-004**: Falhas previstas de pré-validação e de enfileiramento DEVEM aparecer como alerta/erro normal do formulário, em português, sem criar lote ou job e sem status 500.
+- **FR-004**: Resultados de pré-validação e somente `UserImports::Enqueue::Failed` DEVEM aparecer como alerta/erro normal do formulário, em português, sem criar lote ou job e sem status 500; nenhuma superclasse `ActiveRecord::ActiveRecordError` pode ser resgatada para esse contrato.
 - **FR-005**: A tela `Errors/Show` DEVE receber um destino de retorno de uma lista permitida, derivado do escopo seguro da rota de origem; a resposta de emergência não pode avaliar nem vazar sessão/cookie.
 - **FR-006**: O destino seguro DEVE ser `/admin/dashboard` para erro originado em escopo administrativo, `/profile` para erro originado em perfil e `/sign-in` para escopo público/desconhecido; a rota destino aplica a autenticação normal ao clique.
-- **FR-007**: Uma negação de autorização administrativa DEVE manter HTTP 403 e apresentar o componente/documento seguro `Errors/Show` para requisições HTML e Inertia.
+- **FR-007**: Uma negação de autorização administrativa, inclusive uma URL administrativa não casada solicitada por pessoa regular, DEVE manter HTTP 403 e apresentar o componente/documento seguro `Errors/Show` para requisições HTML e Inertia.
 - **FR-008**: O 403 seguro NÃO DEVE revelar existência de recursos, detalhes de exceção, cookies, tokens, stack traces ou a operação negada.
 - **FR-009**: Testes RSpec, Vitest e Playwright DEVEM cobrir os casos normais e de exceção desta especificação antes da revisão final.
 - **FR-010**: Cada correção DEVE ser publicada como patch isolado, com branch, commit, PR e revisão independentes, todos contra a candidata 1.1.0.
@@ -78,7 +78,7 @@ Como pessoa sem permissão administrativa, quero receber uma página 403 segura 
 ## Critérios mensuráveis de sucesso
 
 - **SC-001**: Os testes de componente e E2E demonstram a sequência visual sem sobreposição em 320 px, 1440×1024 e fonte 200%.
-- **SC-002**: O teste direto sem parâmetro de upload retorna 422 e cria zero `UserImport` e zero `SolidQueue::Job`; o fluxo do navegador não faz `POST` sem arquivo.
+- **SC-002**: O teste direto sem parâmetro de upload e o teste de `UserImports::Enqueue::Failed` retornam 422 e criam zero `UserImport` e zero `SolidQueue::Job`; o fluxo do navegador não faz `POST` sem arquivo; exceção não classificada no endpoint continua 500 seguro.
 - **SC-003**: Os três destinos de retorno são verificados para admin, regular e visitante, sem replay da requisição original.
 - **SC-004**: Testes HTML e Inertia de autorização retornam 403 com a superfície Umanni e não incluem sentinelas técnicas.
 - **SC-005**: Cada patch passa seus testes focados e os gates aplicáveis no respectivo HEAD revisado; o candidato integrado recebe nova revisão exata antes de qualquer merge ou publicação.
@@ -93,7 +93,7 @@ Como pessoa sem permissão administrativa, quero receber uma página 403 segura 
 
 - A resposta de emergência não pode confiar em sessão: classifica somente o escopo seguro da rota de origem e deixa a rota de retorno validar a sessão normalmente ao clique.
 - A interface em português usa a mensagem já localizada `Selecione um arquivo CSV ou XLSX.` para ausência de arquivo.
-- Patches independentes serão abertos contra `codex/023-credentials-config-app` enquanto a candidata estiver aberta; a integração e a nova revisão exata continuam sob autorização de Douglas.
+- Os patches 025 e 027 nascem contra `codex/023-credentials-config-app`; 026 nasce do HEAD candidato que já contém 025 e 028 do HEAD candidato que já contém 027. Toda integração e nova revisão exata continuam sob autorização de Douglas.
 
 ## Condições de parada
 

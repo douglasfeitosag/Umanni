@@ -12,7 +12,7 @@
 2. Sem selecionar arquivo, clique em “Enviar para importação”. Confirme mensagem “Selecione um arquivo CSV ou XLSX.”, foco no campo, nenhum carregamento da página segura e nenhuma nova linha no histórico.
 3. Envie `POST /admin/user_imports` sem `user_import.source_file` com sessão admin. Confirme 422 Inertia e o mesmo erro, sem lote/job.
 4. Provoque página segura a partir de uma rota administrativa, de `/profile` e de rota pública. Confirme, respectivamente, `/admin/dashboard`, `/profile` e `/sign-in`; com sessão válida, a rota de destino deve abrir a área correspondente.
-5. Como regular, navegue para `/admin/user_imports` tanto por HTML quanto em navegação Inertia. Confirme 403 com página Umanni, sem página nativa do navegador e sem detalhes técnicos.
+5. Como regular, navegue para `/admin/user_imports` e `/admin/not-a-real-route` tanto por HTML quanto em navegação Inertia. Confirme a mesma resposta 403 com página Umanni, sem página nativa do navegador e sem detalhes técnicos. Como admin, a URL não casada deve continuar 404.
 
 ## Comandos por patch
 
