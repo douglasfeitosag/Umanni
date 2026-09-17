@@ -7,7 +7,10 @@ class DeliveryExceptionsApp
       return PUBLIC_EXCEPTIONS.call(env) if status < 500
 
       Rails.logger.error("delivery.exception.fallback")
-      return_path = safe_return_path(env)
+      safe_error_response(env, status:, return_path: safe_return_path(env))
+    end
+
+    def safe_error_response(env, status:, return_path:)
       return inertia_response(status, return_path) if env["HTTP_X_INERTIA"] == "true"
 
       ErrorsController.action(:show).call(safe_html_env(env, status, return_path))
