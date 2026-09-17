@@ -18,6 +18,8 @@
 - `mise exec ruby@4.0.6 -- ruby -c app/services/delivery_exceptions_app.rb` e `app/controllers/errors_controller.rb`: sucesso.
 - `mise exec node@24.21.0 -- npm exec vite build`: sucesso.
 - Refatoração pós-GREEN: a classificação ficou em `safe_return_path`, com allowlist de três destinos; a página recebe apenas `returnPath`, e a cópia sanitizada de ambiente continua sem cookie, autorização, query nem caminho original.
+- Em resposta a R-027-001, a classificação passou a preferir `action_dispatch.original_path`, preservado por `ActionDispatch::ShowExceptions`, antes de consultar `PATH_INFO`; há teste RED/GREEN para a reescrita de `/admin/people` para `/500` pelo middleware.
+- Em resposta a R-027-002, a descrição da PR foi republicada com quebras de linha reais.
 
 ## Pendente antes de revisão
 
