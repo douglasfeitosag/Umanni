@@ -13,7 +13,7 @@ e2eDatabaseUrl.pathname = '/umanni_e2e'
 export default defineConfig({
   globalSetup: './spec/e2e/global-setup.ts',
   testDir: './spec/e2e',
-  fullyParallel: true,
+  fullyParallel: false,
   forbidOnly: true,
   retries: 0,
   workers: 2,
