@@ -140,6 +140,18 @@ test('US4.1–US4.3 performs admin CRUD and denies the admin surface to regular 
   await regularContext.close()
 })
 
+test('US4 renders the safe 403 page for matched and unmatched admin routes requested by a regular user', async ({ page }, testInfo) => {
+  await register(page, uniqueEmail(testInfo, 'safe-403'))
+
+  for (const path of ['/admin/dashboard', '/admin/not-a-real-route']) {
+    const response = await page.goto(path)
+    expect(response?.status()).toBe(403)
+    await expect(page.getByRole('heading', { name: 'Não foi possível concluir', level: 1 })).toBeVisible()
+    await expect(page.getByRole('link', { name: 'Voltar ao início' })).toHaveAttribute('href', '/profile')
+    await expect(page.locator('body')).not.toContainText(/stacktrace|RuntimeError|ActionController/i)
+  }
+})
+
 test('US5.1–US5.3 accepts a valid avatar, rejects active content and preserves fallback', async ({ page }, testInfo) => {
   const email = uniqueEmail(testInfo, 'avatar')
   await register(page, email, 'Avatar Pessoa')
