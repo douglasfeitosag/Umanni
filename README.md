@@ -44,33 +44,61 @@ The exact versions and coverage policy used by 0.2.0 are recorded in the [founda
 
 ## Run the application locally
 
-Requirements: a local Docker Engine with Compose. The verified target is Linux arm64 on macOS; amd64 is declared by the image manifests but has not been tested. Host Ruby and Node are not used. Edit files on the Mac; run the pinned tooling in containers.
+### Prerequisites
 
-Copy `.env.example` to the ignored `.env`. Set `SECRET_KEY_BASE` to a locally generated random value of at least 64 bytes, and retain the dedicated `DELIVERY_DATABASE_URL` ending in `umanni_production`. Keep this file private. The included database credentials are local examples.
+- Docker Engine
+- Docker Compose (the Docker Compose plugin is sufficient)
+- Git
 
-For an exact revision, start from a clean checkout and set the revision before building the test image:
+The verified target is Docker Desktop Linux arm64 on macOS. The image manifests declare amd64, but this project has **not** validated amd64; arm64 evidence is not proof of amd64 compatibility. Host Ruby and Node are not required.
+
+### Get a released version and configure it privately
+
+Clone the repository and select the released version before building:
+
+```sh
+git clone https://github.com/douglasfeitosag/Umanni.git
+cd Umanni
+git checkout v0.4.1
+cp .env.example .env
+```
+
+`.env` is private local configuration. It is ignored by Git and must never be committed, shared, or copied into an issue, pull request, or support request. Keep the dedicated `DELIVERY_DATABASE_URL` ending in `umanni_production` and generate a different local secret for `SECRET_KEY_BASE`:
+
+```sh
+openssl rand -hex 64
+```
+
+Paste that output after `SECRET_KEY_BASE=` in `.env`; do not paste the value into a tracked file. The included database credentials are local examples only.
+
+### Run the verification gate
+
+From that clean checkout, set the revision before building the verification image:
 
 ```sh
 export VERIFICATION_SHA="$(git rev-parse HEAD)"
-docker compose -p umanni-foundation --profile test config --quiet
-docker compose -p umanni-foundation --profile test build verify
-docker compose -p umanni-foundation up -d --wait db
-docker compose -p umanni-foundation --profile test run --rm verify bin/check
+docker compose --project-name umanni-evaluation --profile test config --quiet
+docker compose --project-name umanni-evaluation --profile test build verify
+docker compose --project-name umanni-evaluation up -d --wait db
+docker compose --project-name umanni-evaluation --profile test run --rm verify bin/check
 ```
 
 `bin/check` prepares only `umanni_test`, `umanni_test2`, and `umanni_e2e`. It refuses a general `DATABASE_URL`, a non-test Rails environment, or unsafe test database names/URL overrides. RSpec uses two isolated processes, and Playwright uses its own server/database and six browser/viewport projects. Each language must meet 90% line coverage separately. The prototype and browser tests do not contribute to application coverage. Any failed command stops the wrapper with a nonzero status.
 
-Run the packaged application:
+### Run the packaged delivery
+
+Start both delivery processes. `web` serves the application and `worker` processes imports; they must run together for the delivered application to be evaluated completely.
 
 ```sh
-docker compose -p umanni-foundation --profile delivery build web
-docker compose -p umanni-foundation --profile delivery up -d --wait web
+docker compose --project-name umanni-evaluation --profile delivery build web worker
+docker compose --project-name umanni-evaluation --profile delivery up -d --wait web worker
+docker compose --project-name umanni-evaluation --profile delivery ps
 curl --fail http://127.0.0.1:3030/ready
 curl --fail http://127.0.0.1:3030/up
 curl --fail http://127.0.0.1:3030/
 ```
 
-The delivery profile runs `db:prepare` before starting the server and fails closed if preparation cannot complete. `/ready` checks the application database connection and pending migrations; `/up` remains a separate boot/liveness check. Open <http://localhost:3030>. The interface is in Portuguese. Visitors can register as regular users and then manage their own profile. Administrators can manage users and roles, see live totals, and import a single bounded CSV/XLSX file in the background. The `worker` service consumes only the `imports` queue and shares `/rails/storage` with `web`; it must stay running for imports to advance. Unexpected production 5xx responses use a generic Portuguese fallback for both HTML and Inertia visits. Production assets are compiled into the non-root image; no Vite development server is needed.
+The delivery profile runs `db:prepare` before starting the server and fails closed if preparation cannot complete. `/up` is a boot/liveness check: it says the application process is alive. `/ready` is stricter: it checks the application database connection and that migrations are current. Use `/ready` to decide whether the local delivery is ready to evaluate. Open <http://localhost:3030>. The interface is in Portuguese. Visitors can register as regular users and then manage their own profile. Administrators can manage users and roles, see live totals, and import a single bounded CSV/XLSX file in the background. The `worker` service consumes only the `imports` queue and shares `/rails/storage` with `web`; it must stay running for imports to advance. Unexpected production 5xx responses use a generic Portuguese fallback for both HTML and Inertia visits. Production assets are compiled into the non-root image; no Vite development server is needed.
 
 Run the isolated delivery gate after `bin/check` when changing startup, health, production error handling, or the delivery image:
 
@@ -78,32 +106,42 @@ Run the isolated delivery gate after `bin/check` when changing startup, health, 
 bin/check-delivery
 ```
 
-It uses temporary Compose project names and volumes, tests a fresh database, a pending migration, restart idempotence, an unreachable database, safe HTML/Inertia failures, and 18 production-like browser scenarios. Its trap removes only the resources it creates.
+It uses temporary Compose project names and volumes, tests a fresh database, a pending migration, restart idempotence, an unreachable database, safe HTML/Inertia failures, and 18 production-like browser scenarios. Its trap removes only the resources it creates. `bin/check` and `bin/check-delivery` are manual local gates: no CI workflow or hosted runner has been implemented. CI/runner work remains in the Backlog.
 
-For local development, stop delivery first because both profiles publish port 3030:
+### Create the first local administrator
 
-```sh
-docker compose -p umanni-foundation --profile delivery stop web
-docker compose -p umanni-foundation --profile dev build dev vite
-docker compose -p umanni-foundation --profile dev run --rm dev bin/rails db:prepare
-docker compose -p umanni-foundation --profile dev up dev vite
-```
-
-Use <http://localhost:3030> for the development profile; its Vite/HMR origin is `localhost:3036`. Only the checkout is bind-mounted. Dependencies and database storage stay in Docker. Stop this project's resources with `docker compose -p umanni-foundation --profile dev --profile test --profile delivery down`; the database volume is retained. Do not use a global Docker cleanup.
-
-Create the first local administrator only after the development database is prepared. The command accepts only a local PostgreSQL host, requires the exact database name and confirmation phrase, is idempotent, and never prints the password:
+Run this only after `/ready` succeeds. Replace the placeholders with local values; never commit the password. The task accepts only the exact local delivery database and confirmation phrase, does not print the password, and is idempotent: a second run leaves the existing administrator unchanged.
 
 ```sh
-docker compose -p umanni-foundation --profile dev run --rm \
+docker compose --project-name umanni-evaluation --profile delivery exec -T \
   -e UMANNI_BOOTSTRAP_CONFIRM=CREATE_FIRST_ADMIN \
-  -e UMANNI_BOOTSTRAP_DATABASE=umanni_development \
+  -e UMANNI_BOOTSTRAP_DATABASE=umanni_production \
   -e UMANNI_BOOTSTRAP_FULL_NAME="Local Administrator" \
   -e UMANNI_BOOTSTRAP_EMAIL="admin@example.test" \
   -e UMANNI_BOOTSTRAP_PASSWORD="choose-a-local-password-of-at-least-12-characters" \
-  dev bin/rails umanni:bootstrap_admin
+  web bin/rails umanni:bootstrap_admin
 ```
 
-These values are examples for local development. Do not commit real credentials. Re-running the command leaves an existing administrator unchanged.
+### Develop locally
+
+Stop delivery first because both profiles publish port 3030:
+
+```sh
+docker compose --project-name umanni-evaluation --profile delivery stop web worker
+docker compose --project-name umanni-evaluation --profile dev build dev vite jobs
+docker compose --project-name umanni-evaluation --profile dev run --rm dev bin/rails db:prepare
+docker compose --project-name umanni-evaluation --profile dev up dev vite jobs
+```
+
+Use <http://localhost:3030> for the development profile; its Vite/HMR origin is `localhost:3036`. Only the checkout is bind-mounted. Dependencies and database storage stay in Docker.
+
+### Stop only this project's resources
+
+Normal shutdown stops and removes only the Compose resources named `umanni-evaluation`; it retains named volumes so local data survives. Do not use a global Docker cleanup.
+
+```sh
+docker compose --project-name umanni-evaluation --profile dev --profile test --profile delivery down --remove-orphans
+```
 
 Validation records and limitations are in [EXEC-009](umanni-vault/EXEC-009-FOUNDATION-APP.md). `foundation-checks` and `review-ledger` are manual statuses for an exact commit, not automatic CI. Integration remains Douglas's decision.
 
