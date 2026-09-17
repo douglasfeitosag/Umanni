@@ -61,3 +61,24 @@ test('US1–US6 imports a CSV with the real worker, persists progress, and activ
   expect(denied?.status()).toBe(403)
   await regularContext.close()
 })
+
+test('US1 keeps the import form and history readable at supported viewport and text sizes', async ({ page }) => {
+  await login(page, adminEmail, adminPassword)
+  await page.getByRole('link', { name: 'Importações' }).click()
+
+  for (const { width, fontSize } of [{ width: 1440, fontSize: '100%' }, { width: 320, fontSize: '100%' }, { width: 320, fontSize: '200%' }]) {
+    await page.setViewportSize({ width, height: 1024 })
+    await page.locator('html').evaluate((element, size) => { element.style.fontSize = size }, fontSize)
+
+    const layout = await page.locator('[data-testid="import-upload"]').evaluate((upload, viewportWidth) => {
+      const hint = upload.querySelector('#source-file-hint')!.getBoundingClientRect()
+      const button = upload.querySelector('button')!.getBoundingClientRect()
+      const history = document.querySelector('[data-testid="import-history"]')!.getBoundingClientRect()
+      return { hintBottom: hint.bottom, buttonTop: button.top, historyTop: history.top, scrollWidth: document.documentElement.scrollWidth, viewportWidth }
+    }, width)
+
+    expect(layout.hintBottom).toBeLessThanOrEqual(layout.buttonTop)
+    expect(layout.buttonTop).toBeLessThan(layout.historyTop)
+    expect(layout.scrollWidth).toBeLessThanOrEqual(layout.viewportWidth)
+  }
+})
