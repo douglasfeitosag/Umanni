@@ -82,7 +82,7 @@ RSpec.describe "User imports", type: :request do
 
     expect do
       post "/admin/user_imports", params: {}, headers: inertia_headers
-    end.not_to change(UserImport, :count).and change(SolidQueue::Job, :count).by(0)
+    end.to change(UserImport, :count).by(0).and change(SolidQueue::Job, :count).by(0)
 
     expect(response).to have_http_status(:unprocessable_content)
     expect(response.parsed_body.dig("props", "errors", "sourceFile")).to eq("Selecione um arquivo CSV ou XLSX.")
@@ -95,7 +95,7 @@ RSpec.describe "User imports", type: :request do
 
     expect do
       post "/admin/user_imports", params: { user_import: { source_file: csv_upload } }, headers: inertia_headers
-    end.not_to change(UserImport, :count).and change(SolidQueue::Job, :count).by(0)
+    end.to change(UserImport, :count).by(0).and change(SolidQueue::Job, :count).by(0)
 
     expect(response).to have_http_status(:unprocessable_content)
     expect(response.parsed_body.dig("props", "errors", "sourceFile")).to eq("A importação não pôde ser adicionada à fila. Tente novamente.")

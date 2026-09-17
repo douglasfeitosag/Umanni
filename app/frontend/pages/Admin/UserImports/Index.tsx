@@ -11,7 +11,7 @@ export default function UserImportsIndex({ imports, errors = {} }: { imports: Im
   function submit(event: React.FormEvent) {
     event.preventDefault()
     if (!form.data.source_file) {
-      const message = 'Selecione um arquivo para importação.'
+      const message = 'Selecione um arquivo CSV ou XLSX.'
       form.setError('source_file', message)
       setClientError(message)
       document.querySelector<HTMLInputElement>('#source_file')?.focus()
@@ -34,7 +34,7 @@ export default function UserImportsIndex({ imports, errors = {} }: { imports: Im
       <form onSubmit={submit} noValidate>
         <div className="field">
           <label htmlFor="source_file">Arquivo de importação</label>
-          <input id="source_file" type="file" accept=".csv,.xlsx,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" onChange={event => { setClientError(undefined); form.setData('source_file', event.target.files?.[0] ?? null) }} aria-invalid={sourceFileError ? true : undefined} aria-describedby={sourceFileError ? 'source-file-hint source-file-error' : 'source-file-hint'} required />
+          <input id="source_file" type="file" accept=".csv,.xlsx,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" onChange={event => { setClientError(undefined); form.clearErrors('source_file'); form.setData('source_file', event.target.files?.[0] ?? null) }} aria-invalid={sourceFileError ? true : undefined} aria-describedby={sourceFileError ? 'source-file-hint source-file-error' : 'source-file-hint'} required />
           <p className="field-hint" id="source-file-hint">Máximo de 10 MiB e 10.000 linhas. O processamento ocorre em segundo plano.</p>
           {sourceFileError && <p className="field-error" id="source-file-error">{sourceFileError}</p>}
         </div>

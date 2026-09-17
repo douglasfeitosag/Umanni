@@ -4,9 +4,10 @@ import UserImportsIndex from './Index'
 
 const setData = vi.fn()
 const setError = vi.fn()
+const clearErrors = vi.fn()
 const transform = vi.fn()
 const post = vi.fn()
-const form = { data: { source_file: null as File | null }, errors: {} as Record<string, string>, processing: false, setData, setError, transform, post }
+const form = { data: { source_file: null as File | null }, errors: {} as Record<string, string>, processing: false, setData, setError, clearErrors, transform, post }
 
 vi.mock('@inertiajs/react', () => ({
   Head: ({ title }: { title: string }) => <title>{title}</title>,
@@ -47,11 +48,17 @@ describe('UserImportsIndex', () => {
 
     fireEvent.submit(screen.getByRole('button', { name: 'Enviar para importação' }).closest('form')!)
 
-    expect(setError).toHaveBeenCalledWith('source_file', 'Selecione um arquivo para importação.')
+    expect(setError).toHaveBeenCalledWith('source_file', 'Selecione um arquivo CSV ou XLSX.')
     expect(post).not.toHaveBeenCalled()
     expect(screen.getByLabelText('Arquivo de importação')).toHaveAttribute('aria-invalid', 'true')
     expect(screen.getByLabelText('Arquivo de importação')).toHaveAttribute('aria-describedby', 'source-file-hint source-file-error')
-    expect(screen.getByText('Selecione um arquivo para importação.')).toHaveAttribute('id', 'source-file-error')
+    expect(screen.getByText('Selecione um arquivo CSV ou XLSX.')).toHaveAttribute('id', 'source-file-error')
+
+    fireEvent.change(screen.getByLabelText('Arquivo de importação'), { target: { files: [new File(['full_name,email,role'], 'people.csv', { type: 'text/csv' })] } })
+
+    expect(clearErrors).toHaveBeenCalledWith('source_file')
+    expect(screen.queryByText('Selecione um arquivo CSV ou XLSX.')).not.toBeInTheDocument()
+    expect(screen.getByLabelText('Arquivo de importação')).not.toHaveAttribute('aria-invalid')
   })
 
   it('keeps the upload action and import history in separate labelled regions', () => {

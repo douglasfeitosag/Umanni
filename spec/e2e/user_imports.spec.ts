@@ -92,3 +92,19 @@ test('US1 keeps the import form and populated history readable at supported view
     expect(layout.scrollWidth).toBeLessThanOrEqual(layout.viewportWidth)
   }
 })
+
+test('US2 keeps a missing import file in the browser without a POST', async ({ page }) => {
+  await login(page, adminEmail, adminPassword)
+  await page.getByRole('link', { name: 'Importações' }).click()
+  let posts = 0
+  page.on('request', request => {
+    if (request.method() === 'POST' && new URL(request.url()).pathname === '/admin/user_imports') posts += 1
+  })
+
+  await page.getByRole('button', { name: 'Enviar para importação' }).click()
+
+  await expect(page.getByText('Selecione um arquivo CSV ou XLSX.')).toBeVisible()
+  await expect(page.getByLabel('Arquivo de importação')).toHaveAttribute('aria-invalid', 'true')
+  await expect(page.getByLabel('Arquivo de importação')).toHaveAttribute('aria-describedby', 'source-file-hint source-file-error')
+  expect(posts).toBe(0)
+})
