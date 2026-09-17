@@ -100,7 +100,7 @@ dialog::backdrop { background: rgb(8 32 50 / 62%); }
 @keyframes pulse { to { opacity: .25; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
 @media (max-width: 700px) {
-  .site-header { align-items: flex-start; }.brand-logo { width: 116px; } nav { justify-content: flex-end; font-size: .88rem; }
+  .site-header { flex-direction: column; gap: .5rem; align-items: stretch; }.brand-logo { width: 116px; } nav { min-width: 0; justify-content: flex-start; font-size: .88rem; }
   .page-heading { align-items: flex-start; flex-direction: column; }.metric-grid { grid-template-columns: 1fr; }.metric-card { min-height: 135px; }
   .table-head { display: none; }.user-row { display: grid; grid-template-columns: 1fr; gap: .75rem; padding: 1.2rem; }.row-actions { justify-content: flex-start; }
   .profile-card { align-items: flex-start; }.action-row > * { width: 100%; }.action-row .danger-button { width: 100%; }

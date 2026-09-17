@@ -64,17 +64,18 @@ test('US1–US6 imports a CSV with the real worker, persists progress, and activ
 
 test('US1 keeps the import form and populated history readable at supported viewport and text sizes', async ({ page }, testInfo) => {
   const importedEmail = uniqueEmail(testInfo, 'layout')
+  const filename = `layout-${testInfo.project.name}-${testInfo.workerIndex}.csv`
   await login(page, adminEmail, adminPassword)
   await page.getByRole('link', { name: 'Importações' }).click()
   await page.getByLabel('Arquivo de importação').setInputFiles({
-    name: 'layout.csv',
+    name: filename,
     mimeType: 'text/csv',
     buffer: Buffer.from(`full_name,email,role\nPessoa de Layout,${importedEmail},regular\n`),
   })
   await page.getByRole('button', { name: 'Enviar para importação' }).click()
   await expect(page).toHaveURL(/\/admin\/user_imports\/\d+$/)
   await page.goto('/admin/user_imports')
-  await expect(page.getByRole('link', { name: 'layout.csv' })).toBeVisible()
+  await expect(page.getByRole('link', { name: filename })).toBeVisible()
 
   for (const { width, fontSize } of [{ width: 1440, fontSize: '100%' }, { width: 320, fontSize: '100%' }, { width: 320, fontSize: '200%' }]) {
     await page.setViewportSize({ width, height: 1024 })
