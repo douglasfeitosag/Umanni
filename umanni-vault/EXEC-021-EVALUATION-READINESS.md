@@ -34,11 +34,13 @@ No candidato de código `55765dc86dd0f594826e6d13e6e6acc15828a192`:
 
 O porto 3030 já era usado por um recurso externo ao escopo desta entrega. Para não afetá-lo, o ensaio isolado usou o overlay de teste na porta 3131; os comandos e a composição publicados foram os mesmos, exceto por esse isolamento de porta.
 
-No HEAD documental final `582a287e5fd4ce2fe74fa633fedb8b838c23e01f`, que não altera o código de `55765dc`, a sequência publicada do README foi repetida com `VERIFICATION_SHA` exportado antes do build da imagem:
+No HEAD documental `582a287e5fd4ce2fe74fa633fedb8b838c23e01f`, que não altera o código de `55765dc`, a sequência publicada do README foi repetida com `VERIFICATION_SHA` exportado antes do build da imagem. A primeira matriz limpa completou 65/66 cenários (somente `US7.1–US7.3` em WebKit móvel falhou no login de uma conta auxiliar) e a repetição limpa passou 66/66. Uma terceira matriz no HEAD documental seguinte voltou a falhar o mesmo cenário, desta vez em Firefox desktop. Essas duas falhas 65/66 são RED real para a correção test-only aprovada no plano; não são apresentadas como aprovação do candidato.
 
-- A primeira matriz limpa completou 65/66 cenários; somente `US7.1–US7.3` em WebKit móvel falhou no login de uma conta auxiliar, sem alteração de código durante a execução.
-- Após `docker compose --project-name umanni-evaluation --profile test down --volumes --remove-orphans`, a repetição do mesmo gate passou 66/66, com RSpec paralelo 93 exemplos, Ruby 95,29%, Vitest 23/23, RuboCop sem ofensas e Brakeman sem alertas.
-- `bin/check-delivery` no mesmo HEAD passou 18/18 cenários production-like, incluindo web+worker, volume compartilhado, restart idempotente, saúde, migração pendente, erros seguros e banco indisponível.
+No HEAD de código `fd7e698c3bb39fa6b3b011b44a852c07cbb38eeb`:
+
+- O cenário corrigido passou 6/6 sob os seis browser/viewports concorrentes. A observação mínima aguarda cada administrador auxiliar aparecer na lista antes de abrir sua sessão independente.
+- Uma única nova matriz completa, com a configuração existente `retries: 0`, passou 66/66: RSpec paralelo 93 exemplos, cobertura Ruby 770/808 = 95,29%, Vitest 23/23, RuboCop em 97 arquivos sem ofensas e Brakeman sem alertas.
+- `bin/check-delivery` passou 18/18 cenários production-like, incluindo web+worker, volume compartilhado, restart idempotente, saúde, migração pendente, erros seguros e banco indisponível.
 - `git diff --check` não reportou erros; `.env` continuou não rastreado e o guia privado continuou ignorado localmente.
 
 ## Privacidade e guia local
