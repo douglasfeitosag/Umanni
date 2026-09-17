@@ -41,6 +41,7 @@ form { margin-top: 2rem; }
 .field { margin: 1rem 0; }
 .field label { display: block; margin-bottom: .35rem; color: var(--navy); font-family: Montserrat, sans-serif; font-size: .9rem; font-weight: 700; }
 .field input, .field select { width: 100%; min-height: 48px; padding: .7rem .85rem; color: var(--ink); background: var(--white); border: 1px solid #9bb0c0; border-radius: 7px; }
+.field input[type="file"] { min-width: 0; max-width: 100%; }
 .field input[readonly] { background: var(--mist); color: var(--muted); }
 .field input[aria-invalid="true"], .field select[aria-invalid="true"] { border-color: var(--danger); box-shadow: 0 0 0 1px var(--danger); }
 .field-error { margin: .35rem 0 0; color: var(--danger); font-size: .9rem; font-weight: 600; }
@@ -86,6 +87,7 @@ button:disabled { opacity: .6; cursor: not-allowed; }
 .table-head, .user-row { display: grid; grid-template-columns: minmax(0, 2fr) 1fr 1.2fr; align-items: center; gap: 1rem; padding: 1rem 1.2rem; }
 .table-head { background: var(--navy); color: var(--white); font: 700 .82rem Montserrat, sans-serif; text-transform: uppercase; letter-spacing: .05em; }
 .user-row + .user-row { border-top: 1px solid var(--line); }
+.user-row [role="cell"] { min-width: 0; overflow-wrap: anywhere; }
 .user-identity { min-width: 0; display: flex; align-items: center; gap: .8rem; }
 .user-identity span { min-width: 0; }.user-identity strong, .user-identity small { display: block; overflow-wrap: anywhere; }.user-identity small { color: var(--muted); }
 .row-actions { display: flex; justify-content: flex-end; align-items: center; flex-wrap: wrap; gap: .5rem; }
