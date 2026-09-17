@@ -86,7 +86,7 @@ RSpec.describe "Identity access security", type: :request do
 
     expect(matched).to include('<html lang="pt-BR">', '"component":"Errors/Show"', '"status":403', '"returnPath":"/profile"')
     expect(matched).not_to include('Session', 'Current.user', 'stacktrace')
-    expect(unmatched).to eq(matched)
+    expect(unmatched.gsub(/csp-nonce" content="[^"]+"/, 'csp-nonce" content="[nonce]"')).to eq(matched.gsub(/csp-nonce" content="[^"]+"/, 'csp-nonce" content="[nonce]"'))
   end
 
   it "keeps a nonexistent administrative route as a normal 404 for an administrator" do
