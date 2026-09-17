@@ -62,6 +62,15 @@ RSpec.describe "Delivery error responses" do
     end
   end
 
+  it "uses the preserved original path when the exception middleware rewrites PATH_INFO" do
+    status, _headers, body = call_exceptions_app(
+      { "HTTP_X_INERTIA" => "true", "action_dispatch.original_path" => "/admin/people", "PATH_INFO" => "/500" }
+    )
+
+    expect(status).to eq(500)
+    expect(JSON.parse(body_string(body)).fetch("props")).to include("returnPath" => "/admin/dashboard")
+  end
+
   it "delegates a not-found exception to the existing public response" do
     exception = ActionController::RoutingError.new("sensitive-routing-sentinel")
     status, headers, body = call_exceptions_app(exception: exception, path: "/404")

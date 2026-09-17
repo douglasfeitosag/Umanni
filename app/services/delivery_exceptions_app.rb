@@ -44,7 +44,7 @@ class DeliveryExceptionsApp
     end
 
     def safe_return_path(env)
-      path = env.fetch("PATH_INFO", "")
+      path = env.fetch("action_dispatch.original_path", env.fetch("PATH_INFO", "")).split("?", 2).first
       return "/admin/dashboard" if path == "/admin" || path.start_with?("/admin/")
       return "/profile" if path == "/profile" || path.start_with?("/profile/")
 
