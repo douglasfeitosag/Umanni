@@ -11,6 +11,7 @@ Rails.application.routes.draw do
       post :set_initial_password, on: :member, path: :initial_password
     end
     resources :user_imports, only: %i[index show create]
+    match "*unmatched", to: "unmatched_routes#show", via: :all
   end
   root "sessions#new"
   get "up" => "rails/health#show", as: :rails_health_check

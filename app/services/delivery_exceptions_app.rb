@@ -7,7 +7,10 @@ class DeliveryExceptionsApp
       return PUBLIC_EXCEPTIONS.call(env) if status < 500
 
       Rails.logger.error("delivery.exception.fallback")
-      return_path = safe_return_path(env)
+      safe_error_response(env, status:, return_path: safe_return_path(env))
+    end
+
+    def safe_error_response(env, status:, return_path:)
       return inertia_response(status, return_path) if env["HTTP_X_INERTIA"] == "true"
 
       ErrorsController.action(:show).call(safe_html_env(env, status, return_path))
@@ -52,9 +55,15 @@ class DeliveryExceptionsApp
     end
 
     def safe_html_env(env, status, return_path)
-      env.except(
-        "CONTENT_LENGTH", "CONTENT_TYPE", "HTTP_AUTHORIZATION", "HTTP_COOKIE"
-      ).merge(
+      sanitized_env(env).merge(error_response_env(status, return_path))
+    end
+
+    def sanitized_env(env)
+      env.except("CONTENT_LENGTH", "CONTENT_TYPE", "HTTP_AUTHORIZATION", "HTTP_COOKIE")
+    end
+
+    def error_response_env(status, return_path)
+      {
         "REQUEST_METHOD" => "GET",
         "PATH_INFO" => "/",
         "QUERY_STRING" => "",
@@ -62,7 +71,7 @@ class DeliveryExceptionsApp
         "action_dispatch.original_path" => "/",
         "umanni.error_status" => status,
         "umanni.error_return_path" => return_path
-      )
+      }
     end
   end
 end
