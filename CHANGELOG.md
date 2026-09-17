@@ -2,6 +2,25 @@
 
 All notable project milestones are documented in this file. This project follows [Semantic Versioning](https://semver.org/).
 
+## [1.0.0] - 2026-09-17
+
+### Fixed
+
+- Made the public local-evaluation guide reproducible from clone and version selection through private environment setup, delivery startup, health checks, first-administrator bootstrap, verification, development, and named-project shutdown.
+- Made the delivery guide start `web` and `worker` together, and documented the distinction between `/up` liveness and `/ready` database-and-migration readiness.
+- Allowed first-administrator bootstrap in the local delivery profile only with an explicit opt-in, while retaining production-by-default rejection and the existing local-host, database, confirmation, validation, locking, no-password-output, and idempotence safeguards.
+
+### Validation
+
+- The candidate passed `bin/check`: 93 RSpec examples, 95.29% Ruby line coverage, 23 Vitest tests, 66 Playwright scenarios, RuboCop, and Brakeman with no warnings.
+- `bin/check-delivery` passed its 18 production-like scenarios, including web/worker startup, shared storage, restart, readiness, safe errors, and unavailable-database failure.
+- A clean worktree-equivalent exercised private configuration, both delivery processes, `/ready`, `/up`, first-administrator creation/no-op, and named-project shutdown without exposing a secret.
+
+### Known limitations
+
+- CI, runner installation, deployment, email, invitations, password recovery, a parallel API, Redis, platform extras, and issue #9 remain outside this release and in the Backlog where applicable.
+- Validation ran on Docker Desktop Linux arm64 on macOS; it does not prove amd64 compatibility.
+
 ## [0.4.0] - 2026-09-16
 
 ### Added
@@ -128,3 +147,4 @@ All notable project milestones are documented in this file. This project follows
 [0.3.0]: https://github.com/douglasfeitosag/Umanni/releases/tag/v0.3.0
 [0.3.1]: https://github.com/douglasfeitosag/Umanni/releases/tag/v0.3.1
 [0.4.0]: https://github.com/douglasfeitosag/Umanni/releases/tag/v0.4.0
+[1.0.0]: https://github.com/douglasfeitosag/Umanni/releases/tag/v1.0.0

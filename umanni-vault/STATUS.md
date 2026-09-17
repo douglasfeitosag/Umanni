@@ -1,6 +1,6 @@
 # Estado vigente
 
-Atualizado: 2026-09-16. Projeto: `/Users/douglas/Projects/Umanni`. O vault é a subpasta `umanni-vault/` do repositório; registros da conversa foram preservados aqui. Use este índice para distinguir estado atual de propostas históricas.
+Atualizado: 2026-09-17. Projeto: `/Users/douglas/Projects/Umanni`. O vault é a subpasta `umanni-vault/` do repositório; registros da conversa foram preservados aqui. Use este índice para distinguir estado atual de propostas históricas.
 
 ## Decidido
 
@@ -51,6 +51,10 @@ A spec 017 governou a publicação. Seu planejamento foi aceito no HEAD `2701c3f
 A entrega documental 019 foi integrada pelo PR #26 e a execução pelo [PR #27](https://github.com/douglasfeitosag/Umanni/pull/27) no merge `c093b8d4c52c695e9e1e951538f044f070b2d0ef`. Ela implementa exclusivamente a importação administrativa CSV/XLSX assíncrona, progresso persistido/ao vivo e configuração local, única e concorrente-segura da senha inicial para contas importadas sem credencial. Em 2026-09-16, Douglas autorizou pontualmente a tela administrativa já existente de edição e os testes Playwright correspondentes, exclusivamente para completar essa configuração de senha; nenhuma outra exclusão de escopo foi alterada.
 
 O candidato fixou `solid_queue 1.7.0` e `roo 3.0.0`, usa as tabelas Solid Queue como migrations do banco `primary`, a fila única `imports`, processo `worker` dedicado e Active Storage em `/rails/storage` compartilhado entre web/worker. O lote, attachment e job são confirmados ou revertidos na mesma transação; o relatório seguro por linha, a retomada idempotente, a invalidação privada via Cable e a agregação de métricas por blocos estão cobertos por testes. Após quinze achados em três rodadas de revisão, o HEAD de código `4be48638f8d899d95456b08dffb7561b6ebd59b8` passou `bin/check` com 92 RSpec, 23 Vitest e 66 Playwright, e `bin/check-delivery` confirmou 18/18 cenários production-like. O fechamento documental foi revisado, o PR #27 foi integrado e a transição serial foi concluída no PR #28; a tag anotada e a Release 0.4.0 permanecem no merge `eb73edcbab8777ec9bbf13d80d7bfc4c5cd476eb`. Ver [[EXEC-019-USER-IMPORT]] e [[EXEC-020-RELEASE-0-4-0]].
+
+## Prontidão de avaliação local 1.0.0 — candidata em revisão
+
+A entrega 022 partiu do merge do PR #29 e abriu o [PR #30](https://github.com/douglasfeitosag/Umanni/pull/30), milestone 1.0.0. O planejamento foi revisado pela Luna/high, com R-022-001 a R-022-010 resolvidos exclusivamente pela revisora, `review-ledger=success` e `spec-reviewed` no SHA `d601e45`. A execução corrigiu o README para o fluxo completo de avaliação local, preservou `.env` privado, criou o guia local ignorado somente por `.git/info/exclude` e encontrou/corrigiu o bloqueio real de bootstrap no delivery por opt-in explícito. Duas matrizes pré-correção evidenciaram 65/66 no cenário Cable concorrente; o ajuste test-only aprovado espera a persistência do administrador auxiliar. No HEAD de código `fd7e698`, a nova matriz passou 66/66 com `retries: 0` e `bin/check-delivery` passou 18/18; a cronologia completa está em [[EXEC-021-EVALUATION-READINESS]]. Em 17 de setembro de 2026, Douglas redirecionou esta finalização para 1.0.0. A candidata ainda requer revisão final independente do HEAD final, integração autorizada, tag anotada `v1.0.0`, Release pública e fechamento do milestone vazio; nenhum desses passos está concluído nesta atualização.
 
 ## Pendências e momento de resolução
 

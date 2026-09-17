@@ -1,6 +1,7 @@
 class FirstAdminBootstrap
   FIRST_ADMIN_BOOTSTRAP_LOCK_KEY = 130_013
   ALLOWED_HOSTS = [nil, "", "localhost", "127.0.0.1", "::1", "db"].freeze
+  LOCAL_DELIVERY_OPT_IN = "1".freeze
 
   class ConfigurationError < StandardError; end
 
@@ -29,11 +30,17 @@ class FirstAdminBootstrap
 
   def validate_connection!
     config = ActiveRecord::Base.connection_db_config
-    raise ConfigurationError, "Bootstrap is available only in development" unless environment == "development"
+    unless environment == "development" || local_delivery_opt_in?
+      raise ConfigurationError, "Bootstrap is available only in development or explicit local delivery"
+    end
     raise ConfigurationError, "Bootstrap requires PostgreSQL" unless config.adapter == "postgresql"
     raise ConfigurationError, "Bootstrap database host is not local" unless ALLOWED_HOSTS.include?(config.host)
 
     validate_confirmation!(config.database)
+  end
+
+  def local_delivery_opt_in?
+    environment == "production" && env["UMANNI_BOOTSTRAP_LOCAL_DELIVERY"] == LOCAL_DELIVERY_OPT_IN
   end
 
   def validate_confirmation!(database)
