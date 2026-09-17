@@ -76,7 +76,7 @@ services:
       target: production
     environment:
       DATABASE_URL: ${DELIVERY_DATABASE_URL:-postgresql://umanni:umanni-local@db:5432/umanni_production}
-      SECRET_KEY_BASE: ${SECRET_KEY_BASE:-}
+      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY:-}
       THRUSTER_LOG_REQUESTS: "false"
       UMANNI_DELIVERY_PREPARE_DATABASE: "1"
     depends_on:
@@ -98,7 +98,7 @@ services:
       target: production
     environment:
       DATABASE_URL: ${DELIVERY_DATABASE_URL:-postgresql://umanni:umanni-local@db:5432/umanni_production}
-      SECRET_KEY_BASE: ${SECRET_KEY_BASE:-}
+      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY:-}
     depends_on:
       web:
         condition: service_healthy

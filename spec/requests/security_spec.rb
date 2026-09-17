@@ -50,6 +50,61 @@ RSpec.describe "Identity access security", type: :request do
     end
   end
 
+  it "renders the safe 403 surface for matched and unmatched admin routes requested by a regular user" do
+    regular = create_user
+    matched = nil
+    unmatched = nil
+
+    without_forgery_protection do
+      sign_in(regular)
+      get "/admin/dashboard", headers: inertia_headers
+      matched = response.parsed_body
+      expect(response).to have_http_status(:forbidden)
+      get "/admin/not-a-real-route", headers: inertia_headers
+      unmatched = response.parsed_body
+      expect(response).to have_http_status(:forbidden)
+    end
+
+    expect(matched).to include("component" => "Errors/Show",
+                               "props" => include("status" => 403,
+                                                  "returnPath" => "/profile"))
+    expect(unmatched).to eq(matched)
+  end
+
+  it "renders indistinguishable safe HTML for matched and unmatched admin routes requested by a regular user" do
+    regular = create_user
+    matched = nil
+    unmatched = nil
+
+    without_forgery_protection do
+      sign_in(regular)
+      get "/admin/dashboard"
+      matched = response.body
+      expect(response).to have_http_status(:forbidden)
+      get "/admin/not-a-real-route"
+      unmatched = response.body
+      expect(response).to have_http_status(:forbidden)
+    end
+
+    expect(matched).to include('<html lang="pt-BR">', '"component":"Errors/Show"', '"status":403',
+                               '"returnPath":"/profile"')
+    expect(matched).not_to include("Session", "Current.user", "stacktrace")
+    expect(unmatched.gsub(/csp-nonce" content="[^"]+"/,
+                          'csp-nonce" content="[nonce]"')).to eq(matched.gsub(/csp-nonce" content="[^"]+"/,
+                                                                              'csp-nonce" content="[nonce]"'))
+  end
+
+  it "keeps a nonexistent administrative route as a normal 404 for an administrator" do
+    admin = create_user(email: "admin@example.com", role: :admin)
+
+    without_forgery_protection do
+      sign_in(admin)
+      get "/admin/not-a-real-route", headers: inertia_headers
+    end
+
+    expect(response).to have_http_status(:not_found)
+  end
+
   it "denies all administrative read and mutation routes to a regular user" do
     regular = create_user
     target = create_user(email: "target@example.com")
@@ -88,8 +143,8 @@ RSpec.describe "Identity access security", type: :request do
       password_confirmation: "uma frase segura" }
   end
 
-  def create_user(full_name: "Ana Silva", email: "ana@example.com")
-    User.create!(full_name:, email:, password: "uma frase segura")
+  def create_user(full_name: "Ana Silva", email: "ana@example.com", role: :regular)
+    User.create!(full_name:, email:, role:, password: "uma frase segura")
   end
 
   def sign_in(user)

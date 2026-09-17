@@ -59,17 +59,19 @@ Clone the repository and select the released version before building:
 ```sh
 git clone https://github.com/douglasfeitosag/Umanni.git
 cd Umanni
-git checkout v1.0.0
+git checkout v1.1.0
 cp .env.example .env
 ```
 
-`.env` is private local configuration. It is ignored by Git and must never be committed, shared, or copied into an issue, pull request, or support request. Keep the dedicated `DELIVERY_DATABASE_URL` ending in `umanni_production` and generate a different local secret for `SECRET_KEY_BASE`:
+`config/credentials.yml.enc` is versioned encrypted application configuration. Its matching `RAILS_MASTER_KEY` is private runtime input: obtain it through the delivery channel and never commit, share, print, or add it to a tracked file. Set it only for the commands that start delivery:
 
 ```sh
-openssl rand -hex 64
+export RAILS_MASTER_KEY="<private key supplied out-of-band>"
 ```
 
-Paste that output after `SECRET_KEY_BASE=` in `.env`; do not paste the value into a tracked file. The included database credentials are local examples only.
+The delivery profile reads `secret_key_base` from Rails credentials. It does not accept `SECRET_KEY_BASE` as a plaintext fallback; without a valid master key it stops with `delivery.startup.credentials_missing: supply RAILS_MASTER_KEY`. Maintainers changing application credentials can use Rails' standard editor with the private key available, for example `RAILS_MASTER_KEY="$RAILS_MASTER_KEY" bin/rails credentials:edit`; do not commit `config/master.key`.
+
+`.env` remains private operational configuration. Keep the dedicated `DELIVERY_DATABASE_URL` ending in `umanni_production`; `DATABASE_URL`, `DELIVERY_DATABASE_URL`, and `TEST_DATABASE_URL` remain Compose/environment connection coordinates in this release. The included database credentials are local examples only, not application signing secrets.
 
 ### Run the verification gate
 
