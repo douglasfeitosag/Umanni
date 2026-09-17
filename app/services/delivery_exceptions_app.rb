@@ -55,9 +55,15 @@ class DeliveryExceptionsApp
     end
 
     def safe_html_env(env, status, return_path)
-      env.except(
-        "CONTENT_LENGTH", "CONTENT_TYPE", "HTTP_AUTHORIZATION", "HTTP_COOKIE"
-      ).merge(
+      sanitized_env(env).merge(error_response_env(status, return_path))
+    end
+
+    def sanitized_env(env)
+      env.except("CONTENT_LENGTH", "CONTENT_TYPE", "HTTP_AUTHORIZATION", "HTTP_COOKIE")
+    end
+
+    def error_response_env(status, return_path)
+      {
         "REQUEST_METHOD" => "GET",
         "PATH_INFO" => "/",
         "QUERY_STRING" => "",
@@ -65,7 +71,7 @@ class DeliveryExceptionsApp
         "action_dispatch.original_path" => "/",
         "umanni.error_status" => status,
         "umanni.error_return_path" => return_path
-      )
+      }
     end
   end
 end

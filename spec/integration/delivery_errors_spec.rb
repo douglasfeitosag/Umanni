@@ -53,7 +53,9 @@ RSpec.describe "Delivery error responses" do
       "/profile" => "/profile",
       "/__delivery_error_probe__" => "/sign-in"
     }.each do |path, expected_return_path|
-      status, _headers, body = call_exceptions_app({ "HTTP_X_INERTIA" => "true", "HTTP_COOKIE" => "session=sensitive-cookie-sentinel" }, path: path)
+      status, _headers, body = call_exceptions_app(
+        { "HTTP_X_INERTIA" => "true", "HTTP_COOKIE" => "session=sensitive-cookie-sentinel" }, path: path
+      )
       page = JSON.parse(body_string(body))
 
       expect(status).to eq(500)
