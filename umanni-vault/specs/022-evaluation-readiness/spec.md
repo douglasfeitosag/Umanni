@@ -91,7 +91,7 @@ An evaluator can switch between local development and delivery and stop the reso
 - **SC-002**: The delivery startup command leaves exactly the documented web and worker application processes running before health checks are performed.
 - **SC-003**: Both documented health checks return success after local delivery startup, while the guide clearly distinguishes boot liveness from database-and-migration readiness.
 - **SC-004**: The two repository verification gates complete successfully on the final reviewed commit, with their real results recorded.
-- **SC-004a**: The six-project E2E matrix completes its 66 scenarios without a retry after the administrator-persistence observation is added.
+- **SC-004a**: After the test-only GREEN change, one new full six-project E2E matrix completes all 66 scenarios with Playwright per-scenario retries disabled (`retries: 0`); this required post-GREEN execution is distinct from a retry of an individual scenario and is recorded with its command/configuration.
 - **SC-005**: The final patch has no whitespace errors, no tracked `.env` or private guide, no open review threads, a successful exact-HEAD review ledger, and an empty 1.0.0 milestone after publication.
 
 ## Assumptions
