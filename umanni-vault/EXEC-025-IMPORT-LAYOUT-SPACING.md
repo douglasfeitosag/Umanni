@@ -10,7 +10,7 @@
 
 - `mise exec node@24.21.0 -- npm exec vitest -- run app/frontend/pages/Admin/UserImports/Index.test.tsx --maxWorkers=2`
   falhou como esperado: não havia região acessível chamada `Enviar arquivo para importação`.
-- O cenário Playwright de 1440 px, 320 px e fonte de 200% foi incluído, mas não chegou à asserção no ambiente local: a inicialização do banco de teste falhou por credenciais PostgreSQL de `umanni`. Isso é uma limitação de ambiente, não evidência de aprovação visual.
+- O cenário Playwright de 1440 px, 320 px e fonte de 200% foi incluído. Depois de expor temporariamente somente o banco de teste em uma porta local, os seis projetos chegaram a iniciar, mas o servidor Rails encerrou antes das asserções por falha nativa do driver `pg` (`Segmentation fault` em `PG::Connection#connect_start`) sob Ruby 4.0.6. Isso é uma limitação do runtime local, não evidência de aprovação visual nem falha atribuída ao aplicativo.
 
 ## GREEN e refatoração
 
@@ -22,5 +22,5 @@
 ## Pendente antes de revisão
 
 - `git diff --check 27a06e31ed902d56bc667e9810ec931d2ae40788 6b65b0d` concluiu sem saída.
-- Em resposta a R-025-001, o E2E passou a preencher o histórico e compara `button.bottom <= history.top`, não somente os topos. Vitest e ESLint continuam verdes; o cenário Playwright continua pendente de ambiente com o banco `umanni_e2e` acessível.
+- Em resposta a R-025-001, o E2E passou a preencher o histórico e compara `button.bottom <= history.top`, não somente os topos. Vitest e ESLint continuam verdes; o cenário Playwright permanece sem resultado de produto por falha nativa do runtime Ruby/pg descrita acima.
 - Obter revisão independente do HEAD que contém este registro e o patch.
