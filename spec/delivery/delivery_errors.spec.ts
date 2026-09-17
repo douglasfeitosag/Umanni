@@ -57,3 +57,20 @@ test('keeps validation failures on the existing 422 path', async ({ page }) => {
   await expect(page).toHaveURL(/\/sign-up$/)
   await expect(page.getByLabel('E-mail')).toHaveAttribute('aria-invalid', 'true')
 })
+
+test('renders the safe 403 page for matched and unmatched admin routes requested by a regular user', async ({ page }) => {
+  await page.goto('/sign-up')
+  await page.getByLabel('Nome completo').fill('Pessoa Regular')
+  await page.getByLabel('E-mail').fill(`regular-${Date.now()}@example.com`)
+  await page.getByLabel('Senha', { exact: true }).fill('uma frase segura')
+  await page.getByLabel('Confirmar senha').fill('uma frase segura')
+  await page.getByRole('button', { name: 'Criar conta' }).click()
+
+  for (const path of ['/admin/dashboard', '/admin/not-a-real-route']) {
+    const response = await page.goto(path)
+    expect(response?.status()).toBe(403)
+    await expect(page.getByRole('heading', { name: 'Não foi possível concluir', level: 1 })).toBeVisible()
+    await expect(page.getByRole('link', { name: 'Voltar ao início' })).toHaveAttribute('href', '/profile')
+    await expect(page.locator('body')).not.toContainText(technicalDetails)
+  }
+})

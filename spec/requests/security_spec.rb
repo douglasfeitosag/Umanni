@@ -67,6 +67,24 @@ RSpec.describe "Identity access security", type: :request do
     expect(unmatched).to eq(matched)
   end
 
+  it "renders indistinguishable safe HTML for matched and unmatched admin routes requested by a regular user" do
+    regular = create_user
+
+    without_forgery_protection do
+      sign_in(regular)
+      get "/admin/dashboard"
+      matched = response.body
+      expect(response).to have_http_status(:forbidden)
+      get "/admin/not-a-real-route"
+      unmatched = response.body
+      expect(response).to have_http_status(:forbidden)
+    end
+
+    expect(matched).to include('<html lang="pt-BR">', '"component":"Errors/Show"', '"status":403', '"returnPath":"/profile"')
+    expect(matched).not_to include('Session', 'Current.user', 'stacktrace')
+    expect(unmatched).to eq(matched)
+  end
+
   it "keeps a nonexistent administrative route as a normal 404 for an administrator" do
     admin = create_user(email: "admin@example.com", role: :admin)
 
