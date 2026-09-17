@@ -3,7 +3,7 @@
 ## Preconditions
 
 - Docker Engine and Docker Compose are installed and usable by the evaluator.
-- The evaluator works from a clone of the released `v0.4.1` tag.
+- The evaluator works from a clone of the released `v1.0.0` tag.
 - `.env` is private local configuration and is never committed.
 
 ## Delivery contract

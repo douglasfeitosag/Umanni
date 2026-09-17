@@ -1,6 +1,6 @@
 # Data Model: Local Evaluation Readiness
 
-No application data model, migration, or persisted product entity changes are part of 0.4.1.
+No application data model, migration, or persisted product entity changes are part of 1.0.0.
 
 | Artifact | Ownership | Persistence | Rule |
 | --- | --- | --- | --- |

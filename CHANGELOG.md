@@ -2,7 +2,7 @@
 
 All notable project milestones are documented in this file. This project follows [Semantic Versioning](https://semver.org/).
 
-## [0.4.1] - 2026-09-17
+## [1.0.0] - 2026-09-17
 
 ### Fixed
 
@@ -147,4 +147,4 @@ All notable project milestones are documented in this file. This project follows
 [0.3.0]: https://github.com/douglasfeitosag/Umanni/releases/tag/v0.3.0
 [0.3.1]: https://github.com/douglasfeitosag/Umanni/releases/tag/v0.3.1
 [0.4.0]: https://github.com/douglasfeitosag/Umanni/releases/tag/v0.4.0
-[0.4.1]: https://github.com/douglasfeitosag/Umanni/releases/tag/v0.4.1
+[1.0.0]: https://github.com/douglasfeitosag/Umanni/releases/tag/v1.0.0

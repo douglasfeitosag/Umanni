@@ -1,11 +1,11 @@
-# EXEC-021 — prontidão de avaliação local 0.4.1
+# EXEC-021 — prontidão de avaliação local 1.0.0
 
 ## Contexto e escopo
 
 - **Papel/modelo da executora**: Codex, variante exata não exposta nesta sessão.
 - **Spec/plano/tarefas**: `specs/022-evaluation-readiness/`.
 - **Base**: `origin/main` no merge do PR #29, `4496c8ba1a2989a6ed6d94b466e2f1f118de9071`.
-- **Branch/PR**: `codex/022-evaluation-readiness`, [PR #30](https://github.com/douglasfeitosag/Umanni/pull/30), milestone 0.4.1.
+- **Branch/PR**: `codex/022-evaluation-readiness`, [PR #30](https://github.com/douglasfeitosag/Umanni/pull/30), milestone 1.0.0.
 - **Escopo entregue**: roteiro README, guia privado local, registro/versionamento e a correção mínima de bootstrap exigida pela execução do roteiro.
 - **Exclusões preservadas**: CI/runner, deploy, e-mail, convite, recuperação de senha, API paralela, Redis, extras de plataforma e issue #9.
 

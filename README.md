@@ -59,7 +59,7 @@ Clone the repository and select the released version before building:
 ```sh
 git clone https://github.com/douglasfeitosag/Umanni.git
 cd Umanni
-git checkout v0.4.1
+git checkout v1.0.0
 cp .env.example .env
 ```
 

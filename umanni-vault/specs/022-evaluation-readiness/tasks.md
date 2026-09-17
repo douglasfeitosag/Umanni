@@ -2,7 +2,7 @@
 
 **Input**: [spec.md](spec.md), [plan.md](plan.md), [research.md](research.md), [data-model.md](data-model.md), [local-evaluation contract](contracts/local-evaluation.md), and [quickstart.md](quickstart.md)
 
-**Target release**: `0.4.1` (GitHub milestone 8)
+**Target release**: `1.0.0` (GitHub milestone 8)
 
 **Tests**: BDD command scenarios are required. The observed delivery bootstrap defect must follow TDD: a focused failing RSpec for explicit local-delivery opt-in, minimal service correction, passing focused RSpec, then both gates.
 
@@ -10,7 +10,7 @@
 
 - [x] T001 Create and validate the feature specification in `umanni-vault/specs/022-evaluation-readiness/spec.md` with acceptance criteria, scope limits, and stop conditions.
 - [x] T002 Create and validate the implementation plan, research, data model, contract, and quickstart in `umanni-vault/specs/022-evaluation-readiness/`.
-- [x] T003 Create GitHub milestone `0.4.1`, branch `codex/022-evaluation-readiness`, and a documentation PR with Douglas assigned, a coherent label, and the milestone.
+- [x] T003 Create GitHub milestone `1.0.0`, branch `codex/022-evaluation-readiness`, and a documentation PR with Douglas assigned, a coherent label, and the milestone.
 - [x] T004 Obtain an independent exact-HEAD review of the planning artifacts on the PR; record and resolve all reviewer-owned threads before changing README or application files.
 
 **Checkpoint**: No implementation begins until the planning HEAD has `review-ledger=success`, `spec-reviewed`, and zero open review threads.
@@ -62,12 +62,12 @@
 ## Phase 6: Release evidence and final review
 
 - [x] T017 Create the root-local, ignored `ENTREVISTA-UMANNI-PRIVADO.md` with non-secret decisions, stack, functionality, evidence, limitations, and interview script; do not add it to Git.
-- [x] T018 Update `CHANGELOG.md`, `umanni-vault/releases/0.4.1.md`, `umanni-vault/STATUS.md`, `umanni-vault/MEMORIA-PROJETO.md`, and `umanni-vault/EXEC-021-EVALUATION-READINESS.md` with exact scope, commands, results, limitations, and release steps.
+- [x] T018 Update `CHANGELOG.md`, `umanni-vault/releases/1.0.0.md`, `umanni-vault/STATUS.md`, `umanni-vault/MEMORIA-PROJETO.md`, and `umanni-vault/EXEC-021-EVALUATION-READINESS.md` with exact scope, commands, results, limitations, and release steps.
 - [x] T019 Run `git diff --check`, the redacted `.env`/private-guide tracking checks from T006, `bin/check`, and `bin/check-delivery` on the candidate HEAD; record only actual results and stop on failure.
 - [ ] T020 Publish the final candidate HEAD and automatically start a fresh independent `gpt-5.6-luna`/high reviewer for PR/code/doc/evidence review; provide spec, plan, tasks, scope, and gate evidence.
 - [ ] T021 Respond to any reviewer findings only in their original threads, make only scoped corrections, rerun affected checks, and request exact-HEAD re-review until the reviewer alone leaves `review-ledger=success`, applies `code-reviewed`, and resolves every thread.
 - [ ] T022 Reconfirm PR metadata, checks, review threads, final reviewed HEAD, and Douglas's explicit authorization recorded in this delivery objective; merge only PR #30, fetch `origin/main`, capture the new integrated SHA, verify `HEAD == origin/main == integrated SHA`, and verify its Git tree equals the final reviewed PR-head tree.
-- [ ] T023 Create annotated immutable `v0.4.1` on the exact integrated SHA from T022, publish the non-draft non-prerelease GitHub Release from `umanni-vault/releases/0.4.1.md`, close milestone 0.4.1 only when empty, and audit all remote state in `umanni-vault/EXEC-021-EVALUATION-READINESS.md`.
+- [ ] T023 Create annotated immutable `v1.0.0` on the exact integrated SHA from T022, publish the non-draft non-prerelease GitHub Release from `umanni-vault/releases/1.0.0.md`, close milestone 1.0.0 only when empty, and audit all remote state in `umanni-vault/EXEC-021-EVALUATION-READINESS.md`.
 
 ## Dependencies & Execution Order
 
@@ -85,4 +85,4 @@
 ## Stop Conditions
 
 - Stop if an unplanned application/platform change, secret handling issue, mismatched reviewed/integrated SHA, immutable-tag conflict, failed check, open thread, or non-empty milestone would be required to proceed.
-- Never merge, create a release, alter a prior tag/release, or close a milestone outside the explicit 0.4.1 authorization.
+- Never merge, create a release, alter a prior tag/release, or close a milestone outside the explicit 1.0.0 authorization.

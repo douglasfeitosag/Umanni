@@ -2,7 +2,7 @@
 
 **Branch**: `codex/022-evaluation-readiness` | **Date**: 2026-09-17 | **Spec**: [spec.md](spec.md)
 
-**Input**: Reproducible local-evaluation correction for release 0.4.1.
+**Input**: Reproducible local-evaluation correction for release 1.0.0.
 
 ## Summary
 
@@ -32,14 +32,14 @@ Make the released local-evaluation path executable from the public README: clone
 
 | Principle | Pre-design result | Post-design result |
 | --- | --- | --- |
-| I. Specification before execution | PASS — spec, acceptance criteria, target 0.4.1, and stop conditions exist | PASS — tasks retain explicit BDD and gates |
+| I. Specification before execution | PASS — spec, acceptance criteria, target 1.0.0, and stop conditions exist | PASS — tasks retain explicit BDD and gates |
 | II. Behaviors and tests | PASS — commands are executable behaviors; any production defect follows RED/GREEN before a fix | PASS — isolated execution and actual results are required |
 | III. Minimum architecture | PASS — no new component, abstraction, service, or platform is planned | PASS — existing Compose contract is documented rather than expanded |
 | IV. Auditable delivery | PASS — PR, EXEC, versioned release notes, and exact commands are planned | PASS — evidence includes SHAs, outputs, and limitations |
 | V. Human integration | PASS — Douglas's written objective expressly authorizes only this delivery's integration after gates | PASS — no auto-merge or unrelated integration is planned |
 | VI. Privacy and local delivery | PASS — `.env` and interview guide stay private; only local Compose is documented | PASS — `.git/info/exclude` is the sole private-guide exclusion |
 | VII. Independent review | PASS — planning review precedes implementation and a fresh Luna/high final review is mandatory | PASS — changed HEAD requires a new review ledger result |
-| VIII. Version management | PASS — milestone 0.4.1 exists; tag/Release follow integrated exact SHA | PASS — release notes precede tag; milestone closes only when empty |
+| VIII. Version management | PASS — milestone 1.0.0 exists; tag/Release follow integrated exact SHA | PASS — release notes precede tag; milestone closes only when empty |
 
 ## Project Structure
 
@@ -53,7 +53,7 @@ umanni-vault/
 ├── EXEC-021-EVALUATION-READINESS.md           # Actual execution and publication record
 ├── STATUS.md                                  # Current state after publication
 ├── MEMORIA-PROJETO.md                         # Short project learning, if warranted
-├── releases/0.4.1.md                          # Versioned public release notes
+├── releases/1.0.0.md                          # Versioned public release notes
 └── specs/022-evaluation-readiness/            # Feature governance artifacts
     ├── spec.md
     ├── plan.md
