@@ -52,6 +52,8 @@ RSpec.describe "Identity access security", type: :request do
 
   it "renders the safe 403 surface for matched and unmatched admin routes requested by a regular user" do
     regular = create_user
+    matched = nil
+    unmatched = nil
 
     without_forgery_protection do
       sign_in(regular)
@@ -69,6 +71,8 @@ RSpec.describe "Identity access security", type: :request do
 
   it "renders indistinguishable safe HTML for matched and unmatched admin routes requested by a regular user" do
     regular = create_user
+    matched = nil
+    unmatched = nil
 
     without_forgery_protection do
       sign_in(regular)
