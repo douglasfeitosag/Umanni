@@ -10,7 +10,7 @@ Make the released local-evaluation path executable from the public README: clone
 
 ## Technical Context
 
-**Language/Version**: Markdown and Bash command examples; existing Ruby 4.0/Rails 8.1 application is not changed by the planned path
+**Language/Version**: Markdown and Bash command examples; Ruby 4.0/Rails 8.1 receives one scoped `FirstAdminBootstrap` guard correction with focused RSpec coverage
 
 **Primary Dependencies**: Docker Engine, Docker Compose, existing Compose profiles and repository gates
 
