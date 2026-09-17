@@ -12,13 +12,15 @@ module Admin
     end
 
     def create
-      upload = params.require(:user_import).fetch(:source_file)
+      upload = params.dig(:user_import, :source_file)
+      return render_index_error(:missing_file) if upload.blank?
+
       preflight = UserImports::Preflight.call(upload)
       return render_index_error(preflight.error) unless preflight.success?
 
       user_import = UserImports::Enqueue.call(imported_by: Current.user, upload:, total_count: preflight.rows.length)
       redirect_to admin_user_import_path(user_import), notice: t("notices.user_import_enqueued")
-    rescue UserImports::Enqueue::Failed, ActiveRecord::ActiveRecordError
+    rescue UserImports::Enqueue::Failed
       render_index_error(:enqueue_failed)
     end
 

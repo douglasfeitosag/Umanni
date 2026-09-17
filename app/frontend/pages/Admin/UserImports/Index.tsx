@@ -1,12 +1,22 @@
 import { Head, Link, useForm } from '@inertiajs/react'
+import { useState } from 'react'
 import { importStatusLabel } from './status'
 
 type Import = { id: string; filename: string; status: string; totalCount: number; processedCount: number; createdCount: number; rejectedCount: number; createdAt: string }
 
 export default function UserImportsIndex({ imports, errors = {} }: { imports: Import[]; errors?: { sourceFile?: string } }) {
   const form = useForm({ source_file: null as File | null })
+  const [clientError, setClientError] = useState<string>()
+  const sourceFileError = errors.sourceFile || form.errors.source_file || clientError
   function submit(event: React.FormEvent) {
     event.preventDefault()
+    if (!form.data.source_file) {
+      const message = 'Selecione um arquivo para importação.'
+      form.setError('source_file', message)
+      setClientError(message)
+      document.querySelector<HTMLInputElement>('#source_file')?.focus()
+      return
+    }
     form.transform(data => ({ user_import: data }))
     form.post('/admin/user_imports', { forceFormData: true, onError: () => document.querySelector<HTMLInputElement>('#source_file')?.focus() })
   }
@@ -24,9 +34,9 @@ export default function UserImportsIndex({ imports, errors = {} }: { imports: Im
       <form onSubmit={submit} noValidate>
         <div className="field">
           <label htmlFor="source_file">Arquivo de importação</label>
-          <input id="source_file" type="file" accept=".csv,.xlsx,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" onChange={event => form.setData('source_file', event.target.files?.[0] ?? null)} aria-invalid={(errors.sourceFile || form.errors.source_file) ? true : undefined} aria-describedby="source-file-hint" required />
+          <input id="source_file" type="file" accept=".csv,.xlsx,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" onChange={event => { setClientError(undefined); form.setData('source_file', event.target.files?.[0] ?? null) }} aria-invalid={sourceFileError ? true : undefined} aria-describedby={sourceFileError ? 'source-file-hint source-file-error' : 'source-file-hint'} required />
           <p className="field-hint" id="source-file-hint">Máximo de 10 MiB e 10.000 linhas. O processamento ocorre em segundo plano.</p>
-          {(errors.sourceFile || form.errors.source_file) && <p className="field-error">{errors.sourceFile || form.errors.source_file}</p>}
+          {sourceFileError && <p className="field-error" id="source-file-error">{sourceFileError}</p>}
         </div>
         <button className="primary-button" disabled={form.processing}>{form.processing ? 'Enviando…' : 'Enviar para importação'}</button>
       </form>
