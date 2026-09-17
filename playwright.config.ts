@@ -11,6 +11,7 @@ const browserProfiles = browsers.flatMap(browserName => viewports.map(({ name, w
 })))
 const projects = browserProfiles.map((profile, index) => ({
   ...profile,
+  workers: 1,
   ...(index === 0 ? {} : { dependencies: [browserProfiles[index - 1].name] }),
 }))
 const testDatabaseUrl = process.env.TEST_DATABASE_URL ?? 'postgresql://umanni:umanni-local@127.0.0.1:5432/umanni_test'
