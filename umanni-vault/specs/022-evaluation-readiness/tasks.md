@@ -18,7 +18,7 @@
 ## Phase 2: Foundational reproducibility audit
 
 - [ ] T005 Read and compare `README.md`, `compose.yaml`, `.env.example`, `Dockerfile`, `bin/check`, and `bin/check-delivery` against FR-001 through FR-007; record any mismatch in `umanni-vault/EXEC-021-EVALUATION-READINESS.md`.
-- [ ] T006 Confirm `ENTREVISTA-UMANNI-PRIVADO.md` is ignored only by `/Users/douglas/Projects/Umanni/.git/info/exclude` using `git check-ignore -v`, and confirm no tracked `.gitignore` change is planned.
+- [ ] T006 Confirm and record redacted privacy evidence: `git check-ignore -v -- .env` succeeds; `git ls-files --error-unmatch .env` has the expected nonzero result; `git status --short -- .env` is empty; and `ENTREVISTA-UMANNI-PRIVADO.md` is ignored only by `/Users/douglas/Projects/Umanni/.git/info/exclude` using `git check-ignore -v`. Confirm that no tracked `.gitignore` change, private-file content, or local secret appears in public artifacts.
 
 **Checkpoint**: If the audit exposes a need outside the documentation allowlist, stop and request a concrete Douglas decision before implementation.
 
@@ -31,7 +31,7 @@
 - [ ] T007 [US1] Update the evaluator instructions in `README.md` with explicit Docker Engine/Compose prerequisites, clone/version-selection commands, `.env` creation, private-secret warning, and local `SECRET_KEY_BASE` generation.
 - [ ] T008 [US1] Update `README.md` delivery instructions to build and start `web` and `worker` together under `umanni-evaluation`, add `ps`, `/up`, and `/ready` checks, and distinguish liveness from database/migration readiness.
 - [ ] T009 [US1] Update `README.md` verification instructions for `bin/check` and `bin/check-delivery`; state that CI/runner are manual Backlog work and arm64 validation does not prove amd64.
-- [ ] T010 [US1] Execute the published setup, delivery, health, and verification commands from a clean Git worktree or equivalent; record command, environment isolation, SHA, and actual result in `umanni-vault/EXEC-021-EVALUATION-READINESS.md`.
+- [ ] T010 [US1] Execute the published setup, delivery, health, and verification commands from a clean Git worktree or equivalent; record command, environment isolation, SHA, actual result, and redacted `.env` privacy evidence in `umanni-vault/EXEC-021-EVALUATION-READINESS.md` without writing the secret value.
 
 **Checkpoint**: A first-time evaluator can start the complete delivery profile and distinguish `/up` from `/ready` without undocumented steps.
 
@@ -61,11 +61,11 @@
 
 - [ ] T015 Create the root-local, ignored `ENTREVISTA-UMANNI-PRIVADO.md` with non-secret decisions, stack, functionality, evidence, limitations, and interview script; do not add it to Git.
 - [ ] T016 Update `CHANGELOG.md`, `umanni-vault/releases/0.4.1.md`, `umanni-vault/STATUS.md`, `umanni-vault/MEMORIA-PROJETO.md`, and `umanni-vault/EXEC-021-EVALUATION-READINESS.md` with exact scope, commands, results, limitations, and release steps.
-- [ ] T017 Run `git diff --check`, `bin/check`, and `bin/check-delivery` on the candidate HEAD; record only actual results and stop on failure.
+- [ ] T017 Run `git diff --check`, the redacted `.env`/private-guide tracking checks from T006, `bin/check`, and `bin/check-delivery` on the candidate HEAD; record only actual results and stop on failure.
 - [ ] T018 Publish the final candidate HEAD and automatically start a fresh independent `gpt-5.6-luna`/high reviewer for PR/code/doc/evidence review; provide spec, plan, tasks, scope, and gate evidence.
 - [ ] T019 Respond to any reviewer findings only in their original threads, make only scoped corrections, rerun affected checks, and request exact-HEAD re-review until the reviewer alone leaves `review-ledger=success`, applies `code-reviewed`, and resolves every thread.
-- [ ] T020 Reconfirm PR metadata, checks, review threads, and merge authorization; merge the authorized PR, fetch `origin/main`, and verify the integrated SHA equals the reviewed target.
-- [ ] T021 Create annotated immutable `v0.4.1` on that exact integrated SHA, publish the non-draft non-prerelease GitHub Release from `umanni-vault/releases/0.4.1.md`, close milestone 0.4.1 only when empty, and audit all remote state in `umanni-vault/EXEC-021-EVALUATION-READINESS.md`.
+- [ ] T020 Reconfirm PR metadata, checks, review threads, final reviewed HEAD, and Douglas's explicit authorization recorded in this delivery objective; merge only PR #30, fetch `origin/main`, capture the new integrated SHA, verify `HEAD == origin/main == integrated SHA`, and verify its Git tree equals the final reviewed PR-head tree.
+- [ ] T021 Create annotated immutable `v0.4.1` on the exact integrated SHA from T020, publish the non-draft non-prerelease GitHub Release from `umanni-vault/releases/0.4.1.md`, close milestone 0.4.1 only when empty, and audit all remote state in `umanni-vault/EXEC-021-EVALUATION-READINESS.md`.
 
 ## Dependencies & Execution Order
 

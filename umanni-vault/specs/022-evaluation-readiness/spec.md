@@ -88,17 +88,17 @@ An evaluator can switch between local development and delivery and stop the reso
 - **SC-002**: The delivery startup command leaves exactly the documented web and worker application processes running before health checks are performed.
 - **SC-003**: Both documented health checks return success after local delivery startup, while the guide clearly distinguishes boot liveness from database-and-migration readiness.
 - **SC-004**: The two repository verification gates complete successfully on the final reviewed commit, with their real results recorded.
-- **SC-005**: The final patch has no whitespace errors, no tracked private guide, no open review threads, a successful exact-HEAD review ledger, and an empty 0.4.1 milestone after publication.
+- **SC-005**: The final patch has no whitespace errors, no tracked `.env` or private guide, no open review threads, a successful exact-HEAD review ledger, and an empty 0.4.1 milestone after publication.
 
 ## Assumptions
 
 - Docker Engine and Docker Compose are installed and available to the evaluator; no host Ruby or Node runtime is required.
 - The existing delivery database and bootstrap task remain the supported local administrator path; this release adds no account, email, invitation, recovery, API, or deployment behavior.
 - The repository's existing local validation is Linux arm64 on macOS; amd64 remains explicitly unvalidated.
-- Douglas's written objective authorizes this delivery's PR integration, annotated `v0.4.1` tag, public Release, and 0.4.1 milestone closure only after all stated gates.
+- Douglas's written objective for this delivery expressly authorizes this PR's integration, annotated `v0.4.1` tag, public Release, and 0.4.1 milestone closure only after all stated gates; it does not authorize another PR, existing tag, or existing Release.
 
 ## Stop Conditions
 
 - Stop and request a concrete decision if the published commands require an application or platform change beyond README, documentation, a private local guide, or a defect strictly necessary to make those commands meet this specification.
-- Stop publication if the reviewed HEAD, integrated `origin/main`, immutable tag target, public Release target, or milestone state diverges.
+- Stop publication if the reviewed PR HEAD changes after final review, if the locally checked-out integrated commit differs from `origin/main`, if the integrated tree differs from the reviewed candidate tree, or if the immutable tag target, public Release target, or milestone state diverges.
 - Stop if independent review, exact-HEAD ledger success, or zero resolved-thread evidence cannot be obtained.

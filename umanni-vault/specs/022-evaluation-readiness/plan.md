@@ -36,7 +36,7 @@ Make the released local-evaluation path executable from the public README: clone
 | II. Behaviors and tests | PASS — commands are executable behaviors; any production defect follows RED/GREEN before a fix | PASS — isolated execution and actual results are required |
 | III. Minimum architecture | PASS — no new component, abstraction, service, or platform is planned | PASS — existing Compose contract is documented rather than expanded |
 | IV. Auditable delivery | PASS — PR, EXEC, versioned release notes, and exact commands are planned | PASS — evidence includes SHAs, outputs, and limitations |
-| V. Human integration | PASS — the supplied objective expressly authorizes this delivery's integration only after gates | PASS — no auto-merge or unrelated integration is planned |
+| V. Human integration | PASS — Douglas's written objective expressly authorizes only this delivery's integration after gates | PASS — no auto-merge or unrelated integration is planned |
 | VI. Privacy and local delivery | PASS — `.env` and interview guide stay private; only local Compose is documented | PASS — `.git/info/exclude` is the sole private-guide exclusion |
 | VII. Independent review | PASS — planning review precedes implementation and a fresh Luna/high final review is mandatory | PASS — changed HEAD requires a new review ledger result |
 | VIII. Version management | PASS — milestone 0.4.1 exists; tag/Release follow integrated exact SHA | PASS — release notes precede tag; milestone closes only when empty |
