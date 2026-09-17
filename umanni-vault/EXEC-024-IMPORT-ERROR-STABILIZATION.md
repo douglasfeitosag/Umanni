@@ -15,7 +15,7 @@ Esta execução consolida exclusivamente os quatro reparos previstos para a cand
 | #39 | prevenção de overflow responsivo | `18d206cb4b2fdc05df16908459fc40144cdeab41` |
 | #40 | isolamento serial dos perfis E2E | `5ba85d652398247439a4e366afa04f75d3138058` |
 
-Cada PR foi integrado na candidata depois de revisão independente e `code-reviewed`; o merge de #40 deixou a candidata no commit `a09d98d`.
+O PR #33 foi integrado depois de revisão independente com `spec-reviewed`; os patches #34–#40 foram integrados com `code-reviewed`. O merge de #40 deixou a candidata no commit `a09d98d`.
 
 ## Comportamentos confirmados
 
