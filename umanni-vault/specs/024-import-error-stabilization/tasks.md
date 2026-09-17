@@ -9,7 +9,7 @@
 - [X] T001 Validar `umanni-vault/specs/024-import-error-stabilization/spec.md` contra o pedido, a versão-alvo `1.1.0` e as quatro falhas observadas.
 - [X] T002 [P] Validar `umanni-vault/specs/024-import-error-stabilization/plan.md` e `research.md` contra a Constituição, a separação em quatro patches e as condições de parada.
 - [X] T003 [P] Validar `umanni-vault/specs/024-import-error-stabilization/contracts/upload-validation.md`, `contracts/error-surface.md`, `data-model.md` e `quickstart.md` para status, destinos e ausência de vazamento.
-- [ ] T004 Abrir/publicar a PR documental da branch `codex/024-import-error-stabilization`, aplicar label `documentation`, atribuir Douglas e vincular ao milestone 9.
+- [X] T004 Abrir/publicar a PR documental #33 da branch `codex/024-import-error-stabilization`, aplicar label `documentation`, atribuir Douglas e vincular ao milestone 9.
 - [ ] T005 Obter revisão independente de spec, plano e tarefas no HEAD exato da PR documental; resolver achados somente nas threads da revisora e obter `review-ledger=success`, `spec-reviewed` e zero threads abertas.
 
 **Checkpoint**: nenhum patch de código começa antes de T005.
