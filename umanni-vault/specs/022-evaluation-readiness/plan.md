@@ -6,7 +6,7 @@
 
 ## Summary
 
-Make the released local-evaluation path executable from the public README: clone and select the version, create private configuration, generate a secret, build and start delivery `web` and `worker` together, check `/ready` and `/up`, bootstrap the first local administrator, execute existing gates, develop locally, and stop only the named project. Record evidence and release lifecycle without changing application behavior unless a command proves a necessary scoped defect.
+Make the released local-evaluation path executable from the public README: clone and select the version, create private configuration, generate a secret, build and start delivery `web` and `worker` together, check `/ready` and `/up`, bootstrap the first local administrator, execute existing gates, develop locally, and stop only the named project. The isolated command audit proved that the existing bootstrap rejects the delivery profile; correct that bounded defect by requiring an explicit local-delivery opt-in while preserving every existing safeguard. Record evidence and release lifecycle.
 
 ## Technical Context
 
@@ -26,7 +26,7 @@ Make the released local-evaluation path executable from the public README: clone
 
 **Constraints**: Documentation/reproducibility scope only; no CI/runner, deploy, email, invitation, recovery, parallel API, Redis, platform extras, or issue #9; never commit secrets or the private guide; never modify existing tags/releases
 
-**Scale/Scope**: README, versioned vault records, release notes, and one root-local ignored interview guide; application code only if a documented command exposes a necessary defect and plan/tasks are amended first
+**Scale/Scope**: README, versioned vault records, release notes, one root-local ignored interview guide, and the minimal `FirstAdminBootstrap` environment guard plus focused RSpec coverage required by observed delivery-bootstrap failure
 
 ## Constitution Check
 
@@ -45,6 +45,8 @@ Make the released local-evaluation path executable from the public README: clone
 
 ```text
 README.md                                      # Public evaluator guide
+app/services/first_admin_bootstrap.rb           # Explicit local-delivery bootstrap guard
+spec/services/first_admin_bootstrap_spec.rb     # RED/GREEN coverage for the guard
 CHANGELOG.md                                   # Versioned release summary
 ENTREVISTA-UMANNI-PRIVADO.md                   # Root-local, ignored interview guide
 umanni-vault/
@@ -62,7 +64,7 @@ umanni-vault/
     └── tasks.md
 ```
 
-**Structure Decision**: This is an evaluator-facing documentation correction. Existing application, Compose, and gate files are inspected and exercised but are not in the planned write allowlist. The private guide is deliberately excluded from version control only through local Git metadata.
+**Structure Decision**: This is an evaluator-facing documentation correction with one observed product defect. The only application write allowlist is `FirstAdminBootstrap` and its focused spec, to make the already-promised local first-administrator path work under the local delivery profile only after an explicit opt-in. The private guide is deliberately excluded from version control only through local Git metadata.
 
 ## Complexity Tracking
 

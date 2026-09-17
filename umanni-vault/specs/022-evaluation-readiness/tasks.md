@@ -4,7 +4,7 @@
 
 **Target release**: `0.4.1` (GitHub milestone 8)
 
-**Tests**: BDD command scenarios are required. If command execution exposes an application defect, first add a failing focused test for that defect, then make the minimum scoped correction and rerun the focused test plus both gates.
+**Tests**: BDD command scenarios are required. The observed delivery bootstrap defect must follow TDD: a focused failing RSpec for explicit local-delivery opt-in, minimal service correction, passing focused RSpec, then both gates.
 
 ## Phase 1: Governance and planning
 
@@ -41,8 +41,10 @@
 
 **Independent Test**: On the isolated delivery database, run the documented bootstrap command twice with private local values; the first run creates an administrator and the second preserves it without exposing the password.
 
-- [ ] T011 [US2] Update the local-administrator section of `README.md` to target the delivery database, use placeholders and local-only values, state idempotence/no-password output, and avoid placing a secret in the repository.
-- [ ] T012 [US2] Execute the published bootstrap command twice in the isolated delivery environment and record its redacted real outcomes in `umanni-vault/EXEC-021-EVALUATION-READINESS.md`.
+- [ ] T011 [US2] Add a focused RED example in `spec/services/first_admin_bootstrap_spec.rb` proving that production remains rejected without opt-in and local delivery is allowed only with `UMANNI_BOOTSTRAP_LOCAL_DELIVERY=1`, preserving all current safeguards.
+- [ ] T012 [US2] Implement the smallest environment guard in `app/services/first_admin_bootstrap.rb` that admits only explicit local delivery and leaves development behavior plus host/database/confirmation/idempotence protections intact.
+- [ ] T013 [US2] Run the focused `spec/services/first_admin_bootstrap_spec.rb` RED/GREEN cycle and update the local-administrator section of `README.md` with the explicit opt-in, delivery database, placeholders, idempotence/no-password behavior, and private-secret warning.
+- [ ] T014 [US2] Execute the published bootstrap command twice in the isolated delivery environment and record its redacted real outcomes in `umanni-vault/EXEC-021-EVALUATION-READINESS.md`.
 
 **Checkpoint**: The administrator path is executable against delivery and remains local/private.
 
@@ -52,28 +54,28 @@
 
 **Independent Test**: Run the documented transition and shutdown commands; their target is `umanni-evaluation`, never an unscoped Docker cleanup.
 
-- [ ] T013 [US3] Update development-transition and shutdown instructions in `README.md` to stop conflicting delivery services first and use only the named project resources.
-- [ ] T014 [US3] Execute the documented transition/shutdown path or the safe equivalent when the full verification matrix already owns the isolated project; record the exact result in `umanni-vault/EXEC-021-EVALUATION-READINESS.md`.
+- [ ] T015 [US3] Update development-transition and shutdown instructions in `README.md` to stop conflicting delivery services first and use only the named project resources.
+- [ ] T016 [US3] Execute the documented transition/shutdown path or the safe equivalent when the full verification matrix already owns the isolated project; record the exact result in `umanni-vault/EXEC-021-EVALUATION-READINESS.md`.
 
 **Checkpoint**: The guide has no global cleanup command and no port-conflict ambiguity.
 
 ## Phase 6: Release evidence and final review
 
-- [ ] T015 Create the root-local, ignored `ENTREVISTA-UMANNI-PRIVADO.md` with non-secret decisions, stack, functionality, evidence, limitations, and interview script; do not add it to Git.
-- [ ] T016 Update `CHANGELOG.md`, `umanni-vault/releases/0.4.1.md`, `umanni-vault/STATUS.md`, `umanni-vault/MEMORIA-PROJETO.md`, and `umanni-vault/EXEC-021-EVALUATION-READINESS.md` with exact scope, commands, results, limitations, and release steps.
-- [ ] T017 Run `git diff --check`, the redacted `.env`/private-guide tracking checks from T006, `bin/check`, and `bin/check-delivery` on the candidate HEAD; record only actual results and stop on failure.
-- [ ] T018 Publish the final candidate HEAD and automatically start a fresh independent `gpt-5.6-luna`/high reviewer for PR/code/doc/evidence review; provide spec, plan, tasks, scope, and gate evidence.
-- [ ] T019 Respond to any reviewer findings only in their original threads, make only scoped corrections, rerun affected checks, and request exact-HEAD re-review until the reviewer alone leaves `review-ledger=success`, applies `code-reviewed`, and resolves every thread.
-- [ ] T020 Reconfirm PR metadata, checks, review threads, final reviewed HEAD, and Douglas's explicit authorization recorded in this delivery objective; merge only PR #30, fetch `origin/main`, capture the new integrated SHA, verify `HEAD == origin/main == integrated SHA`, and verify its Git tree equals the final reviewed PR-head tree.
-- [ ] T021 Create annotated immutable `v0.4.1` on the exact integrated SHA from T020, publish the non-draft non-prerelease GitHub Release from `umanni-vault/releases/0.4.1.md`, close milestone 0.4.1 only when empty, and audit all remote state in `umanni-vault/EXEC-021-EVALUATION-READINESS.md`.
+- [ ] T017 Create the root-local, ignored `ENTREVISTA-UMANNI-PRIVADO.md` with non-secret decisions, stack, functionality, evidence, limitations, and interview script; do not add it to Git.
+- [ ] T018 Update `CHANGELOG.md`, `umanni-vault/releases/0.4.1.md`, `umanni-vault/STATUS.md`, `umanni-vault/MEMORIA-PROJETO.md`, and `umanni-vault/EXEC-021-EVALUATION-READINESS.md` with exact scope, commands, results, limitations, and release steps.
+- [ ] T019 Run `git diff --check`, the redacted `.env`/private-guide tracking checks from T006, `bin/check`, and `bin/check-delivery` on the candidate HEAD; record only actual results and stop on failure.
+- [ ] T020 Publish the final candidate HEAD and automatically start a fresh independent `gpt-5.6-luna`/high reviewer for PR/code/doc/evidence review; provide spec, plan, tasks, scope, and gate evidence.
+- [ ] T021 Respond to any reviewer findings only in their original threads, make only scoped corrections, rerun affected checks, and request exact-HEAD re-review until the reviewer alone leaves `review-ledger=success`, applies `code-reviewed`, and resolves every thread.
+- [ ] T022 Reconfirm PR metadata, checks, review threads, final reviewed HEAD, and Douglas's explicit authorization recorded in this delivery objective; merge only PR #30, fetch `origin/main`, capture the new integrated SHA, verify `HEAD == origin/main == integrated SHA`, and verify its Git tree equals the final reviewed PR-head tree.
+- [ ] T023 Create annotated immutable `v0.4.1` on the exact integrated SHA from T022, publish the non-draft non-prerelease GitHub Release from `umanni-vault/releases/0.4.1.md`, close milestone 0.4.1 only when empty, and audit all remote state in `umanni-vault/EXEC-021-EVALUATION-READINESS.md`.
 
 ## Dependencies & Execution Order
 
 - T001–T004 are sequential governance gates and block all implementation.
 - T005–T006 establish the allowable documentation-only scope.
 - US1 (T007–T010) is the MVP and must finish before bootstrap or shutdown evidence.
-- US2 (T011–T012) and US3 (T013–T014) depend on the delivery contract from US1 but otherwise touch separate README sections.
-- T015–T021 require all user-story checkpoints.
+- US2 (T011–T014) and US3 (T015–T016) depend on the delivery contract from US1 but otherwise touch separate README sections.
+- T017–T023 require all user-story checkpoints.
 
 ## Parallel Opportunities
 

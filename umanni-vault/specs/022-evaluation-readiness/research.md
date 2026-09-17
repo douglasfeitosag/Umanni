@@ -31,3 +31,11 @@
 **Rationale**: This exercises the candidate's files without relying on author configuration or pre-existing containers.
 
 **Alternatives considered**: Historical gates do not prove changed README instructions, and testing only the author checkout may conceal missing setup.
+
+## Decision: allow first-admin bootstrap in local delivery only by explicit opt-in
+
+**Decision**: Preserve the development default and allow the existing first-administrator task in production only when `UMANNI_BOOTSTRAP_LOCAL_DELIVERY=1` is explicitly supplied, while retaining the PostgreSQL, local-host, exact-database, confirmation, validation, locking, no-password-output, and idempotence guards.
+
+**Rationale**: The isolated delivery command reached the task and failed with `Bootstrap is available only in development`, preventing the required local delivery bootstrap. An explicit opt-in makes the delivery exception visible and bounded rather than turning every production invocation into an eligible bootstrap.
+
+**Alternatives considered**: Moving the README bootstrap back to development does not provision the delivery database; removing the environment guard broadens production behavior; adding a new account or invitation flow expands the product scope.

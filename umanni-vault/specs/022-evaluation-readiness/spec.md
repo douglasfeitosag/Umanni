@@ -34,7 +34,7 @@ An evaluator can create the first administrator in the local delivery database u
 
 **Acceptance Scenarios**:
 
-1. **Given** a ready local delivery environment without an administrator, **When** the evaluator supplies their local bootstrap values and confirmation phrase, **Then** the first administrator is created without the command printing the password.
+1. **Given** a ready local delivery environment without an administrator, **When** the evaluator supplies their local bootstrap values, confirmation phrase, and explicit local-delivery opt-in, **Then** the first administrator is created without the command printing the password.
 2. **Given** the administrator already exists, **When** the evaluator repeats the bootstrap command, **Then** the existing administrator remains unchanged.
 
 ---
@@ -73,6 +73,7 @@ An evaluator can switch between local development and delivery and stop the reso
 - **FR-007**: The change MUST be validated from a clean checkout or an equivalent isolated environment using the published commands.
 - **FR-008**: A root-level `ENTREVISTA-UMANNI-PRIVADO.md` MUST record non-secret decisions, stack, implemented capabilities, evidence, limitations, and an interview script; it MUST be ignored only through `.git/info/exclude` and never tracked.
 - **FR-009**: The release record MUST preserve the exact commands and observed results, scope limits, review evidence, immutable tag target, Release URL, and milestone result.
+- **FR-010**: The existing first-administrator task MUST allow the local delivery database only when an explicit local-delivery opt-in is supplied, while retaining rejection for production without that opt-in and all existing database-host, database-name, confirmation, password, and idempotence safeguards.
 
 ### Key Entities
 
