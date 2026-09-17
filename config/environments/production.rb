@@ -1,6 +1,9 @@
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
+  # Assets are compiled in the image build without credentials. Runtime must decrypt
+  # the versioned credentials file; a plaintext SECRET_KEY_BASE is never a fallback.
+  config.secret_key_base = Rails.application.credentials.secret_key_base unless ENV["SECRET_KEY_BASE_DUMMY"] == "1"
   config.active_storage.service = :production_local
   config.active_job.queue_adapter = :solid_queue
   config.exceptions_app = ->(env) { DeliveryExceptionsApp.call(env) }

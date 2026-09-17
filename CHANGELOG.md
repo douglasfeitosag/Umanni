@@ -2,6 +2,23 @@
 
 All notable project milestones are documented in this file. This project follows [Semantic Versioning](https://semver.org/).
 
+## [Unreleased] - 1.1.0 candidate
+
+### Fixed
+
+- Moved the delivery application signing secret from plaintext `SECRET_KEY_BASE` environment configuration to versioned encrypted Rails credentials.
+- Passes only private runtime `RAILS_MASTER_KEY` to delivery `web` and `worker`, while preserving the operational database URL and test-isolation contracts.
+- Keeps the production image build secretless through the build-only `SECRET_KEY_BASE_DUMMY=1` path; the final image contains ciphertext but no master key, `.env`, specs, or build metadata.
+
+### Validation
+
+- Focused credentials coverage passed after an observed RED phase; a valid private key booted web and worker, while a missing key stopped delivery with an actionable safe message.
+- `bin/check` passed with 100 RSpec examples, 23 Vitest tests, 66 Playwright scenarios, RuboCop, and Brakeman; `bin/check-delivery` passed its 18 production-like scenarios.
+
+### Known limitations
+
+- This is a release candidate, not a published tag or GitHub Release. Merge, tag, release, and milestone closure require Douglas's explicit authorization after independent exact-HEAD review.
+
 ## [1.0.0] - 2026-09-17
 
 ### Fixed

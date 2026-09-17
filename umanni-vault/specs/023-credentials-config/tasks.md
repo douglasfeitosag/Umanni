@@ -8,42 +8,42 @@
 
 ## Phase 1: Governance and planning
 
-- [ ] T001 Validate `spec.md` against the original assessment expectation and record the bounded `SECRET_KEY_BASE`/database-URL scope.
-- [ ] T002 Validate `plan.md`, `research.md`, `contracts/credentials.md`, and `quickstart.md` for exact paths, commands, acceptance criteria, and stop conditions.
-- [ ] T003 Create milestone `1.1.0`, branch `codex/023-credentials-config`, and a planning PR with Douglas assigned and a coherent label.
-- [ ] T004 Obtain independent exact-HEAD review of all planning artifacts; resolve reviewer-owned findings before touching application or public setup files.
+- [X] T001 Validate `spec.md` against the original assessment expectation and record the bounded `SECRET_KEY_BASE`/database-URL scope.
+- [X] T002 Validate `plan.md`, `research.md`, `contracts/credentials.md`, and `quickstart.md` for exact paths, commands, acceptance criteria, and stop conditions.
+- [X] T003 Create milestone `1.1.0`, branch `codex/023-credentials-config`, and a planning PR with Douglas assigned and a coherent label.
+- [X] T004 Obtain independent exact-HEAD review of all planning artifacts; resolve reviewer-owned findings before touching application or public setup files.
 
 **Checkpoint**: Planning HEAD has `review-ledger=success`, `spec-reviewed`, and zero open review threads.
 
 ## Phase 2: RED credential contract
 
-- [ ] T005 [P] [US1] Add focused RSpec coverage in `spec/config/credentials_spec.rb` for credential resolution, missing-key/value failure, and absence of a plaintext `SECRET_KEY_BASE` production dependency.
-- [ ] T006 [P] [US2] Add Compose contract assertions in the focused spec or support helper for `RAILS_MASTER_KEY` on `web`/`worker`, preserved database URLs, and no `SECRET_KEY_BASE` injection.
-- [ ] T007 Run the focused tests against the current HEAD and record the expected RED failures in `umanni-vault/EXEC-022-CREDENTIALS-1-1-0.md`.
+- [X] T005 [P] [US1] Add focused RSpec coverage in `spec/config/credentials_spec.rb` for credential resolution, missing-key/value failure, and absence of a plaintext `SECRET_KEY_BASE` production dependency.
+- [X] T006 [P] [US2] Add Compose contract assertions in the focused spec or support helper for `RAILS_MASTER_KEY` on `web`/`worker`, preserved database URLs, and no `SECRET_KEY_BASE` injection.
+- [X] T007 Run the focused tests against the current HEAD and record the expected RED failures in `umanni-vault/EXEC-022-CREDENTIALS-1-1-0.md`.
 
 ## Phase 3: User Story 1 - Private delivery credentials (Priority: P1) 🎯 MVP
 
-- [ ] T008 [US1] Generate `config/credentials.yml.enc` with a non-production local value for `secret_key_base`; ensure `config/master.key` remains ignored and untracked.
-- [ ] T009 [US1] Configure production Rails to resolve `secret_key_base` from `Rails.application.credentials` and fail closed when the credential is missing, while preserving the build-only `SECRET_KEY_BASE_DUMMY=1` asset-compilation path.
-- [ ] T009a [US1] Add a build-stage regression assertion proving `docker build` succeeds without `RAILS_MASTER_KEY` and that the dummy value is never accepted as a runtime delivery credential.
-- [ ] T010 [US1] Update `compose.yaml` and `spec/support/compose.delivery-test.yaml` so delivery passes `RAILS_MASTER_KEY` to both processes and no longer injects `SECRET_KEY_BASE`.
-- [ ] T011 [US1] Run focused tests GREEN and verify a delivery boot with a valid out-of-band key and a controlled failure without one.
+- [X] T008 [US1] Generate `config/credentials.yml.enc` with a non-production local value for `secret_key_base`; ensure `config/master.key` remains ignored and untracked.
+- [X] T009 [US1] Configure production Rails to resolve `secret_key_base` from `Rails.application.credentials` and fail closed when the credential is missing, while preserving the build-only `SECRET_KEY_BASE_DUMMY=1` asset-compilation path.
+- [X] T009a [US1] Add a build-stage regression assertion proving `docker build` succeeds without `RAILS_MASTER_KEY` and that the dummy value is never accepted as a runtime delivery credential.
+- [X] T010 [US1] Update `compose.yaml` and `spec/support/compose.delivery-test.yaml` so delivery passes `RAILS_MASTER_KEY` to both processes and no longer injects `SECRET_KEY_BASE`.
+- [X] T011 [US1] Run focused tests GREEN and verify a delivery boot with a valid out-of-band key and a controlled failure without one.
 
 **Checkpoint**: `web` and `worker` boot with credentials only; no plaintext fallback exists.
 
 ## Phase 4: User Story 2 - Preserve environment and test isolation (Priority: P2)
 
-- [ ] T012 [US2] Update `.env.example` and `README.md` to document private master-key handling, credential editing, delivery commands, and the deliberate database-URL boundary; remove `SECRET_KEY_BASE` generation instructions.
-- [ ] T013 [US2] Run Compose config assertions and the existing database/test safety checks, confirming `DATABASE_URL`, `DELIVERY_DATABASE_URL`, and `TEST_DATABASE_URL` behavior is unchanged.
-- [ ] T014 [US2] Build the production image with no `RAILS_MASTER_KEY` and audit it for ciphertext presence, build-history safety, and absence of `config/master.key`, `.env`, tests, and development tooling.
+- [X] T012 [US2] Update `.env.example` and `README.md` to document private master-key handling, credential editing, delivery commands, and the deliberate database-URL boundary; remove `SECRET_KEY_BASE` generation instructions.
+- [X] T013 [US2] Run Compose config assertions and the existing database/test safety checks, confirming `DATABASE_URL`, `DELIVERY_DATABASE_URL`, and `TEST_DATABASE_URL` behavior is unchanged.
+- [X] T014 [US2] Build the production image with no `RAILS_MASTER_KEY` and audit it for ciphertext presence, build-history safety, and absence of `config/master.key`, `.env`, tests, and development tooling.
 
 **Checkpoint**: Existing test/development isolation remains green and the public setup is coherent.
 
 ## Phase 5: User Story 3 - Auditable documentation and release evidence (Priority: P3)
 
-- [ ] T015 [US3] Record actual RED/GREEN, Compose, image, privacy, `bin/check`, and `bin/check-delivery` results in `umanni-vault/EXEC-022-CREDENTIALS-1-1-0.md`.
-- [ ] T016 [US3] Update `CHANGELOG.md`, `umanni-vault/releases/1.1.0.md`, `umanni-vault/STATUS.md`, and `umanni-vault/MEMORIA-PROJETO.md` with the scoped correction and limitations.
-- [ ] T017 [US3] Run `git diff --check`, tracked-secret checks, and final documentation/link checks on the candidate HEAD.
+- [X] T015 [US3] Record actual RED/GREEN, Compose, image, privacy, `bin/check`, and `bin/check-delivery` results in `umanni-vault/EXEC-022-CREDENTIALS-1-1-0.md`.
+- [X] T016 [US3] Update `CHANGELOG.md`, `umanni-vault/releases/1.1.0.md`, `umanni-vault/STATUS.md`, and `umanni-vault/MEMORIA-PROJETO.md` with the scoped correction and limitations.
+- [X] T017 [US3] Run `git diff --check`, tracked-secret checks, and final documentation/link checks on the candidate HEAD.
 
 ## Phase 6: Final review and release preparation
 

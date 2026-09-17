@@ -1,6 +1,11 @@
 #!/bin/bash
 set -euo pipefail
 
+if [ "${RAILS_ENV:-}" = "production" ] && [ -z "${RAILS_MASTER_KEY:-}" ]; then
+  printf '%s\n' 'delivery.startup.credentials_missing: supply RAILS_MASTER_KEY'
+  exit 1
+fi
+
 case "${UMANNI_DELIVERY_PREPARE_DATABASE:-}" in
   "" | 0)
     ;;
