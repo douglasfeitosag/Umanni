@@ -65,7 +65,9 @@ RSpec.describe "Identity access security", type: :request do
       expect(response).to have_http_status(:forbidden)
     end
 
-    expect(matched).to include("component" => "Errors/Show", "props" => include("status" => 403, "returnPath" => "/profile"))
+    expect(matched).to include("component" => "Errors/Show",
+                               "props" => include("status" => 403,
+                                                  "returnPath" => "/profile"))
     expect(unmatched).to eq(matched)
   end
 
@@ -84,9 +86,12 @@ RSpec.describe "Identity access security", type: :request do
       expect(response).to have_http_status(:forbidden)
     end
 
-    expect(matched).to include('<html lang="pt-BR">', '"component":"Errors/Show"', '"status":403', '"returnPath":"/profile"')
-    expect(matched).not_to include('Session', 'Current.user', 'stacktrace')
-    expect(unmatched.gsub(/csp-nonce" content="[^"]+"/, 'csp-nonce" content="[nonce]"')).to eq(matched.gsub(/csp-nonce" content="[^"]+"/, 'csp-nonce" content="[nonce]"'))
+    expect(matched).to include('<html lang="pt-BR">', '"component":"Errors/Show"', '"status":403',
+                               '"returnPath":"/profile"')
+    expect(matched).not_to include("Session", "Current.user", "stacktrace")
+    expect(unmatched.gsub(/csp-nonce" content="[^"]+"/,
+                          'csp-nonce" content="[nonce]"')).to eq(matched.gsub(/csp-nonce" content="[^"]+"/,
+                                                                              'csp-nonce" content="[nonce]"'))
   end
 
   it "keeps a nonexistent administrative route as a normal 404 for an administrator" do
