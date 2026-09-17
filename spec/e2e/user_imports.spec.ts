@@ -64,7 +64,7 @@ test('US1–US6 imports a CSV with the real worker, persists progress, and activ
 
 test('US1 keeps the import form and populated history readable at supported viewport and text sizes', async ({ page }, testInfo) => {
   const importedEmail = uniqueEmail(testInfo, 'layout')
-  const filename = `layout-${testInfo.project.name}-${testInfo.workerIndex}.csv`
+  const filename = `layout-${importedEmail.split('@')[0]}.csv`
   await login(page, adminEmail, adminPassword)
   await page.getByRole('link', { name: 'Importações' }).click()
   await page.getByLabel('Arquivo de importação').setInputFiles({
