@@ -68,6 +68,8 @@ Em 2026-09-17, o teste local revelou quatro falhas de estabilização ainda dent
 
 Atualização de candidata em 2026-09-17: o plano 024 foi aceito no PR #33. Os patches #34 (layout), #35 (retorno seguro), #36 (upload), #37 (403), #38 (lint), #39 (overflow) e #40 (isolamento E2E) foram revisados e integrados serialmente na candidata, que chegou ao merge `a09d98d`. No HEAD de código revisado `5ba85d652398247439a4e366afa04f75d3138058`, `bin/check` em Docker aprovou 108 RSpec, 28 Vitest e 84 Playwright nos seis perfis; RuboCop e Brakeman não apontaram achados. `bin/check-delivery` aprovou imagem production-like, web/worker, reinícios, probes seguros, 18 cenários de navegador e banco indisponível. A chave de credentials foi fornecida somente em runtime e não entrou no repositório ou na imagem. O registro final ainda precisa de revisão e o HEAD combinado precisa de nova revisão independente contra `main`; a tag, Release e milestone continuam não publicados até esses gates.
 
+O registro final foi integrado no PR #41, deixando a candidata no merge `e83bc5574b16cbecf62c28a64d14d676a1a1eb0c`. A fonte da aplicação era idêntica ao tooling já verificado; Docker `bin/check` repetiu 108 RSpec, 28 Vitest e 84 Playwright, e `bin/check-delivery` repetiu os 18 cenários production-like, web/worker, reinícios e probes seguros. A revisão final contra `main` ainda é um gate obrigatório: enquanto ela não aceitar o HEAD final, não há merge, tag, GitHub Release ou fechamento do milestone.
+
 ## Pendências e momento de resolução
 
 - A spec 013, a execução e o fechamento formal 014 foram concluídos e publicados como 0.3.0. A reconciliação pós-publicação foi integrada pelo PR #21 em `a3b53ee00e5009d7d52485c22171acb3d41329d5`; ela não alterou o alvo imutável de `v0.3.0`.

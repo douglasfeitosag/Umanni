@@ -26,7 +26,7 @@
 - [X] T009 [US1] Executar os testes de T007–T008 no HEAD pré-correção e registrar a falha esperada em `umanni-vault/EXEC-025-IMPORT-LAYOUT-SPACING.md`.
 - [X] T010 [US1] Reagrupar a composição de `app/frontend/pages/Admin/UserImports/Index.tsx` para separar semanticamente a região de upload e o histórico.
 - [X] T011 [US1] Adicionar regras específicas de espaçamento positivo em `app/frontend/styles/application.css`, sem modificar `.avatar-field .field-hint`.
-- [ ] T012 [US1] Executar GREEN focado de `app/frontend/pages/Admin/UserImports/Index.test.tsx` e `spec/e2e/user_imports.spec.ts`.
+- [X] T012 [US1] Executar GREEN focado de `app/frontend/pages/Admin/UserImports/Index.test.tsx` e `spec/e2e/user_imports.spec.ts`.
 - [X] T013 [US1] Refatorar nomes, duplicação, semântica e testes de `app/frontend/pages/Admin/UserImports/Index.tsx` e `app/frontend/pages/Admin/UserImports/Index.test.tsx` após o GREEN; registrar resultado no EXEC.
 - [X] T014 [US1] Executar `git diff --check <base> HEAD`, publicar evidência no EXEC e obter revisão independente Luna/high do HEAD do patch 025.
 
@@ -62,7 +62,7 @@
 - [X] T031 [US3] Executar os RED de T028–T030 e registrar as falhas esperadas em `umanni-vault/EXEC-027-ERROR-RETURN-HOME.md`.
 - [X] T032 [US3] Definir/propagar destinos permitidos a partir da rota de origem em `app/services/delivery_exceptions_app.rb`, preservando `safe_html_env` sem cookies/sessão.
 - [X] T033 [US3] Consumir `returnPath` em `app/frontend/pages/Errors/Show.tsx` sem layout autenticado e sem ação de repetição.
-- [ ] T034 [US3] Executar GREEN de RSpec, Vitest e Playwright, comprovando que o fallback não contém cookie, token ou sentinela.
+- [X] T034 [US3] Executar GREEN de RSpec, Vitest e Playwright, comprovando que o fallback não contém cookie, token ou sentinela.
 - [X] T035 [US3] Refatorar nomes, classificação de rota, contrato de props e testes em `app/services/delivery_exceptions_app.rb` e `app/frontend/pages/Errors/Show.tsx`; registrar resultado no EXEC.
 - [X] T036 [US3] Executar `git diff --check <base> HEAD`, publicar evidência no EXEC e obter revisão independente Luna/high do HEAD do patch 027.
 
@@ -88,7 +88,7 @@
 
 - [X] T048 Integrar somente os patches já aceitos e explicitamente autorizados à candidata, revalidando cada HEAD e iniciando nova revisão quando a integração mudar o HEAD em `umanni-vault/EXEC-024-IMPORT-ERROR-STABILIZATION.md`.
 - [X] T049 Executar os cenários de `umanni-vault/specs/024-import-error-stabilization/quickstart.md`, `bin/check`, `bin/check-delivery` e `git diff --check` no HEAD combinado da candidata.
-- [ ] T050 Atualizar `umanni-vault/STATUS.md`, `umanni-vault/MEMORIA-PROJETO.md` e `umanni-vault/EXEC-024-IMPORT-ERROR-STABILIZATION.md` somente com resultados observados e iniciar revisão final independente Luna/high do HEAD combinado.
+- [X] T050 Atualizar `umanni-vault/STATUS.md`, `umanni-vault/MEMORIA-PROJETO.md` e `umanni-vault/EXEC-024-IMPORT-ERROR-STABILIZATION.md` somente com resultados observados e iniciar revisão final independente Luna/high do HEAD combinado.
 - [ ] T051 Após `review-ledger=success`, `code-reviewed`, zero threads e autorização explícita de lançamento, integrar a candidata em `main`, verificar igualdade de árvore/HEAD e criar a tag anotada `v1.1.0` em `umanni-vault/releases/1.1.0.md`.
 - [ ] T052 Publicar a GitHub Release `v1.1.0`, conferir tag/target/Release, fechar o milestone 9 apenas sem itens abertos e registrar a auditoria em `umanni-vault/STATUS.md`.
 
