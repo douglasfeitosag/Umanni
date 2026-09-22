@@ -70,7 +70,7 @@ Atualização de candidata em 2026-09-17: o plano 024 foi aceito no PR #33. Os p
 
 A revisão final independente aceitou o HEAD `9c99ee45793ab7fdbc2cd16813d7f0a33812cb87` com `review-ledger=success`, `code-reviewed` e zero threads. O PR #32 foi integrado em `main` no merge `9cfa352cd9fd83b621484b17699583c21ee0025e`, com árvore igual à candidata. A tag anotada `v1.1.0` e a [GitHub Release](https://github.com/douglasfeitosag/Umanni/releases/tag/v1.1.0) apontam para esse merge; a release não é draft/prerelease. O milestone 9 (`1.1.0`) foi relido sem itens abertos e fechado. Ver [[EXEC-024-IMPORT-ERROR-STABILIZATION]].
 
-O registro final foi integrado no PR #41, deixando a candidata no merge `e83bc5574b16cbecf62c28a64d14d676a1a1eb0c`. A fonte da aplicação era idêntica ao tooling já verificado; Docker `bin/check` repetiu 108 RSpec, 28 Vitest e 84 Playwright, e `bin/check-delivery` repetiu os 18 cenários production-like, web/worker, reinícios e probes seguros. A revisão final contra `main` ainda é um gate obrigatório: enquanto ela não aceitar o HEAD final, não há merge, tag, GitHub Release ou fechamento do milestone.
+O registro final foi integrado no PR #41, deixando a candidata no merge `e83bc5574b16cbecf62c28a64d14d676a1a1eb0c`. A fonte da aplicação era idêntica ao tooling já verificado; Docker `bin/check` repetiu 108 RSpec, 28 Vitest e 84 Playwright, e `bin/check-delivery` repetiu os 18 cenários production-like, web/worker, reinícios e probes seguros. A revisão final contra `main` era o gate serial seguinte e foi posteriormente concluída no HEAD registrado acima.
 
 ## Pendências e momento de resolução
 
