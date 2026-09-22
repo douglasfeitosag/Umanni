@@ -54,12 +54,11 @@ The verified target is Docker Desktop Linux arm64 on macOS. The image manifests 
 
 ### Get a released version and configure it privately
 
-Clone the repository and select the released version before building:
+Clone the repository and use the current checkout before building. After a release is published, select the tag shown on its GitHub Release page if you need that immutable revision:
 
 ```sh
 git clone https://github.com/douglasfeitosag/Umanni.git
 cd Umanni
-git checkout v1.1.0
 cp .env.example .env
 ```
 
@@ -146,7 +145,7 @@ Normal shutdown stops and removes only the Compose resources named `umanni-evalu
 docker compose --project-name umanni-evaluation --profile dev --profile test --profile delivery down --remove-orphans
 ```
 
-Validation records and limitations for this delivery are in [EXEC-021](umanni-vault/EXEC-021-EVALUATION-READINESS.md). `foundation-checks` and `review-ledger` are manual statuses for an exact commit, not automatic CI. Integration remains Douglas's decision.
+Validation records and limitations for the current 1.1.0 candidate are in [EXEC-022](umanni-vault/EXEC-022-CREDENTIALS-1-1-0.md) and [EXEC-024](umanni-vault/EXEC-024-IMPORT-ERROR-STABILIZATION.md). [EXEC-021](umanni-vault/EXEC-021-EVALUATION-READINESS.md) is the historical 1.0.0 readiness record. `foundation-checks` and `review-ledger` are manual statuses for an exact commit, not automatic CI. Integration remains Douglas's decision.
 
 ## Documentation and workflow
 

@@ -33,6 +33,8 @@ O PR #33 foi integrado depois de revisão independente com `spec-reviewed`; os p
 
 O gate de produção recebeu a chave privada somente como variável de ambiente efêmera, proveniente de uma cópia local ignorada já existente. A chave não foi impressa, versionada, copiada para a imagem ou incluída neste registro.
 
-## Próximo gate serial
+## Gate combinado e revisão final
 
-O registro documental precisa ser revisado e integrado à candidata. Em seguida, o HEAD combinado receberá os gates completos e uma nova revisão independente contra `main`; somente então a autorização já concedida permite o merge, a tag anotada `v1.1.0`, a GitHub Release e o fechamento do milestone vazio.
+Depois do merge documental #41, o HEAD combinado da candidata foi `e83bc5574b16cbecf62c28a64d14d676a1a1eb0c`. A diferença para o tooling já construído no HEAD `8907d3181aa4f976bf9a2fd6e56f339383367e7c` era limitada a três linhas documentais; `git diff --quiet` confirmou que toda a fonte de aplicação era idêntica. O Docker `bin/check` passou novamente com 108 RSpec, 28 Vitest e 84 Playwright. O `bin/check-delivery` foi então executado no checkout combinado e passou a imagem production-like, web/worker, reinícios, probes e 18 cenários de navegador.
+
+Esses gates finais comprovam os GREEN que faltavam nas execuções isoladas de T012 e T034. A atualização deste EXEC, do STATUS e da memória foi integrada, e uma revisão final independente contra `main` foi iniciada no mesmo HEAD combinado. A publicação ainda depende do aceite dessa revisão no HEAD final, seguido do merge autorizado, da tag anotada `v1.1.0`, da GitHub Release e do fechamento do milestone vazio.
