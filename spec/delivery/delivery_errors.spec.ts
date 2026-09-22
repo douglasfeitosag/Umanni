@@ -21,6 +21,9 @@ test('renders an accessible HTML fallback without technical details', async ({ p
 
   await page.evaluate(() => { document.documentElement.style.fontSize = '200%' })
   await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBe(true)
+
+  await action.click()
+  await expect(page).toHaveURL(/\/sign-in$/)
 })
 
 test('handles a real Inertia failure without opening an invalid-response dialog', async ({ page }) => {

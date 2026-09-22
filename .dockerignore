@@ -9,6 +9,10 @@
 !.rspec
 !.simplecov
 !.rubocop.yml
+!.gitignore
+!.dockerignore
+!Dockerfile
+!compose.yaml
 !package.json
 !package-lock.json
 !tsconfig.json
@@ -21,11 +25,14 @@
 !lib/**
 !public/**
 !spec/**
+!compose.yaml
+!Dockerfile
 !branding/assets/logo/umanni-horizontal.svg
 !branding/assets/fonts/montserrat-variable.ttf
 !branding/assets/fonts/roboto-variable.ttf
 config/master.key
 config/credentials*
 config/credentials/**
+!config/credentials.yml.enc
 config/vite-digest
 public/vite*/**

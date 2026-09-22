@@ -54,22 +54,23 @@ The verified target is Docker Desktop Linux arm64 on macOS. The image manifests 
 
 ### Get a released version and configure it privately
 
-Clone the repository and select the released version before building:
+Clone the repository and use the current checkout before building. After a release is published, select the tag shown on its GitHub Release page if you need that immutable revision:
 
 ```sh
 git clone https://github.com/douglasfeitosag/Umanni.git
 cd Umanni
-git checkout v1.0.0
 cp .env.example .env
 ```
 
-`.env` is private local configuration. It is ignored by Git and must never be committed, shared, or copied into an issue, pull request, or support request. Keep the dedicated `DELIVERY_DATABASE_URL` ending in `umanni_production` and generate a different local secret for `SECRET_KEY_BASE`:
+`config/credentials.yml.enc` is versioned encrypted application configuration. Its matching `RAILS_MASTER_KEY` is private runtime input: obtain it through the delivery channel and never commit, share, print, or add it to a tracked file. Set it only for the commands that start delivery:
 
 ```sh
-openssl rand -hex 64
+export RAILS_MASTER_KEY="<private key supplied out-of-band>"
 ```
 
-Paste that output after `SECRET_KEY_BASE=` in `.env`; do not paste the value into a tracked file. The included database credentials are local examples only.
+The delivery profile reads `secret_key_base` from Rails credentials. It does not accept `SECRET_KEY_BASE` as a plaintext fallback; without a valid master key it stops with `delivery.startup.credentials_missing: supply RAILS_MASTER_KEY`. Maintainers changing application credentials can use Rails' standard editor with the private key available, for example `RAILS_MASTER_KEY="$RAILS_MASTER_KEY" bin/rails credentials:edit`; do not commit `config/master.key`.
+
+`.env` remains private operational configuration. Keep the dedicated `DELIVERY_DATABASE_URL` ending in `umanni_production`; `DATABASE_URL`, `DELIVERY_DATABASE_URL`, and `TEST_DATABASE_URL` remain Compose/environment connection coordinates in this release. The included database credentials are local examples only, not application signing secrets.
 
 ### Run the verification gate
 
@@ -144,7 +145,7 @@ Normal shutdown stops and removes only the Compose resources named `umanni-evalu
 docker compose --project-name umanni-evaluation --profile dev --profile test --profile delivery down --remove-orphans
 ```
 
-Validation records and limitations for this delivery are in [EXEC-021](umanni-vault/EXEC-021-EVALUATION-READINESS.md). `foundation-checks` and `review-ledger` are manual statuses for an exact commit, not automatic CI. Integration remains Douglas's decision.
+Validation records and limitations for the current 1.1.0 candidate are in [EXEC-022](umanni-vault/EXEC-022-CREDENTIALS-1-1-0.md) and [EXEC-024](umanni-vault/EXEC-024-IMPORT-ERROR-STABILIZATION.md). [EXEC-021](umanni-vault/EXEC-021-EVALUATION-READINESS.md) is the historical 1.0.0 readiness record. `foundation-checks` and `review-ledger` are manual statuses for an exact commit, not automatic CI. Integration remains Douglas's decision.
 
 ## Documentation and workflow
 

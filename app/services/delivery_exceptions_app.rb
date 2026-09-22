@@ -7,15 +7,19 @@ class DeliveryExceptionsApp
       return PUBLIC_EXCEPTIONS.call(env) if status < 500
 
       Rails.logger.error("delivery.exception.fallback")
-      return inertia_response(status) if env["HTTP_X_INERTIA"] == "true"
-
-      ErrorsController.action(:show).call(safe_html_env(env, status))
+      safe_error_response(env, status:, return_path: safe_return_path(env))
     end
 
-    def page(status)
+    def safe_error_response(env, status:, return_path:)
+      return inertia_response(status, return_path) if env["HTTP_X_INERTIA"] == "true"
+
+      ErrorsController.action(:show).call(safe_html_env(env, status, return_path))
+    end
+
+    def page(status, return_path)
       {
         component: "Errors/Show",
-        props: { status: status },
+        props: { status: status, returnPath: return_path },
         url: "/",
         version: InertiaRails.configuration.version,
         clearHistory: false,
@@ -30,8 +34,8 @@ class DeliveryExceptionsApp
       ActionDispatch::ExceptionWrapper.new(env["action_dispatch.backtrace_cleaner"], exception).status_code
     end
 
-    def inertia_response(status)
-      body = JSON.generate(page(status))
+    def inertia_response(status, return_path)
+      body = JSON.generate(page(status, return_path))
       headers = {
         "content-type" => "application/json; charset=utf-8",
         "content-length" => body.bytesize.to_s,
@@ -42,17 +46,32 @@ class DeliveryExceptionsApp
       [status, headers, [body]]
     end
 
-    def safe_html_env(env, status)
-      env.except(
-        "CONTENT_LENGTH", "CONTENT_TYPE", "HTTP_AUTHORIZATION", "HTTP_COOKIE"
-      ).merge(
+    def safe_return_path(env)
+      path = env.fetch("action_dispatch.original_path", env.fetch("PATH_INFO", "")).split("?", 2).first
+      return "/admin/dashboard" if path == "/admin" || path.start_with?("/admin/")
+      return "/profile" if path == "/profile" || path.start_with?("/profile/")
+
+      "/sign-in"
+    end
+
+    def safe_html_env(env, status, return_path)
+      sanitized_env(env).merge(error_response_env(status, return_path))
+    end
+
+    def sanitized_env(env)
+      env.except("CONTENT_LENGTH", "CONTENT_TYPE", "HTTP_AUTHORIZATION", "HTTP_COOKIE")
+    end
+
+    def error_response_env(status, return_path)
+      {
         "REQUEST_METHOD" => "GET",
         "PATH_INFO" => "/",
         "QUERY_STRING" => "",
         "HTTP_ACCEPT" => "text/html",
         "action_dispatch.original_path" => "/",
-        "umanni.error_status" => status
-      )
+        "umanni.error_status" => status,
+        "umanni.error_return_path" => return_path
+      }
     end
   end
 end

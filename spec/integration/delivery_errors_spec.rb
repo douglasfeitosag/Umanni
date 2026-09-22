@@ -14,7 +14,7 @@ RSpec.describe "Delivery error responses" do
     expect(headers.fetch("x-inertia")).to eq("true")
     expect(headers.fetch("content-type")).to start_with("application/json")
     expect(page.fetch("component")).to eq("Errors/Show")
-    expect(page.fetch("props")).to eq("status" => 500)
+    expect(page.fetch("props")).to eq("status" => 500, "returnPath" => "/sign-in")
     expect(page.fetch("url")).to eq("/")
     expect(page.fetch("version")).to eq(InertiaRails.configuration.version)
     expect(page.to_json).not_to include("sensitive-exception-sentinel", "sensitive-query-sentinel")
@@ -37,7 +37,7 @@ RSpec.describe "Delivery error responses" do
     expect(headers.fetch("content-type")).to start_with("text/html")
     expect(html).to include('<html lang="pt-BR">')
     expect(page.fetch("component")).to eq("Errors/Show")
-    expect(page.fetch("props")).to eq("status" => 500)
+    expect(page.fetch("props")).to eq("status" => 500, "returnPath" => "/sign-in")
     expect(page.fetch("url")).to eq("/")
     expect(html).not_to include(
       "sensitive-exception-sentinel",
@@ -45,6 +45,32 @@ RSpec.describe "Delivery error responses" do
       "sensitive-cookie-sentinel",
       "sensitive-token-sentinel"
     )
+  end
+
+  it "chooses a safe return path from the failed request route without retaining request state" do
+    {
+      "/admin/people" => "/admin/dashboard",
+      "/profile" => "/profile",
+      "/__delivery_error_probe__" => "/sign-in"
+    }.each do |path, expected_return_path|
+      status, _headers, body = call_exceptions_app(
+        { "HTTP_X_INERTIA" => "true", "HTTP_COOKIE" => "session=sensitive-cookie-sentinel" }, path: path
+      )
+      page = JSON.parse(body_string(body))
+
+      expect(status).to eq(500)
+      expect(page.fetch("props")).to eq("status" => 500, "returnPath" => expected_return_path)
+      expect(page.to_json).not_to include("sensitive-cookie-sentinel")
+    end
+  end
+
+  it "uses the preserved original path when the exception middleware rewrites PATH_INFO" do
+    status, _headers, body = call_exceptions_app(
+      { "HTTP_X_INERTIA" => "true", "action_dispatch.original_path" => "/admin/people", "PATH_INFO" => "/500" }
+    )
+
+    expect(status).to eq(500)
+    expect(JSON.parse(body_string(body)).fetch("props")).to include("returnPath" => "/admin/dashboard")
   end
 
   it "delegates a not-found exception to the existing public response" do
