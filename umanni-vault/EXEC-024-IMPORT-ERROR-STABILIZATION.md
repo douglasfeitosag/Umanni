@@ -37,4 +37,11 @@ O gate de produção recebeu a chave privada somente como variável de ambiente 
 
 Depois do merge documental #41, o HEAD combinado da candidata foi `e83bc5574b16cbecf62c28a64d14d676a1a1eb0c`. A diferença para o tooling já construído no HEAD `8907d3181aa4f976bf9a2fd6e56f339383367e7c` era limitada a três linhas documentais; `git diff --quiet` confirmou que toda a fonte de aplicação era idêntica. O Docker `bin/check` passou novamente com 108 RSpec, 28 Vitest e 84 Playwright. O `bin/check-delivery` foi então executado no checkout combinado e passou a imagem production-like, web/worker, reinícios, probes e 18 cenários de navegador.
 
-Esses gates finais comprovam os GREEN que faltavam nas execuções isoladas de T012 e T034. A atualização deste EXEC, do STATUS e da memória foi integrada, e uma revisão final independente contra `main` foi iniciada no mesmo HEAD combinado. A publicação ainda depende do aceite dessa revisão no HEAD final, seguido do merge autorizado, da tag anotada `v1.1.0`, da GitHub Release e do fechamento do milestone vazio.
+Esses gates finais comprovaram os GREEN que faltavam nas execuções isoladas de T012 e T034. A atualização deste EXEC, do STATUS e da memória foi integrada, e a revisão final independente contra `main` aceitou o HEAD `9c99ee45793ab7fdbc2cd16813d7f0a33812cb87` com `review-ledger=success`, `code-reviewed` e zero threads.
+
+## Auditoria de publicação
+
+- O PR #32 foi integrado em `main` no merge `9cfa352cd9fd83b621484b17699583c21ee0025e`; a comparação de árvore com a candidata não produziu diferença.
+- A tag anotada remota `v1.1.0` tem objeto `7346a3d6ce59276c8b144d88de159aac46c943be` e destino `9cfa352cd9fd83b621484b17699583c21ee0025e`.
+- A GitHub Release `Umanni v1.1.0` foi publicada, sem draft/prerelease, no mesmo destino.
+- O milestone 9 (`1.1.0`) foi relido com zero itens abertos e fechado. O PR #31 foi automaticamente marcado como merged porque sua branch é ancestral da integração publicada.

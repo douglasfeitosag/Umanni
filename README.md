@@ -145,7 +145,7 @@ Normal shutdown stops and removes only the Compose resources named `umanni-evalu
 docker compose --project-name umanni-evaluation --profile dev --profile test --profile delivery down --remove-orphans
 ```
 
-Validation records and limitations for the current 1.1.0 candidate are in [EXEC-022](umanni-vault/EXEC-022-CREDENTIALS-1-1-0.md) and [EXEC-024](umanni-vault/EXEC-024-IMPORT-ERROR-STABILIZATION.md). [EXEC-021](umanni-vault/EXEC-021-EVALUATION-READINESS.md) is the historical 1.0.0 readiness record. `foundation-checks` and `review-ledger` are manual statuses for an exact commit, not automatic CI. Integration remains Douglas's decision.
+Validation records and limitations for the published [1.1.0 release](https://github.com/douglasfeitosag/Umanni/releases/tag/v1.1.0) are in [EXEC-022](umanni-vault/EXEC-022-CREDENTIALS-1-1-0.md) and [EXEC-024](umanni-vault/EXEC-024-IMPORT-ERROR-STABILIZATION.md). [EXEC-021](umanni-vault/EXEC-021-EVALUATION-READINESS.md) is the historical 1.0.0 readiness record. `foundation-checks` and `review-ledger` are manual statuses for an exact commit, not automatic CI. Integration remains Douglas's decision.
 
 ## Documentation and workflow
 

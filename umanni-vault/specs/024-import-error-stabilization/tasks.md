@@ -89,8 +89,8 @@
 - [X] T048 Integrar somente os patches já aceitos e explicitamente autorizados à candidata, revalidando cada HEAD e iniciando nova revisão quando a integração mudar o HEAD em `umanni-vault/EXEC-024-IMPORT-ERROR-STABILIZATION.md`.
 - [X] T049 Executar os cenários de `umanni-vault/specs/024-import-error-stabilization/quickstart.md`, `bin/check`, `bin/check-delivery` e `git diff --check` no HEAD combinado da candidata.
 - [X] T050 Atualizar `umanni-vault/STATUS.md`, `umanni-vault/MEMORIA-PROJETO.md` e `umanni-vault/EXEC-024-IMPORT-ERROR-STABILIZATION.md` somente com resultados observados e iniciar revisão final independente Luna/high do HEAD combinado.
-- [ ] T051 Após `review-ledger=success`, `code-reviewed`, zero threads e autorização explícita de lançamento, integrar a candidata em `main`, verificar igualdade de árvore/HEAD e criar a tag anotada `v1.1.0` em `umanni-vault/releases/1.1.0.md`.
-- [ ] T052 Publicar a GitHub Release `v1.1.0`, conferir tag/target/Release, fechar o milestone 9 apenas sem itens abertos e registrar a auditoria em `umanni-vault/STATUS.md`.
+- [X] T051 Após `review-ledger=success`, `code-reviewed`, zero threads e autorização explícita de lançamento, integrar a candidata em `main`, verificar igualdade de árvore/HEAD e criar a tag anotada `v1.1.0` em `umanni-vault/releases/1.1.0.md`.
+- [X] T052 Publicar a GitHub Release `v1.1.0`, conferir tag/target/Release, fechar o milestone 9 apenas sem itens abertos e registrar a auditoria em `umanni-vault/STATUS.md`.
 
 ## Dependências e paralelismo
 
