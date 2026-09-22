@@ -1,11 +1,10 @@
 # Quickstart: Credentials-backed local delivery
 
-This is the planned evaluator path for `1.1.0`. It must be executed and its real results recorded in `EXEC-022-CREDENTIALS-1-1-0.md` before release.
+This is the planned evaluator path for `1.1.0`. Before publication, execute it from the candidate checkout under review and record real results in `EXEC-022-CREDENTIALS-1-1-0.md`. The immutable tag is created only after the final review and merge; a published evaluator selects the tag shown on the GitHub Release page.
 
 ```sh
 git clone https://github.com/douglasfeitosag/Umanni.git
 cd Umanni
-git checkout v1.1.0
 cp .env.example .env
 ```
 
